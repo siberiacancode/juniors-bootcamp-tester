@@ -1,0 +1,50 @@
+{
+  "name": "juniors-bootcamp-tester",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "lint-inspector": "npx @eslint/config-inspector@latest",
+    "format": "prettier --write .",
+    "pretty": "pnpm lint && pnpm format",
+    "unit-test": "vitest",
+    "lint-staged": "lint-staged"
+  },
+  "dependencies": {
+    "@siberiacancode/eslint": "^2.16.12",
+    "@siberiacancode/prettier": "^1.6.1",
+    "@tailwindcss/vite": "^4.2.2",
+    "@tanstack/react-router": "^1.168.10",
+    "@tanstack/react-router-devtools": "^1.166.11",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@rolldown/plugin-babel": "^0.2.2",
+    "@tanstack/router-plugin": "^1.167.12",
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "globals": "^17.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.3",
+    "vite-tsconfig-paths": "^6.1.1"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
