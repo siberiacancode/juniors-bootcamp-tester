@@ -18,6 +18,7 @@
     "@siberiacancode/eslint": "^2.16.12",
     "@siberiacancode/prettier": "^1.6.1",
     "@tailwindcss/vite": "^4.2.2",
+    "@tanstack/react-query": "^5.96.0",
     "@tanstack/react-router": "^1.168.10",
     "@tanstack/react-router-devtools": "^1.166.11",
     "react": "^19.2.4",
