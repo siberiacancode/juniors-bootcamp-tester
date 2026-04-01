@@ -10,7 +10,7 @@
     "lint": "eslint . --fix",
     "lint-inspector": "npx @eslint/config-inspector@latest",
     "format": "prettier --write .",
-    "pretty": "pnpm lint && pnpm format",
+    "pretty": "yarn lint && yarn format",
     "prepare": "husky",
     "unit-test": "vitest",
     "lint-staged": "lint-staged"
