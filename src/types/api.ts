@@ -1,27 +1,27 @@
-export const BASE_URL = 'https://juniorsbootcamp.ru/api'
+export const BASE_URL = 'https://juniorsbootcamp.ru/api';
 
 export interface ApiListResponse<T> {
-    success: boolean;
-    reason: string;
-    data: T[];
-    meta: {
-      total: number;
-      page: number;
-      limit: number;
-      totalPages: number;
-    };
-  }
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+  reason: string;
+  success: boolean;
+}
 
 export interface GameInfo {
-  id: string;
-  name: string;
-  slug: string;
-  externalId: string;
-  year: number;
-  genres: string[];
   description: string;
+  externalId: string;
+  genres: string[];
+  id: string;
   image: string;
-  price: number;
+  name: string;
   oldPrice: number;
+  price: number;
   rating: number;
+  slug: string;
+  year: number;
 }
