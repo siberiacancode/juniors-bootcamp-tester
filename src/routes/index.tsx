@@ -1,9 +1,11 @@
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { useGetGamesInfo } from '@/hooks/useGetGamesInfo';
+import { queryClient } from '@/queryclient';
+import { gamesQueryOptions } from '@/utils/queries/game';
 
 const Index = () => {
-  const { data: games = [] } = useGetGamesInfo();
+  const { data: games } = useSuspenseQuery(gamesQueryOptions);
 
   return (
     <div className='p-2'>
@@ -16,5 +18,6 @@ const Index = () => {
 };
 
 export const Route = createFileRoute('/')({
+  loader: () => queryClient.ensureQueryData(gamesQueryOptions),
   component: Index
 });

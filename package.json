@@ -16,7 +16,9 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@siberiacancode/apicraft": "^1.7.10",
     "@siberiacancode/eslint": "^2.16.12",
+    "@siberiacancode/fetches": "^1.14.1",
     "@siberiacancode/prettier": "^1.6.1",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-query": "^5.96.0",
