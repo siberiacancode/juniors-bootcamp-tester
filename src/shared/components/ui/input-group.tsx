@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 
 import { cva } from 'class-variance-authority';
 
-import { Input } from '@/components/ui/input';
+import { Input } from '@/shared/components/ui/input';
 import { cn } from '@/shared/utils';
 
 import { IconButton } from './icon-button';

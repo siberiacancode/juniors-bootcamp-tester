@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Pixelify+Sans:wght@400..700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
@@ -72,6 +73,9 @@
   --radius-20: 1.25rem;
   --radius-24: 1.5rem;
   --radius-full: calc(infinity * 1px);
+
+  --font-nunito: var(--font-nunito);
+  --font-pixelify-sans: var(--font-pixelify-sans);
 }
 
 :root {
@@ -135,6 +139,11 @@
 
   /* Status */
   --color-danger: var(--color-red-500);
+
+  --font-nunito: 'Nunito', sans-serif;
+  --font-pixelify-sans: 'Pixelify Sans', sans-serif;
+
+  --default-font-family: var(--font-nunito);
 }
 
 .dark {
@@ -203,11 +212,5 @@
 
   body {
     @apply bg-background text-foreground;
-  }
-}
-
-@layer components {
-  .content-container {
-    @apply px-6 max-w-7xl mx-auto w-full;
   }
 }
