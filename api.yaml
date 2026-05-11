@@ -1,0 +1,3271 @@
+openapi: 3.0.0
+paths:
+  /api/otps:
+    get:
+      operationId: AppController_otps
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      summary: страница с отп кодами
+      tags:
+        - pages
+  /api/auth/otp:
+    post:
+      operationId: OtpsController_createOtp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOtpDto"
+      responses:
+        "200":
+          description: create otp
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OtpResponse"
+      summary: Создание отп кода
+      tags:
+        - ☄️ otps
+  /api/users/signin:
+    post:
+      operationId: UsersController_signin
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignInDto"
+      responses:
+        "200":
+          description: signin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignInResponse"
+      summary: Авторизация
+      tags:
+        - 💂‍♂️ users
+  /api/users/profile:
+    patch:
+      operationId: UsersController_updateProfile
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileDto"
+      responses:
+        "200":
+          description: update profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateProfileResponse"
+      security:
+        - bearer: []
+      summary: Обновить профиль пользователя
+      tags:
+        - 💂‍♂️ users
+  /api/users/session:
+    get:
+      operationId: UsersController_session
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+      security:
+        - bearer: []
+      summary: Получить сессию пользователя
+      tags:
+        - 💂‍♂️ users
+  /api/cinema/films:
+    get:
+      operationId: CinemaController_getCinemaToday
+      parameters: []
+      responses:
+        "200":
+          description: films
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilmsResponse"
+      summary: Получить список фильмов
+      tags:
+        - 🍿 cinema
+  /api/cinema/film/{filmId}:
+    get:
+      operationId: CinemaController_getFilm
+      parameters:
+        - name: filmId
+          required: true
+          in: path
+          description: Идентификатор фильма
+          schema:
+            type: string
+      responses:
+        "200":
+          description: film
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilmResponse"
+      summary: Получить фильм
+      tags:
+        - 🍿 cinema
+  /api/cinema/film/{filmId}/schedule:
+    get:
+      operationId: CinemaController_getFilmSchedule
+      parameters:
+        - name: filmId
+          required: true
+          in: path
+          description: Идентификатор фильма
+          schema:
+            type: string
+      responses:
+        "200":
+          description: schedule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScheduleResponse"
+      summary: Получить расписание фильма
+      tags:
+        - 🍿 cinema
+  /api/cinema/payment:
+    post:
+      operationId: CinemaController_createCinemaPayment
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCinemaPaymentDto"
+      responses:
+        "200":
+          description: payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentResponse"
+      summary: Оплатить билеты
+      tags:
+        - 🍿 cinema
+  /api/cinema/orders:
+    get:
+      operationId: CinemaController_getCinemaOrders
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CinemaOrdersResponse"
+      security:
+        - bearer: []
+      summary: Получить заказы
+      tags:
+        - 🍿 cinema
+  /api/cinema/orders/cancel:
+    put:
+      operationId: CinemaController_cancelCinemaOrder
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelCinemaOrderDto"
+      responses:
+        "200":
+          description: order cancel
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+      security:
+        - bearer: []
+      summary: Отменить заказ
+      tags:
+        - 🍿 cinema
+  /api/delivery/points:
+    get:
+      operationId: DeliveryController_getPoints
+      parameters: []
+      responses:
+        "200":
+          description: points
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPointsResponse"
+      summary: Получить пункты выдачи
+      tags:
+        - 📦 delivery
+  /api/delivery/package/types:
+    get:
+      operationId: DeliveryController_getPackageTypes
+      parameters: []
+      responses:
+        "200":
+          description: package types
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryPackageTypesResponse"
+      summary: Получить типы посылок
+      tags:
+        - 📦 delivery
+  /api/delivery/calc:
+    post:
+      operationId: DeliveryController_calculateDelivery
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculateDeliveryDto"
+      responses:
+        "200":
+          description: calc
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalculateDeliveryResponse"
+      summary: Расчет доставки
+      tags:
+        - 📦 delivery
+  /api/delivery/order:
+    post:
+      operationId: DeliveryController_createOrder
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeliveryOrderDto"
+      responses:
+        "200":
+          description: order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliverResponse"
+      summary: Создание заявки доставки
+      tags:
+        - 📦 delivery
+  /api/delivery/orders:
+    get:
+      operationId: DeliveryController_getDeliveries
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryOrdersResponse"
+      security:
+        - bearer: []
+      summary: Получить все заявки на доставку
+      tags:
+        - 📦 delivery
+  /api/delivery/orders/{orderId}:
+    get:
+      operationId: DeliveryController_getDelivery
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          description: Идентификатор доставки
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryOrderResponse"
+      security:
+        - bearer: []
+      summary: Получить заявку на доставку
+      tags:
+        - 📦 delivery
+  /api/delivery/orders/cancel:
+    put:
+      operationId: DeliveryController_cancelDeliveryOrder
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelDeliveryOrderDto"
+      responses:
+        "200":
+          description: order cancel
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+      security:
+        - bearer: []
+      summary: Отменить доставку
+      tags:
+        - 📦 delivery
+  /api/cars/info:
+    get:
+      operationId: CarsController_getCars
+      parameters:
+        - name: search
+          required: false
+          in: query
+          description: Поиск
+          schema:
+            type: string
+        - name: maxPrice
+          required: false
+          in: query
+          description: Максимальная цена аренды
+          schema:
+            type: number
+        - name: minPrice
+          required: false
+          in: query
+          description: Минимальная цена аренды
+          schema:
+            type: number
+        - name: transmission
+          required: false
+          in: query
+          description: Тип трансмиссии
+          schema:
+            enum:
+              - automatic
+              - manual
+            type: string
+        - name: bodyType
+          required: false
+          in: query
+          description: Тип кузова автомобиля
+          schema:
+            enum:
+              - sedan
+              - suv
+              - coupe
+              - hatchback
+              - cabriolet
+            type: string
+        - name: brand
+          required: false
+          in: query
+          description: Марка автомобиля
+          schema:
+            enum:
+              - Haval
+              - Hyundai
+              - Volkswagen
+              - Kia
+              - Geely
+              - Mercedes
+              - Garden car
+              - Grocery cart
+              - Haier
+              - Invalid
+            type: string
+        - name: color
+          required: false
+          in: query
+          description: Цвет автомобиля
+          schema:
+            enum:
+              - black
+              - white
+              - red
+              - silver
+              - blue
+              - grey
+              - orange
+            type: string
+        - name: limit
+          required: false
+          in: query
+          description: Количество элементов на странице (по умолчанию 10)
+          schema:
+            type: number
+        - name: page
+          required: false
+          in: query
+          description: Номер текущей страницы (по умолчанию 1)
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarsPaginatedResponse"
+      summary: Получить все автомобили
+      tags:
+        - 🏎️ cars
+  /api/cars/info/{carId}:
+    get:
+      operationId: CarsController_getCar
+      parameters:
+        - name: carId
+          required: true
+          in: path
+          description: Идентификатор автомобиля
+          schema:
+            type: string
+      responses:
+        "200":
+          description: car with rents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarResponse"
+      summary: Получить автомобиль
+      tags:
+        - 🏎️ cars
+  /api/cars/rent:
+    post:
+      operationId: CarsController_createCarRent
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRentDto"
+      responses:
+        "200":
+          description: create rent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRentResponse"
+      summary: Арендовать автомобиль
+      tags:
+        - 🏎️ cars
+    get:
+      operationId: CarsController_getCarRents
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: rents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRentsResponse"
+      security:
+        - bearer: []
+      summary: Получить все аренды
+      tags:
+        - 🏎️ cars
+  /api/cars/rent/{carRentId}:
+    get:
+      operationId: CarsController_getCarRent
+      parameters:
+        - name: carRentId
+          required: true
+          in: path
+          description: Идентификатор аренды
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: rent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarRent"
+      security:
+        - bearer: []
+      summary: Получить аренду
+      tags:
+        - 🏎️ cars
+  /api/cars/rent/cancel:
+    put:
+      operationId: CarsController_cancelCarRent
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelCarRentDto"
+      responses:
+        "200":
+          description: rent cancel
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+      security:
+        - bearer: []
+      summary: Отменить аренду
+      tags:
+        - 🏎️ cars
+  /api/games/info:
+    get:
+      operationId: GamesController_getGames
+      parameters:
+        - name: year
+          required: false
+          in: query
+          description: Год релиза
+          schema:
+            example:
+              - 2024
+              - 2025
+            type: array
+            items:
+              type: number
+        - name: genre
+          required: false
+          in: query
+          description: Жанр
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - action
+        - name: search
+          required: false
+          in: query
+          description: Поиск
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: Страница
+          schema:
+            example: 1
+            type: number
+        - name: limit
+          required: false
+          in: query
+          description: Лимит
+          schema:
+            example: 10
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GamesPaginatedResponse"
+      summary: Получить игры
+      tags:
+        - 🎮 games
+  /api/games/search:
+    get:
+      operationId: GamesController_searchGames
+      parameters:
+        - name: search
+          required: true
+          in: query
+          description: Строка поиска
+          schema:
+            type: string
+        - name: limit
+          required: false
+          in: query
+          description: Лимит
+          schema:
+            example: 8
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameSearchResponse"
+      summary: Поиск по играм
+      tags:
+        - 🎮 games
+  /api/games/info/{gameId}:
+    get:
+      operationId: GamesController_getGame
+      parameters:
+        - name: gameId
+          required: true
+          in: path
+          description: ID игры
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameResponse"
+      summary: Получить игру
+      tags:
+        - 🎮 games
+  /api/games/order:
+    post:
+      operationId: GamesController_buyGame
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGameOrderDto"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateGameOrderResponse"
+      summary: Купить игру и получить ключ
+      tags:
+        - 🎮 games
+  /api/games/orders:
+    get:
+      operationId: GamesController_getGameOrders
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameOrdersResponse"
+      security:
+        - bearer: []
+      summary: Получить все заказы игр
+      tags:
+        - 🎮 games
+  /api/games/orders/{orderId}:
+    get:
+      operationId: GamesController_getGameOrder
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          description: ID заказа
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GameOrderResponse"
+      security:
+        - bearer: []
+      summary: Получить заказ игры
+      tags:
+        - 🎮 games
+  /api/pizza/catalog:
+    get:
+      operationId: PizzaController_getPizzasCatalog
+      parameters: []
+      responses:
+        "200":
+          description: catalog
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PizzasResponse"
+      summary: Получить пиццы
+      tags:
+        - 🍕 pizza
+  /api/pizza/payment:
+    post:
+      operationId: PizzaController_createPizzaPayment
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePizzaPaymentDto"
+      responses:
+        "200":
+          description: payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PizzaPaymentResponse"
+      summary: Оплатить корзину
+      tags:
+        - 🍕 pizza
+  /api/pizza/orders:
+    get:
+      operationId: PizzaController_getPizzaOrders
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PizzaOrdersResponse"
+      security:
+        - bearer: []
+      summary: Получить все заказы
+      tags:
+        - 🍕 pizza
+  /api/pizza/orders/{orderId}:
+    get:
+      operationId: PizzaController_getPizzaOrder
+      parameters:
+        - name: orderId
+          required: true
+          in: path
+          description: Идентификатор заказа
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        "200":
+          description: order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PizzaOrderResponse"
+      security:
+        - bearer: []
+      summary: Получить заказ
+      tags:
+        - 🍕 pizza
+  /api/pizza/orders/cancel:
+    put:
+      operationId: PizzaController_cancelPizzaOrder
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelPizzaOrderDto"
+      responses:
+        "200":
+          description: order cancel
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+      security:
+        - bearer: []
+      summary: Отменить заказ
+      tags:
+        - 🍕 pizza
+info:
+  title: juniors bootcamp backend 🔥
+  description: Апи для выполнения индивидуальных заданий
+  version: "1.0"
+  contact: {}
+tags: []
+servers:
+  - url: ""
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    CreateOtpDto:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: "89990009999"
+      required:
+        - phone
+    OtpResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        retryDelay:
+          type: number
+          example: 120000
+          description: Время запроса повторного отп кода в мс
+      required:
+        - success
+        - retryDelay
+    SignInDto:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: "89990009999"
+          description: Номер телефона
+        code:
+          type: number
+          example: 345231
+          description: Отп код
+      required:
+        - phone
+        - code
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID пользователя
+        phone:
+          type: string
+          example: "89990009999"
+          description: Номер телефона
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        email:
+          type: string
+          example: email@gmail.com
+          description: Почта
+        city:
+          type: string
+          example: city
+          description: Город
+      required:
+        - _id
+        - phone
+    SignInResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        user:
+          description: Пользователь
+          allOf:
+            - $ref: "#/components/schemas/User"
+        token:
+          type: string
+          description: Пользовательский токен
+      required:
+        - success
+        - user
+        - token
+    UpdateProfileProfileDto:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        email:
+          type: string
+          example: email@gmail.com
+          description: Почта
+        city:
+          type: string
+          example: city
+          description: Город
+    UpdateProfileDto:
+      type: object
+      properties:
+        profile:
+          description: Данные пользователя
+          allOf:
+            - $ref: "#/components/schemas/UpdateProfileProfileDto"
+        phone:
+          type: string
+          example: "89990009999"
+          description: Номер телефона
+      required:
+        - profile
+        - phone
+    UpdateProfileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        user:
+          description: Пользователь
+          allOf:
+            - $ref: "#/components/schemas/User"
+      required:
+        - success
+        - user
+    SessionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        user:
+          description: Пользователь
+          allOf:
+            - $ref: "#/components/schemas/User"
+      required:
+        - success
+        - user
+    FilmStaff:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Идентификатор персоны
+        professions:
+          type: string
+          description: Список профессий
+          enum:
+            - ACTOR
+            - DIRECTOR
+        fullName:
+          type: string
+          description: Полное имя персоны
+        photo:
+          type: string
+          description: Фото персоны
+      required:
+        - id
+        - professions
+        - fullName
+        - photo
+    FilmUserRating:
+      type: object
+      properties:
+        kinopoisk:
+          type: string
+          example: "10"
+          description: Рейтинг кинопоиск
+        imdb:
+          type: string
+          example: "10"
+          description: Рейтинг imdb
+      required:
+        - kinopoisk
+        - imdb
+    Country:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        code2:
+          type: string
+        id:
+          type: number
+      required:
+        - name
+        - code
+        - code2
+        - id
+    Film:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Идентификатор фильма
+        name:
+          type: string
+          description: Название фильма
+        originalName:
+          type: string
+          description: Оригинальное название
+        description:
+          type: string
+          description: Описание фильма
+        releaseDate:
+          type: string
+          description: Дата выхода
+        actors:
+          description: Актеры
+          type: array
+          items:
+            $ref: "#/components/schemas/FilmStaff"
+        directors:
+          description: Режиссер
+          type: array
+          items:
+            $ref: "#/components/schemas/FilmStaff"
+        runtime:
+          type: number
+          description: Продолжительность
+        ageRating:
+          type: string
+          description: Возрастное ограничение
+          enum:
+            - G
+            - PG
+            - PG13
+            - R
+            - NC17
+        genres:
+          type: array
+          items:
+            type: string
+        userRatings:
+          description: Рейтинг пользователей
+          allOf:
+            - $ref: "#/components/schemas/FilmUserRating"
+        img:
+          type: string
+          description: Изображение фильма
+        country:
+          description: Страна
+          nullable: true
+          allOf:
+            - $ref: "#/components/schemas/Country"
+      required:
+        - id
+        - name
+        - originalName
+        - description
+        - releaseDate
+        - actors
+        - directors
+        - runtime
+        - ageRating
+        - genres
+        - userRatings
+        - img
+    FilmsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        films:
+          description: Фильмы
+          type: array
+          items:
+            $ref: "#/components/schemas/Film"
+      required:
+        - success
+        - films
+    FilmResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        film:
+          description: Фильм
+          allOf:
+            - $ref: "#/components/schemas/Film"
+      required:
+        - success
+        - film
+    FilmHall:
+      type: object
+      properties:
+        name:
+          type: string
+          example: red
+          description: Название зала
+        places:
+          example:
+            - - type: ECONOM
+                price: 100
+          description: Места в зале
+          items:
+            type: array
+            items:
+              type: a
+          type: array
+      required:
+        - name
+        - places
+    FilmScheduleSeance:
+      type: object
+      properties:
+        time:
+          type: string
+          description: Время сеанса
+          example: 12:00
+        hall:
+          description: Зал
+          allOf:
+            - $ref: "#/components/schemas/FilmHall"
+      required:
+        - time
+        - hall
+    FilmSchedule:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Дата
+          example: 01.01.2024
+        seances:
+          description: Сеансы
+          type: array
+          items:
+            $ref: "#/components/schemas/FilmScheduleSeance"
+      required:
+        - date
+        - seances
+    ScheduleResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        schedules:
+          description: Расписание
+          allOf:
+            - $ref: "#/components/schemas/FilmSchedule"
+      required:
+        - success
+        - schedules
+    CreatePaymentPersonDto:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - middlename
+        - phone
+    CreatePaymentDebitCardDto:
+      type: object
+      properties:
+        pan:
+          type: string
+          example: 1111 1111
+          description: Номер карты
+        expireDate:
+          type: string
+          example: 11/11
+          description: Срок действие карты
+        cvv:
+          type: string
+          example: "111"
+          description: Код карты
+      required:
+        - pan
+        - expireDate
+        - cvv
+    CreatePaymentSeanceDto:
+      type: object
+      properties:
+        date:
+          type: string
+          example: 29.06.23
+          description: Дата сеанса
+        time:
+          type: string
+          example: 10:00
+          description: Время сеанса
+      required:
+        - date
+        - time
+    CreatePaymentTicketsDto:
+      type: object
+      properties:
+        row:
+          type: number
+          example: 1
+          description: Ряд
+        column:
+          type: number
+          example: 1
+          description: Место
+      required:
+        - row
+        - column
+    CreateCinemaPaymentDto:
+      type: object
+      properties:
+        filmId:
+          type: string
+          description: Идентификатор фильма
+        person:
+          description: Покупатель
+          allOf:
+            - $ref: "#/components/schemas/CreatePaymentPersonDto"
+        debitCard:
+          description: Банковская карта
+          allOf:
+            - $ref: "#/components/schemas/CreatePaymentDebitCardDto"
+        seance:
+          description: Сеанс фильма
+          allOf:
+            - $ref: "#/components/schemas/CreatePaymentSeanceDto"
+        tickets:
+          description: Билеты
+          type: array
+          items:
+            $ref: "#/components/schemas/CreatePaymentTicketsDto"
+      required:
+        - filmId
+        - person
+        - debitCard
+        - seance
+        - tickets
+    CinemaTicketSeance:
+      type: object
+      properties:
+        date:
+          type: string
+          example: 29.06.23
+          description: Дата сеанса
+        time:
+          type: string
+          example: 10:00
+          description: Время сеанса
+      required:
+        - date
+        - time
+    CinemaTicket:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID билета
+        filmId:
+          type: string
+          description: Идентификатор фильма
+        orderId:
+          type: string
+          description: Идентификатор заказа
+        row:
+          type: number
+          example: 1
+          description: Ряд
+        column:
+          type: number
+          example: 1
+          description: Место
+        seance:
+          description: Сеанс фильма
+          allOf:
+            - $ref: "#/components/schemas/CinemaTicketSeance"
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+        status:
+          type: string
+          description: Статус билета
+          enum:
+            - PAYED
+            - CANCELED
+      required:
+        - _id
+        - filmId
+        - orderId
+        - row
+        - column
+        - seance
+        - phone
+        - status
+    FilmPerson:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - middlename
+        - phone
+    CinemaOrder:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID заказа
+        film:
+          description: Название фильма
+          allOf:
+            - $ref: "#/components/schemas/Film"
+        orderNumber:
+          type: number
+          description: Номер заказа
+        tickets:
+          description: Билеты
+          type: array
+          items:
+            $ref: "#/components/schemas/CinemaTicket"
+        person:
+          description: Данные пользователя
+          allOf:
+            - $ref: "#/components/schemas/FilmPerson"
+        status:
+          type: string
+          description: Статус заказа
+          enum:
+            - PAYED
+            - CANCELED
+      required:
+        - _id
+        - film
+        - orderNumber
+        - tickets
+        - person
+        - status
+    PaymentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Заказ
+          allOf:
+            - $ref: "#/components/schemas/CinemaOrder"
+      required:
+        - success
+        - order
+    CinemaOrdersResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        orders:
+          description: Заказы
+          type: array
+          items:
+            $ref: "#/components/schemas/CinemaOrder"
+      required:
+        - success
+        - orders
+    CancelCinemaOrderDto:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Идентификатор билета
+      required:
+        - orderId
+    BaseResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+      required:
+        - success
+    DeliveryPoint:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Индентификатор пункта
+        name:
+          type: string
+          example: name
+          description: Название пункта
+        latitude:
+          type: number
+          example: latitude
+          description: Широта
+        longitude:
+          type: number
+          example: longitude
+          description: Долгота
+      required:
+        - id
+        - name
+        - latitude
+        - longitude
+    DeliveryPointsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        points:
+          description: Пункты доставки
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryPoint"
+      required:
+        - success
+        - points
+    DeliveryPackageType:
+      type: object
+      properties:
+        id:
+          type: string
+          example: envelope
+          description: Индентификатор типа посылки
+        name:
+          type: string
+          example: name
+          description: Название типа посылки
+        length:
+          type: number
+          example: length
+          description: Длина посылки
+        width:
+          type: number
+          example: width
+          description: Ширина посылки
+        weight:
+          type: number
+          example: weight
+          description: Длина посылки
+        height:
+          type: number
+          example: length
+          description: Высота посылки
+      required:
+        - id
+        - name
+        - length
+        - width
+        - weight
+        - height
+    DeliveryPackageTypesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        packages:
+          description: "Типы "
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryPackageType"
+      required:
+        - success
+        - packages
+    CalculateDeliveryPackageDto:
+      type: object
+      properties:
+        length:
+          type: number
+          example: 10
+          description: Длина посылки
+        width:
+          type: number
+          example: 10
+          description: Ширина посылки
+        weight:
+          type: number
+          example: 10
+          description: Длина посылки
+        height:
+          type: number
+          example: 10
+          description: Высота посылки
+      required:
+        - length
+        - width
+        - weight
+        - height
+    CalculateDeliveryPointDto:
+      type: object
+      properties:
+        latitude:
+          type: number
+          example: 56.8389
+          description: Широта
+        longitude:
+          type: number
+          example: 60.6057
+          description: Долгота
+      required:
+        - latitude
+        - longitude
+    CalculateDeliveryDto:
+      type: object
+      properties:
+        package:
+          description: Поссылка
+          allOf:
+            - $ref: "#/components/schemas/CalculateDeliveryPackageDto"
+        senderPoint:
+          description: Город отправки
+          allOf:
+            - $ref: "#/components/schemas/CalculateDeliveryPointDto"
+        receiverPoint:
+          description: Город получения
+          allOf:
+            - $ref: "#/components/schemas/CalculateDeliveryPointDto"
+      required:
+        - package
+        - senderPoint
+        - receiverPoint
+    DeliveryOption:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Индентификатор опции доставки
+        price:
+          type: number
+          example: 10000
+          description: Цена доставки в копейках
+        days:
+          type: number
+          example: 2
+          description: Количество дней доставки
+        name:
+          type: string
+          example: name
+          description: Название опции отправки
+        type:
+          type: string
+          example: type
+          description: Тип доставки
+          enum:
+            - DEFAULT
+            - EXPRESS
+      required:
+        - id
+        - price
+        - days
+        - name
+        - type
+    CalculateDeliveryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        options:
+          description: Опции доставки
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryOption"
+      required:
+        - success
+        - options
+    CreateDeliveryOrderSenderAddressDto:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+      required:
+        - street
+        - house
+        - apartment
+    CreateDeliveryOrderPersonDto:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - phone
+    CreateDeliveryOrderReceiverAddressDto:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+        isNonContact:
+          type: boolean
+          description: Бесконтактная доставка
+      required:
+        - street
+        - house
+        - apartment
+    CreateDeliveryOrderDto:
+      type: object
+      properties:
+        packageId:
+          type: string
+          description: Идентификатор типа посылки
+        optionType:
+          type: string
+          description: Тип заказа
+          enum:
+            - DEFAULT
+            - EXPRESS
+        senderPointId:
+          type: string
+          description: Идентификатор города отправки
+        senderAddress:
+          description: Адрес отправителя
+          allOf:
+            - $ref: "#/components/schemas/CreateDeliveryOrderSenderAddressDto"
+        sender:
+          description: Отправитель
+          allOf:
+            - $ref: "#/components/schemas/CreateDeliveryOrderPersonDto"
+        receiverPointId:
+          type: string
+          description: Идентификатор города получения
+        receiverAddress:
+          description: Адрес получателя
+          allOf:
+            - $ref: "#/components/schemas/CreateDeliveryOrderReceiverAddressDto"
+        receiver:
+          description: Получатель
+          allOf:
+            - $ref: "#/components/schemas/CreateDeliveryOrderPersonDto"
+        payer:
+          type: string
+          description: Кто будет оплачивать
+          enum:
+            - RECEIVER
+            - SENDER
+      required:
+        - packageId
+        - optionType
+        - senderPointId
+        - senderAddress
+        - sender
+        - receiverPointId
+        - receiverAddress
+        - receiver
+        - payer
+    DeliverySenderAddress:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+      required:
+        - street
+        - house
+        - apartment
+        - comment
+    DeliveryPerson:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - middlename
+        - phone
+    DeliveryReceiverAddress:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+        isNonContact:
+          type: boolean
+          description: Бесконтактная доставка
+      required:
+        - street
+        - house
+        - apartment
+        - comment
+    DeliveryOrder:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID заказа
+        price:
+          type: number
+          description: Цена доставки
+        package:
+          description: Тип посылки
+          allOf:
+            - $ref: "#/components/schemas/DeliveryPackageType"
+        option:
+          type: string
+          description: Тип доставки
+          enum:
+            - DEFAULT
+            - EXPRESS
+        senderPoint:
+          description: Город отправки
+          allOf:
+            - $ref: "#/components/schemas/DeliveryPoint"
+        senderAddress:
+          description: Адрес отправителя
+          allOf:
+            - $ref: "#/components/schemas/DeliverySenderAddress"
+        sender:
+          description: Отправитель
+          allOf:
+            - $ref: "#/components/schemas/DeliveryPerson"
+        receiverPoint:
+          description: Город получения
+          allOf:
+            - $ref: "#/components/schemas/DeliveryPoint"
+        receiverAddress:
+          description: Адрес получателя
+          allOf:
+            - $ref: "#/components/schemas/DeliveryReceiverAddress"
+        receiver:
+          description: Получатель
+          allOf:
+            - $ref: "#/components/schemas/DeliveryPerson"
+        payer:
+          type: string
+          description: Кто будет оплачивать
+          enum:
+            - RECEIVER
+            - SENDER
+        status:
+          type: number
+          description: Статус доставки
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+        cancellable:
+          type: boolean
+          description: Статус отмены
+      required:
+        - _id
+        - price
+        - package
+        - option
+        - senderPoint
+        - senderAddress
+        - sender
+        - receiverPoint
+        - receiverAddress
+        - receiver
+        - payer
+        - status
+        - cancellable
+    DeliverResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Доставка
+          allOf:
+            - $ref: "#/components/schemas/DeliveryOrder"
+      required:
+        - success
+        - order
+    DeliveryOrdersResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        orders:
+          description: Доставки
+          type: array
+          items:
+            $ref: "#/components/schemas/DeliveryOrder"
+      required:
+        - success
+        - orders
+    DeliveryOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Доставка
+          allOf:
+            - $ref: "#/components/schemas/DeliveryOrder"
+      required:
+        - success
+        - order
+    CancelDeliveryOrderDto:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Идентификатор доставки
+      required:
+        - orderId
+    Media:
+      type: object
+      properties:
+        url:
+          type: string
+          example: /static/images/cars/haval-jolion.webp
+        isCover:
+          type: boolean
+          example: true
+      required:
+        - url
+        - isCover
+    Car:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: ID автомобиля
+        name:
+          type: string
+          example: Model X
+          description: Название модели
+        brand:
+          type: string
+          enum:
+            - Haval
+            - Hyundai
+            - Volkswagen
+            - Kia
+            - Geely
+            - Mercedes
+            - Garden car
+            - Grocery cart
+            - Haier
+            - Invalid
+          description: Марка автомобиля
+        media:
+          type: array
+          items:
+            $ref: "#/components/schemas/Media"
+        transmission:
+          type: string
+          enum:
+            - automatic
+            - manual
+          description: Тип коробки передач
+        price:
+          type: number
+          example: 15000
+          description: Цена аренды в сутки
+        location:
+          type: string
+          example: Москва, ул. Пушкина 10
+          description: Местоположение
+        color:
+          type: string
+          enum:
+            - black
+            - white
+            - red
+            - silver
+            - blue
+            - grey
+            - orange
+          description: Цвет автомобиля
+        bodyType:
+          type: string
+          enum:
+            - sedan
+            - suv
+            - coupe
+            - hatchback
+            - cabriolet
+          description: Тип кузова
+        steering:
+          type: string
+          enum:
+            - left
+            - right
+          description: Расположение руля
+      required:
+        - id
+        - name
+        - brand
+        - media
+        - transmission
+        - price
+        - location
+        - color
+        - bodyType
+        - steering
+    CarsPaginationMeta:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 100
+          description: Общее количество элементов во всех страницах
+        page:
+          type: number
+          example: 1
+          description: Текущий номер страницы (по умолчанию 1)
+        limit:
+          type: number
+          example: 10
+          description: Количество элементов на странице (по умолчанию 10)
+        totalPages:
+          type: number
+          example: 10
+          description: Общее количество доступных страниц
+      required:
+        - total
+        - page
+        - limit
+        - totalPages
+    CarsPaginatedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        data:
+          description: Массив автомобилей с информацией
+          type: array
+          items:
+            $ref: "#/components/schemas/Car"
+        meta:
+          description: Метаданные пагинации (общее количество, текущая страница и т.д.)
+          allOf:
+            - $ref: "#/components/schemas/CarsPaginationMeta"
+      required:
+        - success
+        - data
+        - meta
+    BookedDateRange:
+      type: object
+      properties:
+        startDate:
+          type: number
+          description: Дата начала аренды (timestamp)
+          example: 1717236000000
+        endDate:
+          type: number
+          description: Дата окончания аренды (timestamp)
+          example: 1717610400000
+      required:
+        - startDate
+        - endDate
+    CarWithRents:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: ID автомобиля
+        name:
+          type: string
+          example: Model X
+          description: Название модели
+        brand:
+          type: string
+          enum:
+            - Haval
+            - Hyundai
+            - Volkswagen
+            - Kia
+            - Geely
+            - Mercedes
+            - Garden car
+            - Grocery cart
+            - Haier
+            - Invalid
+          description: Марка автомобиля
+        media:
+          type: array
+          items:
+            $ref: "#/components/schemas/Media"
+        transmission:
+          type: string
+          enum:
+            - automatic
+            - manual
+          description: Тип коробки передач
+        price:
+          type: number
+          example: 15000
+          description: Цена аренды в сутки
+        location:
+          type: string
+          example: Москва, ул. Пушкина 10
+          description: Местоположение
+        color:
+          type: string
+          enum:
+            - black
+            - white
+            - red
+            - silver
+            - blue
+            - grey
+            - orange
+          description: Цвет автомобиля
+        bodyType:
+          type: string
+          enum:
+            - sedan
+            - suv
+            - coupe
+            - hatchback
+            - cabriolet
+          description: Тип кузова
+        steering:
+          type: string
+          enum:
+            - left
+            - right
+          description: Расположение руля
+        rents:
+          description: Занятые промежутки дат (timestamp)
+          type: array
+          items:
+            $ref: "#/components/schemas/BookedDateRange"
+      required:
+        - id
+        - name
+        - brand
+        - media
+        - transmission
+        - price
+        - location
+        - color
+        - bodyType
+        - steering
+        - rents
+    CarResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        data:
+          description: Данные автомобиля с арендованными датами
+          allOf:
+            - $ref: "#/components/schemas/CarWithRents"
+      required:
+        - success
+        - data
+    CreateRentDto:
+      type: object
+      properties:
+        carId:
+          type: string
+          example: car123
+          description: Идентификатор автомобиля
+        pickupLocation:
+          type: string
+          example: Москва, ул. Ленина, 12
+          description: Место получения автомобиля
+        returnLocation:
+          type: string
+          example: Москва, ул. Тверская, 15
+          description: Место возврата автомобиля
+        startDate:
+          type: number
+          example: 1717236000000
+          description: Дата начала аренды (timestamp в миллисекундах)
+        endDate:
+          type: number
+          example: 1717610400000
+          description: Дата окончания аренды (timestamp в миллисекундах)
+        firstName:
+          type: string
+          example: Иван
+          description: Имя арендатора
+        lastName:
+          type: string
+          example: Иванов
+          description: Фамилия арендатора
+        middleName:
+          type: string
+          example: Иванович
+          description: Отчество арендатора
+        birthDate:
+          type: string
+          example: 1990-01-01
+          description: Дата рождения арендатора (ISO формат)
+        email:
+          type: string
+          example: ivan@example.com
+          description: Email арендатора
+        phone:
+          type: string
+          example: "79876543210"
+          description: Телефон арендатора в формате 7XXXXXXXXXX
+        comment:
+          type: string
+          example: Позвонить за 1 час до выдачи
+          description: Комментарий арендатора
+      required:
+        - carId
+        - pickupLocation
+        - returnLocation
+        - startDate
+        - endDate
+        - firstName
+        - lastName
+        - birthDate
+        - email
+        - phone
+    CarRent:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID заказа
+        carInfo:
+          example:
+            id: "12"
+            name: Kia Rio 1.4 AT
+            brand: Kia
+            img: /static/images/cars/kia-rio-black.webp
+            transmission: manual
+            price: 3100
+            location: Новосибирск, ул. Ленина, 5
+            color: black
+            bodyType: sedan
+            steering: left
+          description: Информация об автомобиле
+          allOf:
+            - $ref: "#/components/schemas/Car"
+        status:
+          type: number
+          example: "0"
+          description: Статус брони
+          enum:
+            - 0
+            - 1
+        pickupLocation:
+          type: string
+          example: Москва, ул. Ленина, 1
+          description: Место получения автомобиля
+        returnLocation:
+          type: string
+          example: Москва, ул. Тверская, 10
+          description: Место возврата автомобиля
+        startDate:
+          type: number
+          example: 1717236000000
+          description: Дата начала аренды (timestamp в миллисекундах)
+        endDate:
+          type: number
+          example: 1717610400000
+          description: Дата окончания аренды (timestamp в миллисекундах)
+        totalPrice:
+          type: number
+          example: 25000
+          description: Общая сумма аренды
+        firstName:
+          type: string
+          example: Иван
+          description: Имя арендатора
+        lastName:
+          type: string
+          example: Иванов
+          description: Фамилия арендатора
+        middleName:
+          type: string
+          example: Иванович
+          description: Отчество арендатора
+        birthDate:
+          type: string
+          example: 1990-05-10
+          description: Дата рождения арендатора
+        email:
+          type: string
+          example: ivan@example.com
+          description: Email арендатора
+        phone:
+          type: string
+          example: "79991234567"
+          description: Телефон арендатора (совпадает с номером пользователя)
+        comment:
+          type: string
+          example: Позвонить за час до выдачи
+          description: Комментарий
+      required:
+        - _id
+        - carInfo
+        - status
+        - pickupLocation
+        - returnLocation
+        - startDate
+        - endDate
+        - totalPrice
+        - firstName
+        - lastName
+        - birthDate
+        - email
+        - phone
+    CarRentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        rent:
+          description: Аренда
+          allOf:
+            - $ref: "#/components/schemas/CarRent"
+      required:
+        - success
+        - rent
+    CarRentsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        rents:
+          description: Аренды
+          type: array
+          items:
+            $ref: "#/components/schemas/CarRent"
+      required:
+        - success
+        - rents
+    CancelCarRentDto:
+      type: object
+      properties:
+        carRentId:
+          type: string
+          description: Идентификатор аренды
+      required:
+        - carRentId
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: ID игры
+        name:
+          type: string
+          example: Battlefield 2042
+          description: Название игры
+        slug:
+          type: string
+          example: battlefield-2042
+          description: Slug игры
+        externalId:
+          type: string
+          example: "1517290"
+          description: Внешний ID (Steam/KupiKod)
+        year:
+          type: number
+          example: 2021
+          description: Год релиза
+        genres:
+          type: array
+          description: Жанры игры
+          items:
+            type: string
+            enum:
+              - action
+              - adventure
+              - rpg
+              - strategy
+              - shooter
+              - simulation
+              - survival
+              - sports
+              - racing
+              - indie
+              - horror
+        description:
+          type: string
+          example: Онлайн-шутер с масштабными сражениями.
+          description: Описание игры
+        image:
+          type: string
+          example: /static/images/games/cs2.webp
+          description: Изображение игры
+        price:
+          type: number
+          example: 968
+          description: Текущая цена
+        oldPrice:
+          type: number
+          example: 2688
+          description: Старая цена
+        rating:
+          type: number
+          example: 57.78
+          description: Рейтинг положительных отзывов
+      required:
+        - id
+        - name
+        - slug
+        - externalId
+        - year
+        - genres
+        - description
+        - image
+        - price
+    GamesPaginationMeta:
+      type: object
+      properties:
+        total:
+          type: number
+          example: 30
+          description: Общее количество элементов
+        page:
+          type: number
+          example: 1
+          description: Текущая страница
+        limit:
+          type: number
+          example: 10
+          description: Элементов на странице
+        totalPages:
+          type: number
+          example: 3
+          description: Количество страниц
+      required:
+        - total
+        - page
+        - limit
+        - totalPages
+    GamesPaginatedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        data:
+          description: Список игр
+          type: array
+          items:
+            $ref: "#/components/schemas/Game"
+        meta:
+          description: Пагинация
+          allOf:
+            - $ref: "#/components/schemas/GamesPaginationMeta"
+      required:
+        - success
+        - data
+        - meta
+    GameSearchResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        data:
+          description: Результаты поиска игр
+          type: array
+          items:
+            $ref: "#/components/schemas/Game"
+      required:
+        - success
+        - data
+    GameResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        data:
+          description: Игра
+          allOf:
+            - $ref: "#/components/schemas/Game"
+      required:
+        - success
+        - data
+    CreateGameOrderPersonDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Иван
+          description: Имя пользователя
+        lastName:
+          type: string
+          example: Иванов
+          description: Фамилия пользователя
+        middleName:
+          type: string
+          example: Иванович
+          description: Отчество пользователя
+        phone:
+          type: string
+          example: "79990001122"
+          description: Телефон пользователя
+        email:
+          type: string
+          example: example@mail.com
+          description: Email пользователя
+      required:
+        - firstName
+        - lastName
+        - phone
+    CreateGameOrderDto:
+      type: object
+      properties:
+        gameId:
+          type: string
+          description: ID игры для покупки
+        person:
+          description: Данные покупателя
+          allOf:
+            - $ref: "#/components/schemas/CreateGameOrderPersonDto"
+        debitCard:
+          type: string
+          example: 2202 2063 8908 5954
+          description: Дебетовая карта для оплаты
+      required:
+        - gameId
+        - person
+        - debitCard
+    GameOrderPerson:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Иван
+          description: Имя
+        lastName:
+          type: string
+          example: Иванов
+          description: Фамилия
+        middleName:
+          type: string
+          example: Иванович
+          description: Отчество
+        phone:
+          type: string
+          example: "79990001122"
+          description: Телефон
+        email:
+          type: string
+          example: user@mail.com
+          description: Email
+      required:
+        - firstName
+        - lastName
+        - phone
+    GameOrderSnapshot:
+      type: object
+      properties:
+        gameId:
+          type: string
+          example: "1"
+          description: ID игры
+        name:
+          type: string
+          example: Battlefield 2042
+          description: Название игры
+        image:
+          type: string
+          example: /static/images/pizza/1.webp
+          description: Картинка игры
+        price:
+          type: number
+          example: 968
+          description: Цена на момент заказа
+        externalId:
+          type: string
+          example: "1517290"
+          description: Внешний ID
+      required:
+        - gameId
+        - name
+        - image
+        - price
+        - externalId
+    GameOrder:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID заказа
+        person:
+          description: Данные покупателя
+          allOf:
+            - $ref: "#/components/schemas/GameOrderPerson"
+        gameSnapshot:
+          description: Снимок игры на момент заказа
+          allOf:
+            - $ref: "#/components/schemas/GameOrderSnapshot"
+        gameKey:
+          type: string
+          example: XXXX-YYYY-ZZZZ
+          description: Сгенерированный игровой ключ
+        status:
+          type: string
+          enum:
+            - paid
+            - canceled
+          description: Статус заказа
+      required:
+        - _id
+        - person
+        - gameSnapshot
+        - gameKey
+        - status
+    CreateGameOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Заказ на игру
+          allOf:
+            - $ref: "#/components/schemas/GameOrder"
+      required:
+        - success
+        - order
+    GameOrdersResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        orders:
+          description: Заказы пользователя
+          type: array
+          items:
+            $ref: "#/components/schemas/GameOrder"
+      required:
+        - success
+        - orders
+    GameOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Заказ
+          allOf:
+            - $ref: "#/components/schemas/GameOrder"
+      required:
+        - success
+        - order
+    PizzaIngredient:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - PINEAPPLE
+            - MOZZARELLA
+            - PEPERONI
+            - GREEN_PEPPER
+            - MUSHROOMS
+            - BASIL
+            - CHEDDAR
+            - PARMESAN
+            - FETA
+            - HAM
+            - PICKLE
+            - TOMATO
+            - BACON
+            - ONION
+            - CHILE
+            - SHRIMPS
+            - CHICKEN_FILLET
+            - MEATBALLS
+          description: Идентификатор ингредиента
+        price:
+          type: number
+          description: Цена ингредиента
+        img:
+          type: string
+          description: Изображение ингредиента
+      required:
+        - type
+        - price
+        - img
+    PizzaSize:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SMALL
+            - MEDIUM
+            - LARGE
+          description: Идентификатор размера пиццы
+        price:
+          type: number
+          description: Цена пиццы
+      required:
+        - type
+        - price
+    PizzaDough:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - THIN
+            - THICK
+          description: Идентификатор типа теста
+        price:
+          type: number
+          description: Цена теста
+      required:
+        - type
+        - price
+    Pizza:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Идентификатор пиццы
+        name:
+          type: string
+          description: Название пиццы
+        ingredients:
+          description: Ингредиенты
+          type: array
+          items:
+            $ref: "#/components/schemas/PizzaIngredient"
+        toppings:
+          description: Топпинги
+          type: array
+          items:
+            $ref: "#/components/schemas/PizzaIngredient"
+        description:
+          type: string
+          description: Описание пиццы
+        sizes:
+          description: Размеры пиццы
+          type: array
+          items:
+            $ref: "#/components/schemas/PizzaSize"
+        doughs:
+          description: Тип теста
+          type: array
+          items:
+            $ref: "#/components/schemas/PizzaDough"
+        calories:
+          type: number
+          description: Количество калорий
+        protein:
+          type: string
+          description: Количество белков
+        totalFat:
+          type: string
+          description: Количество жиров
+        carbohydrates:
+          type: string
+          description: Количество углеводов
+        sodium:
+          type: string
+          description: Количество натрия
+        allergens:
+          description: Список аллергенов
+          type: array
+          items:
+            type: string
+        isVegetarian:
+          type: boolean
+          description: Для вегетарианцев
+        isGlutenFree:
+          type: boolean
+          description: Наличие глютена
+        isNew:
+          type: boolean
+          description: Новинка
+        isHit:
+          type: boolean
+          description: Хит
+        img:
+          type: string
+          description: Изображение пиццы
+      required:
+        - id
+        - name
+        - ingredients
+        - toppings
+        - description
+        - sizes
+        - doughs
+        - calories
+        - protein
+        - totalFat
+        - carbohydrates
+        - sodium
+        - allergens
+        - isVegetarian
+        - isGlutenFree
+        - isNew
+        - isHit
+        - img
+    PizzasResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        catalog:
+          description: Пиццы
+          type: array
+          items:
+            $ref: "#/components/schemas/Pizza"
+      required:
+        - success
+        - catalog
+    CreatePizzaPaymentAddressDto:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+      required:
+        - street
+        - house
+        - apartment
+    CreatePizzaPaymentPersonDto:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - phone
+    CreatePizzaPaymentDebitCardDto:
+      type: object
+      properties:
+        pan:
+          type: string
+          example: 1111 1111
+          description: Номер карты
+        expireDate:
+          type: string
+          example: 11/11
+          description: Срок действие карты
+        cvv:
+          type: string
+          example: "111"
+          description: Код карты
+      required:
+        - pan
+        - expireDate
+        - cvv
+    Ingredient:
+      type: string
+      enum:
+        - PINEAPPLE
+        - MOZZARELLA
+        - PEPERONI
+        - GREEN_PEPPER
+        - MUSHROOMS
+        - BASIL
+        - CHEDDAR
+        - PARMESAN
+        - FETA
+        - HAM
+        - PICKLE
+        - TOMATO
+        - BACON
+        - ONION
+        - CHILE
+        - SHRIMPS
+        - CHICKEN_FILLET
+        - MEATBALLS
+      description: Топпинги
+    OrderedPizza:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+          description: Идентификатор пиццы
+        toppings:
+          type: array
+          example:
+            - PINEAPPLE
+            - CHEDDAR
+          description: Топпинги
+          items:
+            $ref: "#/components/schemas/Ingredient"
+        size:
+          type: string
+          example: SMALL
+          description: Размер пиццы
+          enum:
+            - SMALL
+            - MEDIUM
+            - LARGE
+        dough:
+          type: string
+          example: THIN
+          description: Тип теста
+          enum:
+            - THIN
+            - THICK
+      required:
+        - id
+        - toppings
+        - size
+        - dough
+    CreatePizzaPaymentDto:
+      type: object
+      properties:
+        receiverAddress:
+          description: Адрес доставки
+          allOf:
+            - $ref: "#/components/schemas/CreatePizzaPaymentAddressDto"
+        person:
+          description: Данные пользователя
+          allOf:
+            - $ref: "#/components/schemas/CreatePizzaPaymentPersonDto"
+        debitCard:
+          description: Банковская карта
+          allOf:
+            - $ref: "#/components/schemas/CreatePizzaPaymentDebitCardDto"
+        pizzas:
+          description: Пиццы
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderedPizza"
+      required:
+        - receiverAddress
+        - person
+        - debitCard
+        - pizzas
+    PizzaPerson:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: firstname
+          description: Имя
+        lastname:
+          type: string
+          example: lastname
+          description: Фамилия
+        middlename:
+          type: string
+          example: middlename
+          description: Отчество
+        phone:
+          type: string
+          example: "89990009999"
+          description: Телефон
+      required:
+        - firstname
+        - lastname
+        - middlename
+        - phone
+    PizzaAddress:
+      type: object
+      properties:
+        street:
+          type: string
+          example: street
+          description: Улица
+        house:
+          type: string
+          example: house
+          description: Номер дома
+        apartment:
+          type: string
+          example: apartment
+          description: Номер квартиры
+        comment:
+          type: string
+          example: comment
+          description: Комментарий
+      required:
+        - street
+        - house
+        - apartment
+        - comment
+    PizzaOrder:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID заказа
+        pizzas:
+          description: Пиццы
+          type: array
+          items:
+            $ref: "#/components/schemas/Pizza"
+        totalPrice:
+          type: number
+          description: Сумма заказа
+        person:
+          description: Данные пользователя
+          allOf:
+            - $ref: "#/components/schemas/PizzaPerson"
+        receiverAddress:
+          description: Адрес доставки
+          allOf:
+            - $ref: "#/components/schemas/PizzaAddress"
+        status:
+          type: number
+          description: Статус доставки
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+        cancellable:
+          type: boolean
+          description: Статус отмены
+      required:
+        - _id
+        - pizzas
+        - totalPrice
+        - person
+        - receiverAddress
+        - status
+        - cancellable
+    PizzaPaymentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Доставка
+          allOf:
+            - $ref: "#/components/schemas/PizzaOrder"
+      required:
+        - success
+        - order
+    PizzaOrdersResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        orders:
+          description: Доставки
+          type: array
+          items:
+            $ref: "#/components/schemas/PizzaOrder"
+      required:
+        - success
+        - orders
+    PizzaOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        order:
+          description: Доставки
+          allOf:
+            - $ref: "#/components/schemas/PizzaOrder"
+      required:
+        - success
+        - order
+    CancelPizzaOrderDto:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: Идентификатор заказа
+      required:
+        - orderId

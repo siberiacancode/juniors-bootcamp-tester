@@ -3,18 +3,20 @@ import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    tsconfigPaths(),
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,
-      generatedRouteTree: './generated/router/index.ts'
+      generatedRouteTree: './src/app/router/routeTree.gen.ts'
     }),
     react(),
-    babel({ presets: [reactCompilerPreset()] }),
-    tailwindcss()
-  ]
+    tailwindcss(),
+    babel({ presets: [reactCompilerPreset()] })
+  ],
+  resolve: {
+    tsconfigPaths: true
+  }
 });
