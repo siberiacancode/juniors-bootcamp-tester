@@ -12,7 +12,6 @@ import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
-import { LOCAL_STORAGE_KEYS } from '@/shared/constants';
 import { useUser } from '@/shared/contexts/user';
 
 import type { OtpFormScheme, PhoneFormScheme } from './-constants';
@@ -33,6 +32,11 @@ export const Route = createFileRoute('/login')({
 });
 
 function RouteComponent() {
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  const user = useUser();
+
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<{
     [key: string]: number;
@@ -57,8 +61,6 @@ function RouteComponent() {
   const authOtpMutation = usePostAuthOtpMutation();
   const usersSigninMutation = usePostUsersSigninMutation();
 
-  const { setUser } = useUser();
-
   const sendOtp = async (phone: string) => {
     const postAuthOptMutationResponse = await authOtpMutation.mutateAsync({
       body: { phone }
@@ -69,9 +71,6 @@ function RouteComponent() {
       [phone]: Date.now() + postAuthOptMutationResponse.data.retryDelay
     });
   };
-
-  const search = Route.useSearch();
-  const navigate = Route.useNavigate();
 
   const onSubmit = authForm.handleSubmit(async (values) => {
     if (stage === 'phone' && 'phone' in values) {
@@ -92,8 +91,7 @@ function RouteComponent() {
         return authForm.setError('otp', { message: response.data.reason });
       }
 
-      localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, response.data.token);
-      setUser(response.data.user);
+      user.set(response.data.user, response.data.token);
 
       await navigate({ to: search.redirect ?? '/' });
     }

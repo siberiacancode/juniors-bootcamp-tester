@@ -9,7 +9,6 @@ import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
-import { LOCAL_STORAGE_KEYS } from '@/shared/constants';
 import { useUser } from '@/shared/contexts/user';
 
 import type { ProfileFormScheme } from './-constants';
@@ -21,16 +20,18 @@ export const Route = createFileRoute('/(layout)/_authenticated/profile')({
 });
 
 function RouteComponent() {
-  const { user, setUser } = useUser();
+  const navigate = Route.useNavigate();
+
+  const user = useUser();
 
   const usersProfileMutation = usePatchUsersProfileMutation();
 
   const profileForm = useForm<ProfileFormScheme>({
     mode: 'onSubmit',
     defaultValues: {
-      email: user!.email ?? '',
-      firstname: user!.firstname ?? '',
-      lastname: user!.lastname ?? ''
+      email: user.value!.email ?? '',
+      firstname: user.value!.firstname ?? '',
+      lastname: user.value!.lastname ?? ''
     },
     resolver: zodResolver(profileFormScheme)
   });
@@ -38,19 +39,22 @@ function RouteComponent() {
   const onSubmit = profileForm.handleSubmit(async (values) => {
     await usersProfileMutation.mutateAsync({
       body: {
-        phone: user!.phone,
+        phone: user.value!.phone,
         profile: values
       }
     });
-    const updatedUser = { ...user!, ...values };
-    setUser(updatedUser);
+    const updatedUser = { ...user.value!, ...values };
+    user.set(updatedUser);
   });
 
   const onLogout = () => {
     if (Math.random() < 0.3) throw new Error('Something went wrong, something of undefined');
 
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
-    setUser(null);
+    navigate({
+      to: '/'
+    });
+
+    user.remove();
   };
 
   const isLoading = profileForm.formState.isSubmitting;
@@ -91,7 +95,7 @@ function RouteComponent() {
           <div className='flex w-full max-w-85.5 flex-col gap-4'>
             <Field>
               <FieldLabel htmlFor='phone'>Номер телефона</FieldLabel>
-              <Input asChild disabled id='phone' value={user!.phone}>
+              <Input asChild disabled id='phone' value={user.value!.phone}>
                 <PatternFormat format='+7 ### ### ## ##' />
               </Input>
             </Field>

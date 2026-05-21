@@ -3,7 +3,6 @@ import { LogInIcon, LogOutIcon, ShoppingCartIcon, UserIcon } from 'lucide-react'
 
 import { Button } from '@/shared/components/ui/button';
 import { IconButton } from '@/shared/components/ui/icon-button';
-import { LOCAL_STORAGE_KEYS } from '@/shared/constants';
 import { useUser } from '@/shared/contexts/user';
 
 export const Route = createFileRoute('/(layout)')({
@@ -11,11 +10,15 @@ export const Route = createFileRoute('/(layout)')({
 });
 
 function RouteComponent() {
-  const { isLoggedIn, setUser } = useUser();
+  const navigate = Route.useNavigate();
+
+  const user = useUser();
 
   const onLogout = () => {
-    setUser(null);
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
+    navigate({
+      to: '/'
+    });
+    user.remove();
   };
 
   return (
@@ -37,14 +40,14 @@ function RouteComponent() {
             </IconButton>
           </div>
 
-          {isLoggedIn && (
+          {user.isLoggedIn && (
             <Button variant='secondary' onClick={onLogout}>
               Выйти
               <LogOutIcon />
             </Button>
           )}
 
-          {!isLoggedIn && (
+          {!user.isLoggedIn && (
             <Link to='/login'>
               <Button>
                 Войти
