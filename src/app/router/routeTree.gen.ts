@@ -9,68 +9,146 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../../routes/__root'
-import { Route as IndexRouteImport } from './../../routes/index'
-import { Route as authProfileRouteImport } from './../../routes/(auth)/profile'
+import { Route as LoginRouteImport } from './../../routes/login'
+import { Route as layoutRouteRouteImport } from './../../routes/(layout)/route'
+import { Route as layoutIndexRouteImport } from './../../routes/(layout)/index'
+import { Route as layoutAuthenticatedRouteRouteImport } from './../../routes/(layout)/_authenticated/route'
+import { Route as layoutAuthenticatedProfileRouteImport } from './../../routes/(layout)/_authenticated/profile'
 
-const IndexRoute = IndexRouteImport.update({
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const layoutRouteRoute = layoutRouteRouteImport.update({
+  id: '/(layout)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const layoutIndexRoute = layoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => layoutRouteRoute,
 } as any)
-const authProfileRoute = authProfileRouteImport.update({
-  id: '/(auth)/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const layoutAuthenticatedRouteRoute =
+  layoutAuthenticatedRouteRouteImport.update({
+    id: '/_authenticated',
+    getParentRoute: () => layoutRouteRoute,
+  } as any)
+const layoutAuthenticatedProfileRoute =
+  layoutAuthenticatedProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => layoutAuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/profile': typeof authProfileRoute
+  '/login': typeof LoginRoute
+  '/': typeof layoutIndexRoute
+  '/profile': typeof layoutAuthenticatedProfileRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/profile': typeof authProfileRoute
+  '/login': typeof LoginRoute
+  '/': typeof layoutIndexRoute
+  '/profile': typeof layoutAuthenticatedProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/(auth)/profile': typeof authProfileRoute
+  '/(layout)': typeof layoutRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/(layout)/_authenticated': typeof layoutAuthenticatedRouteRouteWithChildren
+  '/(layout)/': typeof layoutIndexRoute
+  '/(layout)/_authenticated/profile': typeof layoutAuthenticatedProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/profile'
+  fullPaths: '/login' | '/' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/profile'
-  id: '__root__' | '/' | '/(auth)/profile'
+  to: '/login' | '/' | '/profile'
+  id:
+    | '__root__'
+    | '/(layout)'
+    | '/login'
+    | '/(layout)/_authenticated'
+    | '/(layout)/'
+    | '/(layout)/_authenticated/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  authProfileRoute: typeof authProfileRoute
+  layoutRouteRoute: typeof layoutRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(auth)/profile': {
-      id: '/(auth)/profile'
+    '/(layout)': {
+      id: '/(layout)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(layout)/': {
+      id: '/(layout)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof layoutIndexRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
+    '/(layout)/_authenticated': {
+      id: '/(layout)/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutAuthenticatedRouteRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
+    '/(layout)/_authenticated/profile': {
+      id: '/(layout)/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
-      preLoaderRoute: typeof authProfileRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof layoutAuthenticatedProfileRouteImport
+      parentRoute: typeof layoutAuthenticatedRouteRoute
     }
   }
 }
 
+interface layoutAuthenticatedRouteRouteChildren {
+  layoutAuthenticatedProfileRoute: typeof layoutAuthenticatedProfileRoute
+}
+
+const layoutAuthenticatedRouteRouteChildren: layoutAuthenticatedRouteRouteChildren =
+  {
+    layoutAuthenticatedProfileRoute: layoutAuthenticatedProfileRoute,
+  }
+
+const layoutAuthenticatedRouteRouteWithChildren =
+  layoutAuthenticatedRouteRoute._addFileChildren(
+    layoutAuthenticatedRouteRouteChildren,
+  )
+
+interface layoutRouteRouteChildren {
+  layoutAuthenticatedRouteRoute: typeof layoutAuthenticatedRouteRouteWithChildren
+  layoutIndexRoute: typeof layoutIndexRoute
+}
+
+const layoutRouteRouteChildren: layoutRouteRouteChildren = {
+  layoutAuthenticatedRouteRoute: layoutAuthenticatedRouteRouteWithChildren,
+  layoutIndexRoute: layoutIndexRoute,
+}
+
+const layoutRouteRouteWithChildren = layoutRouteRoute._addFileChildren(
+  layoutRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  authProfileRoute: authProfileRoute,
+  layoutRouteRoute: layoutRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

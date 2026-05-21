@@ -10,6 +10,7 @@ export default apicraft([
     },
     baseUrl: '/api',
     nameBy: 'path',
+    groupBy: 'standalone',
     plugins: ['tanstack']
   }
 ]);

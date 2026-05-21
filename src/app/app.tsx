@@ -1,11 +1,11 @@
 import { RouterProvider } from '@tanstack/react-router';
 
-import { queryClient } from './lib/queryClient';
-import { Provider } from './provider';
+import { useUser } from '@/shared/contexts/user';
+
 import { router } from './router';
 
-export const App = () => (
-  <Provider queryClient={queryClient}>
-    <RouterProvider router={router} />
-  </Provider>
-);
+export const App = () => {
+  const user = useUser();
+
+  return <RouterProvider context={{ user }} router={router} />;
+};
