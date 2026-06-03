@@ -5,11 +5,11 @@ paths:
       operationId: AppController_otps
       parameters: []
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
       summary: страница с отп кодами
       tags:
-        - pages
+        - 📃 pages
   /api/auth/otp:
     post:
       operationId: OtpsController_createOtp
@@ -19,14 +19,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateOtpDto"
+              $ref: '#/components/schemas/CreateOtpDto'
       responses:
-        "200":
+        '200':
           description: create otp
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OtpResponse"
+                $ref: '#/components/schemas/OtpResponse'
       summary: Создание отп кода
       tags:
         - ☄️ otps
@@ -39,14 +39,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SignInDto"
+              $ref: '#/components/schemas/SignInDto'
       responses:
-        "200":
+        '200':
           description: signin
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignInResponse"
+                $ref: '#/components/schemas/SignInResponse'
       summary: Авторизация
       tags:
         - 💂‍♂️ users
@@ -63,14 +63,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateProfileDto"
+              $ref: '#/components/schemas/UpdateProfileDto'
       responses:
-        "200":
+        '200':
           description: update profile
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UpdateProfileResponse"
+                $ref: '#/components/schemas/UpdateProfileResponse'
       security:
         - bearer: []
       summary: Обновить профиль пользователя
@@ -85,12 +85,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: session
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SessionResponse"
+                $ref: '#/components/schemas/SessionResponse'
       security:
         - bearer: []
       summary: Получить сессию пользователя
@@ -101,13 +101,13 @@ paths:
       operationId: CinemaController_getCinemaToday
       parameters: []
       responses:
-        "200":
+        '200':
           description: films
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FilmsResponse"
-      summary: Получить список фильмов
+                $ref: '#/components/schemas/FilmsResponse'
+      summary: Получить фильмы
       tags:
         - 🍿 cinema
   /api/cinema/film/{filmId}:
@@ -121,12 +121,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: film
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FilmResponse"
+                $ref: '#/components/schemas/FilmResponse'
       summary: Получить фильм
       tags:
         - 🍿 cinema
@@ -141,12 +141,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: schedule
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ScheduleResponse"
+                $ref: '#/components/schemas/ScheduleResponse'
       summary: Получить расписание фильма
       tags:
         - 🍿 cinema
@@ -159,14 +159,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateCinemaPaymentDto"
+              $ref: '#/components/schemas/CreateCinemaPaymentDto'
       responses:
-        "200":
+        '200':
           description: payment
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PaymentResponse"
+                $ref: '#/components/schemas/PaymentResponse'
       summary: Оплатить билеты
       tags:
         - 🍿 cinema
@@ -179,12 +179,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: orders
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CinemaOrdersResponse"
+                $ref: '#/components/schemas/CinemaOrdersResponse'
       security:
         - bearer: []
       summary: Получить заказы
@@ -203,14 +203,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CancelCinemaOrderDto"
+              $ref: '#/components/schemas/CancelCinemaOrderDto'
       responses:
-        "200":
+        '200':
           description: order cancel
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/components/schemas/BaseResponse'
       security:
         - bearer: []
       summary: Отменить заказ
@@ -221,12 +221,12 @@ paths:
       operationId: DeliveryController_getPoints
       parameters: []
       responses:
-        "200":
+        '200':
           description: points
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeliveryPointsResponse"
+                $ref: '#/components/schemas/DeliveryPointsResponse'
       summary: Получить пункты выдачи
       tags:
         - 📦 delivery
@@ -235,12 +235,12 @@ paths:
       operationId: DeliveryController_getPackageTypes
       parameters: []
       responses:
-        "200":
+        '200':
           description: package types
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeliveryPackageTypesResponse"
+                $ref: '#/components/schemas/DeliveryPackageTypesResponse'
       summary: Получить типы посылок
       tags:
         - 📦 delivery
@@ -253,14 +253,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CalculateDeliveryDto"
+              $ref: '#/components/schemas/CalculateDeliveryDto'
       responses:
-        "200":
+        '200':
           description: calc
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CalculateDeliveryResponse"
+                $ref: '#/components/schemas/CalculateDeliveryResponse'
       summary: Расчет доставки
       tags:
         - 📦 delivery
@@ -273,14 +273,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateDeliveryOrderDto"
+              $ref: '#/components/schemas/CreateDeliveryOrderDto'
       responses:
-        "200":
+        '200':
           description: order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeliverResponse"
+                $ref: '#/components/schemas/DeliverResponse'
       summary: Создание заявки доставки
       tags:
         - 📦 delivery
@@ -293,12 +293,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: orders
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeliveryOrdersResponse"
+                $ref: '#/components/schemas/DeliveryOrdersResponse'
       security:
         - bearer: []
       summary: Получить все заявки на доставку
@@ -319,12 +319,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DeliveryOrderResponse"
+                $ref: '#/components/schemas/DeliveryOrderResponse'
       security:
         - bearer: []
       summary: Получить заявку на доставку
@@ -343,14 +343,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CancelDeliveryOrderDto"
+              $ref: '#/components/schemas/CancelDeliveryOrderDto'
       responses:
-        "200":
+        '200':
           description: order cancel
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/components/schemas/BaseResponse'
       security:
         - bearer: []
       summary: Отменить доставку
@@ -360,6 +360,46 @@ paths:
     get:
       operationId: CarsController_getCars
       parameters:
+        - name: brand
+          required: false
+          in: query
+          description: Марка автомобиля
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Brand'
+        - name: bodyType
+          required: false
+          in: query
+          description: Тип кузова автомобиля
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/BodyType'
+        - name: color
+          required: false
+          in: query
+          description: Цвет автомобиля
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Color'
+        - name: steering
+          required: false
+          in: query
+          description: Фильтр по типу рулевого управления
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Steering'
+        - name: transmission
+          required: false
+          in: query
+          description: Тип трансмиссии
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Transmission'
         - name: search
           required: false
           in: query
@@ -378,58 +418,6 @@ paths:
           description: Минимальная цена аренды
           schema:
             type: number
-        - name: transmission
-          required: false
-          in: query
-          description: Тип трансмиссии
-          schema:
-            enum:
-              - automatic
-              - manual
-            type: string
-        - name: bodyType
-          required: false
-          in: query
-          description: Тип кузова автомобиля
-          schema:
-            enum:
-              - sedan
-              - suv
-              - coupe
-              - hatchback
-              - cabriolet
-            type: string
-        - name: brand
-          required: false
-          in: query
-          description: Марка автомобиля
-          schema:
-            enum:
-              - Haval
-              - Hyundai
-              - Volkswagen
-              - Kia
-              - Geely
-              - Mercedes
-              - Garden car
-              - Grocery cart
-              - Haier
-              - Invalid
-            type: string
-        - name: color
-          required: false
-          in: query
-          description: Цвет автомобиля
-          schema:
-            enum:
-              - black
-              - white
-              - red
-              - silver
-              - blue
-              - grey
-              - orange
-            type: string
         - name: limit
           required: false
           in: query
@@ -443,13 +431,13 @@ paths:
           schema:
             type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CarsPaginatedResponse"
-      summary: Получить все автомобили
+                $ref: '#/components/schemas/CarsPaginatedResponse'
+      summary: Получить автомобили
       tags:
         - 🏎️ cars
   /api/cars/info/{carId}:
@@ -463,12 +451,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: car with rents
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CarResponse"
+                $ref: '#/components/schemas/CarResponse'
       summary: Получить автомобиль
       tags:
         - 🏎️ cars
@@ -481,14 +469,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateRentDto"
+              $ref: '#/components/schemas/CreateRentDto'
       responses:
-        "200":
+        '200':
           description: create rent
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CarRentResponse"
+                $ref: '#/components/schemas/CarRentResponse'
       summary: Арендовать автомобиль
       tags:
         - 🏎️ cars
@@ -500,12 +488,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: rents
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CarRentsResponse"
+                $ref: '#/components/schemas/CarRentsResponse'
       security:
         - bearer: []
       summary: Получить все аренды
@@ -526,12 +514,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: rent
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CarRent"
+                $ref: '#/components/schemas/CarRent'
       security:
         - bearer: []
       summary: Получить аренду
@@ -550,14 +538,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CancelCarRentDto"
+              $ref: '#/components/schemas/CancelCarRentDto'
       responses:
-        "200":
+        '200':
           description: rent cancel
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/components/schemas/BaseResponse'
       security:
         - bearer: []
       summary: Отменить аренду
@@ -567,17 +555,20 @@ paths:
     get:
       operationId: GamesController_getGames
       parameters:
-        - name: year
+        - name: minYear
           required: false
           in: query
-          description: Год релиза
+          description: Минимальный год релиза
           schema:
-            example:
-              - 2024
-              - 2025
-            type: array
-            items:
-              type: number
+            example: 2003
+            type: number
+        - name: maxYear
+          required: false
+          in: query
+          description: Максимальный год релиза
+          schema:
+            example: 2021
+            type: number
         - name: genre
           required: false
           in: query
@@ -585,9 +576,7 @@ paths:
           schema:
             type: array
             items:
-              type: string
-              enum:
-                - action
+              $ref: '#/components/schemas/GameGenre'
         - name: search
           required: false
           in: query
@@ -609,12 +598,12 @@ paths:
             example: 10
             type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GamesPaginatedResponse"
+                $ref: '#/components/schemas/GamesPaginatedResponse'
       summary: Получить игры
       tags:
         - 🎮 games
@@ -636,12 +625,12 @@ paths:
             example: 8
             type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GameSearchResponse"
+                $ref: '#/components/schemas/GameSearchResponse'
       summary: Поиск по играм
       tags:
         - 🎮 games
@@ -656,12 +645,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GameResponse"
+                $ref: '#/components/schemas/GameResponse'
       summary: Получить игру
       tags:
         - 🎮 games
@@ -674,14 +663,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateGameOrderDto"
+              $ref: '#/components/schemas/CreateGameOrderDto'
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CreateGameOrderResponse"
+                $ref: '#/components/schemas/CreateGameOrderResponse'
       summary: Купить игру и получить ключ
       tags:
         - 🎮 games
@@ -694,12 +683,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GameOrdersResponse"
+                $ref: '#/components/schemas/GameOrdersResponse'
       security:
         - bearer: []
       summary: Получить все заказы игр
@@ -720,12 +709,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GameOrderResponse"
+                $ref: '#/components/schemas/GameOrderResponse'
       security:
         - bearer: []
       summary: Получить заказ игры
@@ -736,12 +725,12 @@ paths:
       operationId: PizzaController_getPizzasCatalog
       parameters: []
       responses:
-        "200":
+        '200':
           description: catalog
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PizzasResponse"
+                $ref: '#/components/schemas/PizzasResponse'
       summary: Получить пиццы
       tags:
         - 🍕 pizza
@@ -754,14 +743,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreatePizzaPaymentDto"
+              $ref: '#/components/schemas/CreatePizzaPaymentDto'
       responses:
-        "200":
+        '200':
           description: payment
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PizzaPaymentResponse"
+                $ref: '#/components/schemas/PizzaPaymentResponse'
       summary: Оплатить корзину
       tags:
         - 🍕 pizza
@@ -774,12 +763,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: orders
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PizzaOrdersResponse"
+                $ref: '#/components/schemas/PizzaOrdersResponse'
       security:
         - bearer: []
       summary: Получить все заказы
@@ -800,12 +789,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: order
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PizzaOrderResponse"
+                $ref: '#/components/schemas/PizzaOrderResponse'
       security:
         - bearer: []
       summary: Получить заказ
@@ -824,14 +813,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CancelPizzaOrderDto"
+              $ref: '#/components/schemas/CancelPizzaOrderDto'
       responses:
-        "200":
+        '200':
           description: order cancel
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/components/schemas/BaseResponse'
       security:
         - bearer: []
       summary: Отменить заказ
@@ -840,11 +829,11 @@ paths:
 info:
   title: juniors bootcamp backend 🔥
   description: Апи для выполнения индивидуальных заданий
-  version: "1.0"
+  version: '1.0'
   contact: {}
 tags: []
 servers:
-  - url: ""
+  - url: ''
 components:
   securitySchemes:
     bearer:
@@ -857,7 +846,7 @@ components:
       properties:
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
       required:
         - phone
     OtpResponse:
@@ -881,7 +870,7 @@ components:
       properties:
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Номер телефона
         code:
           type: number
@@ -898,7 +887,7 @@ components:
           description: ID пользователя
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Номер телефона
         firstname:
           type: string
@@ -935,7 +924,7 @@ components:
         user:
           description: Пользователь
           allOf:
-            - $ref: "#/components/schemas/User"
+            - $ref: '#/components/schemas/User'
         token:
           type: string
           description: Пользовательский токен
@@ -972,10 +961,10 @@ components:
         profile:
           description: Данные пользователя
           allOf:
-            - $ref: "#/components/schemas/UpdateProfileProfileDto"
+            - $ref: '#/components/schemas/UpdateProfileProfileDto'
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Номер телефона
       required:
         - profile
@@ -992,7 +981,7 @@ components:
         user:
           description: Пользователь
           allOf:
-            - $ref: "#/components/schemas/User"
+            - $ref: '#/components/schemas/User'
       required:
         - success
         - user
@@ -1008,23 +997,31 @@ components:
         user:
           description: Пользователь
           allOf:
-            - $ref: "#/components/schemas/User"
+            - $ref: '#/components/schemas/User'
       required:
         - success
         - user
+    Profession:
+      type: string
+      enum:
+        - actor
+        - director
+      description: Список профессий
     FilmStaff:
       type: object
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Идентификатор персоны
         professions:
-          type: string
+          type: array
           description: Список профессий
-          enum:
-            - ACTOR
-            - DIRECTOR
+          example:
+            - actor
+            - director
+          items:
+            $ref: '#/components/schemas/Profession'
         fullName:
           type: string
           description: Полное имя персоны
@@ -1036,16 +1033,25 @@ components:
         - professions
         - fullName
         - photo
+    Rating:
+      type: string
+      enum:
+        - g
+        - pg
+        - pg13
+        - r
+        - nc17
+      description: Возрастное ограничение
     FilmUserRating:
       type: object
       properties:
         kinopoisk:
           type: string
-          example: "10"
+          example: '10'
           description: Рейтинг кинопоиск
         imdb:
           type: string
-          example: "10"
+          example: '10'
           description: Рейтинг imdb
       required:
         - kinopoisk
@@ -1071,7 +1077,7 @@ components:
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Идентификатор фильма
         name:
           type: string
@@ -1089,24 +1095,20 @@ components:
           description: Актеры
           type: array
           items:
-            $ref: "#/components/schemas/FilmStaff"
+            $ref: '#/components/schemas/FilmStaff'
         directors:
           description: Режиссер
           type: array
           items:
-            $ref: "#/components/schemas/FilmStaff"
+            $ref: '#/components/schemas/FilmStaff'
         runtime:
           type: number
           description: Продолжительность
         ageRating:
-          type: string
           description: Возрастное ограничение
-          enum:
-            - G
-            - PG
-            - PG13
-            - R
-            - NC17
+          example: g
+          allOf:
+            - $ref: '#/components/schemas/Rating'
         genres:
           type: array
           items:
@@ -1114,7 +1116,7 @@ components:
         userRatings:
           description: Рейтинг пользователей
           allOf:
-            - $ref: "#/components/schemas/FilmUserRating"
+            - $ref: '#/components/schemas/FilmUserRating'
         img:
           type: string
           description: Изображение фильма
@@ -1122,7 +1124,7 @@ components:
           description: Страна
           nullable: true
           allOf:
-            - $ref: "#/components/schemas/Country"
+            - $ref: '#/components/schemas/Country'
       required:
         - id
         - name
@@ -1149,7 +1151,7 @@ components:
           description: Фильмы
           type: array
           items:
-            $ref: "#/components/schemas/Film"
+            $ref: '#/components/schemas/Film'
       required:
         - success
         - films
@@ -1165,7 +1167,7 @@ components:
         film:
           description: Фильм
           allOf:
-            - $ref: "#/components/schemas/Film"
+            - $ref: '#/components/schemas/Film'
       required:
         - success
         - film
@@ -1178,7 +1180,7 @@ components:
           description: Название зала
         places:
           example:
-            - - type: ECONOM
+            - - type: econom
                 price: 100
           description: Места в зале
           items:
@@ -1199,7 +1201,7 @@ components:
         hall:
           description: Зал
           allOf:
-            - $ref: "#/components/schemas/FilmHall"
+            - $ref: '#/components/schemas/FilmHall'
       required:
         - time
         - hall
@@ -1214,7 +1216,7 @@ components:
           description: Сеансы
           type: array
           items:
-            $ref: "#/components/schemas/FilmScheduleSeance"
+            $ref: '#/components/schemas/FilmScheduleSeance'
       required:
         - date
         - seances
@@ -1230,7 +1232,7 @@ components:
         schedules:
           description: Расписание
           allOf:
-            - $ref: "#/components/schemas/FilmSchedule"
+            - $ref: '#/components/schemas/FilmSchedule'
       required:
         - success
         - schedules
@@ -1251,7 +1253,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
@@ -1271,7 +1273,7 @@ components:
           description: Срок действие карты
         cvv:
           type: string
-          example: "111"
+          example: '111'
           description: Код карты
       required:
         - pan
@@ -1314,20 +1316,20 @@ components:
         person:
           description: Покупатель
           allOf:
-            - $ref: "#/components/schemas/CreatePaymentPersonDto"
+            - $ref: '#/components/schemas/CreatePaymentPersonDto'
         debitCard:
           description: Банковская карта
           allOf:
-            - $ref: "#/components/schemas/CreatePaymentDebitCardDto"
+            - $ref: '#/components/schemas/CreatePaymentDebitCardDto'
         seance:
           description: Сеанс фильма
           allOf:
-            - $ref: "#/components/schemas/CreatePaymentSeanceDto"
+            - $ref: '#/components/schemas/CreatePaymentSeanceDto'
         tickets:
           description: Билеты
           type: array
           items:
-            $ref: "#/components/schemas/CreatePaymentTicketsDto"
+            $ref: '#/components/schemas/CreatePaymentTicketsDto'
       required:
         - filmId
         - person
@@ -1348,6 +1350,12 @@ components:
       required:
         - date
         - time
+    CinemaTicketStatus:
+      type: string
+      enum:
+        - paid
+        - cancelled
+      description: Статус билета
     CinemaTicket:
       type: object
       properties:
@@ -1371,17 +1379,16 @@ components:
         seance:
           description: Сеанс фильма
           allOf:
-            - $ref: "#/components/schemas/CinemaTicketSeance"
+            - $ref: '#/components/schemas/CinemaTicketSeance'
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
         status:
-          type: string
           description: Статус билета
-          enum:
-            - PAYED
-            - CANCELED
+          example: paid
+          allOf:
+            - $ref: '#/components/schemas/CinemaTicketStatus'
       required:
         - _id
         - filmId
@@ -1408,13 +1415,19 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
         - lastname
         - middlename
         - phone
+    CinemaOrderStatus:
+      type: string
+      enum:
+        - paid
+        - canceled
+      description: Статус заказа
     CinemaOrder:
       type: object
       properties:
@@ -1424,7 +1437,7 @@ components:
         film:
           description: Название фильма
           allOf:
-            - $ref: "#/components/schemas/Film"
+            - $ref: '#/components/schemas/Film'
         orderNumber:
           type: number
           description: Номер заказа
@@ -1432,17 +1445,16 @@ components:
           description: Билеты
           type: array
           items:
-            $ref: "#/components/schemas/CinemaTicket"
+            $ref: '#/components/schemas/CinemaTicket'
         person:
           description: Данные пользователя
           allOf:
-            - $ref: "#/components/schemas/FilmPerson"
+            - $ref: '#/components/schemas/FilmPerson'
         status:
-          type: string
           description: Статус заказа
-          enum:
-            - PAYED
-            - CANCELED
+          example: paid
+          allOf:
+            - $ref: '#/components/schemas/CinemaOrderStatus'
       required:
         - _id
         - film
@@ -1462,7 +1474,7 @@ components:
         order:
           description: Заказ
           allOf:
-            - $ref: "#/components/schemas/CinemaOrder"
+            - $ref: '#/components/schemas/CinemaOrder'
       required:
         - success
         - order
@@ -1479,7 +1491,7 @@ components:
           description: Заказы
           type: array
           items:
-            $ref: "#/components/schemas/CinemaOrder"
+            $ref: '#/components/schemas/CinemaOrder'
       required:
         - success
         - orders
@@ -1507,7 +1519,7 @@ components:
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Индентификатор пункта
         name:
           type: string
@@ -1539,7 +1551,7 @@ components:
           description: Пункты доставки
           type: array
           items:
-            $ref: "#/components/schemas/DeliveryPoint"
+            $ref: '#/components/schemas/DeliveryPoint'
       required:
         - success
         - points
@@ -1587,10 +1599,10 @@ components:
           type: string
           description: Причина ошибки
         packages:
-          description: "Типы "
+          description: 'Типы '
           type: array
           items:
-            $ref: "#/components/schemas/DeliveryPackageType"
+            $ref: '#/components/schemas/DeliveryPackageType'
       required:
         - success
         - packages
@@ -1638,25 +1650,31 @@ components:
         package:
           description: Поссылка
           allOf:
-            - $ref: "#/components/schemas/CalculateDeliveryPackageDto"
+            - $ref: '#/components/schemas/CalculateDeliveryPackageDto'
         senderPoint:
           description: Город отправки
           allOf:
-            - $ref: "#/components/schemas/CalculateDeliveryPointDto"
+            - $ref: '#/components/schemas/CalculateDeliveryPointDto'
         receiverPoint:
           description: Город получения
           allOf:
-            - $ref: "#/components/schemas/CalculateDeliveryPointDto"
+            - $ref: '#/components/schemas/CalculateDeliveryPointDto'
       required:
         - package
         - senderPoint
         - receiverPoint
+    DeliveryOptionType:
+      type: string
+      enum:
+        - default
+        - express
+      description: Тип доставки
     DeliveryOption:
       type: object
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Индентификатор опции доставки
         price:
           type: number
@@ -1671,12 +1689,10 @@ components:
           example: name
           description: Название опции отправки
         type:
-          type: string
-          example: type
+          example: default
           description: Тип доставки
-          enum:
-            - DEFAULT
-            - EXPRESS
+          allOf:
+            - $ref: '#/components/schemas/DeliveryOptionType'
       required:
         - id
         - price
@@ -1696,7 +1712,7 @@ components:
           description: Опции доставки
           type: array
           items:
-            $ref: "#/components/schemas/DeliveryOption"
+            $ref: '#/components/schemas/DeliveryOption'
       required:
         - success
         - options
@@ -1740,7 +1756,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
@@ -1772,6 +1788,12 @@ components:
         - street
         - house
         - apartment
+    Payer:
+      type: string
+      enum:
+        - receiver
+        - sender
+      description: Кто будет оплачивать
     CreateDeliveryOrderDto:
       type: object
       properties:
@@ -1779,39 +1801,37 @@ components:
           type: string
           description: Идентификатор типа посылки
         optionType:
-          type: string
           description: Тип заказа
-          enum:
-            - DEFAULT
-            - EXPRESS
+          example: default
+          allOf:
+            - $ref: '#/components/schemas/DeliveryOptionType'
         senderPointId:
           type: string
           description: Идентификатор города отправки
         senderAddress:
           description: Адрес отправителя
           allOf:
-            - $ref: "#/components/schemas/CreateDeliveryOrderSenderAddressDto"
+            - $ref: '#/components/schemas/CreateDeliveryOrderSenderAddressDto'
         sender:
           description: Отправитель
           allOf:
-            - $ref: "#/components/schemas/CreateDeliveryOrderPersonDto"
+            - $ref: '#/components/schemas/CreateDeliveryOrderPersonDto'
         receiverPointId:
           type: string
           description: Идентификатор города получения
         receiverAddress:
           description: Адрес получателя
           allOf:
-            - $ref: "#/components/schemas/CreateDeliveryOrderReceiverAddressDto"
+            - $ref: '#/components/schemas/CreateDeliveryOrderReceiverAddressDto'
         receiver:
           description: Получатель
           allOf:
-            - $ref: "#/components/schemas/CreateDeliveryOrderPersonDto"
+            - $ref: '#/components/schemas/CreateDeliveryOrderPersonDto'
         payer:
-          type: string
           description: Кто будет оплачивать
-          enum:
-            - RECEIVER
-            - SENDER
+          example: sender
+          allOf:
+            - $ref: '#/components/schemas/Payer'
       required:
         - packageId
         - optionType
@@ -1863,7 +1883,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
@@ -1897,6 +1917,15 @@ components:
         - house
         - apartment
         - comment
+    DeliveryStatus:
+      type: string
+      enum:
+        - in_processing
+        - waiting_courier
+        - on_my_way
+        - success
+        - canceled
+      description: Статус доставки
     DeliveryOrder:
       type: object
       properties:
@@ -1909,52 +1938,46 @@ components:
         package:
           description: Тип посылки
           allOf:
-            - $ref: "#/components/schemas/DeliveryPackageType"
+            - $ref: '#/components/schemas/DeliveryPackageType'
         option:
-          type: string
           description: Тип доставки
-          enum:
-            - DEFAULT
-            - EXPRESS
+          example: default
+          allOf:
+            - $ref: '#/components/schemas/DeliveryOptionType'
         senderPoint:
           description: Город отправки
           allOf:
-            - $ref: "#/components/schemas/DeliveryPoint"
+            - $ref: '#/components/schemas/DeliveryPoint'
         senderAddress:
           description: Адрес отправителя
           allOf:
-            - $ref: "#/components/schemas/DeliverySenderAddress"
+            - $ref: '#/components/schemas/DeliverySenderAddress'
         sender:
           description: Отправитель
           allOf:
-            - $ref: "#/components/schemas/DeliveryPerson"
+            - $ref: '#/components/schemas/DeliveryPerson'
         receiverPoint:
           description: Город получения
           allOf:
-            - $ref: "#/components/schemas/DeliveryPoint"
+            - $ref: '#/components/schemas/DeliveryPoint'
         receiverAddress:
           description: Адрес получателя
           allOf:
-            - $ref: "#/components/schemas/DeliveryReceiverAddress"
+            - $ref: '#/components/schemas/DeliveryReceiverAddress'
         receiver:
           description: Получатель
           allOf:
-            - $ref: "#/components/schemas/DeliveryPerson"
+            - $ref: '#/components/schemas/DeliveryPerson'
         payer:
-          type: string
           description: Кто будет оплачивать
-          enum:
-            - RECEIVER
-            - SENDER
+          example: sender
+          allOf:
+            - $ref: '#/components/schemas/Payer'
         status:
-          type: number
           description: Статус доставки
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-            - 4
+          example: in_processing
+          allOf:
+            - $ref: '#/components/schemas/DeliveryStatus'
         cancellable:
           type: boolean
           description: Статус отмены
@@ -1984,7 +2007,7 @@ components:
         order:
           description: Доставка
           allOf:
-            - $ref: "#/components/schemas/DeliveryOrder"
+            - $ref: '#/components/schemas/DeliveryOrder'
       required:
         - success
         - order
@@ -2001,7 +2024,7 @@ components:
           description: Доставки
           type: array
           items:
-            $ref: "#/components/schemas/DeliveryOrder"
+            $ref: '#/components/schemas/DeliveryOrder'
       required:
         - success
         - orders
@@ -2017,7 +2040,7 @@ components:
         order:
           description: Доставка
           allOf:
-            - $ref: "#/components/schemas/DeliveryOrder"
+            - $ref: '#/components/schemas/DeliveryOrder'
       required:
         - success
         - order
@@ -2029,6 +2052,47 @@ components:
           description: Идентификатор доставки
       required:
         - orderId
+    Brand:
+      type: string
+      enum:
+        - haval
+        - hyundai
+        - volkswagen
+        - kia
+        - geely
+        - mercedes
+        - garden_car
+        - grocery_cart
+        - haier
+        - invalid
+    BodyType:
+      type: string
+      enum:
+        - sedan
+        - suv
+        - coupe
+        - hatchback
+        - cabriolet
+    Color:
+      type: string
+      enum:
+        - black
+        - white
+        - red
+        - silver
+        - blue
+        - grey
+        - orange
+    Steering:
+      type: string
+      enum:
+        - left
+        - right
+    Transmission:
+      type: string
+      enum:
+        - automatic
+        - manual
     Media:
       type: object
       properties:
@@ -2046,36 +2110,26 @@ components:
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: ID автомобиля
         name:
           type: string
           example: Model X
           description: Название модели
         brand:
-          type: string
-          enum:
-            - Haval
-            - Hyundai
-            - Volkswagen
-            - Kia
-            - Geely
-            - Mercedes
-            - Garden car
-            - Grocery cart
-            - Haier
-            - Invalid
+          example: haval
           description: Марка автомобиля
+          allOf:
+            - $ref: '#/components/schemas/Brand'
         media:
           type: array
           items:
-            $ref: "#/components/schemas/Media"
+            $ref: '#/components/schemas/Media'
         transmission:
-          type: string
-          enum:
-            - automatic
-            - manual
+          example: automatic
           description: Тип коробки передач
+          allOf:
+            - $ref: '#/components/schemas/Transmission'
         price:
           type: number
           example: 15000
@@ -2085,31 +2139,20 @@ components:
           example: Москва, ул. Пушкина 10
           description: Местоположение
         color:
-          type: string
-          enum:
-            - black
-            - white
-            - red
-            - silver
-            - blue
-            - grey
-            - orange
+          example: black
           description: Цвет автомобиля
+          allOf:
+            - $ref: '#/components/schemas/Color'
         bodyType:
-          type: string
-          enum:
-            - sedan
-            - suv
-            - coupe
-            - hatchback
-            - cabriolet
+          example: sedan
           description: Тип кузова
+          allOf:
+            - $ref: '#/components/schemas/BodyType'
         steering:
-          type: string
-          enum:
-            - left
-            - right
+          example: left
           description: Расположение руля
+          allOf:
+            - $ref: '#/components/schemas/Steering'
       required:
         - id
         - name
@@ -2158,11 +2201,11 @@ components:
           description: Массив автомобилей с информацией
           type: array
           items:
-            $ref: "#/components/schemas/Car"
+            $ref: '#/components/schemas/Car'
         meta:
           description: Метаданные пагинации (общее количество, текущая страница и т.д.)
           allOf:
-            - $ref: "#/components/schemas/CarsPaginationMeta"
+            - $ref: '#/components/schemas/CarsPaginationMeta'
       required:
         - success
         - data
@@ -2186,36 +2229,26 @@ components:
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: ID автомобиля
         name:
           type: string
           example: Model X
           description: Название модели
         brand:
-          type: string
-          enum:
-            - Haval
-            - Hyundai
-            - Volkswagen
-            - Kia
-            - Geely
-            - Mercedes
-            - Garden car
-            - Grocery cart
-            - Haier
-            - Invalid
+          example: haval
           description: Марка автомобиля
+          allOf:
+            - $ref: '#/components/schemas/Brand'
         media:
           type: array
           items:
-            $ref: "#/components/schemas/Media"
+            $ref: '#/components/schemas/Media'
         transmission:
-          type: string
-          enum:
-            - automatic
-            - manual
+          example: automatic
           description: Тип коробки передач
+          allOf:
+            - $ref: '#/components/schemas/Transmission'
         price:
           type: number
           example: 15000
@@ -2225,36 +2258,25 @@ components:
           example: Москва, ул. Пушкина 10
           description: Местоположение
         color:
-          type: string
-          enum:
-            - black
-            - white
-            - red
-            - silver
-            - blue
-            - grey
-            - orange
+          example: black
           description: Цвет автомобиля
+          allOf:
+            - $ref: '#/components/schemas/Color'
         bodyType:
-          type: string
-          enum:
-            - sedan
-            - suv
-            - coupe
-            - hatchback
-            - cabriolet
+          example: sedan
           description: Тип кузова
+          allOf:
+            - $ref: '#/components/schemas/BodyType'
         steering:
-          type: string
-          enum:
-            - left
-            - right
+          example: left
           description: Расположение руля
+          allOf:
+            - $ref: '#/components/schemas/Steering'
         rents:
           description: Занятые промежутки дат (timestamp)
           type: array
           items:
-            $ref: "#/components/schemas/BookedDateRange"
+            $ref: '#/components/schemas/BookedDateRange'
       required:
         - id
         - name
@@ -2279,7 +2301,7 @@ components:
         data:
           description: Данные автомобиля с арендованными датами
           allOf:
-            - $ref: "#/components/schemas/CarWithRents"
+            - $ref: '#/components/schemas/CarWithRents'
       required:
         - success
         - data
@@ -2328,7 +2350,7 @@ components:
           description: Email арендатора
         phone:
           type: string
-          example: "79876543210"
+          example: '79876543210'
           description: Телефон арендатора в формате 7XXXXXXXXXX
         comment:
           type: string
@@ -2345,6 +2367,13 @@ components:
         - birthDate
         - email
         - phone
+    CarRentStatus:
+      type: string
+      enum:
+        - active
+        - booked
+        - cancelled
+      description: Статус брони
     CarRent:
       type: object
       properties:
@@ -2353,9 +2382,9 @@ components:
           description: ID заказа
         carInfo:
           example:
-            id: "12"
+            id: '12'
             name: Kia Rio 1.4 AT
-            brand: Kia
+            brand: kia
             img: /static/images/cars/kia-rio-black.webp
             transmission: manual
             price: 3100
@@ -2365,14 +2394,12 @@ components:
             steering: left
           description: Информация об автомобиле
           allOf:
-            - $ref: "#/components/schemas/Car"
+            - $ref: '#/components/schemas/Car'
         status:
-          type: number
-          example: "0"
+          example: booked
           description: Статус брони
-          enum:
-            - 0
-            - 1
+          allOf:
+            - $ref: '#/components/schemas/CarRentStatus'
         pickupLocation:
           type: string
           example: Москва, ул. Ленина, 1
@@ -2415,7 +2442,7 @@ components:
           description: Email арендатора
         phone:
           type: string
-          example: "79991234567"
+          example: '79991234567'
           description: Телефон арендатора (совпадает с номером пользователя)
         comment:
           type: string
@@ -2447,7 +2474,7 @@ components:
         rent:
           description: Аренда
           allOf:
-            - $ref: "#/components/schemas/CarRent"
+            - $ref: '#/components/schemas/CarRent'
       required:
         - success
         - rent
@@ -2464,7 +2491,7 @@ components:
           description: Аренды
           type: array
           items:
-            $ref: "#/components/schemas/CarRent"
+            $ref: '#/components/schemas/CarRent'
       required:
         - success
         - rents
@@ -2476,12 +2503,26 @@ components:
           description: Идентификатор аренды
       required:
         - carRentId
+    GameGenre:
+      type: string
+      enum:
+        - action
+        - adventure
+        - rpg
+        - strategy
+        - shooter
+        - simulation
+        - survival
+        - sports
+        - racing
+        - indie
+        - horror
     Game:
       type: object
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: ID игры
         name:
           type: string
@@ -2493,7 +2534,7 @@ components:
           description: Slug игры
         externalId:
           type: string
-          example: "1517290"
+          example: '1517290'
           description: Внешний ID (Steam/KupiKod)
         year:
           type: number
@@ -2501,21 +2542,12 @@ components:
           description: Год релиза
         genres:
           type: array
+          example:
+            - action
+            - rpg
           description: Жанры игры
           items:
-            type: string
-            enum:
-              - action
-              - adventure
-              - rpg
-              - strategy
-              - shooter
-              - simulation
-              - survival
-              - sports
-              - racing
-              - indie
-              - horror
+            $ref: '#/components/schemas/GameGenre'
         description:
           type: string
           example: Онлайн-шутер с масштабными сражениями.
@@ -2583,11 +2615,11 @@ components:
           description: Список игр
           type: array
           items:
-            $ref: "#/components/schemas/Game"
+            $ref: '#/components/schemas/Game'
         meta:
           description: Пагинация
           allOf:
-            - $ref: "#/components/schemas/GamesPaginationMeta"
+            - $ref: '#/components/schemas/GamesPaginationMeta'
       required:
         - success
         - data
@@ -2605,7 +2637,7 @@ components:
           description: Результаты поиска игр
           type: array
           items:
-            $ref: "#/components/schemas/Game"
+            $ref: '#/components/schemas/Game'
       required:
         - success
         - data
@@ -2621,7 +2653,7 @@ components:
         data:
           description: Игра
           allOf:
-            - $ref: "#/components/schemas/Game"
+            - $ref: '#/components/schemas/Game'
       required:
         - success
         - data
@@ -2642,7 +2674,7 @@ components:
           description: Отчество пользователя
         phone:
           type: string
-          example: "79990001122"
+          example: '79990001122'
           description: Телефон пользователя
         email:
           type: string
@@ -2661,7 +2693,7 @@ components:
         person:
           description: Данные покупателя
           allOf:
-            - $ref: "#/components/schemas/CreateGameOrderPersonDto"
+            - $ref: '#/components/schemas/CreateGameOrderPersonDto'
         debitCard:
           type: string
           example: 2202 2063 8908 5954
@@ -2687,7 +2719,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "79990001122"
+          example: '79990001122'
           description: Телефон
         email:
           type: string
@@ -2702,7 +2734,7 @@ components:
       properties:
         gameId:
           type: string
-          example: "1"
+          example: '1'
           description: ID игры
         name:
           type: string
@@ -2718,7 +2750,7 @@ components:
           description: Цена на момент заказа
         externalId:
           type: string
-          example: "1517290"
+          example: '1517290'
           description: Внешний ID
       required:
         - gameId
@@ -2726,6 +2758,12 @@ components:
         - image
         - price
         - externalId
+    GameOrderStatus:
+      type: string
+      enum:
+        - paid
+        - canceled
+      description: Статус заказа
     GameOrder:
       type: object
       properties:
@@ -2735,21 +2773,20 @@ components:
         person:
           description: Данные покупателя
           allOf:
-            - $ref: "#/components/schemas/GameOrderPerson"
+            - $ref: '#/components/schemas/GameOrderPerson'
         gameSnapshot:
           description: Снимок игры на момент заказа
           allOf:
-            - $ref: "#/components/schemas/GameOrderSnapshot"
+            - $ref: '#/components/schemas/GameOrderSnapshot'
         gameKey:
           type: string
           example: XXXX-YYYY-ZZZZ
           description: Сгенерированный игровой ключ
         status:
-          type: string
-          enum:
-            - paid
-            - canceled
+          example: paid
           description: Статус заказа
+          allOf:
+            - $ref: '#/components/schemas/GameOrderStatus'
       required:
         - _id
         - person
@@ -2768,7 +2805,7 @@ components:
         order:
           description: Заказ на игру
           allOf:
-            - $ref: "#/components/schemas/GameOrder"
+            - $ref: '#/components/schemas/GameOrder'
       required:
         - success
         - order
@@ -2785,7 +2822,7 @@ components:
           description: Заказы пользователя
           type: array
           items:
-            $ref: "#/components/schemas/GameOrder"
+            $ref: '#/components/schemas/GameOrder'
       required:
         - success
         - orders
@@ -2801,35 +2838,40 @@ components:
         order:
           description: Заказ
           allOf:
-            - $ref: "#/components/schemas/GameOrder"
+            - $ref: '#/components/schemas/GameOrder'
       required:
         - success
         - order
+    Ingredient:
+      type: string
+      enum:
+        - pineapple
+        - mozzarella
+        - pepperoni
+        - green_pepper
+        - mushrooms
+        - basil
+        - cheddar
+        - parmesan
+        - feta
+        - ham
+        - pickle
+        - tomato
+        - bacon
+        - onion
+        - chile
+        - shrimp
+        - chicken_fillet
+        - meatballs
+      description: Идентификатор ингредиента
     PizzaIngredient:
       type: object
       properties:
         type:
-          type: string
-          enum:
-            - PINEAPPLE
-            - MOZZARELLA
-            - PEPERONI
-            - GREEN_PEPPER
-            - MUSHROOMS
-            - BASIL
-            - CHEDDAR
-            - PARMESAN
-            - FETA
-            - HAM
-            - PICKLE
-            - TOMATO
-            - BACON
-            - ONION
-            - CHILE
-            - SHRIMPS
-            - CHICKEN_FILLET
-            - MEATBALLS
+          example: pineapple
           description: Идентификатор ингредиента
+          allOf:
+            - $ref: '#/components/schemas/Ingredient'
         price:
           type: number
           description: Цена ингредиента
@@ -2840,31 +2882,41 @@ components:
         - type
         - price
         - img
+    Size:
+      type: string
+      enum:
+        - small
+        - medium
+        - large
+      description: Идентификатор размера пиццы
     PizzaSize:
       type: object
       properties:
         type:
-          type: string
-          enum:
-            - SMALL
-            - MEDIUM
-            - LARGE
+          example: small
           description: Идентификатор размера пиццы
+          allOf:
+            - $ref: '#/components/schemas/Size'
         price:
           type: number
           description: Цена пиццы
       required:
         - type
         - price
+    Dough:
+      type: string
+      enum:
+        - thin
+        - thick
+      description: Идентификатор типа теста
     PizzaDough:
       type: object
       properties:
         type:
-          type: string
-          enum:
-            - THIN
-            - THICK
+          example: thin
           description: Идентификатор типа теста
+          allOf:
+            - $ref: '#/components/schemas/Dough'
         price:
           type: number
           description: Цена теста
@@ -2876,7 +2928,7 @@ components:
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Идентификатор пиццы
         name:
           type: string
@@ -2885,12 +2937,12 @@ components:
           description: Ингредиенты
           type: array
           items:
-            $ref: "#/components/schemas/PizzaIngredient"
+            $ref: '#/components/schemas/PizzaIngredient'
         toppings:
           description: Топпинги
           type: array
           items:
-            $ref: "#/components/schemas/PizzaIngredient"
+            $ref: '#/components/schemas/PizzaIngredient'
         description:
           type: string
           description: Описание пиццы
@@ -2898,12 +2950,12 @@ components:
           description: Размеры пиццы
           type: array
           items:
-            $ref: "#/components/schemas/PizzaSize"
+            $ref: '#/components/schemas/PizzaSize'
         doughs:
           description: Тип теста
           type: array
           items:
-            $ref: "#/components/schemas/PizzaDough"
+            $ref: '#/components/schemas/PizzaDough'
         calories:
           type: number
           description: Количество калорий
@@ -2971,7 +3023,7 @@ components:
           description: Пиццы
           type: array
           items:
-            $ref: "#/components/schemas/Pizza"
+            $ref: '#/components/schemas/Pizza'
       required:
         - success
         - catalog
@@ -3015,7 +3067,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
@@ -3034,64 +3086,37 @@ components:
           description: Срок действие карты
         cvv:
           type: string
-          example: "111"
+          example: '111'
           description: Код карты
       required:
         - pan
         - expireDate
         - cvv
-    Ingredient:
-      type: string
-      enum:
-        - PINEAPPLE
-        - MOZZARELLA
-        - PEPERONI
-        - GREEN_PEPPER
-        - MUSHROOMS
-        - BASIL
-        - CHEDDAR
-        - PARMESAN
-        - FETA
-        - HAM
-        - PICKLE
-        - TOMATO
-        - BACON
-        - ONION
-        - CHILE
-        - SHRIMPS
-        - CHICKEN_FILLET
-        - MEATBALLS
-      description: Топпинги
     OrderedPizza:
       type: object
       properties:
         id:
           type: string
-          example: "1"
+          example: '1'
           description: Идентификатор пиццы
         toppings:
           type: array
           example:
-            - PINEAPPLE
-            - CHEDDAR
+            - pineapple
+            - chile
           description: Топпинги
           items:
-            $ref: "#/components/schemas/Ingredient"
+            $ref: '#/components/schemas/Ingredient'
         size:
-          type: string
-          example: SMALL
           description: Размер пиццы
-          enum:
-            - SMALL
-            - MEDIUM
-            - LARGE
+          example: small
+          allOf:
+            - $ref: '#/components/schemas/Size'
         dough:
-          type: string
-          example: THIN
           description: Тип теста
-          enum:
-            - THIN
-            - THICK
+          example: thin
+          allOf:
+            - $ref: '#/components/schemas/Dough'
       required:
         - id
         - toppings
@@ -3103,20 +3128,20 @@ components:
         receiverAddress:
           description: Адрес доставки
           allOf:
-            - $ref: "#/components/schemas/CreatePizzaPaymentAddressDto"
+            - $ref: '#/components/schemas/CreatePizzaPaymentAddressDto'
         person:
           description: Данные пользователя
           allOf:
-            - $ref: "#/components/schemas/CreatePizzaPaymentPersonDto"
+            - $ref: '#/components/schemas/CreatePizzaPaymentPersonDto'
         debitCard:
           description: Банковская карта
           allOf:
-            - $ref: "#/components/schemas/CreatePizzaPaymentDebitCardDto"
+            - $ref: '#/components/schemas/CreatePizzaPaymentDebitCardDto'
         pizzas:
           description: Пиццы
           type: array
           items:
-            $ref: "#/components/schemas/OrderedPizza"
+            $ref: '#/components/schemas/OrderedPizza'
       required:
         - receiverAddress
         - person
@@ -3139,7 +3164,7 @@ components:
           description: Отчество
         phone:
           type: string
-          example: "89990009999"
+          example: '89990009999'
           description: Телефон
       required:
         - firstname
@@ -3170,6 +3195,15 @@ components:
         - house
         - apartment
         - comment
+    PizzaStatus:
+      type: string
+      enum:
+        - in_processing
+        - waiting_courier
+        - on_my_way
+        - success
+        - canceled
+      description: Статус доставки
     PizzaOrder:
       type: object
       properties:
@@ -3180,27 +3214,23 @@ components:
           description: Пиццы
           type: array
           items:
-            $ref: "#/components/schemas/Pizza"
+            $ref: '#/components/schemas/Pizza'
         totalPrice:
           type: number
           description: Сумма заказа
         person:
           description: Данные пользователя
           allOf:
-            - $ref: "#/components/schemas/PizzaPerson"
+            - $ref: '#/components/schemas/PizzaPerson'
         receiverAddress:
           description: Адрес доставки
           allOf:
-            - $ref: "#/components/schemas/PizzaAddress"
+            - $ref: '#/components/schemas/PizzaAddress'
         status:
-          type: number
           description: Статус доставки
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-            - 4
+          example: in_processing
+          allOf:
+            - $ref: '#/components/schemas/PizzaStatus'
         cancellable:
           type: boolean
           description: Статус отмены
@@ -3224,7 +3254,7 @@ components:
         order:
           description: Доставка
           allOf:
-            - $ref: "#/components/schemas/PizzaOrder"
+            - $ref: '#/components/schemas/PizzaOrder'
       required:
         - success
         - order
@@ -3241,7 +3271,7 @@ components:
           description: Доставки
           type: array
           items:
-            $ref: "#/components/schemas/PizzaOrder"
+            $ref: '#/components/schemas/PizzaOrder'
       required:
         - success
         - orders
@@ -3257,7 +3287,7 @@ components:
         order:
           description: Доставки
           allOf:
-            - $ref: "#/components/schemas/PizzaOrder"
+            - $ref: '#/components/schemas/PizzaOrder'
       required:
         - success
         - order

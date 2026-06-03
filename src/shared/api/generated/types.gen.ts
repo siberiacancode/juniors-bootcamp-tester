@@ -144,6 +144,11 @@ export type SessionResponse = {
     user: User;
 };
 
+/**
+ * Список профессий
+ */
+export type Profession = 'actor' | 'director';
+
 export type FilmStaff = {
     /**
      * Идентификатор персоны
@@ -152,7 +157,7 @@ export type FilmStaff = {
     /**
      * Список профессий
      */
-    professions: 'ACTOR' | 'DIRECTOR';
+    professions: Array<Profession>;
     /**
      * Полное имя персоны
      */
@@ -162,6 +167,11 @@ export type FilmStaff = {
      */
     photo: string;
 };
+
+/**
+ * Возрастное ограничение
+ */
+export type Rating = 'g' | 'pg' | 'pg13' | 'r' | 'nc17';
 
 export type FilmUserRating = {
     /**
@@ -217,7 +227,7 @@ export type Film = {
     /**
      * Возрастное ограничение
      */
-    ageRating: 'G' | 'PG' | 'PG13' | 'R' | 'NC17';
+    ageRating: Rating;
     genres: Array<string>;
     /**
      * Рейтинг пользователей
@@ -401,6 +411,11 @@ export type CinemaTicketSeance = {
     time: string;
 };
 
+/**
+ * Статус билета
+ */
+export type CinemaTicketStatus = 'paid' | 'cancelled';
+
 export type CinemaTicket = {
     /**
      * ID билета
@@ -433,7 +448,7 @@ export type CinemaTicket = {
     /**
      * Статус билета
      */
-    status: 'PAYED' | 'CANCELED';
+    status: CinemaTicketStatus;
 };
 
 export type FilmPerson = {
@@ -454,6 +469,11 @@ export type FilmPerson = {
      */
     phone: string;
 };
+
+/**
+ * Статус заказа
+ */
+export type CinemaOrderStatus = 'paid' | 'canceled';
 
 export type CinemaOrder = {
     /**
@@ -479,7 +499,7 @@ export type CinemaOrder = {
     /**
      * Статус заказа
      */
-    status: 'PAYED' | 'CANCELED';
+    status: CinemaOrderStatus;
 };
 
 export type PaymentResponse = {
@@ -651,6 +671,11 @@ export type CalculateDeliveryDto = {
     receiverPoint: CalculateDeliveryPointDto;
 };
 
+/**
+ * Тип доставки
+ */
+export type DeliveryOptionType = 'default' | 'express';
+
 export type DeliveryOption = {
     /**
      * Индентификатор опции доставки
@@ -671,7 +696,7 @@ export type DeliveryOption = {
     /**
      * Тип доставки
      */
-    type: 'DEFAULT' | 'EXPRESS';
+    type: DeliveryOptionType;
 };
 
 export type CalculateDeliveryResponse = {
@@ -750,6 +775,11 @@ export type CreateDeliveryOrderReceiverAddressDto = {
     isNonContact?: boolean;
 };
 
+/**
+ * Кто будет оплачивать
+ */
+export type Payer = 'receiver' | 'sender';
+
 export type CreateDeliveryOrderDto = {
     /**
      * Идентификатор типа посылки
@@ -758,7 +788,7 @@ export type CreateDeliveryOrderDto = {
     /**
      * Тип заказа
      */
-    optionType: 'DEFAULT' | 'EXPRESS';
+    optionType: DeliveryOptionType;
     /**
      * Идентификатор города отправки
      */
@@ -786,7 +816,7 @@ export type CreateDeliveryOrderDto = {
     /**
      * Кто будет оплачивать
      */
-    payer: 'RECEIVER' | 'SENDER';
+    payer: Payer;
 };
 
 export type DeliverySenderAddress = {
@@ -850,6 +880,11 @@ export type DeliveryReceiverAddress = {
     isNonContact?: boolean;
 };
 
+/**
+ * Статус доставки
+ */
+export type DeliveryStatus = 'in_processing' | 'waiting_courier' | 'on_my_way' | 'success' | 'canceled';
+
 export type DeliveryOrder = {
     /**
      * ID заказа
@@ -866,7 +901,7 @@ export type DeliveryOrder = {
     /**
      * Тип доставки
      */
-    option: 'DEFAULT' | 'EXPRESS';
+    option: DeliveryOptionType;
     /**
      * Город отправки
      */
@@ -894,11 +929,11 @@ export type DeliveryOrder = {
     /**
      * Кто будет оплачивать
      */
-    payer: 'RECEIVER' | 'SENDER';
+    payer: Payer;
     /**
      * Статус доставки
      */
-    status: 0 | 1 | 2 | 3 | 4;
+    status: DeliveryStatus;
     /**
      * Статус отмены
      */
@@ -957,6 +992,16 @@ export type CancelDeliveryOrderDto = {
     orderId: string;
 };
 
+export type Brand = 'haval' | 'hyundai' | 'volkswagen' | 'kia' | 'geely' | 'mercedes' | 'garden_car' | 'grocery_cart' | 'haier' | 'invalid';
+
+export type BodyType = 'sedan' | 'suv' | 'coupe' | 'hatchback' | 'cabriolet';
+
+export type Color = 'black' | 'white' | 'red' | 'silver' | 'blue' | 'grey' | 'orange';
+
+export type Steering = 'left' | 'right';
+
+export type Transmission = 'automatic' | 'manual';
+
 export type Media = {
     url: string;
     isCover: boolean;
@@ -974,12 +1019,12 @@ export type Car = {
     /**
      * Марка автомобиля
      */
-    brand: 'Haval' | 'Hyundai' | 'Volkswagen' | 'Kia' | 'Geely' | 'Mercedes' | 'Garden car' | 'Grocery cart' | 'Haier' | 'Invalid';
+    brand: Brand;
     media: Array<Media>;
     /**
      * Тип коробки передач
      */
-    transmission: 'automatic' | 'manual';
+    transmission: Transmission;
     /**
      * Цена аренды в сутки
      */
@@ -991,15 +1036,15 @@ export type Car = {
     /**
      * Цвет автомобиля
      */
-    color: 'black' | 'white' | 'red' | 'silver' | 'blue' | 'grey' | 'orange';
+    color: Color;
     /**
      * Тип кузова
      */
-    bodyType: 'sedan' | 'suv' | 'coupe' | 'hatchback' | 'cabriolet';
+    bodyType: BodyType;
     /**
      * Расположение руля
      */
-    steering: 'left' | 'right';
+    steering: Steering;
 };
 
 export type CarsPaginationMeta = {
@@ -1063,12 +1108,12 @@ export type CarWithRents = {
     /**
      * Марка автомобиля
      */
-    brand: 'Haval' | 'Hyundai' | 'Volkswagen' | 'Kia' | 'Geely' | 'Mercedes' | 'Garden car' | 'Grocery cart' | 'Haier' | 'Invalid';
+    brand: Brand;
     media: Array<Media>;
     /**
      * Тип коробки передач
      */
-    transmission: 'automatic' | 'manual';
+    transmission: Transmission;
     /**
      * Цена аренды в сутки
      */
@@ -1080,15 +1125,15 @@ export type CarWithRents = {
     /**
      * Цвет автомобиля
      */
-    color: 'black' | 'white' | 'red' | 'silver' | 'blue' | 'grey' | 'orange';
+    color: Color;
     /**
      * Тип кузова
      */
-    bodyType: 'sedan' | 'suv' | 'coupe' | 'hatchback' | 'cabriolet';
+    bodyType: BodyType;
     /**
      * Расположение руля
      */
-    steering: 'left' | 'right';
+    steering: Steering;
     /**
      * Занятые промежутки дат (timestamp)
      */
@@ -1161,6 +1206,11 @@ export type CreateRentDto = {
     comment?: string;
 };
 
+/**
+ * Статус брони
+ */
+export type CarRentStatus = 'active' | 'booked' | 'cancelled';
+
 export type CarRent = {
     /**
      * ID заказа
@@ -1173,7 +1223,7 @@ export type CarRent = {
     /**
      * Статус брони
      */
-    status: 0 | 1;
+    status: CarRentStatus;
     /**
      * Место получения автомобиля
      */
@@ -1261,6 +1311,8 @@ export type CancelCarRentDto = {
     carRentId: string;
 };
 
+export type GameGenre = 'action' | 'adventure' | 'rpg' | 'strategy' | 'shooter' | 'simulation' | 'survival' | 'sports' | 'racing' | 'indie' | 'horror';
+
 export type Game = {
     /**
      * ID игры
@@ -1285,7 +1337,7 @@ export type Game = {
     /**
      * Жанры игры
      */
-    genres: Array<'action' | 'adventure' | 'rpg' | 'strategy' | 'shooter' | 'simulation' | 'survival' | 'sports' | 'racing' | 'indie' | 'horror'>;
+    genres: Array<GameGenre>;
     /**
      * Описание игры
      */
@@ -1460,6 +1512,11 @@ export type GameOrderSnapshot = {
     externalId: string;
 };
 
+/**
+ * Статус заказа
+ */
+export type GameOrderStatus = 'paid' | 'canceled';
+
 export type GameOrder = {
     /**
      * ID заказа
@@ -1480,7 +1537,7 @@ export type GameOrder = {
     /**
      * Статус заказа
      */
-    status: 'paid' | 'canceled';
+    status: GameOrderStatus;
 };
 
 export type CreateGameOrderResponse = {
@@ -1528,11 +1585,16 @@ export type GameOrderResponse = {
     order: GameOrder;
 };
 
+/**
+ * Идентификатор ингредиента
+ */
+export type Ingredient = 'pineapple' | 'mozzarella' | 'pepperoni' | 'green_pepper' | 'mushrooms' | 'basil' | 'cheddar' | 'parmesan' | 'feta' | 'ham' | 'pickle' | 'tomato' | 'bacon' | 'onion' | 'chile' | 'shrimp' | 'chicken_fillet' | 'meatballs';
+
 export type PizzaIngredient = {
     /**
      * Идентификатор ингредиента
      */
-    type: 'PINEAPPLE' | 'MOZZARELLA' | 'PEPERONI' | 'GREEN_PEPPER' | 'MUSHROOMS' | 'BASIL' | 'CHEDDAR' | 'PARMESAN' | 'FETA' | 'HAM' | 'PICKLE' | 'TOMATO' | 'BACON' | 'ONION' | 'CHILE' | 'SHRIMPS' | 'CHICKEN_FILLET' | 'MEATBALLS';
+    type: Ingredient;
     /**
      * Цена ингредиента
      */
@@ -1543,22 +1605,32 @@ export type PizzaIngredient = {
     img: string;
 };
 
+/**
+ * Идентификатор размера пиццы
+ */
+export type Size = 'small' | 'medium' | 'large';
+
 export type PizzaSize = {
     /**
      * Идентификатор размера пиццы
      */
-    type: 'SMALL' | 'MEDIUM' | 'LARGE';
+    type: Size;
     /**
      * Цена пиццы
      */
     price: number;
 };
 
+/**
+ * Идентификатор типа теста
+ */
+export type Dough = 'thin' | 'thick';
+
 export type PizzaDough = {
     /**
      * Идентификатор типа теста
      */
-    type: 'THIN' | 'THICK';
+    type: Dough;
     /**
      * Цена теста
      */
@@ -1708,11 +1780,6 @@ export type CreatePizzaPaymentDebitCardDto = {
     cvv: string;
 };
 
-/**
- * Топпинги
- */
-export type Ingredient = 'PINEAPPLE' | 'MOZZARELLA' | 'PEPERONI' | 'GREEN_PEPPER' | 'MUSHROOMS' | 'BASIL' | 'CHEDDAR' | 'PARMESAN' | 'FETA' | 'HAM' | 'PICKLE' | 'TOMATO' | 'BACON' | 'ONION' | 'CHILE' | 'SHRIMPS' | 'CHICKEN_FILLET' | 'MEATBALLS';
-
 export type OrderedPizza = {
     /**
      * Идентификатор пиццы
@@ -1725,11 +1792,11 @@ export type OrderedPizza = {
     /**
      * Размер пиццы
      */
-    size: 'SMALL' | 'MEDIUM' | 'LARGE';
+    size: Size;
     /**
      * Тип теста
      */
-    dough: 'THIN' | 'THICK';
+    dough: Dough;
 };
 
 export type CreatePizzaPaymentDto = {
@@ -1789,6 +1856,11 @@ export type PizzaAddress = {
     comment: string;
 };
 
+/**
+ * Статус доставки
+ */
+export type PizzaStatus = 'in_processing' | 'waiting_courier' | 'on_my_way' | 'success' | 'canceled';
+
 export type PizzaOrder = {
     /**
      * ID заказа
@@ -1813,7 +1885,7 @@ export type PizzaOrder = {
     /**
      * Статус доставки
      */
-    status: 0 | 1 | 2 | 3 | 4;
+    status: PizzaStatus;
     /**
      * Статус отмены
      */
@@ -2196,6 +2268,26 @@ export type CarsControllerGetCarsData = {
     path?: never;
     query?: {
         /**
+         * Марка автомобиля
+         */
+        brand?: Array<Brand>;
+        /**
+         * Тип кузова автомобиля
+         */
+        bodyType?: Array<BodyType>;
+        /**
+         * Цвет автомобиля
+         */
+        color?: Array<Color>;
+        /**
+         * Фильтр по типу рулевого управления
+         */
+        steering?: Array<Steering>;
+        /**
+         * Тип трансмиссии
+         */
+        transmission?: Array<Transmission>;
+        /**
          * Поиск
          */
         search?: string;
@@ -2207,22 +2299,6 @@ export type CarsControllerGetCarsData = {
          * Минимальная цена аренды
          */
         minPrice?: number;
-        /**
-         * Тип трансмиссии
-         */
-        transmission?: 'automatic' | 'manual';
-        /**
-         * Тип кузова автомобиля
-         */
-        bodyType?: 'sedan' | 'suv' | 'coupe' | 'hatchback' | 'cabriolet';
-        /**
-         * Марка автомобиля
-         */
-        brand?: 'Haval' | 'Hyundai' | 'Volkswagen' | 'Kia' | 'Geely' | 'Mercedes' | 'Garden car' | 'Grocery cart' | 'Haier' | 'Invalid';
-        /**
-         * Цвет автомобиля
-         */
-        color?: 'black' | 'white' | 'red' | 'silver' | 'blue' | 'grey' | 'orange';
         /**
          * Количество элементов на странице (по умолчанию 10)
          */
@@ -2345,13 +2421,17 @@ export type GamesControllerGetGamesData = {
     path?: never;
     query?: {
         /**
-         * Год релиза
+         * Минимальный год релиза
          */
-        year?: Array<number>;
+        minYear?: number;
+        /**
+         * Максимальный год релиза
+         */
+        maxYear?: number;
         /**
          * Жанр
          */
-        genre?: Array<'action'>;
+        genre?: Array<GameGenre>;
         /**
          * Поиск
          */
