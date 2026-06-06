@@ -634,14 +634,14 @@ paths:
       summary: Поиск по играм
       tags:
         - 🎮 games
-  /api/games/info/{gameId}:
+  /api/games/info/{slug}:
     get:
       operationId: GamesController_getGame
       parameters:
-        - name: gameId
+        - name: slug
           required: true
           in: path
-          description: ID игры
+          description: Slug игры
           schema:
             type: string
       responses:
@@ -833,7 +833,7 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: ''
+  - url: https://juniors-bootcamp.ru/
 components:
   securitySchemes:
     bearer:
@@ -2517,29 +2517,83 @@ components:
         - racing
         - indie
         - horror
-    Game:
+    Region:
+      type: string
+      enum:
+        - ru
+        - kz
+        - by
+        - ua
+        - pl
+        - tr
+        - all_world
+        - europe
+        - asia
+      description: Регион
+    DeliveryType:
+      type: string
+      enum:
+        - steam_key
+        - epic_key
+        - steam_gift
+        - nintendo_key
+        - xbox_key
+        - playstation_key
+      description: Способ получения
+    PriceVariant:
       type: object
       properties:
         id:
           type: string
           example: '1'
-          description: ID игры
-        name:
+          description: ID варианта цены
+        region:
+          example: europe
+          description: Регион
+          allOf:
+            - $ref: '#/components/schemas/Region'
+        price:
+          type: number
+          example: 968
+          description: Текущая цена
+        oldPrice:
+          type: number
+          example: 2688
+          description: Старая цена
+        deliveryType:
+          example: steam_key
+          description: Способ получения
+          allOf:
+            - $ref: '#/components/schemas/DeliveryType'
+        edition:
           type: string
-          example: Battlefield 2042
-          description: Название игры
+          example: Deluxe
+          description: Издание
+      required:
+        - id
+        - region
+        - price
+        - deliveryType
+        - edition
+    Game:
+      type: object
+      properties:
         slug:
           type: string
           example: battlefield-2042
           description: Slug игры
+        name:
+          type: string
+          example: Battlefield 2042
+          description: Название игры
         externalId:
           type: string
           example: '1517290'
           description: Внешний ID (Steam/KupiKod)
-        year:
+        releaseDate:
           type: number
-          example: 2021
-          description: Год релиза
+          example: 1637280000
+          description: Дата релиза
         genres:
           type: array
           example:
@@ -2556,28 +2610,24 @@ components:
           type: string
           example: /static/images/games/cs2.webp
           description: Изображение игры
-        price:
-          type: number
-          example: 968
-          description: Текущая цена
-        oldPrice:
-          type: number
-          example: 2688
-          description: Старая цена
+        priceVariants:
+          description: Варианты цен
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceVariant'
         rating:
           type: number
           example: 57.78
           description: Рейтинг положительных отзывов
       required:
-        - id
-        - name
         - slug
+        - name
         - externalId
-        - year
+        - releaseDate
         - genres
         - description
         - image
-        - price
+        - priceVariants
     GamesPaginationMeta:
       type: object
       properties:
@@ -2660,18 +2710,6 @@ components:
     CreateGameOrderPersonDto:
       type: object
       properties:
-        firstName:
-          type: string
-          example: Иван
-          description: Имя пользователя
-        lastName:
-          type: string
-          example: Иванов
-          description: Фамилия пользователя
-        middleName:
-          type: string
-          example: Иванович
-          description: Отчество пользователя
         phone:
           type: string
           example: '79990001122'
@@ -2681,15 +2719,18 @@ components:
           example: example@mail.com
           description: Email пользователя
       required:
-        - firstName
-        - lastName
         - phone
     CreateGameOrderDto:
       type: object
       properties:
-        gameId:
+        gameSlug:
           type: string
-          description: ID игры для покупки
+          example: battlefield-2042
+          description: Slug игры
+        priceVariantId:
+          type: string
+          example: bf2042-1
+          description: ID варианта цены
         person:
           description: Данные покупателя
           allOf:
@@ -2699,24 +2740,13 @@ components:
           example: 2202 2063 8908 5954
           description: Дебетовая карта для оплаты
       required:
-        - gameId
+        - gameSlug
+        - priceVariantId
         - person
         - debitCard
     GameOrderPerson:
       type: object
       properties:
-        firstName:
-          type: string
-          example: Иван
-          description: Имя
-        lastName:
-          type: string
-          example: Иванов
-          description: Фамилия
-        middleName:
-          type: string
-          example: Иванович
-          description: Отчество
         phone:
           type: string
           example: '79990001122'
@@ -2726,16 +2756,15 @@ components:
           example: user@mail.com
           description: Email
       required:
-        - firstName
-        - lastName
         - phone
+        - email
     GameOrderSnapshot:
       type: object
       properties:
-        gameId:
+        slug:
           type: string
-          example: '1'
-          description: ID игры
+          example: battlefield-2042
+          description: Slug игры
         name:
           type: string
           example: Battlefield 2042
@@ -2744,19 +2773,36 @@ components:
           type: string
           example: /static/images/pizza/1.webp
           description: Картинка игры
+        region:
+          example: europe
+          description: Регион
+          allOf:
+            - $ref: '#/components/schemas/Region'
         price:
           type: number
           example: 968
-          description: Цена на момент заказа
+          description: Текущая цена
+        deliveryType:
+          example: steam_key
+          description: Способ получения
+          allOf:
+            - $ref: '#/components/schemas/DeliveryType'
+        edition:
+          type: string
+          example: Deluxe
+          description: Издание
         externalId:
           type: string
           example: '1517290'
           description: Внешний ID
       required:
-        - gameId
+        - slug
         - name
         - image
+        - region
         - price
+        - deliveryType
+        - edition
         - externalId
     GameOrderStatus:
       type: string

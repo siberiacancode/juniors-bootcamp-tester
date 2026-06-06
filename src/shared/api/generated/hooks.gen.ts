@@ -4,7 +4,7 @@ import { useQuery, useMutation, queryOptions, useSuspenseQuery } from "@tanstack
 
 import type { TanstackQuerySettings, TanstackMutationSettings, TanstackSuspenseQuerySettings } from "@siberiacancode/apicraft";
 
-import { getOtps, postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getCinemaFilms, getCinemaFilmByFilmId, getCinemaFilmByFilmIdSchedule, postCinemaPayment, getCinemaOrders, putCinemaOrdersCancel, getDeliveryPoints, getDeliveryPackageTypes, postDeliveryCalc, postDeliveryOrder, getDeliveryOrders, getDeliveryOrderByOrderId, putDeliveryOrdersCancel, getCarsInfo, getCarsInfoByCarId, getCarsRent, postCarsRent, getCarsRentByCarRentId, putCarsRentCancel, getGamesInfo, getGamesSearch, getGamesInfoByGameId, postGamesOrder, getGamesOrders, getGamesOrderByOrderId, getPizzaCatalog, postPizzaPayment, getPizzaOrders, getPizzaOrderByOrderId, putPizzaOrdersCancel } from "./requests.gen";
+import { getOtps, postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getCinemaFilms, getCinemaFilmByFilmId, getCinemaFilmByFilmIdSchedule, postCinemaPayment, getCinemaOrders, putCinemaOrdersCancel, getDeliveryPoints, getDeliveryPackageTypes, postDeliveryCalc, postDeliveryOrder, getDeliveryOrders, getDeliveryOrderByOrderId, putDeliveryOrdersCancel, getCarsInfo, getCarsInfoByCarId, getCarsRent, postCarsRent, getCarsRentByCarRentId, putCarsRentCancel, getGamesInfo, getGamesSearch, getGamesInfoBySlug, postGamesOrder, getGamesOrders, getGamesOrderByOrderId, getPizzaCatalog, postPizzaPayment, getPizzaOrders, getPizzaOrderByOrderId, putPizzaOrdersCancel } from "./requests.gen";
 
 export const getOtpsQueryKey = "getOtpsQueryKey";
 
@@ -734,33 +734,33 @@ export const getGamesSearchSuspenseQueryOptions = (settings: TanstackSuspenseQue
 
 export const useGetGamesSearchSuspenseQuery = (...args: Parameters<typeof getGamesSearchSuspenseQueryOptions>) => useSuspenseQuery(getGamesSearchSuspenseQueryOptions(...args));
 
-export const getGamesInfoByGameIdQueryKey = "getGamesInfoByGameIdQueryKey";
+export const getGamesInfoBySlugQueryKey = "getGamesInfoBySlugQueryKey";
 
-export const getGamesInfoByGameIdQueryOptions = (settings: TanstackQuerySettings<typeof getGamesInfoByGameId>) => queryOptions({
-    queryKey: [getGamesInfoByGameIdQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
-    queryFn: async () => getGamesInfoByGameId({ ...settings.request }),
+export const getGamesInfoBySlugQueryOptions = (settings: TanstackQuerySettings<typeof getGamesInfoBySlug>) => queryOptions({
+    queryKey: [getGamesInfoBySlugQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesInfoBySlug({ ...settings.request }),
     ...settings.params
 });
 
-export const useGetGamesInfoByGameIdQuery = (...args: Parameters<typeof getGamesInfoByGameIdQueryOptions>) => useQuery(getGamesInfoByGameIdQueryOptions(...args));
+export const useGetGamesInfoBySlugQuery = (...args: Parameters<typeof getGamesInfoBySlugQueryOptions>) => useQuery(getGamesInfoBySlugQueryOptions(...args));
 
-export const getGamesInfoByGameIdMutationKey = "getGamesInfoByGameIdMutationKey";
+export const getGamesInfoBySlugMutationKey = "getGamesInfoBySlugMutationKey";
 
-export const useGetGamesInfoByGameIdMutation = (settings?: TanstackMutationSettings<typeof getGamesInfoByGameId>) => useMutation({
-    mutationKey: [getGamesInfoByGameIdMutationKey],
-    mutationFn: async (params) => getGamesInfoByGameId({ ...settings?.request, ...params }),
+export const useGetGamesInfoBySlugMutation = (settings?: TanstackMutationSettings<typeof getGamesInfoBySlug>) => useMutation({
+    mutationKey: [getGamesInfoBySlugMutationKey],
+    mutationFn: async (params) => getGamesInfoBySlug({ ...settings?.request, ...params }),
     ...settings?.params
 });
 
-export const getGamesInfoByGameIdSuspenseQueryKey = "getGamesInfoByGameIdSuspenseQueryKey";
+export const getGamesInfoBySlugSuspenseQueryKey = "getGamesInfoBySlugSuspenseQueryKey";
 
-export const getGamesInfoByGameIdSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesInfoByGameId>) => queryOptions({
-    queryKey: [getGamesInfoByGameIdSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
-    queryFn: async () => getGamesInfoByGameId({ ...settings.request }),
+export const getGamesInfoBySlugSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesInfoBySlug>) => queryOptions({
+    queryKey: [getGamesInfoBySlugSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesInfoBySlug({ ...settings.request }),
     ...settings.params
 });
 
-export const useGetGamesInfoByGameIdSuspenseQuery = (...args: Parameters<typeof getGamesInfoByGameIdSuspenseQueryOptions>) => useSuspenseQuery(getGamesInfoByGameIdSuspenseQueryOptions(...args));
+export const useGetGamesInfoBySlugSuspenseQuery = (...args: Parameters<typeof getGamesInfoBySlugSuspenseQueryOptions>) => useSuspenseQuery(getGamesInfoBySlugSuspenseQueryOptions(...args));
 
 export const postGamesOrderQueryKey = "postGamesOrderQueryKey";
 

@@ -9,7 +9,6 @@ import z from 'zod';
 import type { Game, GameGenre } from '@/shared/api/generated';
 
 import { getGamesInfo, getGamesInfoQueryKey, useGetGamesSearchQuery } from '@/shared/api/generated';
-import { MetacriticIcon } from '@/shared/components/icons/MetacriticIcon';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Checkbox } from '@/shared/components/ui/checkbox';
@@ -68,7 +67,8 @@ const DEFAULT_SEARCH: GameSearch = {
 };
 
 export const Route = createFileRoute('/(layout)/')({
-  component: RouteComponent,
+  // component: RouteComponent,
+  component: () => <div>Главная</div>,
   validateSearch: gameSearchSchema,
   search: {
     middlewares: [stripSearchParams(DEFAULT_SEARCH)]
@@ -242,53 +242,65 @@ function RouteComponent() {
               <Loader2Icon className='animate-spin' />
             </ComboboxStatus>
             <ComboboxList>
-              {(game: Game, index) => (
-                <Fragment key={game.id}>
-                  <ComboboxItem value={game.slug}>
-                    <Link
-                      params={{
-                        slug: game.slug
-                      }}
-                      className='flex h-12 w-full items-center justify-between gap-4'
-                      to='/games/$slug'
-                    >
-                      <div className='flex flex-1 items-center gap-2'>
-                        <img
-                          alt={game.name}
-                          className='aspect-video h-10 object-cover object-center grayscale'
-                          src={`https://juniorsbootcamp.ru/api${game.image}`}
-                        />
-                        <Typography as='span' variant='body-md'>
-                          {game.name}
-                        </Typography>
-                      </div>
-
-                      <div className='flex items-center gap-2'>
-                        {game.oldPrice && (
-                          <Badge className='px-2 py-1' variant='accent'>
-                            -{(((game.oldPrice - game.price) / game.oldPrice) * 100).toFixed(0)}%
-                          </Badge>
-                        )}
-                        <div className='flex flex-col items-end'>
-                          {game.oldPrice && (
-                            <Typography
-                              as='span'
-                              className='text-muted-fg line-through'
-                              variant='caption'
-                            >
-                              {game.oldPrice} ₽
-                            </Typography>
-                          )}
-                          <Typography as='span' variant='body-sm'>
-                            {game.price} ₽
+              {(game: Game, index) => {
+                const priceVariant = game.priceVariants.reduce(
+                  (min, current) => (current.price < min.price ? current : min),
+                  game.priceVariants[0]
+                );
+                return (
+                  <Fragment key={game.slug}>
+                    <ComboboxItem value={game.slug}>
+                      <Link
+                        params={{
+                          slug: game.slug
+                        }}
+                        className='flex h-12 w-full items-center justify-between gap-4'
+                        to='/games/$slug'
+                      >
+                        <div className='flex flex-1 items-center gap-2'>
+                          <img
+                            alt={game.name}
+                            className='aspect-video h-10 object-cover object-center grayscale'
+                            src={`https://juniorsbootcamp.ru/api${game.image}`}
+                          />
+                          <Typography as='span' variant='body-md'>
+                            {game.name}
                           </Typography>
                         </div>
-                      </div>
-                    </Link>
-                  </ComboboxItem>
-                  {index + 1 < Number(searchGames?.length) && <ComboboxSeparator />}
-                </Fragment>
-              )}
+
+                        <div className='flex items-center gap-2'>
+                          {priceVariant.oldPrice && (
+                            <Badge className='px-2 py-1' variant='accent'>
+                              -
+                              {(
+                                ((priceVariant.oldPrice - priceVariant.price) /
+                                  priceVariant.oldPrice) *
+                                100
+                              ).toFixed(0)}
+                              %
+                            </Badge>
+                          )}
+                          <div className='flex flex-col items-end'>
+                            {priceVariant.oldPrice && (
+                              <Typography
+                                as='span'
+                                className='text-muted-fg line-through'
+                                variant='caption'
+                              >
+                                {priceVariant.oldPrice} ₽
+                              </Typography>
+                            )}
+                            <Typography as='span' variant='body-sm'>
+                              {priceVariant.price} ₽
+                            </Typography>
+                          </div>
+                        </div>
+                      </Link>
+                    </ComboboxItem>
+                    {index + 1 < Number(searchGames?.length) && <ComboboxSeparator />}
+                  </Fragment>
+                );
+              }}
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
@@ -310,56 +322,57 @@ function RouteComponent() {
             <div className='grid w-full grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-4'>
               {gamesInfoQuery.data?.pages.map((group, i) => (
                 <Fragment key={i}>
-                  {group.data.data.map((game) => (
-                    <Link
-                      key={game.id}
-                      className='relative flex flex-col gap-2 rounded-24'
-                      params={{ slug: game.slug }}
-                      to='/games/$slug'
-                    >
-                      <img
-                        alt={game.name}
-                        className='aspect-video object-cover object-center grayscale'
-                        src={`https://juniorsbootcamp.ru/api${game.image}`}
-                      />
+                  {group.data.data.map((game) => {
+                    const priceVariant = game.priceVariants.reduce(
+                      (min, current) => (current.price < min.price ? current : min),
+                      game.priceVariants[0]
+                    );
+                    return (
+                      <Link
+                        key={game.slug}
+                        className='flex flex-col gap-2 rounded-24'
+                        params={{ slug: game.slug }}
+                        to='/games/$slug'
+                      >
+                        <img
+                          alt={game.name}
+                          className='aspect-video object-cover object-center grayscale'
+                          src={`https://juniorsbootcamp.ru/api${game.image}`}
+                        />
 
-                      {game.rating && (
-                        <div className='absolute top-0 right-0 flex items-center gap-0.5 bg-background p-1'>
-                          <Typography as='span' variant='caption'>
-                            {game.rating?.toFixed(0)}
+                        <div className='flex flex-col'>
+                          <div className='flex items-center gap-1'>
+                            <Typography as='span'>{priceVariant.price} ₽</Typography>
+
+                            {priceVariant.oldPrice && (
+                              <>
+                                <Badge className='px-2 py-1' variant='accent'>
+                                  -
+                                  {(
+                                    ((priceVariant.oldPrice - priceVariant.price) /
+                                      priceVariant.oldPrice) *
+                                    100
+                                  ).toFixed(0)}
+                                  %
+                                </Badge>
+
+                                <Typography
+                                  as='span'
+                                  className='text-muted-fg line-through'
+                                  variant='body-sm'
+                                >
+                                  {priceVariant.oldPrice} ₽
+                                </Typography>
+                              </>
+                            )}
+                          </div>
+                          <Typography as='h3' className='font-semibold'>
+                            {game.name}
                           </Typography>
-
-                          <MetacriticIcon className='size-3.5' />
                         </div>
-                      )}
-
-                      <div className='flex flex-col'>
-                        <div className='flex items-center gap-1'>
-                          <Typography as='span'>{game.price} ₽</Typography>
-
-                          {game.oldPrice && (
-                            <>
-                              <Badge className='px-2 py-1' variant='accent'>
-                                -{(((game.oldPrice - game.price) / game.oldPrice) * 100).toFixed(0)}
-                                %
-                              </Badge>
-
-                              <Typography
-                                as='span'
-                                className='text-muted-fg line-through'
-                                variant='body-sm'
-                              >
-                                {game.oldPrice} ₽
-                              </Typography>
-                            </>
-                          )}
-                        </div>
-                        <Typography as='h3' className='font-semibold'>
-                          {game.name}
-                        </Typography>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    );
+                  })}
                 </Fragment>
               ))}
             </div>

@@ -58,7 +58,7 @@ export type GetGamesInfoRequestParams = FetchesRequestParams<GamesControllerGetG
 
 export type GetGamesSearchRequestParams = FetchesRequestParams<GamesControllerSearchGamesData>;
 
-export type GetGamesInfoByGameIdRequestParams = FetchesRequestParams<GamesControllerGetGameData>;
+export type GetGamesInfoBySlugRequestParams = FetchesRequestParams<GamesControllerGetGameData>;
 
 export type PostGamesOrderRequestParams = FetchesRequestParams<GamesControllerBuyGameData>;
 
@@ -203,7 +203,7 @@ export const getGamesSearch = ({ config, query }: GetGamesSearchRequestParams): 
     ...config
 });
 
-export const getGamesInfoByGameId = ({ config, path }: GetGamesInfoByGameIdRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameResponse>> => instance.call("GET", `/games/info/${path.gameId}`, {
+export const getGamesInfoBySlug = ({ config, path }: GetGamesInfoBySlugRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameResponse>> => instance.call("GET", `/games/info/${path.slug}`, {
     ...config
 });
 

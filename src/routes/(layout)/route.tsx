@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router';
-import { LogInIcon, LogOutIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
+import { HistoryIcon, LogInIcon, LogOutIcon, ShoppingCartIcon, UserIcon } from 'lucide-react';
 
 import { Button } from '@/shared/components/ui/button';
 import { IconButton } from '@/shared/components/ui/icon-button';
@@ -29,8 +29,10 @@ function RouteComponent() {
         </Link>
         <div className='flex items-center gap-6'>
           <div className='flex gap-4'>
-            <IconButton rounded size='sm' variant='secondary'>
-              <ShoppingCartIcon />
+            <IconButton asChild rounded size='sm' variant='secondary'>
+              <Link to='/history'>
+                <HistoryIcon />
+              </Link>
             </IconButton>
 
             <IconButton asChild rounded size='sm' variant='secondary'>

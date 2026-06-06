@@ -1313,27 +1313,60 @@ export type CancelCarRentDto = {
 
 export type GameGenre = 'action' | 'adventure' | 'rpg' | 'strategy' | 'shooter' | 'simulation' | 'survival' | 'sports' | 'racing' | 'indie' | 'horror';
 
-export type Game = {
+/**
+ * Регион
+ */
+export type Region = 'ru' | 'kz' | 'by' | 'ua' | 'pl' | 'tr' | 'all_world' | 'europe' | 'asia';
+
+/**
+ * Способ получения
+ */
+export type DeliveryType = 'steam_key' | 'epic_key' | 'steam_gift' | 'nintendo_key' | 'xbox_key' | 'playstation_key';
+
+export type PriceVariant = {
     /**
-     * ID игры
+     * ID варианта цены
      */
     id: string;
     /**
-     * Название игры
+     * Регион
      */
-    name: string;
+    region: Region;
+    /**
+     * Текущая цена
+     */
+    price: number;
+    /**
+     * Старая цена
+     */
+    oldPrice?: number;
+    /**
+     * Способ получения
+     */
+    deliveryType: DeliveryType;
+    /**
+     * Издание
+     */
+    edition: string;
+};
+
+export type Game = {
     /**
      * Slug игры
      */
     slug: string;
     /**
+     * Название игры
+     */
+    name: string;
+    /**
      * Внешний ID (Steam/KupiKod)
      */
     externalId: string;
     /**
-     * Год релиза
+     * Дата релиза
      */
-    year: number;
+    releaseDate: number;
     /**
      * Жанры игры
      */
@@ -1347,13 +1380,9 @@ export type Game = {
      */
     image: string;
     /**
-     * Текущая цена
+     * Варианты цен
      */
-    price: number;
-    /**
-     * Старая цена
-     */
-    oldPrice?: number;
+    priceVariants: Array<PriceVariant>;
     /**
      * Рейтинг положительных отзывов
      */
@@ -1430,18 +1459,6 @@ export type GameResponse = {
 
 export type CreateGameOrderPersonDto = {
     /**
-     * Имя пользователя
-     */
-    firstName: string;
-    /**
-     * Фамилия пользователя
-     */
-    lastName: string;
-    /**
-     * Отчество пользователя
-     */
-    middleName?: string;
-    /**
      * Телефон пользователя
      */
     phone: string;
@@ -1453,9 +1470,13 @@ export type CreateGameOrderPersonDto = {
 
 export type CreateGameOrderDto = {
     /**
-     * ID игры для покупки
+     * Slug игры
      */
-    gameId: string;
+    gameSlug: string;
+    /**
+     * ID варианта цены
+     */
+    priceVariantId: string;
     /**
      * Данные покупателя
      */
@@ -1468,32 +1489,20 @@ export type CreateGameOrderDto = {
 
 export type GameOrderPerson = {
     /**
-     * Имя
-     */
-    firstName: string;
-    /**
-     * Фамилия
-     */
-    lastName: string;
-    /**
-     * Отчество
-     */
-    middleName?: string;
-    /**
      * Телефон
      */
     phone: string;
     /**
      * Email
      */
-    email?: string;
+    email: string;
 };
 
 export type GameOrderSnapshot = {
     /**
-     * ID игры
+     * Slug игры
      */
-    gameId: string;
+    slug: string;
     /**
      * Название игры
      */
@@ -1503,9 +1512,21 @@ export type GameOrderSnapshot = {
      */
     image: string;
     /**
-     * Цена на момент заказа
+     * Регион
+     */
+    region: Region;
+    /**
+     * Текущая цена
      */
     price: number;
+    /**
+     * Способ получения
+     */
+    deliveryType: DeliveryType;
+    /**
+     * Издание
+     */
+    edition: string;
     /**
      * Внешний ID
      */
@@ -2480,12 +2501,12 @@ export type GamesControllerGetGameData = {
     body?: never;
     path: {
         /**
-         * ID игры
+         * Slug игры
          */
-        gameId: string;
+        slug: string;
     };
     query?: never;
-    url: '/api/games/info/{gameId}';
+    url: '/api/games/info/{slug}';
 };
 
 export type GamesControllerGetGameResponses = {
@@ -2639,5 +2660,5 @@ export type PizzaControllerCancelPizzaOrderResponses = {
 export type PizzaControllerCancelPizzaOrderResponse = PizzaControllerCancelPizzaOrderResponses[keyof PizzaControllerCancelPizzaOrderResponses];
 
 export type ClientOptions = {
-    baseUrl: `${string}://${string}` | (string & {});
+    baseUrl: 'https://juniors-bootcamp.ru/' | (string & {});
 };
