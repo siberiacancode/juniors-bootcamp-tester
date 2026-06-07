@@ -12,12 +12,11 @@ import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
 import { useUser } from '@/shared/contexts/user';
 
-import type { OtpFormScheme } from '../-constants';
+import type { OtpFormScheme } from './-constants';
 
-import { otpFormScheme } from '../-constants';
 import { AuthShell } from './-components/AuthShell/AuthShell';
 import { Countdown } from './-components/Countdown/Countdown';
-import { loginCodeSearchSchema, resolveLoginRedirect } from './-constants';
+import { loginCodeSearchSchema, otpFormScheme, resolveLoginRedirect } from './-constants';
 
 export const Route = createFileRoute('/login/code')({
   component: RouteComponent,

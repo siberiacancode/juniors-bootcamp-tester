@@ -1,6 +1,9 @@
 import z from 'zod';
 
-import { LENGTH } from './validation';
+const LENGTH = {
+  PHONE: 11,
+  OTP: 6
+} as const;
 
 export const otpFormScheme = z.object({
   otp: z

@@ -10,11 +10,10 @@ import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
 
-import type { PhoneFormScheme } from '../-constants';
+import type { PhoneFormScheme } from './-constants';
 
-import { phoneFormScheme } from '../-constants';
 import { AuthShell } from './-components/AuthShell/AuthShell';
-import { resolveLoginRedirect } from './-constants';
+import { phoneFormScheme, resolveLoginRedirect } from './-constants';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent
