@@ -1311,7 +1311,16 @@ export type CancelCarRentDto = {
     carRentId: string;
 };
 
+export type GameFilter = 'dlc' | 'discount';
+
+export type GameView = 'popular' | 'new';
+
 export type GameGenre = 'action' | 'adventure' | 'rpg' | 'strategy' | 'shooter' | 'simulation' | 'survival' | 'sports' | 'racing' | 'indie' | 'horror';
+
+/**
+ * Тип
+ */
+export type GameType = 'game' | 'dlc';
 
 /**
  * Регион
@@ -1321,13 +1330,9 @@ export type Region = 'ru' | 'kz' | 'by' | 'ua' | 'pl' | 'tr' | 'all_world' | 'eu
 /**
  * Способ получения
  */
-export type DeliveryType = 'steam_key' | 'epic_key' | 'steam_gift' | 'nintendo_key' | 'xbox_key' | 'playstation_key';
+export type DeliveryType = 'steam_key' | 'steam_gift' | 'epic_key' | 'nintendo_key' | 'xbox_key' | 'playstation_key';
 
 export type PriceVariant = {
-    /**
-     * ID варианта цены
-     */
-    id: string;
     /**
      * Регион
      */
@@ -1350,7 +1355,7 @@ export type PriceVariant = {
     edition: string;
 };
 
-export type Game = {
+export type FilteredGame = {
     /**
      * Slug игры
      */
@@ -1360,33 +1365,25 @@ export type Game = {
      */
     name: string;
     /**
-     * Внешний ID (Steam/KupiKod)
-     */
-    externalId: string;
-    /**
      * Дата релиза
      */
     releaseDate: number;
+    /**
+     * Тип
+     */
+    type: GameType;
     /**
      * Жанры игры
      */
     genres: Array<GameGenre>;
     /**
-     * Описание игры
-     */
-    description: string;
-    /**
      * Изображение игры
      */
     image: string;
     /**
-     * Варианты цен
+     * Наименьший вариант цены
      */
-    priceVariants: Array<PriceVariant>;
-    /**
-     * Рейтинг положительных отзывов
-     */
-    rating?: number;
+    priceVariant: PriceVariant;
 };
 
 export type GamesPaginationMeta = {
@@ -1420,7 +1417,7 @@ export type GamesPaginatedResponse = {
     /**
      * Список игр
      */
-    data: Array<Game>;
+    games: Array<FilteredGame>;
     /**
      * Пагинация
      */
@@ -1439,7 +1436,89 @@ export type GameSearchResponse = {
     /**
      * Результаты поиска игр
      */
-    data: Array<Game>;
+    games: Array<FilteredGame>;
+};
+
+export type SystemRequirements = {
+    /**
+     * Операционная система
+     */
+    oc?: string;
+    /**
+     * Процессор
+     */
+    processor?: string;
+    /**
+     * Оперативная память
+     */
+    memory?: string;
+    /**
+     * Видеокарта
+     */
+    graphics?: string;
+    /**
+     * Место на диске
+     */
+    storage?: string;
+};
+
+export type DetailedGame = {
+    /**
+     * Slug игры
+     */
+    slug: string;
+    /**
+     * Название игры
+     */
+    name: string;
+    /**
+     * Дата релиза
+     */
+    releaseDate: number;
+    /**
+     * Тип
+     */
+    type: GameType;
+    /**
+     * Жанры игры
+     */
+    genres: Array<GameGenre>;
+    /**
+     * Изображение игры
+     */
+    image: string;
+    /**
+     * Способ получения
+     */
+    deliveryTypes: Array<DeliveryType>;
+    /**
+     * Описание игры
+     */
+    description: string;
+    /**
+     * Минимальные системные требования
+     */
+    minimumSystemRequirements: SystemRequirements;
+    /**
+     * Рекомендуемые системные требования
+     */
+    recommendedSystemRequirements: SystemRequirements;
+    /**
+     * Разработчик
+     */
+    developer: string;
+    /**
+     * Издатель
+     */
+    publisher: string;
+    /**
+     * Внешний ID (Steam/KupiKod)
+     */
+    externalId: string;
+    /**
+     * Скриншоты игры
+     */
+    screenshots: Array<string>;
 };
 
 export type GameResponse = {
@@ -1454,7 +1533,37 @@ export type GameResponse = {
     /**
      * Игра
      */
-    data: Game;
+    game: DetailedGame;
+};
+
+export type RegionsResponse = {
+    /**
+     * Статус запроса
+     */
+    success: boolean;
+    /**
+     * Причина ошибки
+     */
+    reason?: string;
+    /**
+     * Доступные регионы
+     */
+    regions: Array<Region>;
+};
+
+export type EditionsResponse = {
+    /**
+     * Статус запроса
+     */
+    success: boolean;
+    /**
+     * Причина ошибки
+     */
+    reason?: string;
+    /**
+     * Доступные издания
+     */
+    editions: Array<Array<string>>;
 };
 
 export type CreateGameOrderPersonDto = {
@@ -1465,7 +1574,11 @@ export type CreateGameOrderPersonDto = {
     /**
      * Email пользователя
      */
-    email?: string;
+    email: string;
+    /**
+     * Ссылка на приглашение
+     */
+    inviteLink?: string;
 };
 
 export type CreateGameOrderDto = {
@@ -1474,9 +1587,17 @@ export type CreateGameOrderDto = {
      */
     gameSlug: string;
     /**
-     * ID варианта цены
+     * Тип доставки
      */
-    priceVariantId: string;
+    deliveryType: DeliveryType;
+    /**
+     * Регион
+     */
+    region: Region;
+    /**
+     * Издание
+     */
+    edition: string;
     /**
      * Данные покупателя
      */
@@ -1496,6 +1617,10 @@ export type GameOrderPerson = {
      * Email
      */
     email: string;
+    /**
+     * Ссылка на приглашение
+     */
+    inviteLink?: string;
 };
 
 export type GameOrderSnapshot = {
@@ -1533,11 +1658,6 @@ export type GameOrderSnapshot = {
     externalId: string;
 };
 
-/**
- * Статус заказа
- */
-export type GameOrderStatus = 'paid' | 'canceled';
-
 export type GameOrder = {
     /**
      * ID заказа
@@ -1555,10 +1675,6 @@ export type GameOrder = {
      * Сгенерированный игровой ключ
      */
     gameKey: string;
-    /**
-     * Статус заказа
-     */
-    status: GameOrderStatus;
 };
 
 export type CreateGameOrderResponse = {
@@ -2442,21 +2558,17 @@ export type GamesControllerGetGamesData = {
     path?: never;
     query?: {
         /**
-         * Минимальный год релиза
+         * Дополнительные фильтры
          */
-        minYear?: number;
+        filter?: Array<GameFilter>;
         /**
-         * Максимальный год релиза
+         * Предустановленный вид выборки
          */
-        maxYear?: number;
+        view?: GameView;
         /**
          * Жанр
          */
         genre?: Array<GameGenre>;
-        /**
-         * Поиск
-         */
-        search?: string;
         /**
          * Страница
          */
@@ -2514,6 +2626,54 @@ export type GamesControllerGetGameResponses = {
 };
 
 export type GamesControllerGetGameResponse = GamesControllerGetGameResponses[keyof GamesControllerGetGameResponses];
+
+export type GamesControllerGetRegionsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Slug игры
+         */
+        slug: string;
+        /**
+         * Тип доставки
+         */
+        deliveryType: DeliveryType;
+    };
+    url: '/api/games/regions';
+};
+
+export type GamesControllerGetRegionsResponses = {
+    200: RegionsResponse;
+};
+
+export type GamesControllerGetRegionsResponse = GamesControllerGetRegionsResponses[keyof GamesControllerGetRegionsResponses];
+
+export type GamesControllerGetEditionsData = {
+    body?: never;
+    path?: never;
+    query: {
+        /**
+         * Slug игры
+         */
+        slug: string;
+        /**
+         * Тип доставки
+         */
+        deliveryType: DeliveryType;
+        /**
+         * Регион
+         */
+        region: Region;
+    };
+    url: '/api/games/editions';
+};
+
+export type GamesControllerGetEditionsResponses = {
+    200: EditionsResponse;
+};
+
+export type GamesControllerGetEditionsResponse = GamesControllerGetEditionsResponses[keyof GamesControllerGetEditionsResponses];
 
 export type GamesControllerBuyGameData = {
     body: CreateGameOrderDto;

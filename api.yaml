@@ -555,20 +555,20 @@ paths:
     get:
       operationId: GamesController_getGames
       parameters:
-        - name: minYear
+        - name: filter
           required: false
           in: query
-          description: Минимальный год релиза
+          description: Дополнительные фильтры
           schema:
-            example: 2003
-            type: number
-        - name: maxYear
+            type: array
+            items:
+              $ref: '#/components/schemas/GameFilter'
+        - name: view
           required: false
           in: query
-          description: Максимальный год релиза
+          description: Предустановленный вид выборки
           schema:
-            example: 2021
-            type: number
+            $ref: '#/components/schemas/GameView'
         - name: genre
           required: false
           in: query
@@ -577,12 +577,6 @@ paths:
             type: array
             items:
               $ref: '#/components/schemas/GameGenre'
-        - name: search
-          required: false
-          in: query
-          description: Поиск
-          schema:
-            type: string
         - name: page
           required: false
           in: query
@@ -652,6 +646,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/GameResponse'
       summary: Получить игру
+      tags:
+        - 🎮 games
+  /api/games/regions:
+    get:
+      operationId: GamesController_getRegions
+      parameters:
+        - name: slug
+          required: true
+          in: query
+          description: Slug игры
+          schema:
+            type: string
+        - name: deliveryType
+          required: true
+          in: query
+          description: Тип доставки
+          schema:
+            $ref: '#/components/schemas/DeliveryType'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionsResponse'
+      summary: Получить регионы для способа получения
+      tags:
+        - 🎮 games
+  /api/games/editions:
+    get:
+      operationId: GamesController_getEditions
+      parameters:
+        - name: slug
+          required: true
+          in: query
+          description: Slug игры
+          schema:
+            type: string
+        - name: deliveryType
+          required: true
+          in: query
+          description: Тип доставки
+          schema:
+            $ref: '#/components/schemas/DeliveryType'
+        - name: region
+          required: true
+          in: query
+          description: Регион
+          schema:
+            $ref: '#/components/schemas/Region'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditionsResponse'
+      summary: Получить издания для региона
       tags:
         - 🎮 games
   /api/games/order:
@@ -1123,6 +1175,7 @@ components:
         country:
           description: Страна
           nullable: true
+          type: object
           allOf:
             - $ref: '#/components/schemas/Country'
       required:
@@ -1186,7 +1239,7 @@ components:
           items:
             type: array
             items:
-              type: a
+              type: filmHallCell
           type: array
       required:
         - name
@@ -2503,6 +2556,16 @@ components:
           description: Идентификатор аренды
       required:
         - carRentId
+    GameFilter:
+      type: string
+      enum:
+        - dlc
+        - discount
+    GameView:
+      type: string
+      enum:
+        - popular
+        - new
     GameGenre:
       type: string
       enum:
@@ -2517,6 +2580,12 @@ components:
         - racing
         - indie
         - horror
+    GameType:
+      type: string
+      enum:
+        - game
+        - dlc
+      description: Тип
     Region:
       type: string
       enum:
@@ -2534,8 +2603,8 @@ components:
       type: string
       enum:
         - steam_key
-        - epic_key
         - steam_gift
+        - epic_key
         - nintendo_key
         - xbox_key
         - playstation_key
@@ -2543,10 +2612,6 @@ components:
     PriceVariant:
       type: object
       properties:
-        id:
-          type: string
-          example: '1'
-          description: ID варианта цены
         region:
           example: europe
           description: Регион
@@ -2570,12 +2635,11 @@ components:
           example: Deluxe
           description: Издание
       required:
-        - id
         - region
         - price
         - deliveryType
         - edition
-    Game:
+    FilteredGame:
       type: object
       properties:
         slug:
@@ -2586,14 +2650,15 @@ components:
           type: string
           example: Battlefield 2042
           description: Название игры
-        externalId:
-          type: string
-          example: '1517290'
-          description: Внешний ID (Steam/KupiKod)
         releaseDate:
           type: number
           example: 1637280000
           description: Дата релиза
+        type:
+          example: game
+          description: Тип
+          allOf:
+            - $ref: '#/components/schemas/GameType'
         genres:
           type: array
           example:
@@ -2602,32 +2667,22 @@ components:
           description: Жанры игры
           items:
             $ref: '#/components/schemas/GameGenre'
-        description:
-          type: string
-          example: Онлайн-шутер с масштабными сражениями.
-          description: Описание игры
         image:
           type: string
           example: /static/images/games/cs2.webp
           description: Изображение игры
-        priceVariants:
-          description: Варианты цен
-          type: array
-          items:
-            $ref: '#/components/schemas/PriceVariant'
-        rating:
-          type: number
-          example: 57.78
-          description: Рейтинг положительных отзывов
+        priceVariant:
+          description: Наименьший вариант цены
+          allOf:
+            - $ref: '#/components/schemas/PriceVariant'
       required:
         - slug
         - name
-        - externalId
         - releaseDate
+        - type
         - genres
-        - description
         - image
-        - priceVariants
+        - priceVariant
     GamesPaginationMeta:
       type: object
       properties:
@@ -2661,18 +2716,18 @@ components:
         reason:
           type: string
           description: Причина ошибки
-        data:
+        games:
           description: Список игр
           type: array
           items:
-            $ref: '#/components/schemas/Game'
+            $ref: '#/components/schemas/FilteredGame'
         meta:
           description: Пагинация
           allOf:
             - $ref: '#/components/schemas/GamesPaginationMeta'
       required:
         - success
-        - data
+        - games
         - meta
     GameSearchResponse:
       type: object
@@ -2683,14 +2738,124 @@ components:
         reason:
           type: string
           description: Причина ошибки
-        data:
+        games:
           description: Результаты поиска игр
           type: array
           items:
-            $ref: '#/components/schemas/Game'
+            $ref: '#/components/schemas/FilteredGame'
       required:
         - success
-        - data
+        - games
+    SystemRequirements:
+      type: object
+      properties:
+        oc:
+          type: string
+          example: Windows 10
+          description: Операционная система
+        processor:
+          type: string
+          example: Intel Core i5-9400F
+          description: Процессор
+        memory:
+          type: string
+          example: 16 GB
+          description: Оперативная память
+        graphics:
+          type: string
+          example: NVIDIA GeForce GTX 1660
+          description: Видеокарта
+        storage:
+          type: string
+          example: 500 GB
+          description: Место на диске
+    DetailedGame:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: battlefield-2042
+          description: Slug игры
+        name:
+          type: string
+          example: Battlefield 2042
+          description: Название игры
+        releaseDate:
+          type: number
+          example: 1637280000
+          description: Дата релиза
+        type:
+          example: game
+          description: Тип
+          allOf:
+            - $ref: '#/components/schemas/GameType'
+        genres:
+          type: array
+          example:
+            - action
+            - rpg
+          description: Жанры игры
+          items:
+            $ref: '#/components/schemas/GameGenre'
+        image:
+          type: string
+          example: /static/images/games/cs2.webp
+          description: Изображение игры
+        deliveryTypes:
+          type: array
+          example:
+            - steam_key
+            - xbox_key
+            - steam_gift
+          description: Способ получения
+          items:
+            $ref: '#/components/schemas/DeliveryType'
+        description:
+          type: string
+          example: Онлайн-шутер с масштабными сражениями.
+          description: Описание игры
+        minimumSystemRequirements:
+          description: Минимальные системные требования
+          allOf:
+            - $ref: '#/components/schemas/SystemRequirements'
+        recommendedSystemRequirements:
+          description: Рекомендуемые системные требования
+          allOf:
+            - $ref: '#/components/schemas/SystemRequirements'
+        developer:
+          type: string
+          example: EA Games
+          description: Разработчик
+        publisher:
+          type: string
+          example: Electronic Arts
+          description: Издатель
+        externalId:
+          type: string
+          example: '1517290'
+          description: Внешний ID (Steam/KupiKod)
+        screenshots:
+          example:
+            - /static/images/games/cs2.webp
+          description: Скриншоты игры
+          type: array
+          items:
+            type: string
+      required:
+        - slug
+        - name
+        - releaseDate
+        - type
+        - genres
+        - image
+        - deliveryTypes
+        - description
+        - minimumSystemRequirements
+        - recommendedSystemRequirements
+        - developer
+        - publisher
+        - externalId
+        - screenshots
     GameResponse:
       type: object
       properties:
@@ -2700,13 +2865,49 @@ components:
         reason:
           type: string
           description: Причина ошибки
-        data:
+        game:
           description: Игра
           allOf:
-            - $ref: '#/components/schemas/Game'
+            - $ref: '#/components/schemas/DetailedGame'
       required:
         - success
-        - data
+        - game
+    RegionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        regions:
+          type: array
+          description: Доступные регионы
+          items:
+            $ref: '#/components/schemas/Region'
+      required:
+        - success
+        - regions
+    EditionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Статус запроса
+        reason:
+          type: string
+          description: Причина ошибки
+        editions:
+          description: Доступные издания
+          items:
+            type: array
+            items:
+              type: string
+          type: array
+      required:
+        - success
+        - editions
     CreateGameOrderPersonDto:
       type: object
       properties:
@@ -2718,8 +2919,13 @@ components:
           type: string
           example: example@mail.com
           description: Email пользователя
+        inviteLink:
+          type: string
+          example: https://s.team/p/
+          description: Ссылка на приглашение
       required:
         - phone
+        - email
     CreateGameOrderDto:
       type: object
       properties:
@@ -2727,10 +2933,20 @@ components:
           type: string
           example: battlefield-2042
           description: Slug игры
-        priceVariantId:
+        deliveryType:
+          description: Тип доставки
+          example: steam_gift
+          allOf:
+            - $ref: '#/components/schemas/DeliveryType'
+        region:
+          description: Регион
+          example: ru
+          allOf:
+            - $ref: '#/components/schemas/Region'
+        edition:
           type: string
-          example: bf2042-1
-          description: ID варианта цены
+          example: Deluxe
+          description: Издание
         person:
           description: Данные покупателя
           allOf:
@@ -2741,7 +2957,9 @@ components:
           description: Дебетовая карта для оплаты
       required:
         - gameSlug
-        - priceVariantId
+        - deliveryType
+        - region
+        - edition
         - person
         - debitCard
     GameOrderPerson:
@@ -2755,6 +2973,10 @@ components:
           type: string
           example: user@mail.com
           description: Email
+        inviteLink:
+          type: string
+          example: https://example.com/invite
+          description: Ссылка на приглашение
       required:
         - phone
         - email
@@ -2804,12 +3026,6 @@ components:
         - deliveryType
         - edition
         - externalId
-    GameOrderStatus:
-      type: string
-      enum:
-        - paid
-        - canceled
-      description: Статус заказа
     GameOrder:
       type: object
       properties:
@@ -2828,17 +3044,11 @@ components:
           type: string
           example: XXXX-YYYY-ZZZZ
           description: Сгенерированный игровой ключ
-        status:
-          example: paid
-          description: Статус заказа
-          allOf:
-            - $ref: '#/components/schemas/GameOrderStatus'
       required:
         - _id
         - person
         - gameSnapshot
         - gameKey
-        - status
     CreateGameOrderResponse:
       type: object
       properties:

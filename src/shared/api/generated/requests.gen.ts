@@ -2,7 +2,7 @@
 
 import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacancode/apicraft";
 
-import type { AppControllerOtpsData, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, CinemaControllerGetCinemaTodayData, CinemaControllerGetCinemaTodayResponse, CinemaControllerGetFilmData, CinemaControllerGetFilmResponse, CinemaControllerGetFilmScheduleData, CinemaControllerGetFilmScheduleResponse, CinemaControllerCreateCinemaPaymentData, CinemaControllerCreateCinemaPaymentResponse, CinemaControllerGetCinemaOrdersData, CinemaControllerGetCinemaOrdersResponse, CinemaControllerCancelCinemaOrderData, CinemaControllerCancelCinemaOrderResponse, DeliveryControllerGetPointsData, DeliveryControllerGetPointsResponse, DeliveryControllerGetPackageTypesData, DeliveryControllerGetPackageTypesResponse, DeliveryControllerCalculateDeliveryData, DeliveryControllerCalculateDeliveryResponse, DeliveryControllerCreateOrderData, DeliveryControllerCreateOrderResponse, DeliveryControllerGetDeliveriesData, DeliveryControllerGetDeliveriesResponse, DeliveryControllerGetDeliveryData, DeliveryControllerGetDeliveryResponse, DeliveryControllerCancelDeliveryOrderData, DeliveryControllerCancelDeliveryOrderResponse, CarsControllerGetCarsData, CarsControllerGetCarsResponse, CarsControllerGetCarData, CarsControllerGetCarResponse, CarsControllerGetCarRentsData, CarsControllerGetCarRentsResponse, CarsControllerCreateCarRentData, CarsControllerCreateCarRentResponse, CarsControllerGetCarRentData, CarsControllerGetCarRentResponse, CarsControllerCancelCarRentData, CarsControllerCancelCarRentResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerBuyGameData, GamesControllerBuyGameResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse, PizzaControllerGetPizzasCatalogData, PizzaControllerGetPizzasCatalogResponse, PizzaControllerCreatePizzaPaymentData, PizzaControllerCreatePizzaPaymentResponse, PizzaControllerGetPizzaOrdersData, PizzaControllerGetPizzaOrdersResponse, PizzaControllerGetPizzaOrderData, PizzaControllerGetPizzaOrderResponse, PizzaControllerCancelPizzaOrderData, PizzaControllerCancelPizzaOrderResponse } from "./types.gen";
+import type { AppControllerOtpsData, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, CinemaControllerGetCinemaTodayData, CinemaControllerGetCinemaTodayResponse, CinemaControllerGetFilmData, CinemaControllerGetFilmResponse, CinemaControllerGetFilmScheduleData, CinemaControllerGetFilmScheduleResponse, CinemaControllerCreateCinemaPaymentData, CinemaControllerCreateCinemaPaymentResponse, CinemaControllerGetCinemaOrdersData, CinemaControllerGetCinemaOrdersResponse, CinemaControllerCancelCinemaOrderData, CinemaControllerCancelCinemaOrderResponse, DeliveryControllerGetPointsData, DeliveryControllerGetPointsResponse, DeliveryControllerGetPackageTypesData, DeliveryControllerGetPackageTypesResponse, DeliveryControllerCalculateDeliveryData, DeliveryControllerCalculateDeliveryResponse, DeliveryControllerCreateOrderData, DeliveryControllerCreateOrderResponse, DeliveryControllerGetDeliveriesData, DeliveryControllerGetDeliveriesResponse, DeliveryControllerGetDeliveryData, DeliveryControllerGetDeliveryResponse, DeliveryControllerCancelDeliveryOrderData, DeliveryControllerCancelDeliveryOrderResponse, CarsControllerGetCarsData, CarsControllerGetCarsResponse, CarsControllerGetCarData, CarsControllerGetCarResponse, CarsControllerGetCarRentsData, CarsControllerGetCarRentsResponse, CarsControllerCreateCarRentData, CarsControllerCreateCarRentResponse, CarsControllerGetCarRentData, CarsControllerGetCarRentResponse, CarsControllerCancelCarRentData, CarsControllerCancelCarRentResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetRegionsData, GamesControllerGetRegionsResponse, GamesControllerGetEditionsData, GamesControllerGetEditionsResponse, GamesControllerBuyGameData, GamesControllerBuyGameResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse, PizzaControllerGetPizzasCatalogData, PizzaControllerGetPizzasCatalogResponse, PizzaControllerCreatePizzaPaymentData, PizzaControllerCreatePizzaPaymentResponse, PizzaControllerGetPizzaOrdersData, PizzaControllerGetPizzaOrdersResponse, PizzaControllerGetPizzaOrderData, PizzaControllerGetPizzaOrderResponse, PizzaControllerCancelPizzaOrderData, PizzaControllerCancelPizzaOrderResponse } from "./types.gen";
 
 import { instance } from "..\\instance";
 
@@ -59,6 +59,10 @@ export type GetGamesInfoRequestParams = FetchesRequestParams<GamesControllerGetG
 export type GetGamesSearchRequestParams = FetchesRequestParams<GamesControllerSearchGamesData>;
 
 export type GetGamesInfoBySlugRequestParams = FetchesRequestParams<GamesControllerGetGameData>;
+
+export type GetGamesRegionsRequestParams = FetchesRequestParams<GamesControllerGetRegionsData>;
+
+export type GetGamesEditionsRequestParams = FetchesRequestParams<GamesControllerGetEditionsData>;
 
 export type PostGamesOrderRequestParams = FetchesRequestParams<GamesControllerBuyGameData>;
 
@@ -204,6 +208,16 @@ export const getGamesSearch = ({ config, query }: GetGamesSearchRequestParams): 
 });
 
 export const getGamesInfoBySlug = ({ config, path }: GetGamesInfoBySlugRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameResponse>> => instance.call("GET", `/games/info/${path.slug}`, {
+    ...config
+});
+
+export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetRegionsResponse>> => instance.call("GET", "/games/regions", {
+    query,
+    ...config
+});
+
+export const getGamesEditions = ({ config, query }: GetGamesEditionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetEditionsResponse>> => instance.call("GET", "/games/editions", {
+    query,
     ...config
 });
 

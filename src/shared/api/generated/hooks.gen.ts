@@ -4,7 +4,7 @@ import { useQuery, useMutation, queryOptions, useSuspenseQuery } from "@tanstack
 
 import type { TanstackQuerySettings, TanstackMutationSettings, TanstackSuspenseQuerySettings } from "@siberiacancode/apicraft";
 
-import { getOtps, postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getCinemaFilms, getCinemaFilmByFilmId, getCinemaFilmByFilmIdSchedule, postCinemaPayment, getCinemaOrders, putCinemaOrdersCancel, getDeliveryPoints, getDeliveryPackageTypes, postDeliveryCalc, postDeliveryOrder, getDeliveryOrders, getDeliveryOrderByOrderId, putDeliveryOrdersCancel, getCarsInfo, getCarsInfoByCarId, getCarsRent, postCarsRent, getCarsRentByCarRentId, putCarsRentCancel, getGamesInfo, getGamesSearch, getGamesInfoBySlug, postGamesOrder, getGamesOrders, getGamesOrderByOrderId, getPizzaCatalog, postPizzaPayment, getPizzaOrders, getPizzaOrderByOrderId, putPizzaOrdersCancel } from "./requests.gen";
+import { getOtps, postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getCinemaFilms, getCinemaFilmByFilmId, getCinemaFilmByFilmIdSchedule, postCinemaPayment, getCinemaOrders, putCinemaOrdersCancel, getDeliveryPoints, getDeliveryPackageTypes, postDeliveryCalc, postDeliveryOrder, getDeliveryOrders, getDeliveryOrderByOrderId, putDeliveryOrdersCancel, getCarsInfo, getCarsInfoByCarId, getCarsRent, postCarsRent, getCarsRentByCarRentId, putCarsRentCancel, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesEditions, postGamesOrder, getGamesOrders, getGamesOrderByOrderId, getPizzaCatalog, postPizzaPayment, getPizzaOrders, getPizzaOrderByOrderId, putPizzaOrdersCancel } from "./requests.gen";
 
 export const getOtpsQueryKey = "getOtpsQueryKey";
 
@@ -761,6 +761,62 @@ export const getGamesInfoBySlugSuspenseQueryOptions = (settings: TanstackSuspens
 });
 
 export const useGetGamesInfoBySlugSuspenseQuery = (...args: Parameters<typeof getGamesInfoBySlugSuspenseQueryOptions>) => useSuspenseQuery(getGamesInfoBySlugSuspenseQueryOptions(...args));
+
+export const getGamesRegionsQueryKey = "getGamesRegionsQueryKey";
+
+export const getGamesRegionsQueryOptions = (settings: TanstackQuerySettings<typeof getGamesRegions>) => queryOptions({
+    queryKey: [getGamesRegionsQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesRegions({ ...settings.request }),
+    ...settings.params
+});
+
+export const useGetGamesRegionsQuery = (...args: Parameters<typeof getGamesRegionsQueryOptions>) => useQuery(getGamesRegionsQueryOptions(...args));
+
+export const getGamesRegionsMutationKey = "getGamesRegionsMutationKey";
+
+export const useGetGamesRegionsMutation = (settings?: TanstackMutationSettings<typeof getGamesRegions>) => useMutation({
+    mutationKey: [getGamesRegionsMutationKey],
+    mutationFn: async (params) => getGamesRegions({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const getGamesRegionsSuspenseQueryKey = "getGamesRegionsSuspenseQueryKey";
+
+export const getGamesRegionsSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesRegions>) => queryOptions({
+    queryKey: [getGamesRegionsSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesRegions({ ...settings.request }),
+    ...settings.params
+});
+
+export const useGetGamesRegionsSuspenseQuery = (...args: Parameters<typeof getGamesRegionsSuspenseQueryOptions>) => useSuspenseQuery(getGamesRegionsSuspenseQueryOptions(...args));
+
+export const getGamesEditionsQueryKey = "getGamesEditionsQueryKey";
+
+export const getGamesEditionsQueryOptions = (settings: TanstackQuerySettings<typeof getGamesEditions>) => queryOptions({
+    queryKey: [getGamesEditionsQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesEditions({ ...settings.request }),
+    ...settings.params
+});
+
+export const useGetGamesEditionsQuery = (...args: Parameters<typeof getGamesEditionsQueryOptions>) => useQuery(getGamesEditionsQueryOptions(...args));
+
+export const getGamesEditionsMutationKey = "getGamesEditionsMutationKey";
+
+export const useGetGamesEditionsMutation = (settings?: TanstackMutationSettings<typeof getGamesEditions>) => useMutation({
+    mutationKey: [getGamesEditionsMutationKey],
+    mutationFn: async (params) => getGamesEditions({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const getGamesEditionsSuspenseQueryKey = "getGamesEditionsSuspenseQueryKey";
+
+export const getGamesEditionsSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesEditions>) => queryOptions({
+    queryKey: [getGamesEditionsSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesEditions({ ...settings.request }),
+    ...settings.params
+});
+
+export const useGetGamesEditionsSuspenseQuery = (...args: Parameters<typeof getGamesEditionsSuspenseQueryOptions>) => useSuspenseQuery(getGamesEditionsSuspenseQueryOptions(...args));
 
 export const postGamesOrderQueryKey = "postGamesOrderQueryKey";
 
