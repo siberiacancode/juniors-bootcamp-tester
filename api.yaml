@@ -708,7 +708,7 @@ paths:
         - 🎮 games
   /api/games/order:
     post:
-      operationId: GamesController_buyGame
+      operationId: GamesController_createGameOrder
       parameters: []
       requestBody:
         required: true
@@ -3013,10 +3013,6 @@ components:
           type: string
           example: Deluxe
           description: Издание
-        externalId:
-          type: string
-          example: '1517290'
-          description: Внешний ID
       required:
         - slug
         - name
@@ -3025,7 +3021,6 @@ components:
         - price
         - deliveryType
         - edition
-        - externalId
     GameOrder:
       type: object
       properties:
@@ -3048,7 +3043,6 @@ components:
         - _id
         - person
         - gameSnapshot
-        - gameKey
     CreateGameOrderResponse:
       type: object
       properties:

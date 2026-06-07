@@ -1652,10 +1652,6 @@ export type GameOrderSnapshot = {
      * Издание
      */
     edition: string;
-    /**
-     * Внешний ID
-     */
-    externalId: string;
 };
 
 export type GameOrder = {
@@ -1674,7 +1670,7 @@ export type GameOrder = {
     /**
      * Сгенерированный игровой ключ
      */
-    gameKey: string;
+    gameKey?: string;
 };
 
 export type CreateGameOrderResponse = {
@@ -2675,18 +2671,18 @@ export type GamesControllerGetEditionsResponses = {
 
 export type GamesControllerGetEditionsResponse = GamesControllerGetEditionsResponses[keyof GamesControllerGetEditionsResponses];
 
-export type GamesControllerBuyGameData = {
+export type GamesControllerCreateGameOrderData = {
     body: CreateGameOrderDto;
     path?: never;
     query?: never;
     url: '/api/games/order';
 };
 
-export type GamesControllerBuyGameResponses = {
+export type GamesControllerCreateGameOrderResponses = {
     200: CreateGameOrderResponse;
 };
 
-export type GamesControllerBuyGameResponse = GamesControllerBuyGameResponses[keyof GamesControllerBuyGameResponses];
+export type GamesControllerCreateGameOrderResponse = GamesControllerCreateGameOrderResponses[keyof GamesControllerCreateGameOrderResponses];
 
 export type GamesControllerGetGameOrdersData = {
     body?: never;
