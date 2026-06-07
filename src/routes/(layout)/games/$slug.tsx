@@ -14,11 +14,13 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
   component: () => <div>Game</div>
 });
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 function RouteComponent() {
   const slug = Route.useParams({
     select: (s) => s.slug
   });
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const gamesQuery = useGetGamesInfoQuery();
 
   const gameQuery = useGetGamesInfoBySlugQuery({

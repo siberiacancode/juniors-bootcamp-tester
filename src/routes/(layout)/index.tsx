@@ -75,6 +75,8 @@ export const Route = createFileRoute('/(layout)/')({
   }
 });
 
+// TODO (WIP)
+// eslint-disable-next-line unused-imports/no-unused-vars
 function RouteComponent() {
   const searchParams = Route.useSearch();
   const navigate = Route.useNavigate();

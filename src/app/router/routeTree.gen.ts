@@ -16,8 +16,8 @@ import { Route as layoutIndexRouteImport } from './../../routes/(layout)/index'
 import { Route as LoginCodeRouteImport } from './../../routes/login/code'
 import { Route as layoutAuthenticatedRouteRouteImport } from './../../routes/(layout)/_authenticated/route'
 import { Route as layoutGamesSlugRouteImport } from './../../routes/(layout)/games/$slug'
-import { Route as layoutAuthenticatedProfileRouteImport } from './../../routes/(layout)/_authenticated/profile'
-import { Route as layoutAuthenticatedHistoryRouteImport } from './../../routes/(layout)/_authenticated/history'
+import { Route as layoutAuthenticatedProfileIndexRouteImport } from './../../routes/(layout)/_authenticated/profile/index'
+import { Route as layoutAuthenticatedHistoryIndexRouteImport } from './../../routes/(layout)/_authenticated/history/index'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -53,16 +53,16 @@ const layoutGamesSlugRoute = layoutGamesSlugRouteImport.update({
   path: '/games/$slug',
   getParentRoute: () => layoutRouteRoute,
 } as any)
-const layoutAuthenticatedProfileRoute =
-  layoutAuthenticatedProfileRouteImport.update({
-    id: '/profile',
-    path: '/profile',
+const layoutAuthenticatedProfileIndexRoute =
+  layoutAuthenticatedProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
     getParentRoute: () => layoutAuthenticatedRouteRoute,
   } as any)
-const layoutAuthenticatedHistoryRoute =
-  layoutAuthenticatedHistoryRouteImport.update({
-    id: '/history',
-    path: '/history',
+const layoutAuthenticatedHistoryIndexRoute =
+  layoutAuthenticatedHistoryIndexRouteImport.update({
+    id: '/history/',
+    path: '/history/',
     getParentRoute: () => layoutAuthenticatedRouteRoute,
   } as any)
 
@@ -71,17 +71,17 @@ export interface FileRoutesByFullPath {
   '/login/code': typeof LoginCodeRoute
   '/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
-  '/history': typeof layoutAuthenticatedHistoryRoute
-  '/profile': typeof layoutAuthenticatedProfileRoute
   '/games/$slug': typeof layoutGamesSlugRoute
+  '/history/': typeof layoutAuthenticatedHistoryIndexRoute
+  '/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/login/code': typeof LoginCodeRoute
   '/': typeof layoutIndexRoute
   '/login': typeof LoginIndexRoute
-  '/history': typeof layoutAuthenticatedHistoryRoute
-  '/profile': typeof layoutAuthenticatedProfileRoute
   '/games/$slug': typeof layoutGamesSlugRoute
+  '/history': typeof layoutAuthenticatedHistoryIndexRoute
+  '/profile': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -91,9 +91,9 @@ export interface FileRoutesById {
   '/login/code': typeof LoginCodeRoute
   '/(layout)/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
-  '/(layout)/_authenticated/history': typeof layoutAuthenticatedHistoryRoute
-  '/(layout)/_authenticated/profile': typeof layoutAuthenticatedProfileRoute
   '/(layout)/games/$slug': typeof layoutGamesSlugRoute
+  '/(layout)/_authenticated/history/': typeof layoutAuthenticatedHistoryIndexRoute
+  '/(layout)/_authenticated/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,11 +102,11 @@ export interface FileRouteTypes {
     | '/login/code'
     | '/'
     | '/login/'
-    | '/history'
-    | '/profile'
     | '/games/$slug'
+    | '/history/'
+    | '/profile/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login/code' | '/' | '/login' | '/history' | '/profile' | '/games/$slug'
+  to: '/login/code' | '/' | '/login' | '/games/$slug' | '/history' | '/profile'
   id:
     | '__root__'
     | '/(layout)'
@@ -115,9 +115,9 @@ export interface FileRouteTypes {
     | '/login/code'
     | '/(layout)/'
     | '/login/'
-    | '/(layout)/_authenticated/history'
-    | '/(layout)/_authenticated/profile'
     | '/(layout)/games/$slug'
+    | '/(layout)/_authenticated/history/'
+    | '/(layout)/_authenticated/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -176,32 +176,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof layoutGamesSlugRouteImport
       parentRoute: typeof layoutRouteRoute
     }
-    '/(layout)/_authenticated/profile': {
-      id: '/(layout)/_authenticated/profile'
+    '/(layout)/_authenticated/profile/': {
+      id: '/(layout)/_authenticated/profile/'
       path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof layoutAuthenticatedProfileRouteImport
+      fullPath: '/profile/'
+      preLoaderRoute: typeof layoutAuthenticatedProfileIndexRouteImport
       parentRoute: typeof layoutAuthenticatedRouteRoute
     }
-    '/(layout)/_authenticated/history': {
-      id: '/(layout)/_authenticated/history'
+    '/(layout)/_authenticated/history/': {
+      id: '/(layout)/_authenticated/history/'
       path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof layoutAuthenticatedHistoryRouteImport
+      fullPath: '/history/'
+      preLoaderRoute: typeof layoutAuthenticatedHistoryIndexRouteImport
       parentRoute: typeof layoutAuthenticatedRouteRoute
     }
   }
 }
 
 interface layoutAuthenticatedRouteRouteChildren {
-  layoutAuthenticatedHistoryRoute: typeof layoutAuthenticatedHistoryRoute
-  layoutAuthenticatedProfileRoute: typeof layoutAuthenticatedProfileRoute
+  layoutAuthenticatedHistoryIndexRoute: typeof layoutAuthenticatedHistoryIndexRoute
+  layoutAuthenticatedProfileIndexRoute: typeof layoutAuthenticatedProfileIndexRoute
 }
 
 const layoutAuthenticatedRouteRouteChildren: layoutAuthenticatedRouteRouteChildren =
   {
-    layoutAuthenticatedHistoryRoute: layoutAuthenticatedHistoryRoute,
-    layoutAuthenticatedProfileRoute: layoutAuthenticatedProfileRoute,
+    layoutAuthenticatedHistoryIndexRoute: layoutAuthenticatedHistoryIndexRoute,
+    layoutAuthenticatedProfileIndexRoute: layoutAuthenticatedProfileIndexRoute,
   }
 
 const layoutAuthenticatedRouteRouteWithChildren =

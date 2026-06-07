@@ -24,7 +24,7 @@ const SheetPortal = ({ ...props }: ComponentProps<typeof SheetPrimitive.Portal>)
 const SheetOverlay = ({ className, ...props }: ComponentProps<typeof SheetPrimitive.Overlay>) => (
   <SheetPrimitive.Overlay
     className={cn(
-      'fixed inset-0 z-40 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
+      'fixed inset-0 z-60 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
       className
     )}
     data-slot='sheet-overlay'
@@ -39,18 +39,20 @@ const SheetContent = ({
   showCloseButton = true,
   ...props
 }: ComponentProps<typeof SheetPrimitive.Content> & {
-  side?: 'left' | 'right';
+  side?: 'bottom' | 'left' | 'right';
   showCloseButton?: boolean;
 }) => (
   <SheetPortal>
     <SheetOverlay />
     <SheetPrimitive.Content
       className={cn(
-        'fixed z-40 flex w-full flex-col gap-10 bg-background px-6 transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500',
+        'fixed z-60 flex w-full flex-col gap-10 bg-background px-6 transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500',
         side === 'right' &&
           'inset-y-0 right-0 h-full data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
         side === 'left' &&
           'inset-y-0 left-0 h-full data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
+        side === 'bottom' &&
+          'inset-x-0 bottom-0 rounded-t-24 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
         className
       )}
       data-slot='sheet-content'

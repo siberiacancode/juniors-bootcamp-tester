@@ -5,13 +5,14 @@ import { Avatar as AvatarPrimitive } from 'radix-ui';
 import { cn } from '@/shared/utils';
 
 interface AvatarProps extends ComponentProps<typeof AvatarPrimitive.Root> {
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'xl';
 }
 
 const Avatar = ({ className, size = 'md', ...props }: AvatarProps) => (
   <AvatarPrimitive.Root
     className={cn(
       'group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none',
+      'data-[size=xl]:size-22 sm:data-[size=xl]:size-54',
       'data-[size=lg]:size-12 data-[size=md]:size-10 data-[size=sm]:size-8',
       className
     )}
