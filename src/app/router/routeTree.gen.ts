@@ -18,6 +18,7 @@ import { Route as layoutAuthenticatedRouteRouteImport } from './../../routes/(la
 import { Route as layoutGamesSlugRouteImport } from './../../routes/(layout)/games/$slug'
 import { Route as layoutAuthenticatedProfileIndexRouteImport } from './../../routes/(layout)/_authenticated/profile/index'
 import { Route as layoutAuthenticatedHistoryIndexRouteImport } from './../../routes/(layout)/_authenticated/history/index'
+import { Route as layoutAuthenticatedHistoryOrderIdRouteImport } from './../../routes/(layout)/_authenticated/history/$orderId'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -65,6 +66,12 @@ const layoutAuthenticatedHistoryIndexRoute =
     path: '/history/',
     getParentRoute: () => layoutAuthenticatedRouteRoute,
   } as any)
+const layoutAuthenticatedHistoryOrderIdRoute =
+  layoutAuthenticatedHistoryOrderIdRouteImport.update({
+    id: '/history/$orderId',
+    path: '/history/$orderId',
+    getParentRoute: () => layoutAuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRouteWithChildren
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/games/$slug': typeof layoutGamesSlugRoute
+  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
   '/history/': typeof layoutAuthenticatedHistoryIndexRoute
   '/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
@@ -80,6 +88,7 @@ export interface FileRoutesByTo {
   '/': typeof layoutIndexRoute
   '/login': typeof LoginIndexRoute
   '/games/$slug': typeof layoutGamesSlugRoute
+  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
   '/history': typeof layoutAuthenticatedHistoryIndexRoute
   '/profile': typeof layoutAuthenticatedProfileIndexRoute
 }
@@ -92,6 +101,7 @@ export interface FileRoutesById {
   '/(layout)/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/(layout)/games/$slug': typeof layoutGamesSlugRoute
+  '/(layout)/_authenticated/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
   '/(layout)/_authenticated/history/': typeof layoutAuthenticatedHistoryIndexRoute
   '/(layout)/_authenticated/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
@@ -103,10 +113,18 @@ export interface FileRouteTypes {
     | '/'
     | '/login/'
     | '/games/$slug'
+    | '/history/$orderId'
     | '/history/'
     | '/profile/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login/code' | '/' | '/login' | '/games/$slug' | '/history' | '/profile'
+  to:
+    | '/login/code'
+    | '/'
+    | '/login'
+    | '/games/$slug'
+    | '/history/$orderId'
+    | '/history'
+    | '/profile'
   id:
     | '__root__'
     | '/(layout)'
@@ -116,6 +134,7 @@ export interface FileRouteTypes {
     | '/(layout)/'
     | '/login/'
     | '/(layout)/games/$slug'
+    | '/(layout)/_authenticated/history/$orderId'
     | '/(layout)/_authenticated/history/'
     | '/(layout)/_authenticated/profile/'
   fileRoutesById: FileRoutesById
@@ -190,16 +209,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof layoutAuthenticatedHistoryIndexRouteImport
       parentRoute: typeof layoutAuthenticatedRouteRoute
     }
+    '/(layout)/_authenticated/history/$orderId': {
+      id: '/(layout)/_authenticated/history/$orderId'
+      path: '/history/$orderId'
+      fullPath: '/history/$orderId'
+      preLoaderRoute: typeof layoutAuthenticatedHistoryOrderIdRouteImport
+      parentRoute: typeof layoutAuthenticatedRouteRoute
+    }
   }
 }
 
 interface layoutAuthenticatedRouteRouteChildren {
+  layoutAuthenticatedHistoryOrderIdRoute: typeof layoutAuthenticatedHistoryOrderIdRoute
   layoutAuthenticatedHistoryIndexRoute: typeof layoutAuthenticatedHistoryIndexRoute
   layoutAuthenticatedProfileIndexRoute: typeof layoutAuthenticatedProfileIndexRoute
 }
 
 const layoutAuthenticatedRouteRouteChildren: layoutAuthenticatedRouteRouteChildren =
   {
+    layoutAuthenticatedHistoryOrderIdRoute:
+      layoutAuthenticatedHistoryOrderIdRoute,
     layoutAuthenticatedHistoryIndexRoute: layoutAuthenticatedHistoryIndexRoute,
     layoutAuthenticatedProfileIndexRoute: layoutAuthenticatedProfileIndexRoute,
   }

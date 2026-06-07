@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { InboxIcon, Loader2Icon } from 'lucide-react';
+import { createFileRoute } from '@tanstack/react-router';
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
@@ -15,6 +15,8 @@ import { useUser } from '@/shared/contexts/user';
 
 import type { ProfileFormScheme } from './-constants';
 
+import { PurchaseHistory } from '../../-components';
+import { mockPurchaseHistory } from '../../-constants';
 import { LogoutConfirmation } from './-components';
 import { profileFormScheme } from './-constants';
 import { formatPhone } from './-helpers';
@@ -78,14 +80,14 @@ function RouteComponent() {
 
   if (isEditing) {
     return (
-      <main className='flex flex-col gap-4'>
+      <main className='flex flex-col items-center gap-4'>
         <div className='pb-4 sm:hidden'>
           <Typography as='h1' variant='title-md'>
             Профиль
           </Typography>
         </div>
 
-        <form className='flex flex-col gap-4' onSubmit={onSubmit}>
+        <form className='flex w-full flex-col gap-4 lg:max-w-xl' onSubmit={onSubmit}>
           <fieldset className='flex flex-col gap-4' disabled={isSubmitting}>
             <Controller
               render={({ field, fieldState }) => (
@@ -204,28 +206,7 @@ function RouteComponent() {
         >
           История покупок
         </Typography>
-        <div className='flex flex-col items-center justify-center gap-4 rounded-24 bg-secondary p-6'>
-          <InboxIcon className='size-13 sm:size-10' strokeWidth={1.5} />
-          <div className='text-center'>
-            <Typography
-              as='h3'
-              className='text-[24px]/8 font-medium text-foreground sm:text-[24px]/8'
-              variant='body-lg'
-            >
-              Здесь пока пусто
-            </Typography>
-            <Typography
-              as='p'
-              className='max-w-70 text-[16px]/6 font-medium text-foreground sm:text-[16px]/6'
-              variant='body-md'
-            >
-              Соверши любую покупку, чтобы она отобразилась тут
-            </Typography>
-          </div>
-          <Button asChild className='w-full' size='lg'>
-            <Link to='/'>Перейти в каталог игр</Link>
-          </Button>
-        </div>
+        <PurchaseHistory orders={mockPurchaseHistory} />
       </section>
       <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
     </main>

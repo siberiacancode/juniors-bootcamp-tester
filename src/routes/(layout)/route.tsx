@@ -19,7 +19,9 @@ function RouteComponent() {
   });
   const user = useUser();
 
-  const activeNavIndex = navItems.findIndex((item) => item.to === pathname);
+  const activeNavIndex = navItems.findIndex((item) =>
+    item.to === '/' ? pathname === '/' : pathname === item.to || pathname.startsWith(`${item.to}/`)
+  );
 
   const onLogout = () => {
     navigate({
@@ -71,7 +73,7 @@ function RouteComponent() {
               style={{
                 transform: `translateX(calc(${activeNavIndex * 100}% + ${activeNavIndex * 0.25}rem))`
               }}
-              className='pointer-events-none absolute inset-y-1 left-1 w-[calc((100%-1rem)/3)] rounded-full bg-[#7c3aed] transition-transform duration-200 ease-out'
+              className='pointer-events-none absolute inset-y-1 left-1 w-[calc((100%-1rem)/3)] rounded-full bg-[#7c3aed] transition-transform duration-300 ease-out'
             />
           )}
           {navItems.map((item) => {
