@@ -1,20 +1,14 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
 
 import { Button } from '@/shared/components/ui/button';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/shared/components/ui/dialog';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogTitle
-} from '@/shared/components/ui/dialog';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetTitle
-} from '@/shared/components/ui/sheet';
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle
+} from '@/shared/components/ui/drawer';
 
 interface LogoutConfirmationProps {
   open: boolean;
@@ -63,12 +57,8 @@ export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConf
   }
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        className='items-center gap-8 px-4 pt-12 pb-7 text-center'
-        showCloseButton={false}
-        side='bottom'
-      >
+    <Drawer direction='bottom' open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className='items-center gap-8 px-4 pt-12 pb-7 text-center' showCloseButton={false}>
         <div
           aria-hidden
           className='flex size-20 items-center justify-center rounded-full bg-foreground text-[52px]/[52px] font-medium text-background'
@@ -76,25 +66,25 @@ export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConf
           ?
         </div>
         <div className='flex flex-col gap-3'>
-          <SheetTitle className='flex flex-col text-[30px]/9 font-bold tracking-normal text-foreground'>
+          <DrawerTitle className='flex flex-col text-[30px]/9 font-bold tracking-normal text-foreground'>
             <span>Вы уверены, что хотите</span>
             <span>выйти из профиля?</span>
-          </SheetTitle>
-          <SheetDescription className='sr-only'>
+          </DrawerTitle>
+          <DrawerDescription className='sr-only'>
             Подтвердите выход из профиля или отмените действие
-          </SheetDescription>
+          </DrawerDescription>
         </div>
         <div className='flex w-full flex-col gap-4'>
-          <SheetClose asChild>
+          <DrawerClose asChild>
             <Button className='w-full' size='lg' type='button' variant='secondary'>
               Отменить
             </Button>
-          </SheetClose>
+          </DrawerClose>
           <Button className='w-full' size='lg' type='button' onClick={onConfirm}>
             Выйти
           </Button>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   );
 };

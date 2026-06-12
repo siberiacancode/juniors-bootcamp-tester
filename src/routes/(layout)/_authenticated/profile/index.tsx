@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createFileRoute } from '@tanstack/react-router';
 import { Loader2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
-import { usePatchUsersProfileMutation } from '@/shared/api/generated';
+import { useGetUsersSessionQuery, usePatchUsersProfileMutation } from '@/shared/api/generated';
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
 import { Button } from '@/shared/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
@@ -15,8 +15,8 @@ import { useUser } from '@/shared/contexts/user';
 
 import type { ProfileFormScheme } from './-constants';
 
-import { PurchaseHistory } from '../../-components';
-import { mockPurchaseHistory } from '../../-constants';
+import { OrderHistory } from '../../-components';
+import { mockOrderHistory } from '../../-constants';
 import { LogoutConfirmation } from './-components';
 import { profileFormScheme } from './-constants';
 import { formatPhone } from './-helpers';
@@ -31,7 +31,14 @@ function RouteComponent() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
+  const userSessionQuery = useGetUsersSessionQuery({
+    params: {
+      enabled: user.isLoggedIn
+    }
+  });
+
   const usersProfileMutation = usePatchUsersProfileMutation();
+  const sessionUser = userSessionQuery.data?.data.user;
   const currentUser = user.value!;
   const displayName = [currentUser.lastname, currentUser.firstname, currentUser.middlename]
     .filter(Boolean)
@@ -39,11 +46,14 @@ function RouteComponent() {
   const formattedPhone = formatPhone(currentUser.phone);
   const avatarFallback = (displayName || currentUser.email || 'G').trim().charAt(0).toUpperCase();
 
-  const profileDefaultValues = {
-    email: currentUser.email ?? '',
-    firstname: currentUser.firstname ?? '',
-    lastname: currentUser.lastname ?? ''
-  };
+  const profileDefaultValues = useMemo(
+    () => ({
+      email: currentUser.email ?? '',
+      firstname: currentUser.firstname ?? '',
+      lastname: currentUser.lastname ?? ''
+    }),
+    [currentUser.email, currentUser.firstname, currentUser.lastname]
+  );
 
   const profileForm = useForm<ProfileFormScheme>({
     mode: 'onSubmit',
@@ -52,14 +62,26 @@ function RouteComponent() {
   });
   const { isDirty, isSubmitting } = profileForm.formState;
 
+  useEffect(() => {
+    if (!sessionUser) return;
+
+    user.set(sessionUser);
+  }, [sessionUser, user]);
+
+  useEffect(() => {
+    if (isEditing) return;
+
+    profileForm.reset(profileDefaultValues);
+  }, [isEditing, profileDefaultValues, profileForm]);
+
   const onSubmit = profileForm.handleSubmit(async (values) => {
-    await usersProfileMutation.mutateAsync({
+    const response = await usersProfileMutation.mutateAsync({
       body: {
         phone: currentUser.phone,
         profile: values
       }
     });
-    const updatedUser = { ...currentUser, ...values };
+    const updatedUser = response.data.user;
 
     profileForm.reset(values);
     user.set(updatedUser);
@@ -197,7 +219,6 @@ function RouteComponent() {
           Выйти
         </Button>
       </section>
-
       <section className='flex flex-col gap-4'>
         <Typography
           as='p'
@@ -206,7 +227,7 @@ function RouteComponent() {
         >
           История покупок
         </Typography>
-        <PurchaseHistory orders={mockPurchaseHistory} />
+        <OrderHistory orders={mockOrderHistory} />
       </section>
       <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
     </main>

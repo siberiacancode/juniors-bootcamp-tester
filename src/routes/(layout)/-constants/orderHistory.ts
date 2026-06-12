@@ -1,11 +1,11 @@
 import type { GameOrder } from '@/shared/api/generated';
 
-export type PurchaseHistoryItem = GameOrder & {
+export type OrderHistoryItem = GameOrder & {
   paymentAmount: number;
   paymentMethod: string;
 };
 
-export const mockPurchaseHistory: PurchaseHistoryItem[] = [
+export const mockOrderHistory: OrderHistoryItem[] = [
   {
     _id: 'mock-diablo-iv-order',
     person: {
@@ -48,5 +48,5 @@ export const mockPurchaseHistory: PurchaseHistoryItem[] = [
   }
 ];
 
-export const getMockPurchaseHistoryItem = (orderId: string) =>
-  mockPurchaseHistory.find((order) => order._id === orderId);
+export const getMockOrderHistoryItem = (orderId: string) =>
+  mockOrderHistory.find((order) => order._id === orderId);

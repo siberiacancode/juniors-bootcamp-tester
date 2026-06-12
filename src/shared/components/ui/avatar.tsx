@@ -1,21 +1,32 @@
+import type { VariantProps } from 'class-variance-authority';
 import type { ComponentProps } from 'react';
 
+import { cva } from 'class-variance-authority';
 import { Avatar as AvatarPrimitive } from 'radix-ui';
 
 import { cn } from '@/shared/utils';
 
-interface AvatarProps extends ComponentProps<typeof AvatarPrimitive.Root> {
-  size?: 'lg' | 'md' | 'sm' | 'xl';
-}
+const avatarVariants = cva('group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none', {
+  variants: {
+    size: {
+      xl: 'size-22 sm:size-54',
+      lg: 'size-12',
+      md: 'size-10',
+      sm: 'size-8'
+    }
+  },
+  defaultVariants: {
+    size: 'md'
+  }
+});
+
+interface AvatarProps
+  extends ComponentProps<typeof AvatarPrimitive.Root>,
+    VariantProps<typeof avatarVariants> {}
 
 const Avatar = ({ className, size = 'md', ...props }: AvatarProps) => (
   <AvatarPrimitive.Root
-    className={cn(
-      'group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none',
-      'data-[size=xl]:size-22 sm:data-[size=xl]:size-54',
-      'data-[size=lg]:size-12 data-[size=md]:size-10 data-[size=sm]:size-8',
-      className
-    )}
+    className={cn(avatarVariants({ size }), className)}
     data-size={size}
     data-slot='avatar'
     {...props}
@@ -44,4 +55,4 @@ const AvatarFallback = ({
   />
 );
 
-export { Avatar, AvatarFallback, AvatarImage };
+export { Avatar, AvatarFallback, AvatarImage, avatarVariants };

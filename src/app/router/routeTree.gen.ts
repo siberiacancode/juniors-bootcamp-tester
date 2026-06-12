@@ -13,7 +13,6 @@ import { Route as LoginRouteRouteImport } from './../../routes/login/route'
 import { Route as layoutRouteRouteImport } from './../../routes/(layout)/route'
 import { Route as LoginIndexRouteImport } from './../../routes/login/index'
 import { Route as layoutIndexRouteImport } from './../../routes/(layout)/index'
-import { Route as LoginCodeRouteImport } from './../../routes/login/code'
 import { Route as layoutAuthenticatedRouteRouteImport } from './../../routes/(layout)/_authenticated/route'
 import { Route as layoutGamesSlugRouteImport } from './../../routes/(layout)/games/$slug'
 import { Route as layoutAuthenticatedProfileIndexRouteImport } from './../../routes/(layout)/_authenticated/profile/index'
@@ -38,11 +37,6 @@ const layoutIndexRoute = layoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => layoutRouteRoute,
-} as any)
-const LoginCodeRoute = LoginCodeRouteImport.update({
-  id: '/code',
-  path: '/code',
-  getParentRoute: () => LoginRouteRoute,
 } as any)
 const layoutAuthenticatedRouteRoute =
   layoutAuthenticatedRouteRouteImport.update({
@@ -75,7 +69,6 @@ const layoutAuthenticatedHistoryOrderIdRoute =
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRouteWithChildren
-  '/login/code': typeof LoginCodeRoute
   '/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/games/$slug': typeof layoutGamesSlugRoute
@@ -84,7 +77,6 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRoutesByTo {
-  '/login/code': typeof LoginCodeRoute
   '/': typeof layoutIndexRoute
   '/login': typeof LoginIndexRoute
   '/games/$slug': typeof layoutGamesSlugRoute
@@ -97,7 +89,6 @@ export interface FileRoutesById {
   '/(layout)': typeof layoutRouteRouteWithChildren
   '/login': typeof LoginRouteRouteWithChildren
   '/(layout)/_authenticated': typeof layoutAuthenticatedRouteRouteWithChildren
-  '/login/code': typeof LoginCodeRoute
   '/(layout)/': typeof layoutIndexRoute
   '/login/': typeof LoginIndexRoute
   '/(layout)/games/$slug': typeof layoutGamesSlugRoute
@@ -109,7 +100,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/login'
-    | '/login/code'
     | '/'
     | '/login/'
     | '/games/$slug'
@@ -118,7 +108,6 @@ export interface FileRouteTypes {
     | '/profile/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/login/code'
     | '/'
     | '/login'
     | '/games/$slug'
@@ -130,7 +119,6 @@ export interface FileRouteTypes {
     | '/(layout)'
     | '/login'
     | '/(layout)/_authenticated'
-    | '/login/code'
     | '/(layout)/'
     | '/login/'
     | '/(layout)/games/$slug'
@@ -173,13 +161,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof layoutIndexRouteImport
       parentRoute: typeof layoutRouteRoute
-    }
-    '/login/code': {
-      id: '/login/code'
-      path: '/code'
-      fullPath: '/login/code'
-      preLoaderRoute: typeof LoginCodeRouteImport
-      parentRoute: typeof LoginRouteRoute
     }
     '/(layout)/_authenticated': {
       id: '/(layout)/_authenticated'
@@ -255,12 +236,10 @@ const layoutRouteRouteWithChildren = layoutRouteRoute._addFileChildren(
 )
 
 interface LoginRouteRouteChildren {
-  LoginCodeRoute: typeof LoginCodeRoute
   LoginIndexRoute: typeof LoginIndexRoute
 }
 
 const LoginRouteRouteChildren: LoginRouteRouteChildren = {
-  LoginCodeRoute: LoginCodeRoute,
   LoginIndexRoute: LoginIndexRoute,
 }
 

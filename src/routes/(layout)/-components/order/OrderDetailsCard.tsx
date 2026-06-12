@@ -1,12 +1,12 @@
 import { Typography } from '@/shared/components/ui/typography';
 import { DELIVERY_LABELS, REGION_LABELS } from '@/shared/constants';
 
-import type { PurchaseHistoryItem } from '../../-constants';
+import type { OrderHistoryItem } from '../../-constants';
 
-import { PurchaseHistoryBadge } from './PurchaseHistoryBadge';
+import { OrderHistoryBadge } from './OrderHistoryBadge';
 
-interface PurchaseDetailsCardProps {
-  order: PurchaseHistoryItem;
+interface OrderDetailsCardProps {
+  order: OrderHistoryItem;
 }
 
 const formatPrice = (price: number) =>
@@ -14,7 +14,7 @@ const formatPrice = (price: number) =>
     maximumFractionDigits: 0
   }).format(price);
 
-export const PurchaseDetailsCard = ({ order }: PurchaseDetailsCardProps) => (
+export const OrderDetailsCard = ({ order }: OrderDetailsCardProps) => (
   <article className='flex flex-col gap-4 rounded-24 bg-secondary p-6 sm:gap-6 sm:p-8'>
     <div className='flex items-start gap-4 sm:gap-3'>
       <img
@@ -41,10 +41,10 @@ export const PurchaseDetailsCard = ({ order }: PurchaseDetailsCardProps) => (
     </div>
 
     <div className='flex flex-wrap gap-2'>
-      <PurchaseHistoryBadge>{REGION_LABELS[order.gameSnapshot.region]}</PurchaseHistoryBadge>
-      <PurchaseHistoryBadge>
+      <OrderHistoryBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderHistoryBadge>
+      <OrderHistoryBadge>
         {DELIVERY_LABELS[order.gameSnapshot.deliveryType]}
-      </PurchaseHistoryBadge>
+      </OrderHistoryBadge>
     </div>
 
     <div className='flex flex-col gap-6'>
@@ -53,7 +53,8 @@ export const PurchaseDetailsCard = ({ order }: PurchaseDetailsCardProps) => (
           as='p'
           className='text-[18px]/[26px] font-normal tracking-normal sm:text-[24px]/8'
           variant='body-lg'
-        >
+                >
+          {/*TODO(MAX): Ваш xbox ключ, ваш Nintendo клю. Если это Стим гифт, надо показывать куда был скинут подарок inviteLink*/}
           Ваш Steam-ключ для активации
         </Typography>
         <Typography

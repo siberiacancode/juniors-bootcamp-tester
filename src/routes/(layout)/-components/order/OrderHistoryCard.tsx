@@ -4,15 +4,15 @@ import { Button } from '@/shared/components/ui/button';
 import { Typography } from '@/shared/components/ui/typography';
 import { DELIVERY_LABELS, REGION_LABELS } from '@/shared/constants';
 
-import type { PurchaseHistoryItem } from '../../-constants';
+import type { OrderHistoryItem } from '../../-constants';
 
-import { PurchaseHistoryBadge } from './PurchaseHistoryBadge';
+import { OrderHistoryBadge } from './OrderHistoryBadge';
 
-interface PurchaseHistoryCardProps {
-  order: PurchaseHistoryItem;
+interface OrderHistoryCardProps {
+  order: OrderHistoryItem;
 }
 
-export const PurchaseHistoryCard = ({ order }: PurchaseHistoryCardProps) => (
+export const OrderHistoryCard = ({ order }: OrderHistoryCardProps) => (
   <article className='flex flex-col gap-4 rounded-24 bg-secondary p-6'>
     <div className='flex items-start gap-3 sm:gap-2.5'>
       <img
@@ -35,10 +35,10 @@ export const PurchaseHistoryCard = ({ order }: PurchaseHistoryCardProps) => (
     </div>
 
     <div className='flex flex-wrap gap-2'>
-      <PurchaseHistoryBadge>{REGION_LABELS[order.gameSnapshot.region]}</PurchaseHistoryBadge>
-      <PurchaseHistoryBadge>
+      <OrderHistoryBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderHistoryBadge>
+      <OrderHistoryBadge>
         {DELIVERY_LABELS[order.gameSnapshot.deliveryType]}
-      </PurchaseHistoryBadge>
+      </OrderHistoryBadge>
     </div>
 
     <div className='flex flex-col gap-4'>

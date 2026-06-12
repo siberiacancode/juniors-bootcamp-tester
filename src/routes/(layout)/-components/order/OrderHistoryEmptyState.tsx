@@ -4,7 +4,7 @@ import { InboxIcon } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Typography } from '@/shared/components/ui/typography';
 
-export const PurchaseHistoryEmptyState = () => (
+export const OrderHistoryEmptyState = () => (
   <div className='flex flex-col items-center justify-center gap-4 rounded-24 bg-secondary p-6'>
     <InboxIcon className='size-13 sm:size-10' strokeWidth={1.5} />
     <div className='text-center'>

@@ -5,8 +5,8 @@ import { Button } from '@/shared/components/ui/button';
 import { IconButton } from '@/shared/components/ui/icon-button';
 import { Typography } from '@/shared/components/ui/typography';
 
-import { PurchaseDetailsCard } from '../../-components';
-import { getMockPurchaseHistoryItem } from '../../-constants';
+import { OrderDetailsCard } from '../../-components';
+import { getMockOrderHistoryItem } from '../../-constants';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
   component: RouteComponent
@@ -17,7 +17,7 @@ function RouteComponent() {
     select: (params) => params.orderId
   });
 
-  const order = getMockPurchaseHistoryItem(orderId);
+  const order = getMockOrderHistoryItem(orderId);
 
   if (!order) {
     return (
@@ -102,7 +102,7 @@ function RouteComponent() {
         </Typography>
       </div>
 
-      <PurchaseDetailsCard order={order} />
+      <OrderDetailsCard order={order} />
     </main>
   );
 }
