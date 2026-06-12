@@ -7,7 +7,7 @@ import { FooterLinkGroup } from './components/FooterLinkGroup';
 import { FOOTER_CONTACTS, FOOTER_PRODUCTS, FOOTER_REPOSITORY_URL } from './constants';
 
 export const Footer = () => (
-  <footer className='my-20 flex flex-col gap-10 rounded-24 bg-secondary p-6 sm:mt-10 sm:mb-0 sm:justify-between sm:px-10 sm:py-6'>
+  <footer className='my-20 flex flex-col gap-10 rounded-24 bg-secondary p-6 sm:mt-50 sm:mb-0 sm:justify-between sm:px-10 sm:py-6'>
     <div className='flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-10'>
       <div className='flex flex-col lg:order-0'>
         <Link to='/'>

@@ -1,7 +1,6 @@
-import type {VariantProps} from 'class-variance-authority';
 import type { ComponentProps } from 'react';
 
-import { cva  } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { XIcon } from 'lucide-react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
@@ -39,7 +38,7 @@ const DrawerOverlay = ({ className, ...props }: ComponentProps<typeof DrawerPrim
 );
 
 const drawerContentVariants = cva(
-  'fixed z-60 flex flex-col bg-background outline-none data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[85dvh] data-[vaul-drawer-direction=bottom]:rounded-t-[28px] data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:rounded-b-[28px]'
+  'fixed z-60 flex flex-col bg-background p-6 outline-none data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[85dvh] data-[vaul-drawer-direction=bottom]:rounded-t-[28px] data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=right]:inset-y-4 data-[vaul-drawer-direction=right]:right-4 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:rounded-24 data-[vaul-drawer-direction=right]:border-none data-[vaul-drawer-direction=right]:after:hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:rounded-b-[28px]'
 );
 
 const DrawerContent = ({
@@ -76,11 +75,19 @@ const DrawerContent = ({
 );
 
 const DrawerHeader = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={cn('grid gap-1.5 p-6 pb-0 text-left', className)} data-slot='drawer-header' {...props} />
+  <div
+    className={cn('grid gap-1.5 p-6 pb-0 text-left', className)}
+    data-slot='drawer-header'
+    {...props}
+  />
 );
 
 const DrawerFooter = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={cn('mt-auto flex flex-col gap-3 p-6 pt-2', className)} data-slot='drawer-footer' {...props} />
+  <div
+    className={cn('mt-auto flex flex-col gap-3 p-6 pt-2', className)}
+    data-slot='drawer-footer'
+    {...props}
+  />
 );
 
 const DrawerTitle = ({ className, ...props }: ComponentProps<typeof DrawerPrimitive.Title>) => (
@@ -102,20 +109,9 @@ const DrawerDescription = ({
   />
 );
 
-const drawerNestedRootVariants = cva('', {
-  variants: {
-    nested: {
-      true: '',
-      false: ''
-    }
-  },
-  defaultVariants: {
-    nested: false
-  }
-});
-
-type DrawerRootProps = ComponentProps<typeof DrawerPrimitive.Root> &
-  VariantProps<typeof drawerNestedRootVariants>;
+type DrawerRootProps = ComponentProps<typeof DrawerPrimitive.Root> & {
+  nested?: boolean;
+};
 
 const DrawerRoot = ({ nested, ...props }: DrawerRootProps) => (
   <Drawer data-nested={nested} {...props} />

@@ -1,49 +1,47 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ChevronLeftIcon, InboxIcon } from 'lucide-react';
+import { InboxIcon } from 'lucide-react';
 
+import { useGetGamesOrderByOrderIdQuery } from '@/shared/api/generated';
 import { Button } from '@/shared/components/ui/button';
-import { IconButton } from '@/shared/components/ui/icon-button';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Typography } from '@/shared/components/ui/typography';
 
 import { OrderDetailsCard } from '../../-components';
-import { getMockOrderHistoryItem } from '../../-constants';
+import { HistoryDetailsHeader } from './-components';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
   component: RouteComponent
 });
+
+const PAYMENT_METHOD = 'JB Pay';
 
 function RouteComponent() {
   const orderId = Route.useParams({
     select: (params) => params.orderId
   });
 
-  const order = getMockOrderHistoryItem(orderId);
+  const { data, isLoading } = useGetGamesOrderByOrderIdQuery({
+    request: {
+      path: {
+        orderId
+      }
+    }
+  });
+  const { order, success } = data?.data ?? {};
 
-  if (!order) {
+  if (isLoading) {
     return (
       <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
-        <div className='flex items-center gap-4 sm:hidden'>
-          <IconButton asChild rounded size='sm' variant='ghost'>
-            <Link to='/history'>
-              <ChevronLeftIcon />
-            </Link>
-          </IconButton>
-          <Typography as='h1' variant='title-md'>
-            Подробности покупки
-          </Typography>
-        </div>
+        <HistoryDetailsHeader />
+        <Skeleton className='h-120 rounded-24' />
+      </main>
+    );
+  }
 
-        <div className='hidden items-center gap-4 sm:flex'>
-          <Button asChild size='md' variant='secondary'>
-            <Link to='/history'>
-              <ChevronLeftIcon />
-              Назад
-            </Link>
-          </Button>
-          <Typography as='h1' variant='title-lg'>
-            Подробности покупки
-          </Typography>
-        </div>
+  if (!order || success === false) {
+    return (
+      <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
+        <HistoryDetailsHeader />
 
         <section className='rounded-24 bg-secondary px-6 py-10 sm:px-10 sm:py-12'>
           <div className='mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:gap-6'>
@@ -79,30 +77,15 @@ function RouteComponent() {
 
   return (
     <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
-      <div className='flex items-center gap-4 sm:hidden'>
-        <IconButton asChild rounded size='sm' variant='ghost'>
-          <Link to='/history'>
-            <ChevronLeftIcon />
-          </Link>
-        </IconButton>
-        <Typography as='h1' variant='title-md'>
-          Подробности покупки
-        </Typography>
-      </div>
+      <HistoryDetailsHeader />
 
-      <div className='hidden items-center gap-4 sm:flex'>
-        <Button asChild size='md' variant='secondary'>
-          <Link to='/history'>
-            <ChevronLeftIcon />
-            Назад
-          </Link>
-        </Button>
-        <Typography as='h1' variant='title-lg'>
-          Подробности покупки
-        </Typography>
-      </div>
-
-      <OrderDetailsCard order={order} />
+      <OrderDetailsCard
+        order={{
+          ...order,
+          paymentAmount: order.gameSnapshot.price,
+          paymentMethod: PAYMENT_METHOD
+        }}
+      />
     </main>
   );
 }

@@ -6,23 +6,25 @@ import { Avatar as AvatarPrimitive } from 'radix-ui';
 
 import { cn } from '@/shared/utils';
 
-const avatarVariants = cva('group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none', {
-  variants: {
-    size: {
-      xl: 'size-22 sm:size-54',
-      lg: 'size-12',
-      md: 'size-10',
-      sm: 'size-8'
+const avatarVariants = cva(
+  'group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none',
+  {
+    variants: {
+      size: {
+        xl: 'size-22',
+        lg: 'size-12',
+        md: 'size-10',
+        sm: 'size-8'
+      }
+    },
+    defaultVariants: {
+      size: 'md'
     }
-  },
-  defaultVariants: {
-    size: 'md'
   }
-});
+);
 
 interface AvatarProps
-  extends ComponentProps<typeof AvatarPrimitive.Root>,
-    VariantProps<typeof avatarVariants> {}
+  extends ComponentProps<typeof AvatarPrimitive.Root>, VariantProps<typeof avatarVariants> {}
 
 const Avatar = ({ className, size = 'md', ...props }: AvatarProps) => (
   <AvatarPrimitive.Root

@@ -1,1 +1,2 @@
-export * from './LogoutConfirmation/LogoutConfirmation';
+export * from './EditProfile/EditProfile';
+export * from './ProfileSkeleton/ProfileSkeleton';

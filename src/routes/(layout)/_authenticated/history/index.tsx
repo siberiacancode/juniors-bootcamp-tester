@@ -3,7 +3,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Typography } from '@/shared/components/ui/typography';
 
 import { OrderHistory } from '../../-components';
-import { mockOrderHistory } from '../../-constants';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
   component: RouteComponent
@@ -17,7 +16,7 @@ function RouteComponent() {
           История покупок
         </Typography>
       </div>
-      <OrderHistory orders={mockOrderHistory} />
+      <OrderHistory />
     </main>
   );
 }

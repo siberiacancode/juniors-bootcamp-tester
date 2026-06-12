@@ -1,14 +1,17 @@
 import { Link, useNavigate } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
+import { useState } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
 import { IconButton } from '@/shared/components/ui/icon-button';
 import { useUser } from '@/shared/contexts/user';
 
+import { LogoutConfirmation } from '../../LogoutConfirmation/LogoutConfirmation';
+
 export const Header = () => {
   const navigate = useNavigate();
-
   const user = useUser();
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
   const onLogout = () => {
     navigate({
@@ -36,7 +39,7 @@ export const Header = () => {
           </IconButton>
         </div>
         {user.isLoggedIn && (
-          <Button onClick={onLogout}>
+          <Button onClick={() => setIsLogoutOpen(true)}>
             Выйти
             <LogOutIcon />
           </Button>
@@ -50,6 +53,7 @@ export const Header = () => {
           </Link>
         )}
       </div>
+      <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
     </header>
   );
 };

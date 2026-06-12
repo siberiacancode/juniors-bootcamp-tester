@@ -52,7 +52,7 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 //             <img
 //               alt={game!.name}
 //               className='aspect-video h-52 object-cover object-center grayscale'
-//               src={`https://juniorsbootcamp.ru/api${game!.image}`}
+//               src={`${API_URL}${game!.image}`}
 //             />
 
 //             <Card className='flex flex-col gap-4 px-6'>

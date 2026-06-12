@@ -1,7 +1,13 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
 
 import { Button } from '@/shared/components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/shared/components/ui/dialog';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle
+} from '@/shared/components/ui/dialog';
 import {
   Drawer,
   DrawerClose,
@@ -58,7 +64,10 @@ export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConf
 
   return (
     <Drawer direction='bottom' open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className='items-center gap-8 px-4 pt-12 pb-7 text-center' showCloseButton={false}>
+      <DrawerContent
+        className='items-center gap-8 px-4 pt-12 pb-7 text-center'
+        showCloseButton={false}
+      >
         <div
           aria-hidden
           className='flex size-20 items-center justify-center rounded-full bg-foreground text-[52px]/[52px] font-medium text-background'

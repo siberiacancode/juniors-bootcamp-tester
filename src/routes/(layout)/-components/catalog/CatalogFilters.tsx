@@ -57,12 +57,12 @@ const CatalogFilters = ({
   };
 
   return (
-    <div className={cn('flex flex-col', variant === 'desktop' ? 'gap-8' : 'gap-7', className)}>
-      <div className='flex flex-col gap-5'>
+    <div className={cn('flex flex-col', variant === 'desktop' ? 'gap-5' : 'gap-7', className)}>
+      <div className={cn('flex flex-col', variant === 'desktop' ? 'gap-3' : 'gap-5')}>
         <label className='flex items-center justify-between gap-4'>
           <Typography
             as='span'
-            className='text-[22px]/7 font-medium tracking-normal lg:text-[18px]/6.5'
+            className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
             variant='body-lg'
           >
             Только со скидкой
@@ -77,7 +77,7 @@ const CatalogFilters = ({
         <label className='flex items-center justify-between gap-4'>
           <Typography
             as='span'
-            className='text-[22px]/7 font-medium tracking-normal lg:text-[18px]/6.5'
+            className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
             variant='body-lg'
           >
             Показывать DLC
@@ -90,41 +90,47 @@ const CatalogFilters = ({
         </label>
       </div>
 
-      <div className='flex flex-col gap-4'>
+      <div className={cn('flex flex-col', variant === 'desktop' ? 'gap-3' : 'gap-4')}>
         <Typography
           as='h2'
-          className='text-[26px]/8 font-medium tracking-normal lg:text-[22px]/7'
+          className='text-[26px]/8 font-medium tracking-normal lg:text-[13px]/4.5'
           variant='title-md'
         >
           Жанр
         </Typography>
 
-        <InputGroup className={cn('h-15', variant === 'desktop' && 'h-12')}>
+        <InputGroup className={cn('h-15', variant === 'desktop' && 'h-7')}>
           <InputGroupAddon align='start'>
-            <SearchIcon className='text-input' />
+            <SearchIcon className={cn('text-input', variant === 'desktop' && 'size-3.5')} />
           </InputGroupAddon>
           <InputGroupInput
-            className='text-[24px]/8 placeholder:text-foreground/30 lg:text-[18px]/6.5'
+            className='text-[24px]/8 placeholder:text-foreground/30 lg:text-[13px]/4.5'
             placeholder='Название жанра'
             value={genreQuery}
             onChange={(event) => setGenreQuery(event.target.value)}
           />
         </InputGroup>
 
-        <div className='flex flex-col gap-3'>
+        <div className={cn('flex flex-col', variant === 'desktop' ? 'gap-2' : 'gap-3')}>
           {visibleGenres.map((genre) => (
-            <label key={genre} className='flex min-h-8 items-center gap-3'>
+            <label
+              key={genre}
+              className={cn(
+                'flex min-h-8 items-center gap-3',
+                variant === 'desktop' && 'min-h-5 gap-2'
+              )}
+            >
               <Checkbox
                 className={cn(
                   'size-7 rounded-8 border-2 border-ring bg-background',
-                  variant === 'desktop' && 'size-5 rounded-6'
+                  variant === 'desktop' && 'size-4 rounded-4 border'
                 )}
                 checked={selectedGenres.has(genre)}
                 onCheckedChange={(checked) => onGenreChange(genre, checked === true)}
               />
               <Typography
                 as='span'
-                className='text-[18px]/6.5 font-medium tracking-normal lg:text-[16px]/6'
+                className='text-[18px]/6.5 font-medium tracking-normal lg:text-[11px]/4'
                 variant='body-md'
               >
                 {CATALOG_GENRE_LABELS[genre]}
@@ -140,15 +146,24 @@ const CatalogFilters = ({
         )}
 
         {shouldLimitGenres && filteredGenres.length > visibleGenres.length && (
-          <Button className='self-center px-4 text-[18px]/6.5' variant='ghost' onClick={() => setShowAllGenres(true)}>
+          <Button
+            className='self-center px-4 text-[18px]/6.5 lg:text-[11px]/4'
+            variant='ghost'
+            onClick={() => setShowAllGenres(true)}
+          >
             Показать ещё
           </Button>
         )}
       </div>
 
       {showActions && (
-        <div className='mt-auto flex flex-col gap-3 pt-6'>
-          <Button className='h-18 text-[18px]/6.5 font-medium' size='lg' variant='secondary' onClick={onReset}>
+        <div className='mt-auto flex flex-col gap-3 pt-3'>
+          <Button
+            className='h-18 text-[18px]/6.5 font-medium lg:h-10 lg:text-[11px]/4'
+            size='lg'
+            variant='secondary'
+            onClick={onReset}
+          >
             Сбросить фильтры
           </Button>
         </div>

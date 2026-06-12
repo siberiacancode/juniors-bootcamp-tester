@@ -4,7 +4,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Typography } from '@/shared/components/ui/typography';
 import { DELIVERY_LABELS, REGION_LABELS } from '@/shared/constants';
 
-import type { OrderHistoryItem } from '../../-constants';
+import type { OrderHistoryItem } from './types';
 
 import { OrderHistoryBadge } from './OrderHistoryBadge';
 
@@ -36,9 +36,7 @@ export const OrderHistoryCard = ({ order }: OrderHistoryCardProps) => (
 
     <div className='flex flex-wrap gap-2'>
       <OrderHistoryBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderHistoryBadge>
-      <OrderHistoryBadge>
-        {DELIVERY_LABELS[order.gameSnapshot.deliveryType]}
-      </OrderHistoryBadge>
+      <OrderHistoryBadge>{DELIVERY_LABELS[order.gameSnapshot.deliveryType]}</OrderHistoryBadge>
     </div>
 
     <div className='flex flex-col gap-4'>

@@ -1,25 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useMediaQuery } from '@siberiacancode/reactuse';
 import { createFileRoute } from '@tanstack/react-router';
-import { Loader2Icon } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { PatternFormat } from 'react-number-format';
 
-import { useGetUsersSessionQuery, usePatchUsersProfileMutation } from '@/shared/api/generated';
 import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
 import { Button } from '@/shared/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
-import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
 import { useUser } from '@/shared/contexts/user';
 
-import type { ProfileFormScheme } from './-constants';
-
-import { OrderHistory } from '../../-components';
-import { mockOrderHistory } from '../../-constants';
-import { LogoutConfirmation } from './-components';
-import { profileFormScheme } from './-constants';
-import { formatPhone } from './-helpers';
+import { LogoutConfirmation, OrderHistory } from '../../-components';
+import { EditProfile } from './-components';
+import { ProfileSkeleton } from './-components/ProfileSkeleton/ProfileSkeleton';
 
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
   component: RouteComponent
@@ -28,70 +19,22 @@ export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const user = useUser();
+
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
   const [isEditing, setIsEditing] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
-  const userSessionQuery = useGetUsersSessionQuery({
-    params: {
-      enabled: user.isLoggedIn
-    }
-  });
+  const currentUser = user.value;
 
-  const usersProfileMutation = usePatchUsersProfileMutation();
-  const sessionUser = userSessionQuery.data?.data.user;
-  const currentUser = user.value!;
+  if (!currentUser) {
+    return <ProfileSkeleton />;
+  }
+
   const displayName = [currentUser.lastname, currentUser.firstname, currentUser.middlename]
     .filter(Boolean)
     .join(' ');
-  const formattedPhone = formatPhone(currentUser.phone);
   const avatarFallback = (displayName || currentUser.email || 'G').trim().charAt(0).toUpperCase();
-
-  const profileDefaultValues = useMemo(
-    () => ({
-      email: currentUser.email ?? '',
-      firstname: currentUser.firstname ?? '',
-      lastname: currentUser.lastname ?? ''
-    }),
-    [currentUser.email, currentUser.firstname, currentUser.lastname]
-  );
-
-  const profileForm = useForm<ProfileFormScheme>({
-    mode: 'onSubmit',
-    defaultValues: profileDefaultValues,
-    resolver: zodResolver(profileFormScheme)
-  });
-  const { isDirty, isSubmitting } = profileForm.formState;
-
-  useEffect(() => {
-    if (!sessionUser) return;
-
-    user.set(sessionUser);
-  }, [sessionUser, user]);
-
-  useEffect(() => {
-    if (isEditing) return;
-
-    profileForm.reset(profileDefaultValues);
-  }, [isEditing, profileDefaultValues, profileForm]);
-
-  const onSubmit = profileForm.handleSubmit(async (values) => {
-    const response = await usersProfileMutation.mutateAsync({
-      body: {
-        phone: currentUser.phone,
-        profile: values
-      }
-    });
-    const updatedUser = response.data.user;
-
-    profileForm.reset(values);
-    user.set(updatedUser);
-    setIsEditing(false);
-  });
-
-  const onCancelEditing = () => {
-    profileForm.reset(profileDefaultValues);
-    setIsEditing(false);
-  };
 
   const onLogout = () => {
     navigate({
@@ -100,136 +43,87 @@ function RouteComponent() {
     user.remove();
   };
 
-  if (isEditing) {
+  if (isEditing && !isDesktop) {
     return (
-      <main className='flex flex-col items-center gap-4'>
-        <div className='pb-4 sm:hidden'>
-          <Typography as='h1' variant='title-md'>
-            Профиль
-          </Typography>
-        </div>
-
-        <form className='flex w-full flex-col gap-4 lg:max-w-xl' onSubmit={onSubmit}>
-          <fieldset className='flex flex-col gap-4' disabled={isSubmitting}>
-            <Controller
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Имя</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Имя' />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-              control={profileForm.control}
-              name='firstname'
-            />
-
-            <Controller
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Фамилия</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Фамилия' />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-              control={profileForm.control}
-              name='lastname'
-            />
-
-            <Field>
-              <FieldLabel htmlFor='phone'>Номер телефона</FieldLabel>
-              <Input asChild disabled id='phone' value={currentUser.phone}>
-                <PatternFormat format='+7 ### ### ## ##' />
-              </Input>
-            </Field>
-
-            <Controller
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                  <Input {...field} id={field.name} placeholder='Email' />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-              control={profileForm.control}
-              name='email'
-            />
-          </fieldset>
-
-          <div className='flex flex-col gap-2.5 py-4'>
-            <Button disabled={!isDirty} size='lg' type='submit' variant='secondary'>
-              {isSubmitting && <Loader2Icon className='animate-spin' />}
-              Обновить данные
-            </Button>
-            <Button size='lg' onClick={onCancelEditing}>
-              Отмена
-            </Button>
-          </div>
-        </form>
-      </main>
+      <EditProfile
+        user={currentUser}
+        onCancel={() => setIsEditing(false)}
+        onSuccess={() => setIsEditing(false)}
+      />
     );
   }
 
   return (
-    <main className='mx-auto flex w-full max-w-5xl flex-col gap-10 lg:grid lg:grid-cols-[minmax(22rem,24rem)_minmax(0,1fr)] lg:gap-16'>
-      <div className='pb-4 sm:hidden'>
+    <main className='mx-auto flex w-full flex-col gap-10 lg:grid lg:grid-cols-[minmax(22rem,24rem)_minmax(0,1fr)] lg:gap-16'>
+      <div className='sm:hidden'>
         <Typography as='h1' className='text-[24px]/[32px]' variant='heading-md'>
           Профиль
         </Typography>
       </div>
-
       <section className='flex flex-col items-center gap-4'>
-        <Avatar className='bg-secondary' size='xl'>
-          <AvatarFallback className='bg-secondary text-[32px]/[24px] font-medium text-foreground sm:text-[96px]/[84px]'>
-            {avatarFallback}
-          </AvatarFallback>
-        </Avatar>
-        <div className='flex flex-col items-center'>
-          <Typography as='p' className='text-[24px]/[32px] sm:text-[24px]/[32px]' variant='body-lg'>
-            {displayName || formattedPhone}
-          </Typography>
-          {currentUser.email && (
-            <Typography
-              as='p'
-              className='text-[14px]/5.5 font-medium text-foreground/50'
-              variant='caption'
-            >
-              {currentUser.email}
+        <div className='flex flex-col items-center gap-4 sm:flex-row'>
+          <Avatar className='bg-secondary' size='xl'>
+            <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
+              {avatarFallback}
+            </AvatarFallback>
+          </Avatar>
+          <div className='flex flex-col items-center text-center sm:items-start sm:text-left'>
+            <Typography as='p' className='text-[24px]/[32px]' variant='body-lg'>
+              {displayName || currentUser.phone}
             </Typography>
-          )}
-          {displayName && (
-            <Typography
-              as='div'
-              className='mt-4 text-[14px]/5.5 text-foreground sm:text-[24px]/8'
-              variant='body-lg'
-            >
-              {formattedPhone}
-            </Typography>
-          )}
+            {currentUser.email && (
+              <Typography
+                as='p'
+                className='text-[14px]/5.5 font-medium text-foreground/50'
+                variant='caption'
+              >
+                {currentUser.email}
+              </Typography>
+            )}
+            {displayName && (
+              <Typography
+                as='p'
+                className='mt-4 text-[14px]/5.5 font-medium sm:mt-0'
+                variant='caption'
+              >
+                <PatternFormat format='+7 ### ### ## ##' value={currentUser.phone.slice(1)} />
+              </Typography>
+            )}
+          </div>
         </div>
-        <Button
-          className='w-full'
-          size='lg'
-          type='button'
-          variant='secondary'
-          onClick={() => setIsEditing(true)}
-        >
-          Редактировать профиль
-        </Button>
-        <Button className='w-full' size='lg' type='button' onClick={() => setIsLogoutOpen(true)}>
-          Выйти
-        </Button>
+        <div className='flex w-full flex-col gap-2.5 p-4 sm:p-0'>
+          <Button
+            className='w-full'
+            size='lg'
+            type='button'
+            variant='secondary'
+            onClick={() => setIsEditing(true)}
+          >
+            Редактировать профиль
+          </Button>
+          <Button className='w-full' size='lg' type='button' onClick={() => setIsLogoutOpen(true)}>
+            Выйти
+          </Button>
+        </div>
       </section>
       <section className='flex flex-col gap-4'>
         <Typography
           as='p'
-          className='text-[18px]/6.5 font-normal tracking-normal text-foreground sm:text-[18px]/6.5'
+          className='block text-[18px]/6.5 font-normal tracking-normal text-foreground sm:hidden sm:text-[18px]/6.5'
           variant='body-sm'
         >
           История покупок
         </Typography>
-        <OrderHistory orders={mockOrderHistory} />
+        <OrderHistory />
       </section>
       <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
+      {isEditing && (
+        <EditProfile
+          user={currentUser}
+          onCancel={() => setIsEditing(false)}
+          onSuccess={() => setIsEditing(false)}
+        />
+      )}
     </main>
   );
 }
