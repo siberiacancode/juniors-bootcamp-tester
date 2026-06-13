@@ -1,9 +1,11 @@
 import fetches from '@siberiacancode/fetches';
 
+import { API_URL } from '@/shared/config/env';
+
 import { LOCAL_STORAGE_KEYS } from '../constants';
 
 export const instance = fetches.create({
-  baseURL: 'https://juniorsbootcamp.ru/api',
+  baseURL: API_URL,
   validateStatus: (status) => status < 500
 });
 
