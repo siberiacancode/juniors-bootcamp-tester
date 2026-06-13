@@ -5,7 +5,6 @@ export type CatalogView = 'all' | GameView;
 export const CATALOG_GENRES = [
   'action',
   'adventure',
-  'casual',
   'rpg',
   'strategy',
   'shooter',
@@ -14,8 +13,7 @@ export const CATALOG_GENRES = [
   'sports',
   'racing',
   'indie',
-  'horror',
-  'multiplayer'
+  'horror'
 ] as const satisfies GameGenre[];
 
 export const CATALOG_VIEWS = [

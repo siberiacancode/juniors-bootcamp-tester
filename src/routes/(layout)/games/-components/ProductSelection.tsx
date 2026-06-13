@@ -3,19 +3,17 @@ import { useMemo } from 'react';
 import type { DeliveryType, PriceVariant, Region } from '@/shared/api/generated';
 
 import { Typography } from '@/shared/components/ui/typography';
-import { DELIVERY_LABELS } from '@/shared/constants/delivery';
 import { cn } from '@/shared/utils';
 
-import type { ProductGame } from '../../-constants/product';
+import type { ProductGame } from '../-types';
 
-import { PRODUCT_DELIVERY_OPTIONS } from '../../-constants/product';
 import {
   deliveryIcons,
-  findAllRegions,
-  findEditionVariants,
-  findVariant,
-  formatProductPrice
-} from '../../-helpers';
+  PRODUCT_DELIVERY_ACCOUNT_LABELS,
+  PRODUCT_DELIVERY_OPTIONS,
+  PRODUCT_REGION_OPTIONS
+} from '../-constants';
+import { findAllRegions, findEditionVariants, findVariant, formatProductPrice } from '../-helpers';
 import { SelectionMark } from './SelectionMark';
 
 interface ProductSelectionProps {
@@ -34,15 +32,11 @@ export const ProductSelection = ({
   const selectedEdition = selectedVariant.edition;
   const selectedRegion = selectedVariant.region;
 
-  const selectedDeliveryLabel =
-    selectedDelivery === 'steam_gift'
-      ? DELIVERY_LABELS.steam_key
-      : DELIVERY_LABELS[selectedDelivery];
+  const availableRegions = useMemo(() => {
+    const regions = findAllRegions(game.priceVariants, selectedDelivery);
 
-  const availableRegions = useMemo(
-    () => findAllRegions(game.priceVariants, selectedDelivery),
-    [game.priceVariants, selectedDelivery]
-  );
+    return PRODUCT_REGION_OPTIONS.filter((option) => regions.includes(option.value));
+  }, [game.priceVariants, selectedDelivery]);
   const editionVariants = useMemo(
     () => findEditionVariants(game.priceVariants, selectedDelivery, selectedRegion),
     [game.priceVariants, selectedDelivery, selectedRegion]
@@ -95,7 +89,7 @@ export const ProductSelection = ({
 
       <section className='flex flex-col gap-3'>
         <Typography className='lg:text-[24px]/8 lg:font-bold' variant='body-md'>
-          {`Регион ${selectedDeliveryLabel}-аккаунта`}
+          {`Регион ${PRODUCT_DELIVERY_ACCOUNT_LABELS[selectedDelivery]}-аккаунта`}
         </Typography>
         <div className='flex flex-wrap gap-2'>
           {availableRegions.map((region) => (
@@ -126,7 +120,7 @@ export const ProductSelection = ({
               type='button'
               onClick={() => handleEditionChange(variant.edition)}
             >
-              <SelectionMark active={selectedEdition === variant.edition} size='sm' />
+              <SelectionMark active={selectedEdition === variant.edition} />
               <Typography
                 as='span'
                 className='min-w-0 flex-1 text-[14px]/5.5 font-medium tracking-normal'

@@ -2,8 +2,7 @@ import type { SystemRequirements } from '@/shared/api/generated';
 
 import { Typography } from '@/shared/components/ui/typography';
 
-import { getRequirementRows } from '../../-helpers';
-import { RequirementRow } from './RequirementRow';
+import { getRequirementRows } from '../-helpers';
 
 export const RequirementColumn = ({
   requirements,
@@ -26,7 +25,20 @@ export const RequirementColumn = ({
       64-разрядные процессор и операционная система
     </Typography>
     {getRequirementRows(requirements).map((row) =>
-      row.value ? <RequirementRow key={row.label} label={row.label} value={row.value} /> : null
+      row.value ? (
+        <div key={row.label} className='flex flex-col'>
+          <Typography as='span' className='text-[14px]/5.5 text-muted-fg' variant='caption'>
+            {row.label}
+          </Typography>
+          <Typography
+            as='span'
+            className='text-[16px]/6 font-medium tracking-normal'
+            variant='body-sm'
+          >
+            {row.value}
+          </Typography>
+        </div>
+      ) : null
     )}
   </div>
 );

@@ -1,15 +1,17 @@
 import type { GameGenre } from '../api/generated';
 
-export const GENRES_MAP: Record<GameGenre, string> = {
-  action: 'Экшен',
-  adventure: 'Приключение',
-  rpg: 'РПГ',
-  strategy: 'Стратегия',
-  simulation: 'Симулятор',
-  sports: 'Спорт',
+export const GENRE_LABELS: Record<GameGenre, string> = {
+  action: 'Экшены',
+  adventure: 'Приключенческие игры',
   horror: 'Ужасы',
-  racing: 'Гонки',
-  shooter: 'Шутер',
   indie: 'Инди',
+  racing: 'Гонки',
+  rpg: 'Ролевые игры',
+  shooter: 'Шутеры',
+  simulation: 'Симуляторы',
+  sports: 'Спортивные игры',
+  strategy: 'Стратегии',
   survival: 'Выживание'
 };
+
+export const GENRES_MAP = GENRE_LABELS;

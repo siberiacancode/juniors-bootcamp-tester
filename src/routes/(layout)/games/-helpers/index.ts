@@ -1,4 +1,5 @@
 export * from './date';
+export * from './deliveryIcons';
 export * from './price';
-export * from './product';
+export * from './requirements';
 export * from './selectProduct';

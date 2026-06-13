@@ -12,12 +12,11 @@ import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
 import { Input } from '@/shared/components/ui/input';
 import { Typography } from '@/shared/components/ui/typography';
 
-import type { ProductGame } from '../../-constants/product';
+import type { ProductGame } from '../-types';
 
-import { paymentMethods } from '../../-constants/payment';
-import { PRODUCT_DELIVERY_OPTIONS, PRODUCT_REGION_OPTIONS } from '../../-constants/product';
-import { formatProductPrice } from '../../-helpers';
-import { useProductCheckoutForm } from '../../-hooks/useProductCheckoutForm';
+import { paymentMethods, PRODUCT_DELIVERY_OPTIONS, PRODUCT_REGION_OPTIONS } from '../-constants';
+import { formatProductPrice } from '../-helpers';
+import { useProductCheckoutForm } from '../-hooks/useProductCheckoutForm';
 import { SelectionMark } from './SelectionMark';
 
 export const ProductCheckout = ({

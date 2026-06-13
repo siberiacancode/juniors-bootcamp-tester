@@ -1,26 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-const productCheckoutFormSchema = z.object({
-  bindJbPay: z.boolean(),
-  email: z.string().email('Введите корректную почту'),
-  inviteLink: z.string(),
-  paymentMethod: z.enum(['card', 'jb-pay']),
-  payWithoutBinding: z.boolean(),
-  phone: z.string().min(8, 'Поле обязательно для заполнения')
-});
+import type { ProductCheckoutFormValues } from '../-constants';
 
-export type ProductCheckoutFormValues = z.infer<typeof productCheckoutFormSchema>;
+import { productCheckoutFormSchema } from '../-constants';
 
-const productCheckoutDefaultValues = {
+const productCheckoutDefaultValues: ProductCheckoutFormValues = {
   bindJbPay: false,
   email: '',
   inviteLink: '',
   paymentMethod: 'jb-pay',
   payWithoutBinding: true,
   phone: ''
-} satisfies ProductCheckoutFormValues;
+};
 
 export const useProductCheckoutForm = () => {
   const form = useForm<ProductCheckoutFormValues>({
@@ -31,7 +23,8 @@ export const useProductCheckoutForm = () => {
     shouldUnregister: true
   });
 
-  const handleSubmit = form.handleSubmit(() => undefined);
+  // TODO: Подключить api
+  const handleSubmit = form.handleSubmit((data) => console.log(data));
 
   return {
     form,

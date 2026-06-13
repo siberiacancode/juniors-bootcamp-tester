@@ -1,9 +1,8 @@
 import { Badge } from '@/shared/components/ui/badge';
 import { Typography } from '@/shared/components/ui/typography';
+import { GENRE_LABELS } from '@/shared/constants';
 
-import type { ProductGame } from '../../-constants/product';
-
-import { PRODUCT_GENRE_LABELS } from '../../-constants/';
+import type { ProductGame } from '../-types';
 
 export const ProductOverview = ({ game }: { game: ProductGame }) => (
   <div className='flex flex-col gap-3 lg:gap-4'>
@@ -22,14 +21,14 @@ export const ProductOverview = ({ game }: { game: ProductGame }) => (
       <div className='flex max-w-full scrollbar-none gap-2 overflow-x-auto lg:flex-wrap lg:overflow-visible [&::-webkit-scrollbar]:hidden'>
         {game.genres.map((genre) => (
           <Badge key={genre} className='px-4 py-2 text-[12px]/4 font-bold tracking-normal'>
-            {PRODUCT_GENRE_LABELS[genre]}
+            {GENRE_LABELS[genre]}
           </Badge>
         ))}
       </div>
     </div>
     <Typography
       as='p'
-      className='text-[16px]/6 font-medium tracking-normal text-foreground'
+      className='mb-6 text-[16px]/6 font-medium tracking-normal text-foreground sm:mb-0'
       variant='body-sm'
     >
       {game.description}

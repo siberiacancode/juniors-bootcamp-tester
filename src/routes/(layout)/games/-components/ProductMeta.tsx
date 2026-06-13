@@ -2,16 +2,11 @@ import { Card } from '@/shared/components/ui/card';
 import { Typography } from '@/shared/components/ui/typography';
 import { cn } from '@/shared/utils';
 
-import type { ProductGame } from '../../-constants';
+import type { ProductGame } from '../-types';
 
-import { formatProductDate } from '../../-helpers';
+import { formatProductDate } from '../-helpers';
 
-interface ProductMetaItem {
-  label: string;
-  value: string;
-}
-
-const productMetaItems = (game: ProductGame): ProductMetaItem[] => [
+const productMetaItems = (game: ProductGame): { label: string; value: string }[] => [
   {
     label: 'Дата выхода',
     value: formatProductDate(game.releaseDate)
@@ -31,7 +26,12 @@ const productMetaItems = (game: ProductGame): ProductMetaItem[] => [
 ];
 
 export const ProductMeta = ({ className, game }: { className?: string; game: ProductGame }) => (
-  <Card className={cn('gap-2 border-none p-0 sm:rounded-24 sm:bg-secondary sm:p-6', className)}>
+  <Card
+    className={cn(
+      'mb-6 gap-2 border-none p-0 sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6',
+      className
+    )}
+  >
     {productMetaItems(game).map((item) => (
       <div key={item.label} className='flex flex-col'>
         <Typography as='span' className='text-[14px]/5.5 text-muted-fg' variant='caption'>

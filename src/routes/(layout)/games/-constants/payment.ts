@@ -1,6 +1,9 @@
-export type PaymentMethod = 'card' | 'jb-pay';
+import type { PaymentMethod } from '@/shared/types';
 
-export const paymentMethods = [
+export const paymentMethods: {
+  label: string;
+  value: PaymentMethod;
+}[] = [
   {
     label: 'JB Pay',
     value: 'jb-pay'
@@ -9,7 +12,4 @@ export const paymentMethods = [
     label: 'Картой',
     value: 'card'
   }
-] as const satisfies Array<{
-  label: string;
-  value: PaymentMethod;
-}>;
+] as const;

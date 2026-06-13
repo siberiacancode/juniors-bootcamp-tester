@@ -1,7 +1,7 @@
 import { Typography } from '@/shared/components/ui/typography';
 import { cn } from '@/shared/utils';
 
-import type { ProductGame } from '../../-constants/product';
+import type { ProductGame } from '../-types';
 
 export const ProductScreenshots = ({
   className,
@@ -10,7 +10,7 @@ export const ProductScreenshots = ({
   className?: string;
   game: ProductGame;
 }) => (
-  <section className={cn('flex flex-col gap-3', className)}>
+  <section className={cn('mb-6 flex flex-col gap-3 sm:mb-0', className)}>
     <Typography className='lg:text-[24px]/8 lg:font-bold' variant='body-md'>
       Скриншоты
     </Typography>

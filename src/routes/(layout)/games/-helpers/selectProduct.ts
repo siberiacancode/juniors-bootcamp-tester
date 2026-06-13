@@ -1,9 +1,5 @@
 import type { DeliveryType, PriceVariant, Region } from '@/shared/api/generated';
 
-import type { ProductRegionOption } from '../-constants';
-
-import { PRODUCT_REGION_OPTIONS } from '../-constants';
-
 export const findEditionVariants = (
   variants: PriceVariant[],
   deliveryType: DeliveryType,
@@ -25,10 +21,7 @@ export const findEditionVariants = (
   });
 };
 
-export const findAllRegions = (
-  variants: PriceVariant[],
-  deliveryType: DeliveryType
-): ProductRegionOption[] => {
+export const findAllRegions = (variants: PriceVariant[], deliveryType: DeliveryType): Region[] => {
   const regions = new Set<Region>();
 
   variants.forEach((variant) => {
@@ -37,7 +30,7 @@ export const findAllRegions = (
     }
   });
 
-  return PRODUCT_REGION_OPTIONS.filter((option) => regions.has(option.value));
+  return [...regions];
 };
 
 export const findVariant = (

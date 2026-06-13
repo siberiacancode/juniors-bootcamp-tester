@@ -1,13 +1,4 @@
-import type { ComponentType, SVGProps } from 'react';
-
-import { Gamepad2Icon, GiftIcon, KeyRoundIcon } from 'lucide-react';
-
-import type { DeliveryType, SystemRequirements } from '@/shared/api/generated';
-
-import { PlayStationIcon } from '@/shared/components/icons/PlayStationIcon';
-import { XboxLogoIcon } from '@/shared/components/icons/XboxLogoIcon';
-
-type DeliveryIconComponent = ComponentType<SVGProps<SVGSVGElement>>;
+import type { SystemRequirements } from '@/shared/api/generated';
 
 export const getRequirementRows = (requirements: SystemRequirements) => [
   {
@@ -36,12 +27,3 @@ export const getRequirementRows = (requirements: SystemRequirements) => [
       '*1080p основное разрешение / 720p разрешение прорисовки, низкие настройки графики, 30 кадров в секунду, требуется SSD'
   }
 ];
-
-export const deliveryIcons: Record<DeliveryType, DeliveryIconComponent> = {
-  epic_key: KeyRoundIcon,
-  nintendo_key: Gamepad2Icon,
-  playstation_key: PlayStationIcon,
-  steam_gift: GiftIcon,
-  steam_key: KeyRoundIcon,
-  xbox_key: XboxLogoIcon
-};
