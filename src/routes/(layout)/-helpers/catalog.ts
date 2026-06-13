@@ -1,8 +1,8 @@
 import type { FilteredGame, GameGenre } from '@/shared/api/generated';
 
-import type { CatalogView } from '../-constants/catalog';
+import { API_URL } from '@/shared/config/env';
 
-import { CATALOG_POPULAR_SLUGS } from '../-constants/catalog';
+import type { CatalogView } from '../-constants/catalog';
 
 export interface CatalogFilters {
   genre: GameGenre[];
@@ -54,14 +54,6 @@ export const filterCatalogGames = (
       return false;
     }
 
-    if (filters.view === 'new') {
-      return game.releaseDate >= 2024;
-    }
-
-    if (filters.view === 'popular') {
-      return CATALOG_POPULAR_SLUGS.includes(game.slug as (typeof CATALOG_POPULAR_SLUGS)[number]);
-    }
-
     return true;
   });
 };
@@ -77,5 +69,15 @@ export const filterGenresByQuery = (
     return genres;
   }
 
-  return genres.filter((genre) => labels[genre].toLocaleLowerCase('ru-RU').includes(normalizedQuery));
+  return genres.filter((genre) =>
+    labels[genre].toLocaleLowerCase('ru-RU').includes(normalizedQuery)
+  );
+};
+
+export const getGameImageSrc = (image: string) => {
+  if (image.startsWith('http')) {
+    return image;
+  }
+
+  return `${API_URL}${image}`;
 };

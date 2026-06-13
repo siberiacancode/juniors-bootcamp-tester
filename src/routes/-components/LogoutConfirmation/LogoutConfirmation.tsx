@@ -24,6 +24,10 @@ interface LogoutConfirmationProps {
 
 export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConfirmationProps) => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const handleConfirm = () => {
+    onOpenChange(false);
+    onConfirm();
+  };
 
   if (isDesktop) {
     return (
@@ -53,7 +57,7 @@ export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConf
                 Отменить
               </Button>
             </DialogClose>
-            <Button className='w-full' size='lg' type='button' onClick={onConfirm}>
+            <Button className='w-full' size='lg' type='button' onClick={handleConfirm}>
               Выйти
             </Button>
           </div>
@@ -89,7 +93,7 @@ export const LogoutConfirmation = ({ open, onConfirm, onOpenChange }: LogoutConf
               Отменить
             </Button>
           </DrawerClose>
-          <Button className='w-full' size='lg' type='button' onClick={onConfirm}>
+          <Button className='w-full' size='lg' type='button' onClick={handleConfirm}>
             Выйти
           </Button>
         </div>

@@ -1,3 +1,4 @@
+import { OrderDetailsCard } from '@modules/order';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { InboxIcon } from 'lucide-react';
 
@@ -6,7 +7,6 @@ import { Button } from '@/shared/components/ui/button';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Typography } from '@/shared/components/ui/typography';
 
-import { OrderDetailsCard } from '../../-components';
 import { HistoryDetailsHeader } from './-components';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({

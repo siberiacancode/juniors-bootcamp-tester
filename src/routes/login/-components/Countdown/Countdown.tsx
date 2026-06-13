@@ -6,12 +6,12 @@ import { Typography } from '@/shared/components/ui/typography';
 
 interface CountdownProps {
   loading?: boolean;
-  retryDelay: number;
+  retryAt: number;
   onRetry: () => void;
 }
 
-export const Countdown = ({ retryDelay, onRetry, loading = false }: CountdownProps) => {
-  const timer = useTimer(retryDelay);
+export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps) => {
+  const timer = useTimer(retryAt);
   const seconds = timer.seconds + timer.minutes * 60;
 
   if (!seconds)

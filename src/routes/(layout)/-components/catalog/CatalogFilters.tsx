@@ -10,14 +10,10 @@ import { Switch } from '@/shared/components/ui/switch';
 import { Typography } from '@/shared/components/ui/typography';
 import { cn } from '@/shared/utils';
 
+import type { FilterValue } from '../types';
+
 import { CATALOG_GENRE_LABELS, CATALOG_GENRES } from '../../-constants/catalog';
 import { filterGenresByQuery } from '../../-helpers/catalog';
-
-interface FilterValue {
-  genre: GameGenre[];
-  showDlc: boolean;
-  withDiscount: boolean;
-}
 
 interface CatalogFiltersProps {
   className?: string;
@@ -28,7 +24,7 @@ interface CatalogFiltersProps {
   onReset: () => void;
 }
 
-const CatalogFilters = ({
+export const CatalogFilters = ({
   className,
   onChange,
   onReset,
@@ -171,6 +167,3 @@ const CatalogFilters = ({
     </div>
   );
 };
-
-export { CatalogFilters };
-export type { FilterValue };

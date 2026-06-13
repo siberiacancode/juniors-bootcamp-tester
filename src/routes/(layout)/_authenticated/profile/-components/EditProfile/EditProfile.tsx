@@ -38,6 +38,7 @@ export const EditProfile = ({ user, onCancel, onSuccess }: EditProfileProps) => 
   const userContext = useUser();
   const queryClient = useQueryClient();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
+
   const usersProfileMutation = usePatchUsersProfileMutation();
 
   const profileDefaultValues = useMemo(

@@ -1,3 +1,4 @@
+import { LogoutConfirmation, OrderHistory } from '@modules';
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -8,7 +9,6 @@ import { Button } from '@/shared/components/ui/button';
 import { Typography } from '@/shared/components/ui/typography';
 import { useUser } from '@/shared/contexts/user';
 
-import { LogoutConfirmation, OrderHistory } from '../../-components';
 import { EditProfile } from './-components';
 import { ProfileSkeleton } from './-components/ProfileSkeleton/ProfileSkeleton';
 
@@ -34,7 +34,7 @@ function RouteComponent() {
   const displayName = [currentUser.lastname, currentUser.firstname, currentUser.middlename]
     .filter(Boolean)
     .join(' ');
-  const avatarFallback = (displayName || currentUser.email || 'G').trim().charAt(0).toUpperCase();
+  const avatarFallback = (displayName || currentUser.email || 'A').trim().charAt(0).toUpperCase();
 
   const onLogout = () => {
     navigate({
@@ -54,7 +54,7 @@ function RouteComponent() {
   }
 
   return (
-    <main className='mx-auto flex w-full flex-col gap-10 lg:grid lg:grid-cols-[minmax(22rem,24rem)_minmax(0,1fr)] lg:gap-16'>
+    <main className='mx-auto mt-12 flex w-full flex-col gap-10 lg:grid lg:grid-cols-[minmax(22rem,24rem)_minmax(0,1fr)] lg:gap-16'>
       <div className='sm:hidden'>
         <Typography as='h1' className='text-[24px]/[32px]' variant='heading-md'>
           Профиль

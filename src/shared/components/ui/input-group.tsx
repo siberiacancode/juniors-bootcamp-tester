@@ -11,13 +11,12 @@ import { IconButton } from './icon-button';
 const InputGroup = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
     className={cn(
-      'group/input-group relative flex w-full items-center rounded-full border border-input transition-[color,box-shadow] outline-none dark:bg-input/30',
-      'h-13 min-w-0',
+      'group/input-group relative flex h-11 w-full min-w-0 items-center rounded-full border border-input bg-transparent transition-[color,box-shadow] outline-none',
 
       'has-[>[data-align=start]]:[&>input]:pl-2',
       'has-[>[data-align=end]]:[&>input]:pr-2',
 
-      'has-[[data-slot=input-group-control]:focus-visible]:border-border-soft has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50',
+      'has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50',
 
       'has-[[data-slot][aria-invalid=true]]:border-danger has-[[data-slot][aria-invalid=true]]:ring-danger/20 dark:has-[[data-slot][aria-invalid=true]]:ring-danger/40',
       className
@@ -79,7 +78,7 @@ const InputGroupIconButton = ({
 const InputGroupInput = ({ className, ...props }: ComponentProps<typeof Input>) => (
   <Input
     className={cn(
-      'flex-1 rounded-none border-none bg-transparent ring-0 focus-visible:ring-0',
+      'h-full flex-1 rounded-none border-none bg-transparent p-0 text-[20px]/[24px] ring-0 focus-visible:ring-0',
       className
     )}
     data-slot='input-group-control'

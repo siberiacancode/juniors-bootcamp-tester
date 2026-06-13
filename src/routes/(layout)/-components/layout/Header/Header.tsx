@@ -1,3 +1,4 @@
+import { LogoutConfirmation } from '@modules/LogoutConfirmation/LogoutConfirmation';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -5,8 +6,6 @@ import { useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
 import { IconButton } from '@/shared/components/ui/icon-button';
 import { useUser } from '@/shared/contexts/user';
-
-import { LogoutConfirmation } from '../../LogoutConfirmation/LogoutConfirmation';
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ export const Header = () => {
   };
 
   return (
-    <header className='mb-12 hidden h-16 items-center justify-between px-3 sm:flex'>
+    <header className='hidden h-16 items-center justify-between px-3 sm:flex'>
       <Link className='text-[16px]/6 font-extrabold tracking-wide' to='/'>
         <span className='text-[22px]'>🎮</span> GAMES
       </Link>

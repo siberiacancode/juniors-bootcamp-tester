@@ -1,8 +1,7 @@
+import { OrderHistory } from '@modules/order';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Typography } from '@/shared/components/ui/typography';
-
-import { OrderHistory } from '../../-components';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
   component: RouteComponent

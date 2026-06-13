@@ -4,23 +4,14 @@ import type { FilteredGame } from '@/shared/api/generated';
 
 import { Badge } from '@/shared/components/ui/badge';
 import { Typography } from '@/shared/components/ui/typography';
-import { API_URL } from '@/shared/config/env';
 
-import { formatCatalogPrice, getDiscountPercent } from '../../-helpers/catalog';
+import { formatCatalogPrice, getDiscountPercent, getGameImageSrc } from '../../-helpers/catalog';
 
 interface GameCardProps {
   game: FilteredGame;
 }
 
-const getGameImageSrc = (image: string) => {
-  if (image.startsWith('http')) {
-    return image;
-  }
-
-  return `${API_URL}${image}`;
-};
-
-const GameCard = ({ game }: GameCardProps) => {
+export const GameCard = ({ game }: GameCardProps) => {
   const discountPercent = getDiscountPercent(game);
 
   return (
@@ -79,5 +70,3 @@ const GameCard = ({ game }: GameCardProps) => {
     </article>
   );
 };
-
-export { GameCard };
