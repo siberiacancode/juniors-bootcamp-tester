@@ -1,13 +1,8 @@
 import type { PriceVariant } from '@/generated/api';
 
-const rubleFormatter = new Intl.NumberFormat('ru-RU', {
-  currency: 'RUB',
-  maximumFractionDigits: 0,
-  style: 'currency'
-});
+import { formatMoney } from '@/helpers/utils';
 
-export const formatProductPrice = (price: number): string =>
-  rubleFormatter.format(price).replace(/\u00A0/g, ' ');
+export const formatProductPrice = (price: number): string => formatMoney(price);
 
 export const getProductDiscountPercent = (variant: PriceVariant): number | null => {
   if (!variant.oldPrice || variant.oldPrice <= variant.price) {

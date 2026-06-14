@@ -1,6 +1,6 @@
-import type { ClassValue } from 'clsx';
+import type { ClassValue } from '@siberiacancode/reactuse';
 
-import { clsx } from 'clsx';
+import { cn as _cn } from '@siberiacancode/reactuse';
 import { twMerge } from 'tailwind-merge';
 
-export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
+export const cn = (...inputs: unknown[]) => twMerge(_cn(inputs as ClassValue[]));

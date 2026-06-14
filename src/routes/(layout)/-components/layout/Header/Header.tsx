@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
-import { LOCAL_STORAGE_KEYS } from '@/constants';
 import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
+import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 export const Header = () => {
   const navigate = useNavigate();

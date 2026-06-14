@@ -8,8 +8,8 @@ import { PatternFormat } from 'react-number-format';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Typography } from '@/components/ui/typography';
-import { LOCAL_STORAGE_KEYS } from '@/constants';
 import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
+import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 import { EditProfile } from './-components';
 import { ProfileSkeleton } from './-components/ProfileSkeleton/ProfileSkeleton';

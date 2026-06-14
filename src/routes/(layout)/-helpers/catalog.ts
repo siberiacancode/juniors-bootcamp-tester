@@ -1,5 +1,7 @@
 import type { FilteredGame, GameGenre } from '@/generated/api';
 
+import { formatMoney } from '@/helpers/utils';
+
 import type { CatalogView } from '../-constants/catalog';
 
 export interface CatalogFilters {
@@ -10,14 +12,7 @@ export interface CatalogFilters {
   withDiscount: boolean;
 }
 
-const rubleFormatter = new Intl.NumberFormat('ru-RU', {
-  maximumFractionDigits: 0,
-  style: 'currency',
-  currency: 'RUB'
-});
-
-export const formatCatalogPrice = (price: number): string =>
-  rubleFormatter.format(price).replace(/\u00A0/g, ' ');
+export const formatCatalogPrice = (price: number): string => formatMoney(price);
 
 export const getDiscountPercent = (game: FilteredGame): number | null => {
   const { oldPrice, price } = game.priceVariant;
@@ -72,10 +67,4 @@ export const filterGenresByQuery = (
   );
 };
 
-export const getGameImageSrc = (image: string) => {
-  if (image.startsWith('http')) {
-    return image;
-  }
-
-  return `https://juniorsbootcamp.ru/api${image}`;
-};
+export { getGameImageSrc } from '@/helpers/utils';

@@ -1,3 +1,5 @@
+type PaymentMethod = 'card' | 'jb-pay';
+
 export const paymentMethods: {
   label: string;
   value: PaymentMethod;

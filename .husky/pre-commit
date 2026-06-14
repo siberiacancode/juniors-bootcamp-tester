@@ -1,2 +1,2 @@
-yarn check
+yarn types
 yarn nano-staged

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Typography } from '@/components/ui/typography';
-import { GENRE_LABELS } from '@/constants';
+import { GENRE_LABELS } from '@/helpers/constants';
 
 import type { ProductGame } from '../-types';
 

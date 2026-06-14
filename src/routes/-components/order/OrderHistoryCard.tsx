@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
 import { Typography } from '@/components/ui/typography';
-import { DELIVERY_LABELS, REGION_LABELS } from '@/constants';
+import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
 
 import type { OrderHistoryItem } from './types';
 

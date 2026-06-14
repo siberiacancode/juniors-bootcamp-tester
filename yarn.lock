@@ -1880,12 +1880,10 @@
   dependencies:
     prettier "^3.8.1"
 
-"@siberiacancode/reactuse@^0.3.22":
-  version "0.3.22"
-  resolved "https://registry.yarnpkg.com/@siberiacancode/reactuse/-/reactuse-0.3.22.tgz#c417147306dc74934f47b615c4c018f4cb1c0107"
-  integrity sha512-WeTCR239tjsLX2cdQF1aUueeDW7vw9Og5sVxfITjueVcUtOEGGHooHCz56UwfWrLyzdaIxt1Rqj7D43Qw4Cjwg==
-  dependencies:
-    screenfull "^6.0.2"
+"@siberiacancode/reactuse@^0.3.45":
+  version "0.3.45"
+  resolved "https://registry.yarnpkg.com/@siberiacancode/reactuse/-/reactuse-0.3.45.tgz#94b4867d8dd1e132051d2b857ac24860a113e51f"
+  integrity sha512-sGDzkRwlFsPNVuc5jPalrozC8Uqz5XftFSCAxPUaS7FZr7OfJXpedS2lr7ncGUeRARuxWeC3NuX0etxuH+yq2g==
 
 "@sindresorhus/base62@^1.0.0":
   version "1.0.0"
@@ -6120,11 +6118,6 @@ scheduler@^0.27.0:
   version "0.27.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.27.0.tgz#0c4ef82d67d1e5c1e359e8fc76d3a87f045fe5bd"
   integrity sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==
-
-screenfull@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-6.0.2.tgz#3dbe4b8c4f8f49fb8e33caa8f69d0bca730ab238"
-  integrity sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==
 
 scslre@^0.3.0:
   version "0.3.0"
