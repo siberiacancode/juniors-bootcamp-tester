@@ -1,7 +1,7 @@
-import { useGetGamesOrdersQuery } from '@/shared/api/generated';
-import { Button } from '@/shared/components/ui/button';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { Typography } from '@/shared/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Typography } from '@/components/ui/typography';
+import { useGetGamesOrdersQuery } from '@/generated/api';
 
 import { OrderHistoryCard } from './OrderHistoryCard';
 import { OrderHistoryEmptyState } from './OrderHistoryEmptyState';

@@ -1,11 +1,11 @@
 import { useDebounceValue } from '@siberiacancode/reactuse';
-import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
+import { createFileRoute, stripSearchParams, useNavigate, useSearch } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import z from 'zod';
 
-import type { GameFilter, GameView } from '@/shared/api/generated';
+import type { GameFilter, GameView } from '@/generated/api';
 
-import { useGetGamesInfoQuery, useGetGamesSearchQuery } from '@/shared/api/generated';
+import { useGetGamesInfoQuery, useGetGamesSearchQuery } from '@/generated/api';
 
 import type { CatalogFilters } from './-helpers/catalog';
 
@@ -37,17 +37,11 @@ const catalogSearchSchema = z.object({
   withDiscount: z.boolean().default(DEFAULT_SEARCH.withDiscount).catch(DEFAULT_SEARCH.withDiscount)
 });
 
-export const Route = createFileRoute('/(layout)/')({
-  component: RouteComponent,
-  validateSearch: catalogSearchSchema,
-  search: {
-    middlewares: [stripSearchParams(DEFAULT_SEARCH)]
-  }
-});
-
-function RouteComponent() {
-  const search = Route.useSearch();
-  const navigate = Route.useNavigate();
+const RouteComponent = () => {
+  const search = useSearch({
+    from: '/(layout)/'
+  });
+  const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerFilters, setDrawerFilters] = useState(search);
   const debouncedSearchQuery = useDebounceValue(search.q, 500);
@@ -179,4 +173,12 @@ function RouteComponent() {
       </div>
     </main>
   );
-}
+};
+
+export const Route = createFileRoute('/(layout)/')({
+  component: RouteComponent,
+  validateSearch: catalogSearchSchema,
+  search: {
+    middlewares: [stripSearchParams(DEFAULT_SEARCH)]
+  }
+});

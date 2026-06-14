@@ -1,52 +1,53 @@
 import { LogoutConfirmation, OrderHistory } from '@modules';
 import { useMediaQuery } from '@siberiacancode/reactuse';
-import { createFileRoute } from '@tanstack/react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { PatternFormat } from 'react-number-format';
 
-import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
-import { Button } from '@/shared/components/ui/button';
-import { Typography } from '@/shared/components/ui/typography';
-import { useUser } from '@/shared/contexts/user';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Typography } from '@/components/ui/typography';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
+import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
 
 import { EditProfile } from './-components';
 import { ProfileSkeleton } from './-components/ProfileSkeleton/ProfileSkeleton';
 
-export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
-  component: RouteComponent
-});
+const RouteComponent = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-function RouteComponent() {
-  const navigate = Route.useNavigate();
-  const user = useUser();
+  const usersSessionQuery = useGetUsersSessionQuery();
 
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
   const [isEditing, setIsEditing] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
-  const currentUser = user.value;
+  const user = usersSessionQuery.data?.data.user;
 
-  if (!currentUser) {
+  if (!user) {
     return <ProfileSkeleton />;
   }
 
-  const displayName = [currentUser.lastname, currentUser.firstname, currentUser.middlename]
-    .filter(Boolean)
-    .join(' ');
-  const avatarFallback = (displayName || currentUser.email || 'A').trim().charAt(0).toUpperCase();
+  const displayName = [user.lastname, user.firstname, user.middlename].filter(Boolean).join(' ');
+  const avatarFallback = (displayName || user.email || 'A').trim().charAt(0).toUpperCase();
 
   const onLogout = () => {
     navigate({
       to: '/'
     });
-    user.remove();
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
+    queryClient.removeQueries({
+      queryKey: [getUsersSessionQueryKey]
+    });
   };
 
   if (isEditing && !isDesktop) {
     return (
       <EditProfile
-        user={currentUser}
+        user={user}
         onCancel={() => setIsEditing(false)}
         onSuccess={() => setIsEditing(false)}
       />
@@ -69,15 +70,15 @@ function RouteComponent() {
           </Avatar>
           <div className='flex flex-col items-center text-center sm:items-start sm:text-left'>
             <Typography as='p' className='text-[24px]/[32px]' variant='body-lg'>
-              {displayName || currentUser.phone}
+              {displayName || user.phone}
             </Typography>
-            {currentUser.email && (
+            {user.email && (
               <Typography
                 as='p'
                 className='text-[14px]/5.5 font-medium text-foreground/50'
                 variant='caption'
               >
-                {currentUser.email}
+                {user.email}
               </Typography>
             )}
             {displayName && (
@@ -86,7 +87,7 @@ function RouteComponent() {
                 className='mt-4 text-[14px]/5.5 font-medium sm:mt-0'
                 variant='caption'
               >
-                <PatternFormat format='+7 ### ### ## ##' value={currentUser.phone.slice(1)} />
+                <PatternFormat format='+7 ### ### ## ##' value={user.phone.slice(1)} />
               </Typography>
             )}
           </div>
@@ -119,11 +120,15 @@ function RouteComponent() {
       <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
       {isEditing && (
         <EditProfile
-          user={currentUser}
+          user={user}
           onCancel={() => setIsEditing(false)}
           onSuccess={() => setIsEditing(false)}
         />
       )}
     </main>
   );
-}
+};
+
+export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
+  component: RouteComponent
+});

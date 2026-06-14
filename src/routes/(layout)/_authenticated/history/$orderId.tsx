@@ -1,23 +1,20 @@
 import { OrderDetailsCard } from '@modules/order';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useParams } from '@tanstack/react-router';
 import { InboxIcon } from 'lucide-react';
 
-import { useGetGamesOrderByOrderIdQuery } from '@/shared/api/generated';
-import { Button } from '@/shared/components/ui/button';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { Typography } from '@/shared/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Typography } from '@/components/ui/typography';
+import { useGetGamesOrderByOrderIdQuery } from '@/generated/api';
 
 import { HistoryDetailsHeader } from './-components';
 
-export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
-  component: RouteComponent
-});
-
 const PAYMENT_METHOD = 'JB Pay';
 
-function RouteComponent() {
-  const orderId = Route.useParams({
-    select: (params) => params.orderId
+const RouteComponent = () => {
+  const orderId = useParams({
+    select: (params) => params.orderId,
+    from: '/(layout)/_authenticated/history/$orderId'
   });
 
   const { data, isLoading } = useGetGamesOrderByOrderIdQuery({
@@ -88,4 +85,8 @@ function RouteComponent() {
       />
     </main>
   );
-}
+};
+
+export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
+  component: RouteComponent
+});

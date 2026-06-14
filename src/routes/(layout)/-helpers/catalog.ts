@@ -1,6 +1,4 @@
-import type { FilteredGame, GameGenre } from '@/shared/api/generated';
-
-import { API_URL } from '@/shared/config/env';
+import type { FilteredGame, GameGenre } from '@/generated/api';
 
 import type { CatalogView } from '../-constants/catalog';
 
@@ -79,5 +77,5 @@ export const getGameImageSrc = (image: string) => {
     return image;
   }
 
-  return `${API_URL}${image}`;
+  return `https://juniorsbootcamp.ru/api${image}`;
 };

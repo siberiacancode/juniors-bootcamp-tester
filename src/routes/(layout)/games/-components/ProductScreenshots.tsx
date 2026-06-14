@@ -1,5 +1,5 @@
-import { Typography } from '@/shared/components/ui/typography';
-import { cn } from '@/shared/utils';
+import { Typography } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
 import type { ProductGame } from '../-types';
 

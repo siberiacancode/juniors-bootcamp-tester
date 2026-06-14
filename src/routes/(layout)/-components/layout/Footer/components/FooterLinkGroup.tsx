@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 
-import { Typography } from '@/shared/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 
 interface FooterLinkGroupProps {
   className?: string;

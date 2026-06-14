@@ -1,4 +1,4 @@
-import type { GameGenre } from '@/shared/api/generated';
+import type { GameGenre } from '@/generated/api';
 
 export interface FilterValue {
   genre: GameGenre[];

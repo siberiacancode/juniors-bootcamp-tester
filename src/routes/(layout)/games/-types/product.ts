@@ -1,4 +1,4 @@
-import type { DetailedGame, PriceVariant } from '@/shared/api/generated';
+import type { DetailedGame, PriceVariant } from '@/generated/api';
 
 export type ProductGame = DetailedGame & {
   priceVariants: PriceVariant[];

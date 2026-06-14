@@ -1,6 +1,6 @@
 import { CheckIcon } from 'lucide-react';
 
-import { cn } from '@/shared/utils';
+import { cn } from '@/lib/utils';
 
 export const SelectionMark = ({ active }: { active: boolean }) => (
   <span

@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router';
 
-import { cn } from '@/shared/utils';
+import { cn } from '@/lib/utils';
 
 import { navItems } from './constants';
 

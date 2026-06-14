@@ -1,4 +1,4 @@
-import type { SystemRequirements } from '@/shared/api/generated';
+import type { SystemRequirements } from '@/generated/api';
 
 export const getRequirementRows = (requirements: SystemRequirements) => [
   {

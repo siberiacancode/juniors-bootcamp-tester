@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { InboxIcon } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Typography } from '@/shared/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { Typography } from '@/components/ui/typography';
 
 export const OrderHistoryEmptyState = () => (
   <div className='flex flex-col items-center justify-center gap-4 rounded-24 bg-secondary p-6'>

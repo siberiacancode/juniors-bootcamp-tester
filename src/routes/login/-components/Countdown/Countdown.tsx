@@ -1,8 +1,8 @@
 import { useTimer } from '@siberiacancode/reactuse';
 import { Loader2Icon } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Typography } from '@/shared/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { Typography } from '@/components/ui/typography';
 
 interface CountdownProps {
   loading?: boolean;

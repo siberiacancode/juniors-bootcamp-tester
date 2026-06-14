@@ -1,6 +1,6 @@
-import { Card } from '@/shared/components/ui/card';
-import { Typography } from '@/shared/components/ui/typography';
-import { cn } from '@/shared/utils';
+import { Card } from '@/components/ui/card';
+import { Typography } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
 import type { ProductGame } from '../-types';
 

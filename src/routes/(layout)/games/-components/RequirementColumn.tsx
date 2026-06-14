@@ -1,6 +1,6 @@
-import type { SystemRequirements } from '@/shared/api/generated';
+import type { SystemRequirements } from '@/generated/api';
 
-import { Typography } from '@/shared/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 
 import { getRequirementRows } from '../-helpers';
 

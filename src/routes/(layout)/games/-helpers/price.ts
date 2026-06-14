@@ -1,4 +1,4 @@
-import type { PriceVariant } from '@/shared/api/generated';
+import type { PriceVariant } from '@/generated/api';
 
 const rubleFormatter = new Intl.NumberFormat('ru-RU', {
   currency: 'RUB',

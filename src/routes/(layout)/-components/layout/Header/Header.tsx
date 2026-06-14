@@ -1,22 +1,30 @@
 import { LogoutConfirmation } from '@modules/LogoutConfirmation/LogoutConfirmation';
+import { useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { IconButton } from '@/shared/components/ui/icon-button';
-import { useUser } from '@/shared/contexts/user';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
+import { LOCAL_STORAGE_KEYS } from '@/constants';
+import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
 
 export const Header = () => {
   const navigate = useNavigate();
-  const user = useUser();
+  const usersSessionQuery = useGetUsersSessionQuery();
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const user = usersSessionQuery.data?.data.user;
 
   const onLogout = () => {
     navigate({
       to: '/'
     });
-    user.remove();
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
+    queryClient.removeQueries({
+      queryKey: [getUsersSessionQueryKey]
+    });
   };
 
   return (
@@ -37,13 +45,13 @@ export const Header = () => {
             </Link>
           </IconButton>
         </div>
-        {user.isLoggedIn && (
+        {user && (
           <Button onClick={() => setIsLogoutOpen(true)}>
             Выйти
             <LogOutIcon />
           </Button>
         )}
-        {!user.isLoggedIn && (
+        {!user && (
           <Link to='/login'>
             <Button>
               Войти

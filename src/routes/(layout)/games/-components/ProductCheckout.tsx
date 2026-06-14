@@ -1,16 +1,16 @@
 import { Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
-import type { PriceVariant } from '@/shared/api/generated';
+import type { PriceVariant } from '@/generated/api';
 
-import { MascotIcon } from '@/shared/components/icons/MascotIcon';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Checkbox } from '@/shared/components/ui/checkbox';
-import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
-import { Input } from '@/shared/components/ui/input';
-import { Typography } from '@/shared/components/ui/typography';
+import { MascotIcon } from '@/components/icons/MascotIcon';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Typography } from '@/components/ui/typography';
 
 import type { ProductGame } from '../-types';
 

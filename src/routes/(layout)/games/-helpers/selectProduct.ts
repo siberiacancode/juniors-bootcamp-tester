@@ -1,4 +1,4 @@
-import type { DeliveryType, PriceVariant, Region } from '@/shared/api/generated';
+import type { DeliveryType, PriceVariant, Region } from '@/generated/api';
 
 export const findEditionVariants = (
   variants: PriceVariant[],

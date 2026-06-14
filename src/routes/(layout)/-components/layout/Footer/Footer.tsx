@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 
-import { GithubIcon } from '@/shared/components/icons/GithubIcon';
-import { Typography } from '@/shared/components/ui/typography';
+import { GithubIcon } from '@/components/icons/GithubIcon';
+import { Typography } from '@/components/ui/typography';
 
 import { FooterLinkGroup } from './components/FooterLinkGroup';
 import { FOOTER_CONTACTS, FOOTER_PRODUCTS, FOOTER_REPOSITORY_URL } from './constants';

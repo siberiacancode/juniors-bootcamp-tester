@@ -1,4 +1,4 @@
-import type { GameGenre, GameView } from '@/shared/api/generated';
+import type { GameGenre, GameView } from '@/generated/api';
 
 export type CatalogView = 'all' | GameView;
 

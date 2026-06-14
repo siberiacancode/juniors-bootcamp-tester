@@ -1,11 +1,11 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useParams } from '@tanstack/react-router';
 import { ChevronLeftIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import type { PriceVariant } from '@/shared/api/generated';
+import type { PriceVariant } from '@/generated/api';
 
-import { Typography } from '@/shared/components/ui/typography';
-import { cn } from '@/shared/utils';
+import { Typography } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
 import { ProductCheckout } from './-components/ProductCheckout';
 import { ProductMeta } from './-components/ProductMeta';
@@ -15,12 +15,10 @@ import { ProductScreenshots } from './-components/ProductScreenshots';
 import { ProductSelection } from './-components/ProductSelection';
 import { productGames } from './-mocks/productGames';
 
-export const Route = createFileRoute('/(layout)/games/$slug')({
-  component: RouteComponent
-});
-
-function RouteComponent() {
-  const { slug } = Route.useParams();
+const RouteComponent = () => {
+  const { slug } = useParams({
+    from: '/(layout)/games/$slug'
+  });
   const game = productGames.find((productGame) => productGame.slug === slug) ?? productGames[0];
   const [selectedVariant, setSelectedVariant] = useState<PriceVariant>(game.priceVariants[0]);
 
@@ -69,4 +67,8 @@ function RouteComponent() {
       </div>
     </section>
   );
-}
+};
+
+export const Route = createFileRoute('/(layout)/games/$slug')({
+  component: RouteComponent
+});

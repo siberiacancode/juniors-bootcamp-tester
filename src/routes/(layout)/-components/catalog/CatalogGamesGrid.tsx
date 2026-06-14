@@ -1,6 +1,6 @@
-import type { FilteredGame } from '@/shared/api/generated';
+import type { FilteredGame } from '@/generated/api';
 
-import { Typography } from '@/shared/components/ui/typography';
+import { Typography } from '@/components/ui/typography';
 
 import { GameCard } from './GameCard';
 

@@ -2,11 +2,12 @@ import { apicraft } from '@siberiacancode/apicraft';
 
 export default apicraft([
   {
-    input: 'api.yaml',
-    output: 'src/shared/api/generated',
+    // https://juniorsbootcamp.ru/api/rest/games.json не работает
+    input: 'openapi.json',
+    output: 'src/generated/api',
     instance: {
       name: 'fetches',
-      runtimeInstancePath: './src/shared/api/instance'
+      runtimeInstancePath: './src/lib/instance'
     },
     baseUrl: '/api',
     nameBy: 'path',

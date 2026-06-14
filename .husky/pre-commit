@@ -1,6 +1,2 @@
-#!/bin/sh
-if [ -t 1 ]; then
-  exec < /dev/tty
-fi
-
+yarn check
 yarn nano-staged

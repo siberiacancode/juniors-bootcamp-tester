@@ -1,5 +1,5 @@
-import { Badge } from '@/shared/components/ui/badge';
-import { cn } from '@/shared/utils';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 interface OrderHistoryBadgeProps {
   children: string;

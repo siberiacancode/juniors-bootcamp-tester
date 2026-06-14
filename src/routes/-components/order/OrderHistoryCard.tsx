@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
 
-import { Button } from '@/shared/components/ui/button';
-import { Typography } from '@/shared/components/ui/typography';
-import { DELIVERY_LABELS, REGION_LABELS } from '@/shared/constants';
+import { Button } from '@/components/ui/button';
+import { Typography } from '@/components/ui/typography';
+import { DELIVERY_LABELS, REGION_LABELS } from '@/constants';
 
 import type { OrderHistoryItem } from './types';
 

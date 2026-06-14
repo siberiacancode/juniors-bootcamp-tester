@@ -1,6 +1,6 @@
-import type { DeliveryType, Region } from '@/shared/api/generated';
+import type { DeliveryType, Region } from '@/generated/api';
 
-import { DELIVERY_LABELS, REGION_KEYS, REGION_LABELS } from '@/shared/constants';
+import { DELIVERY_LABELS, REGION_KEYS, REGION_LABELS } from '@/constants';
 
 export interface ProductRegionOption {
   label: string;

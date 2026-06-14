@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router';
 import { ChevronLeftIcon } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { IconButton } from '@/shared/components/ui/icon-button';
-import { Typography } from '@/shared/components/ui/typography';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
+import { Typography } from '@/components/ui/typography';
 
 export const HistoryDetailsHeader = () => (
   <>

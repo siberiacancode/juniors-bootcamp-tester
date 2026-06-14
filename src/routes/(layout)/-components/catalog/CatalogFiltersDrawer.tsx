@@ -1,6 +1,6 @@
 import { SlidersHorizontalIcon, XIcon } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerClose,
@@ -9,8 +9,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
-} from '@/shared/components/ui/drawer';
-import { IconButton } from '@/shared/components/ui/icon-button';
+} from '@/components/ui/drawer';
+import { IconButton } from '@/components/ui/icon-button';
 
 import type { CatalogFilters as CatalogFiltersValue } from '../../-helpers/catalog';
 

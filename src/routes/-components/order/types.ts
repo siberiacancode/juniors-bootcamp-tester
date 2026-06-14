@@ -1,4 +1,4 @@
-import type { GameOrder } from '@/shared/api/generated';
+import type { GameOrder } from '@/generated/api';
 
 export type OrderHistoryItem = GameOrder & {
   paymentAmount: number;

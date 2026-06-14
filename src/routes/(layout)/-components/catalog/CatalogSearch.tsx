@@ -5,7 +5,7 @@ import {
   InputGroupAddon,
   InputGroupIconButton,
   InputGroupInput
-} from '@/shared/components/ui/input-group';
+} from '@/components/ui/input-group';
 
 interface CatalogSearchProps {
   value: string;

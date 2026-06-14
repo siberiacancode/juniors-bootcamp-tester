@@ -1,20 +1,20 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle
-} from '@/shared/components/ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerTitle
-} from '@/shared/components/ui/drawer';
+} from '@/components/ui/drawer';
 
 interface LogoutConfirmationProps {
   open: boolean;

@@ -1,14 +1,14 @@
 import { SearchIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-import type { GameGenre } from '@/shared/api/generated';
+import type { GameGenre } from '@/generated/api';
 
-import { Button } from '@/shared/components/ui/button';
-import { Checkbox } from '@/shared/components/ui/checkbox';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/shared/components/ui/input-group';
-import { Switch } from '@/shared/components/ui/switch';
-import { Typography } from '@/shared/components/ui/typography';
-import { cn } from '@/shared/utils';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
+import { Switch } from '@/components/ui/switch';
+import { Typography } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
 import type { FilterValue } from '../types';
 

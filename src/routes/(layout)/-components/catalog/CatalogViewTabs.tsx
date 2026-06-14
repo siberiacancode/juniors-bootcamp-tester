@@ -1,5 +1,5 @@
-import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { cn } from '@/shared/utils';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 
 import type { CatalogView } from '../../-constants/catalog';
 

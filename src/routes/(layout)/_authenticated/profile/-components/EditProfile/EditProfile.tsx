@@ -6,10 +6,9 @@ import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
-import type { User } from '@/shared/api/generated';
+import type { User } from '@/generated/api';
 
-import { getUsersSessionQueryKey, usePatchUsersProfileMutation } from '@/shared/api/generated';
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerClose,
@@ -17,12 +16,12 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle
-} from '@/shared/components/ui/drawer';
-import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
-import { IconButton } from '@/shared/components/ui/icon-button';
-import { Input } from '@/shared/components/ui/input';
-import { Typography } from '@/shared/components/ui/typography';
-import { useUser } from '@/shared/contexts/user';
+} from '@/components/ui/drawer';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { IconButton } from '@/components/ui/icon-button';
+import { Input } from '@/components/ui/input';
+import { Typography } from '@/components/ui/typography';
+import { getUsersSessionQueryKey, usePatchUsersProfileMutation } from '@/generated/api';
 
 import type { ProfileFormScheme } from '../../-constants';
 
@@ -35,7 +34,6 @@ interface EditProfileProps {
 }
 
 export const EditProfile = ({ user, onCancel, onSuccess }: EditProfileProps) => {
-  const userContext = useUser();
   const queryClient = useQueryClient();
   const isDesktop = useMediaQuery('(min-width: 1024px)');
 
@@ -63,16 +61,14 @@ export const EditProfile = ({ user, onCancel, onSuccess }: EditProfileProps) => 
   }, [profileDefaultValues, profileForm]);
 
   const onSubmit = profileForm.handleSubmit(async (values) => {
-    const response = await usersProfileMutation.mutateAsync({
+    await usersProfileMutation.mutateAsync({
       body: {
         phone: user.phone,
         profile: values
       }
     });
-    const updatedUser = response.data.user;
 
     profileForm.reset(values);
-    userContext.set(updatedUser);
     await queryClient.invalidateQueries({
       queryKey: [getUsersSessionQueryKey]
     });

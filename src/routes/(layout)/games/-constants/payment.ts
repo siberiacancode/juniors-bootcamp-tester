@@ -1,5 +1,3 @@
-import type { PaymentMethod } from '@/shared/types';
-
 export const paymentMethods: {
   label: string;
   value: PaymentMethod;

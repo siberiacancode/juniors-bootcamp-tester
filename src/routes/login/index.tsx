@@ -1,17 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
-import { usePostAuthOtpMutation, usePostUsersSigninMutation } from '@/shared/api/generated';
-import { Button } from '@/shared/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/shared/components/ui/field';
-import { IconButton } from '@/shared/components/ui/icon-button';
-import { Input } from '@/shared/components/ui/input';
-import { Typography } from '@/shared/components/ui/typography';
-import { useUser } from '@/shared/contexts/user';
+import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { IconButton } from '@/components/ui/icon-button';
+import { Input } from '@/components/ui/input';
+import { Typography } from '@/components/ui/typography';
+import { usePostAuthOtpMutation, usePostUsersSigninMutation } from '@/generated/api';
 
 import { Countdown } from './-components/Countdown/Countdown';
 import {
@@ -30,15 +29,11 @@ const LENGTH = {
   PHONE: 11
 } as const;
 
-export const Route = createFileRoute('/login/')({
-  component: RouteComponent,
-  validateSearch: loginSearchSchema
-});
-
-function RouteComponent() {
-  const search = Route.useSearch();
-  const navigate = Route.useNavigate();
-  const user = useUser();
+const RouteComponent = () => {
+  const search = useSearch({
+    from: '/login/'
+  });
+  const navigate = useNavigate();
 
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<Record<string, number>>({});
@@ -89,8 +84,6 @@ function RouteComponent() {
     if (!response.data.success) {
       return authForm.setError('otp', { message: response.data.reason });
     }
-
-    user.set(response.data.user, response.data.token);
 
     await navigate({ to: resolveLoginRedirect(search.redirect) });
   });
@@ -243,4 +236,9 @@ function RouteComponent() {
       </div>
     </main>
   );
-}
+};
+
+export const Route = createFileRoute('/login/')({
+  component: RouteComponent,
+  validateSearch: loginSearchSchema
+});

@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router';
 
-import type { FilteredGame } from '@/shared/api/generated';
+import type { FilteredGame } from '@/generated/api';
 
-import { Badge } from '@/shared/components/ui/badge';
-import { Typography } from '@/shared/components/ui/typography';
+import { Badge } from '@/components/ui/badge';
+import { Typography } from '@/components/ui/typography';
 
 import { formatCatalogPrice, getDiscountPercent, getGameImageSrc } from '../../-helpers/catalog';
 
