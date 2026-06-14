@@ -3,7 +3,7 @@ import { PatternFormat } from 'react-number-format';
 
 import type { PriceVariant } from '@/generated/api';
 
-import { MascotIcon } from '@/components/icons/MascotIcon';
+import { MascotIcon } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
