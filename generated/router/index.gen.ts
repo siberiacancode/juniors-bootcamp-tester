@@ -8,93 +8,97 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './../../src/routes/__root';
-import { Route as layoutRouteRouteImport } from './../../src/routes/(layout)/route';
-import { Route as LoginIndexRouteImport } from './../../src/routes/login/index';
-import { Route as layoutIndexRouteImport } from './../../src/routes/(layout)/index';
-import { Route as layoutAuthenticatedRouteRouteImport } from './../../src/routes/(layout)/_authenticated/route';
-import { Route as layoutPaymentIndexRouteImport } from './../../src/routes/(layout)/payment/index';
-import { Route as layoutGamesSlugRouteImport } from './../../src/routes/(layout)/games/$slug';
-import { Route as layoutAuthenticatedProfileIndexRouteImport } from './../../src/routes/(layout)/_authenticated/profile/index';
-import { Route as layoutAuthenticatedHistoryIndexRouteImport } from './../../src/routes/(layout)/_authenticated/history/index';
-import { Route as layoutAuthenticatedHistoryOrderIdRouteImport } from './../../src/routes/(layout)/_authenticated/history/$orderId';
+import { Route as rootRouteImport } from './../../src/routes/__root'
+import { Route as layoutRouteRouteImport } from './../../src/routes/(layout)/route'
+import { Route as LoginIndexRouteImport } from './../../src/routes/login/index'
+import { Route as layoutIndexRouteImport } from './../../src/routes/(layout)/index'
+import { Route as layoutAuthenticatedRouteRouteImport } from './../../src/routes/(layout)/_authenticated/route'
+import { Route as layoutPaymentIndexRouteImport } from './../../src/routes/(layout)/payment/index'
+import { Route as layoutGamesSlugRouteImport } from './../../src/routes/(layout)/games/$slug'
+import { Route as layoutAuthenticatedProfileIndexRouteImport } from './../../src/routes/(layout)/_authenticated/profile/index'
+import { Route as layoutAuthenticatedHistoryIndexRouteImport } from './../../src/routes/(layout)/_authenticated/history/index'
+import { Route as layoutAuthenticatedHistoryOrderIdRouteImport } from './../../src/routes/(layout)/_authenticated/history/$orderId'
 
 const layoutRouteRoute = layoutRouteRouteImport.update({
   id: '/(layout)',
-  getParentRoute: () => rootRouteImport
-} as any);
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
-  getParentRoute: () => rootRouteImport
-} as any);
+  getParentRoute: () => rootRouteImport,
+} as any)
 const layoutIndexRoute = layoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => layoutRouteRoute
-} as any);
-const layoutAuthenticatedRouteRoute = layoutAuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => layoutRouteRoute
-} as any);
+  getParentRoute: () => layoutRouteRoute,
+} as any)
+const layoutAuthenticatedRouteRoute =
+  layoutAuthenticatedRouteRouteImport.update({
+    id: '/_authenticated',
+    getParentRoute: () => layoutRouteRoute,
+  } as any)
 const layoutPaymentIndexRoute = layoutPaymentIndexRouteImport.update({
   id: '/payment/',
   path: '/payment/',
-  getParentRoute: () => layoutRouteRoute
-} as any);
+  getParentRoute: () => layoutRouteRoute,
+} as any)
 const layoutGamesSlugRoute = layoutGamesSlugRouteImport.update({
   id: '/games/$slug',
   path: '/games/$slug',
-  getParentRoute: () => layoutRouteRoute
-} as any);
-const layoutAuthenticatedProfileIndexRoute = layoutAuthenticatedProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => layoutAuthenticatedRouteRoute
-} as any);
-const layoutAuthenticatedHistoryIndexRoute = layoutAuthenticatedHistoryIndexRouteImport.update({
-  id: '/history/',
-  path: '/history/',
-  getParentRoute: () => layoutAuthenticatedRouteRoute
-} as any);
-const layoutAuthenticatedHistoryOrderIdRoute = layoutAuthenticatedHistoryOrderIdRouteImport.update({
-  id: '/history/$orderId',
-  path: '/history/$orderId',
-  getParentRoute: () => layoutAuthenticatedRouteRoute
-} as any);
+  getParentRoute: () => layoutRouteRoute,
+} as any)
+const layoutAuthenticatedProfileIndexRoute =
+  layoutAuthenticatedProfileIndexRouteImport.update({
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => layoutAuthenticatedRouteRoute,
+  } as any)
+const layoutAuthenticatedHistoryIndexRoute =
+  layoutAuthenticatedHistoryIndexRouteImport.update({
+    id: '/history/',
+    path: '/history/',
+    getParentRoute: () => layoutAuthenticatedRouteRoute,
+  } as any)
+const layoutAuthenticatedHistoryOrderIdRoute =
+  layoutAuthenticatedHistoryOrderIdRouteImport.update({
+    id: '/history/$orderId',
+    path: '/history/$orderId',
+    getParentRoute: () => layoutAuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof layoutIndexRoute;
-  '/login/': typeof LoginIndexRoute;
-  '/games/$slug': typeof layoutGamesSlugRoute;
-  '/payment/': typeof layoutPaymentIndexRoute;
-  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute;
-  '/history/': typeof layoutAuthenticatedHistoryIndexRoute;
-  '/profile/': typeof layoutAuthenticatedProfileIndexRoute;
+  '/': typeof layoutIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/games/$slug': typeof layoutGamesSlugRoute
+  '/payment/': typeof layoutPaymentIndexRoute
+  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
+  '/history/': typeof layoutAuthenticatedHistoryIndexRoute
+  '/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof layoutIndexRoute;
-  '/login': typeof LoginIndexRoute;
-  '/games/$slug': typeof layoutGamesSlugRoute;
-  '/payment': typeof layoutPaymentIndexRoute;
-  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute;
-  '/history': typeof layoutAuthenticatedHistoryIndexRoute;
-  '/profile': typeof layoutAuthenticatedProfileIndexRoute;
+  '/': typeof layoutIndexRoute
+  '/login': typeof LoginIndexRoute
+  '/games/$slug': typeof layoutGamesSlugRoute
+  '/payment': typeof layoutPaymentIndexRoute
+  '/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
+  '/history': typeof layoutAuthenticatedHistoryIndexRoute
+  '/profile': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/(layout)': typeof layoutRouteRouteWithChildren;
-  '/(layout)/_authenticated': typeof layoutAuthenticatedRouteRouteWithChildren;
-  '/(layout)/': typeof layoutIndexRoute;
-  '/login/': typeof LoginIndexRoute;
-  '/(layout)/games/$slug': typeof layoutGamesSlugRoute;
-  '/(layout)/payment/': typeof layoutPaymentIndexRoute;
-  '/(layout)/_authenticated/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute;
-  '/(layout)/_authenticated/history/': typeof layoutAuthenticatedHistoryIndexRoute;
-  '/(layout)/_authenticated/profile/': typeof layoutAuthenticatedProfileIndexRoute;
+  __root__: typeof rootRouteImport
+  '/(layout)': typeof layoutRouteRouteWithChildren
+  '/(layout)/_authenticated': typeof layoutAuthenticatedRouteRouteWithChildren
+  '/(layout)/': typeof layoutIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/(layout)/games/$slug': typeof layoutGamesSlugRoute
+  '/(layout)/payment/': typeof layoutPaymentIndexRoute
+  '/(layout)/_authenticated/history/$orderId': typeof layoutAuthenticatedHistoryOrderIdRoute
+  '/(layout)/_authenticated/history/': typeof layoutAuthenticatedHistoryIndexRoute
+  '/(layout)/_authenticated/profile/': typeof layoutAuthenticatedProfileIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/login/'
@@ -102,9 +106,16 @@ export interface FileRouteTypes {
     | '/payment/'
     | '/history/$orderId'
     | '/history/'
-    | '/profile/';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/login' | '/games/$slug' | '/payment' | '/history/$orderId' | '/history' | '/profile';
+    | '/profile/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/login'
+    | '/games/$slug'
+    | '/payment'
+    | '/history/$orderId'
+    | '/history'
+    | '/profile'
   id:
     | '__root__'
     | '/(layout)'
@@ -115,118 +126,123 @@ export interface FileRouteTypes {
     | '/(layout)/payment/'
     | '/(layout)/_authenticated/history/$orderId'
     | '/(layout)/_authenticated/history/'
-    | '/(layout)/_authenticated/profile/';
-  fileRoutesById: FileRoutesById;
+    | '/(layout)/_authenticated/profile/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  layoutRouteRoute: typeof layoutRouteRouteWithChildren;
-  LoginIndexRoute: typeof LoginIndexRoute;
+  layoutRouteRoute: typeof layoutRouteRouteWithChildren
+  LoginIndexRoute: typeof LoginIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/(layout)': {
-      id: '/(layout)';
-      path: '';
-      fullPath: '';
-      preLoaderRoute: typeof layoutRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/(layout)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login/': {
-      id: '/login/';
-      path: '/login';
-      fullPath: '/login/';
-      preLoaderRoute: typeof LoginIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(layout)/': {
-      id: '/(layout)/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof layoutIndexRouteImport;
-      parentRoute: typeof layoutRouteRoute;
-    };
+      id: '/(layout)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof layoutIndexRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
     '/(layout)/_authenticated': {
-      id: '/(layout)/_authenticated';
-      path: '';
-      fullPath: '';
-      preLoaderRoute: typeof layoutAuthenticatedRouteRouteImport;
-      parentRoute: typeof layoutRouteRoute;
-    };
+      id: '/(layout)/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutAuthenticatedRouteRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
     '/(layout)/payment/': {
-      id: '/(layout)/payment/';
-      path: '/payment';
-      fullPath: '/payment/';
-      preLoaderRoute: typeof layoutPaymentIndexRouteImport;
-      parentRoute: typeof layoutRouteRoute;
-    };
+      id: '/(layout)/payment/'
+      path: '/payment'
+      fullPath: '/payment/'
+      preLoaderRoute: typeof layoutPaymentIndexRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
     '/(layout)/games/$slug': {
-      id: '/(layout)/games/$slug';
-      path: '/games/$slug';
-      fullPath: '/games/$slug';
-      preLoaderRoute: typeof layoutGamesSlugRouteImport;
-      parentRoute: typeof layoutRouteRoute;
-    };
+      id: '/(layout)/games/$slug'
+      path: '/games/$slug'
+      fullPath: '/games/$slug'
+      preLoaderRoute: typeof layoutGamesSlugRouteImport
+      parentRoute: typeof layoutRouteRoute
+    }
     '/(layout)/_authenticated/profile/': {
-      id: '/(layout)/_authenticated/profile/';
-      path: '/profile';
-      fullPath: '/profile/';
-      preLoaderRoute: typeof layoutAuthenticatedProfileIndexRouteImport;
-      parentRoute: typeof layoutAuthenticatedRouteRoute;
-    };
+      id: '/(layout)/_authenticated/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof layoutAuthenticatedProfileIndexRouteImport
+      parentRoute: typeof layoutAuthenticatedRouteRoute
+    }
     '/(layout)/_authenticated/history/': {
-      id: '/(layout)/_authenticated/history/';
-      path: '/history';
-      fullPath: '/history/';
-      preLoaderRoute: typeof layoutAuthenticatedHistoryIndexRouteImport;
-      parentRoute: typeof layoutAuthenticatedRouteRoute;
-    };
+      id: '/(layout)/_authenticated/history/'
+      path: '/history'
+      fullPath: '/history/'
+      preLoaderRoute: typeof layoutAuthenticatedHistoryIndexRouteImport
+      parentRoute: typeof layoutAuthenticatedRouteRoute
+    }
     '/(layout)/_authenticated/history/$orderId': {
-      id: '/(layout)/_authenticated/history/$orderId';
-      path: '/history/$orderId';
-      fullPath: '/history/$orderId';
-      preLoaderRoute: typeof layoutAuthenticatedHistoryOrderIdRouteImport;
-      parentRoute: typeof layoutAuthenticatedRouteRoute;
-    };
+      id: '/(layout)/_authenticated/history/$orderId'
+      path: '/history/$orderId'
+      fullPath: '/history/$orderId'
+      preLoaderRoute: typeof layoutAuthenticatedHistoryOrderIdRouteImport
+      parentRoute: typeof layoutAuthenticatedRouteRoute
+    }
   }
 }
 
 interface layoutAuthenticatedRouteRouteChildren {
-  layoutAuthenticatedHistoryOrderIdRoute: typeof layoutAuthenticatedHistoryOrderIdRoute;
-  layoutAuthenticatedHistoryIndexRoute: typeof layoutAuthenticatedHistoryIndexRoute;
-  layoutAuthenticatedProfileIndexRoute: typeof layoutAuthenticatedProfileIndexRoute;
+  layoutAuthenticatedHistoryOrderIdRoute: typeof layoutAuthenticatedHistoryOrderIdRoute
+  layoutAuthenticatedHistoryIndexRoute: typeof layoutAuthenticatedHistoryIndexRoute
+  layoutAuthenticatedProfileIndexRoute: typeof layoutAuthenticatedProfileIndexRoute
 }
 
-const layoutAuthenticatedRouteRouteChildren: layoutAuthenticatedRouteRouteChildren = {
-  layoutAuthenticatedHistoryOrderIdRoute: layoutAuthenticatedHistoryOrderIdRoute,
-  layoutAuthenticatedHistoryIndexRoute: layoutAuthenticatedHistoryIndexRoute,
-  layoutAuthenticatedProfileIndexRoute: layoutAuthenticatedProfileIndexRoute
-};
+const layoutAuthenticatedRouteRouteChildren: layoutAuthenticatedRouteRouteChildren =
+  {
+    layoutAuthenticatedHistoryOrderIdRoute:
+      layoutAuthenticatedHistoryOrderIdRoute,
+    layoutAuthenticatedHistoryIndexRoute: layoutAuthenticatedHistoryIndexRoute,
+    layoutAuthenticatedProfileIndexRoute: layoutAuthenticatedProfileIndexRoute,
+  }
 
-const layoutAuthenticatedRouteRouteWithChildren = layoutAuthenticatedRouteRoute._addFileChildren(
-  layoutAuthenticatedRouteRouteChildren
-);
+const layoutAuthenticatedRouteRouteWithChildren =
+  layoutAuthenticatedRouteRoute._addFileChildren(
+    layoutAuthenticatedRouteRouteChildren,
+  )
 
 interface layoutRouteRouteChildren {
-  layoutAuthenticatedRouteRoute: typeof layoutAuthenticatedRouteRouteWithChildren;
-  layoutIndexRoute: typeof layoutIndexRoute;
-  layoutGamesSlugRoute: typeof layoutGamesSlugRoute;
-  layoutPaymentIndexRoute: typeof layoutPaymentIndexRoute;
+  layoutAuthenticatedRouteRoute: typeof layoutAuthenticatedRouteRouteWithChildren
+  layoutIndexRoute: typeof layoutIndexRoute
+  layoutGamesSlugRoute: typeof layoutGamesSlugRoute
+  layoutPaymentIndexRoute: typeof layoutPaymentIndexRoute
 }
 
 const layoutRouteRouteChildren: layoutRouteRouteChildren = {
   layoutAuthenticatedRouteRoute: layoutAuthenticatedRouteRouteWithChildren,
   layoutIndexRoute: layoutIndexRoute,
   layoutGamesSlugRoute: layoutGamesSlugRoute,
-  layoutPaymentIndexRoute: layoutPaymentIndexRoute
-};
+  layoutPaymentIndexRoute: layoutPaymentIndexRoute,
+}
 
-const layoutRouteRouteWithChildren = layoutRouteRoute._addFileChildren(layoutRouteRouteChildren);
+const layoutRouteRouteWithChildren = layoutRouteRoute._addFileChildren(
+  layoutRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   layoutRouteRoute: layoutRouteRouteWithChildren,
-  LoginIndexRoute: LoginIndexRoute
-};
+  LoginIndexRoute: LoginIndexRoute,
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
