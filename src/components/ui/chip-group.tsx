@@ -21,17 +21,27 @@ const ChipGroup = ({ className, ...props }: ComponentProps<typeof ChipGroupPrimi
 
 export type ChipGroupItemProps = ComponentProps<typeof ChipGroupPrimitive.Item> &
   VariantProps<typeof chipVariants> & {
-    icon?: ReactNode;
+    icon?: false | ReactNode;
   };
 
-const ChipGroupItem = ({ className, variant, children, icon, ...props }: ChipGroupItemProps) => (
+const ChipGroupItem = ({
+  className,
+  variant,
+  children,
+  icon = <XIcon />,
+  ...props
+}: ChipGroupItemProps) => (
   <ChipGroupPrimitive.Item
-    className={cn(chipVariants({ variant, className }), 'group/chip-group-item')}
+    className={cn(
+      chipVariants({ variant, className }),
+      'group/chip-group-item',
+      icon && 'data-[state=on]:px-4.5'
+    )}
     data-slot='chip-group-item'
     {...props}
   >
     {children}
-    <span className='hidden group-data-[state=on]/chip-group-item:block'>{icon || <XIcon />}</span>
+    {icon && <span className='hidden group-data-[state=on]/chip-group-item:block'>{icon}</span>}
   </ChipGroupPrimitive.Item>
 );
 

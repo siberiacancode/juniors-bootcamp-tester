@@ -1,4 +1,20 @@
 {
+  "page.catalog.views.all": "Весь каталог",
+  "page.catalog.views.popular": "Популярные",
+  "page.catalog.views.new": "Новинки",
+
+  "genre.action": "Экшены",
+  "genre.adventure": "Приключенческие игры",
+  "genre.rpg": "Ролевые игры",
+  "genre.strategy": "Стратегии",
+  "genre.shooter": "Шутеры",
+  "genre.simulation": "Симуляторы",
+  "genre.survival": "Выживание",
+  "genre.sports": "Спортивные игры",
+  "genre.racing": "Гонки",
+  "genre.indie": "Инди",
+  "genre.horror": "Хорроры",
+
   "page.payment.title": "Информация о покупке",
 
   "card.order.success": "Оплата прошла успешно",
@@ -8,7 +24,7 @@
   "card.order.paymentMethodLabel": "Способ оплаты",
   "card.order.paymentMethod": "JB Карта, *0000",
   "card.order.amountLabel": "Сумма",
-  
+
   "button.pay": "Оплатить",
   "button.backToGamesCatalog": "Вернуться в каталог игр"
 }
