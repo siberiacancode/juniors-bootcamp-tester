@@ -69,7 +69,7 @@ export const EditProfile = ({ user, onCancel, onSuccess }: EditProfileProps) => 
     });
 
     profileForm.reset(values);
-    await queryClient.invalidateQueries({
+    await queryClient.refetchQueries({
       queryKey: [getUsersSessionQueryKey]
     });
     onSuccess?.();
