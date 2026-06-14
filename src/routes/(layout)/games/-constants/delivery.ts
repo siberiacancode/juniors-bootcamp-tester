@@ -4,8 +4,7 @@ import { Gamepad2Icon, GiftIcon, KeyRoundIcon } from 'lucide-react';
 
 import type { DeliveryType } from '@/generated/api';
 
-import { PlayStationIcon } from '@/components/icons/PlayStationIcon';
-import { XboxLogoIcon } from '@/components/icons/XboxLogoIcon';
+import { PlayStationIcon, XboxLogoIcon } from '@/components/icons';
 
 export const deliveryIcons: Record<DeliveryType, ComponentType<SVGProps<SVGSVGElement>>> = {
   epic_key: KeyRoundIcon,

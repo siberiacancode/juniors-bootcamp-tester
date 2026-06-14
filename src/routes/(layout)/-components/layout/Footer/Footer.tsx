@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 
-import { GithubIcon } from '@/components/icons/GithubIcon';
+import { GithubIcon } from '@/components/icons';
 import { Typography } from '@/components/ui/typography';
 
 import { FooterLinkGroup } from './components/FooterLinkGroup';
