@@ -22,8 +22,8 @@ import { Typography } from '@/components/ui/typography';
 import { useGetUsersSessionQuery, usePostGamesOrderMutation } from '@/generated/api';
 import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
 import { formatMoney, getGameImageSrc } from '@/helpers/utils';
+import { IntlText } from '@/lib/intl';
 
-const PAYMENT_METHOD = 'JB Карта, *0000';
 const GAME_KEY_FALLBACK = '2G73NTU91S';
 const paymentRequest = {
   body: {
@@ -38,6 +38,7 @@ const paymentRequest = {
     region: 'all_world'
   } satisfies CreateGameOrderDto
 };
+
 const PaymentPage = () => {
   const dataQuery = useGetUsersSessionQuery();
   const postGamesOrderMutation = usePostGamesOrderMutation();
@@ -55,7 +56,7 @@ const PaymentPage = () => {
   return (
     <section className='flex w-full flex-col gap-6 pt-8 pb-28 sm:w-[648px] sm:max-w-[648px] sm:pt-10 sm:pb-0'>
       <Typography as='h1' className='text-[24px]/8 tracking-normal' variant='title-md'>
-        Информация о покупке
+        <IntlText path='page.payment.title' />
       </Typography>
 
       {!order && (
@@ -87,13 +88,13 @@ const PaymentPage = () => {
                 <CheckIcon className='size-5' strokeWidth={3} />
               </span>
               <Typography as='p' className='min-w-0 flex-1' variant='body-lg'>
-                Оплата прошла успешно
+                <IntlText path='card.order.success' />
               </Typography>
             </div>
 
             <div className='flex w-full flex-col'>
               <Typography as='p' className='w-full font-normal' variant='body-md'>
-                Ваш Steam-ключ для активации
+                <IntlText path='card.order.steamKeyLabel' />
               </Typography>
               <Typography as='p' className='w-full' variant='title-md'>
                 {order.gameKey ?? GAME_KEY_FALLBACK}
@@ -111,24 +112,37 @@ const PaymentPage = () => {
               </OrderCardHeader>
 
               <OrderCardBadges>
-                <OrderCardBadge>Регион {REGION_LABELS[order.gameSnapshot.region]}</OrderCardBadge>
+                <OrderCardBadge>
+                  <IntlText
+                    path='card.order.region'
+                    values={{ region: REGION_LABELS[order.gameSnapshot.region] }}
+                  />
+                </OrderCardBadge>
                 <OrderCardBadge>{DELIVERY_LABELS[order.gameSnapshot.deliveryType]}</OrderCardBadge>
               </OrderCardBadges>
             </div>
 
             <OrderCardContent>
               <OrderCardField>
-                <OrderCardFieldLabel>Почта, куда отправили детали покупки</OrderCardFieldLabel>
+                <OrderCardFieldLabel>
+                  <IntlText path='card.order.emailLabel' />
+                </OrderCardFieldLabel>
                 <OrderCardFieldValue>{order.person.email}</OrderCardFieldValue>
               </OrderCardField>
 
               <OrderCardField>
-                <OrderCardFieldLabel>Способ оплаты</OrderCardFieldLabel>
-                <OrderCardFieldValue>{PAYMENT_METHOD}</OrderCardFieldValue>
+                <OrderCardFieldLabel>
+                  <IntlText path='card.order.paymentMethodLabel' />
+                </OrderCardFieldLabel>
+                <OrderCardFieldValue>
+                  <IntlText path='card.order.paymentMethod' />
+                </OrderCardFieldValue>
               </OrderCardField>
 
               <OrderCardField>
-                <OrderCardFieldLabel>Сумма</OrderCardFieldLabel>
+                <OrderCardFieldLabel>
+                  <IntlText path='card.order.amountLabel' />
+                </OrderCardFieldLabel>
                 <OrderCardFieldValue>{formatMoney(order.gameSnapshot.price)}</OrderCardFieldValue>
               </OrderCardField>
             </OrderCardContent>
@@ -136,7 +150,9 @@ const PaymentPage = () => {
 
           {user && (
             <Button asChild className='w-full' size='lg'>
-              <Link to='/'>Вернуться в каталог игр</Link>
+              <Link to='/'>
+                <IntlText path='button.backToGamesCatalog' />
+              </Link>
             </Button>
           )}
         </>

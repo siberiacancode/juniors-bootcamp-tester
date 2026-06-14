@@ -1,0 +1,14 @@
+{
+  "page.payment.title": "Информация о покупке",
+
+  "card.order.success": "Оплата прошла успешно",
+  "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
+  "card.order.region": "Регион {region}",
+  "card.order.emailLabel": "Почта, куда отправили детали покупки",
+  "card.order.paymentMethodLabel": "Способ оплаты",
+  "card.order.paymentMethod": "JB Карта, *0000",
+  "card.order.amountLabel": "Сумма",
+  
+  "button.pay": "Оплатить",
+  "button.backToGamesCatalog": "Вернуться в каталог игр"
+}
