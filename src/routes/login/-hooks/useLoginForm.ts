@@ -97,7 +97,7 @@ export const useLoginForm = () => {
     loginForm.clearErrors('otp');
   };
 
-  const isSubmittedPhone = submittedPhones[phone];
+  const otpRetryAtByPhone = submittedPhones[phone];
   const isCodeStep = stage === 'otp';
   const isRetrying = loginOtpMutation.isPending && isCodeStep;
   const isLoading = loginForm.formState.isSubmitting || isRetrying || usersSigninMutation.isPending;
@@ -111,7 +111,7 @@ export const useLoginForm = () => {
     isCodeStep,
     isLoading,
     isRetrying,
-    isSubmittedPhone,
+    otpRetryAtByPhone,
     action: {
       onSubmit,
       onBack,

@@ -30,7 +30,7 @@ export const Route = createFileRoute('/login/')({
 });
 
 function LoginPage() {
-  const { mask, control, action, isLoading, isRetrying, isCodeStep, isSubmittedPhone } =
+  const { mask, control, action, isLoading, isRetrying, isCodeStep, otpRetryAtByPhone } =
     useLoginForm();
 
   return (
@@ -133,8 +133,12 @@ function LoginPage() {
               {isLoading && <Loader2Icon className='animate-spin' />}
               <IntlText path={isCodeStep ? 'button.login.submitOtp' : 'button.login.submitPhone'} />
             </Button>
-            {isCodeStep && isSubmittedPhone && (
-              <Countdown loading={isRetrying} retryAt={isSubmittedPhone} onRetry={action.onRetry} />
+            {isCodeStep && otpRetryAtByPhone && (
+              <Countdown
+                loading={isRetrying}
+                retryAt={otpRetryAtByPhone}
+                onRetry={action.onRetry}
+              />
             )}
           </div>
         </form>
