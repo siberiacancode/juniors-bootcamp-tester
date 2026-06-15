@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 import { Loader2Icon, LoaderIcon } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import z from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { getGamesInfo, getGamesInfoQueryKey } from '@/generated/api';
 import { IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
+import { CatalogSearch } from './-components';
 import { CatalogFiltersDesktop, CatalogFiltersMobile } from './-components/catalog/CatalogFilters';
 import { GameCard } from './-components/catalog/GameCard';
 import {
@@ -60,17 +61,6 @@ function RouteComponent() {
       data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null
   });
 
-  // const gamesSearchQuery = useGetGamesSearchQuery({
-  //   request: {
-  //     query: {
-  //       search: debouncedSearchQuery
-  //     }
-  //   },
-  //   params: {
-  //     enabled: shouldUseSearchQuery
-  //   }
-  // });
-
   const onViewChange = (view: '' | (typeof ALL_CATALOG_VIEWS)[number]) => {
     if (view === '') return;
     navigate({
@@ -81,11 +71,14 @@ function RouteComponent() {
     });
   };
 
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <div className='flex flex-col gap-4 sm:pt-10 sm:pb-28 lg:gap-5'>
       <div className='flex items-end gap-3'>
-        {/* <CatalogSearch value={search.q} onChange={(q) => onSearchChange({ q })} /> */}
-        <CatalogFiltersMobile />
+        <CatalogSearch searchValue={searchValue} onSearchValueChange={setSearchValue} />
+
+        {!(searchValue.trim().length > 0) && <CatalogFiltersMobile />}
       </div>
 
       <div className='grid gap-8 lg:grid-cols-[264px_minmax(0,1fr)] lg:items-start lg:gap-4'>

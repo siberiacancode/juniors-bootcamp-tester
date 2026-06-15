@@ -15,6 +15,13 @@
   "genre.indie": "Инди",
   "genre.horror": "Хорроры",
 
+  "deliveryType.epic_key": "Epic",
+  "deliveryType.nintendo_key": "Nintendo",
+  "deliveryType.playstation_key": "PlayStation",
+  "deliveryType.steam_gift": "Steam Gift",
+  "deliveryType.steam_key": "Steam",
+  "deliveryType.xbox_key": "Xbox",
+
   "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
   "page.payment.serviceLabel": "Оплата сервиса",

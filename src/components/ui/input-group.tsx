@@ -11,7 +11,7 @@ import { IconButton } from './icon-button';
 const InputGroup = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
     className={cn(
-      'group/input-group relative flex h-11 w-full min-w-0 items-center rounded-full border border-input bg-transparent transition-[color,box-shadow] outline-none',
+      'group/input-group relative flex h-10 w-full min-w-0 items-center rounded-full border border-input bg-transparent transition-[color,box-shadow] outline-none',
 
       'has-[>[data-align=start]]:[&>input]:pl-2',
       'has-[>[data-align=end]]:[&>input]:pr-2',

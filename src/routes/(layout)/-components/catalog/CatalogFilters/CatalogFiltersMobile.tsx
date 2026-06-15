@@ -92,14 +92,8 @@ export const CatalogFiltersMobile = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <IconButton
-          rounded
-          aria-label='Открыть фильтры'
-          className='size-15 rounded-full bg-secondary text-foreground hover:bg-secondary-hover lg:hidden'
-          size='lg'
-          variant='secondary'
-        >
-          <ListFilterIcon className='size-7' />
+        <IconButton rounded aria-label='Открыть фильтры' className='lg:hidden' variant='secondary'>
+          <ListFilterIcon />
         </IconButton>
       </DrawerTrigger>
       <DrawerContent className='max-h-[86dvh] rounded-t-20 px-0' showHandle={false}>
