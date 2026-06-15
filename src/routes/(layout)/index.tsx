@@ -1,41 +1,38 @@
-import { useDebounceValue } from '@siberiacancode/reactuse';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
-import { useMemo, useState } from 'react';
+import { Loader2Icon, LoaderIcon } from 'lucide-react';
+import { Fragment } from 'react';
 import z from 'zod';
 
-import type { GameFilter, GameView } from '@/generated/api';
+import { Button } from '@/components/ui/button';
+import { ChipGroup, ChipGroupItem } from '@/components/ui/chip-group';
+import { Typography } from '@/components/ui/typography';
+import { getGamesInfo, getGamesInfoQueryKey } from '@/generated/api';
+import { IntlText } from '@/lib';
+import { cn } from '@/lib/utils';
 
-import { useGetGamesInfoQuery, useGetGamesSearchQuery } from '@/generated/api';
-
-import type { CatalogFilters } from './-helpers/catalog';
-
+import { CatalogFiltersDesktop, CatalogFiltersMobile } from './-components/catalog/CatalogFilters';
+import { GameCard } from './-components/catalog/GameCard';
 import {
-  CatalogFilters as CatalogFiltersAside,
-  CatalogFiltersDrawer,
-  CatalogGamesGrid,
-  CatalogSearch,
-  CatalogViewTabs
-} from './-components';
-import { CATALOG_GENRES, CATALOG_VIEWS } from './-constants/catalog';
-import { filterCatalogGames } from './-helpers/catalog';
+  ALL_CATALOG_VIEWS,
+  CATALOG_FILTERS,
+  CATALOG_GENRES,
+  CATALOG_VIEWS
+} from './-constants/catalog';
 
-const CATALOG_VIEW_VALUES = CATALOG_VIEWS.map((view) => view.value);
-
-const DEFAULT_SEARCH = {
-  genre: [],
-  q: '',
-  showDlc: false,
-  view: 'all',
-  withDiscount: false
-} satisfies CatalogFilters;
-
-const catalogSearchSchema = z.object({
-  genre: z.array(z.enum(CATALOG_GENRES)).default(DEFAULT_SEARCH.genre).catch(DEFAULT_SEARCH.genre),
-  q: z.string().default(DEFAULT_SEARCH.q).catch(DEFAULT_SEARCH.q),
-  showDlc: z.boolean().default(DEFAULT_SEARCH.showDlc).catch(DEFAULT_SEARCH.showDlc),
-  view: z.enum(CATALOG_VIEW_VALUES).default(DEFAULT_SEARCH.view).catch(DEFAULT_SEARCH.view),
-  withDiscount: z.boolean().default(DEFAULT_SEARCH.withDiscount).catch(DEFAULT_SEARCH.withDiscount)
+export const catalogSearchSchema = z.object({
+  genre: z.array(z.enum(CATALOG_GENRES)).default([]),
+  filter: z.array(z.enum(CATALOG_FILTERS)).default([]),
+  view: z.enum(CATALOG_VIEWS).optional().catch(undefined)
 });
+
+export type CatalogSearchParams = z.infer<typeof catalogSearchSchema>;
+
+const DEFAULT_SEARCH: CatalogSearchParams = {
+  genre: [],
+  filter: [],
+  view: undefined
+};
 
 export const Route = createFileRoute('/(layout)/')({
   component: RouteComponent,
@@ -46,137 +43,128 @@ export const Route = createFileRoute('/(layout)/')({
 });
 
 function RouteComponent() {
-  const search = Route.useSearch();
+  const searchParams = Route.useSearch();
   const navigate = Route.useNavigate();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [drawerFilters, setDrawerFilters] = useState(search);
-  const debouncedSearchQuery = useDebounceValue(search.q, 500);
-  const shouldUseSearchQuery = Boolean(debouncedSearchQuery) && search.view === 'all';
 
-  const gameFilters = useMemo(() => {
-    const filters: GameFilter[] = [];
-
-    if (search.withDiscount) {
-      filters.push('discount');
-    }
-
-    if (search.showDlc) {
-      filters.push('dlc');
-    }
-
-    return filters;
-  }, [search.showDlc, search.withDiscount]);
-
-  const gamesInfoQuery = useGetGamesInfoQuery({
-    request: {
-      query: {
-        filter: gameFilters.length > 0 ? gameFilters : undefined,
-        genre: search.genre.length > 0 ? search.genre : undefined,
-        limit: 60,
-        page: 1,
-        view: search.view === 'all' ? undefined : (search.view satisfies GameView)
-      }
-    },
-    params: {
-      enabled: !shouldUseSearchQuery
-    }
+  const gamesInfoQuery = useInfiniteQuery({
+    queryKey: [getGamesInfoQueryKey, searchParams],
+    queryFn: ({ pageParam }) =>
+      getGamesInfo({
+        query: {
+          page: pageParam,
+          ...searchParams
+        }
+      }),
+    initialPageParam: 1,
+    getNextPageParam: ({ data }) =>
+      data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null
   });
 
-  const gamesSearchQuery = useGetGamesSearchQuery({
-    request: {
-      query: {
-        limit: 60,
-        search: debouncedSearchQuery
-      }
-    },
-    params: {
-      enabled: shouldUseSearchQuery
-    }
-  });
+  // const gamesSearchQuery = useGetGamesSearchQuery({
+  //   request: {
+  //     query: {
+  //       search: debouncedSearchQuery
+  //     }
+  //   },
+  //   params: {
+  //     enabled: shouldUseSearchQuery
+  //   }
+  // });
 
-  const sourceGames = shouldUseSearchQuery
-    ? (gamesSearchQuery.data?.data.games ?? [])
-    : (gamesInfoQuery.data?.data.games ?? []);
-  const games = filterCatalogGames(sourceGames, search);
-  const isLoading =
-    search.q !== debouncedSearchQuery ||
-    (shouldUseSearchQuery ? gamesSearchQuery.isLoading : gamesInfoQuery.isLoading);
-  const isError = shouldUseSearchQuery
-    ? gamesSearchQuery.isError || gamesSearchQuery.data?.data.success === false
-    : gamesInfoQuery.isError || gamesInfoQuery.data?.data.success === false;
-
-  const onSearchChange = (value: Partial<CatalogFilters>) => {
+  const onViewChange = (view: '' | (typeof ALL_CATALOG_VIEWS)[number]) => {
+    if (view === '') return;
     navigate({
-      search: (current) => ({
-        ...current,
-        ...value
+      search: (s) => ({
+        ...s,
+        view: view === 'all' ? undefined : view
       })
-    });
-  };
-
-  const onResetFilters = () => {
-    navigate({
-      search: (current) => ({
-        ...DEFAULT_SEARCH,
-        q: current.q,
-        view: current.view
-      })
-    });
-  };
-
-  const onDrawerOpenChange = (open: boolean) => {
-    if (open) {
-      setDrawerFilters(search);
-    }
-
-    setIsDrawerOpen(open);
-  };
-
-  const onApplyDrawerFilters = () => {
-    onSearchChange(drawerFilters);
-    setIsDrawerOpen(false);
-  };
-
-  const onResetDrawerFilters = () => {
-    setDrawerFilters({
-      genre: [],
-      q: search.q,
-      showDlc: false,
-      view: search.view,
-      withDiscount: false
     });
   };
 
   return (
-    <main className='flex flex-col gap-4 sm:pt-10 sm:pb-28 lg:gap-5'>
+    <div className='flex flex-col gap-4 sm:pt-10 sm:pb-28 lg:gap-5'>
       <div className='flex items-end gap-3'>
-        <CatalogSearch value={search.q} onChange={(q) => onSearchChange({ q })} />
-        <CatalogFiltersDrawer
-          open={isDrawerOpen}
-          value={drawerFilters}
-          onApply={onApplyDrawerFilters}
-          onChange={(value) => setDrawerFilters((current) => ({ ...current, ...value }))}
-          onOpenChange={onDrawerOpenChange}
-          onReset={onResetDrawerFilters}
-        />
+        {/* <CatalogSearch value={search.q} onChange={(q) => onSearchChange({ q })} /> */}
+        <CatalogFiltersMobile />
       </div>
 
-      <div className='grid gap-8 lg:grid-cols-[150px_minmax(0,1fr)] lg:items-start lg:gap-4 xl:grid-cols-[160px_minmax(0,1fr)]'>
+      <div className='grid gap-8 lg:grid-cols-[264px_minmax(0,1fr)] lg:items-start lg:gap-4'>
         <aside className='hidden lg:block'>
-          <CatalogFiltersAside
-            showActions
-            value={search}
-            variant='desktop'
-            onChange={onSearchChange}
-            onReset={onResetFilters}
-          />
+          <CatalogFiltersDesktop />
         </aside>
 
         <section className='flex min-w-0 flex-col gap-4'>
-          <CatalogViewTabs value={search.view} onChange={(view) => onSearchChange({ view })} />
-          <CatalogGamesGrid games={games} isError={isError} isLoading={isLoading} />
+          <ChipGroup
+            className='max-w-full scrollbar-none justify-start gap-3 overflow-x-auto overflow-y-hidden bg-transparent p-0 lg:gap-2 [&::-webkit-scrollbar]:hidden'
+            type='single'
+            value={searchParams.view ?? 'all'}
+            onValueChange={onViewChange}
+          >
+            {ALL_CATALOG_VIEWS.map((view) => (
+              <ChipGroupItem
+                key={view}
+                className={cn(
+                  'h-19 flex-none bg-secondary px-8 text-[26px]/8 font-extrabold tracking-normal text-foreground shadow-none',
+                  'data-[state=on]:bg-accent-secondary data-[state=on]:text-accent-secondary-fg data-[state=on]:shadow-none',
+                  'lg:h-10 lg:px-6 lg:text-[14px]/5'
+                )}
+                icon={false}
+                value={view}
+              >
+                <IntlText path={`page.catalog.views.${view}`} />
+              </ChipGroupItem>
+            ))}
+          </ChipGroup>
+
+          {gamesInfoQuery.isFetching && (
+            <div className='grid w-full place-items-center self-stretch'>
+              <Loader2Icon className='size-8 animate-spin' />
+            </div>
+          )}
+
+          {gamesInfoQuery.isError && (
+            <div className='flex min-h-64 flex-col items-center justify-center gap-4 rounded-24 bg-secondary px-6 text-center'>
+              <Typography as='p' className='max-w-80 text-foreground/60' variant='body-md'>
+                Не удалось загрузить игры
+              </Typography>
+            </div>
+          )}
+
+          {!gamesInfoQuery.isLoading && (
+            <>
+              <div className='grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-x-3 lg:gap-y-5 xl:gap-x-4'>
+                {gamesInfoQuery.data?.pages.map((group, i) => (
+                  <Fragment key={i}>
+                    {group.data.games.map((game) => (
+                      <GameCard key={game.slug} game={game} />
+                    ))}
+                  </Fragment>
+                ))}
+              </div>
+
+              {gamesInfoQuery.data?.pages.flatMap((group) => group.data.games).length === 0 && (
+                <div className='flex min-h-64 items-center justify-center rounded-24 bg-secondary px-6 text-center'>
+                  <Typography as='p' className='max-w-80 text-foreground/60' variant='body-md'>
+                    Ничего не найдено
+                  </Typography>
+                </div>
+              )}
+
+              <div className='flex justify-center'>
+                {gamesInfoQuery.hasNextPage && (
+                  <Button
+                    disabled={gamesInfoQuery.isFetching}
+                    onClick={() => gamesInfoQuery.fetchNextPage()}
+                  >
+                    {gamesInfoQuery.isFetchingNextPage && <LoaderIcon className='animate-spin' />}
+                    Показать ещё
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }

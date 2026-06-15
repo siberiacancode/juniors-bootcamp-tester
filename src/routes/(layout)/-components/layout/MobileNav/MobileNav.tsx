@@ -37,7 +37,6 @@ export const MobileNav = () => {
                 'relative z-10 flex h-full flex-col items-center justify-center gap-1 rounded-full text-[14px]/4.5 font-bold tracking-normal text-foreground transition-colors duration-300 ease-out',
                 '[&_svg]:size-7'
               )}
-              activeOptions={{ exact: item.to === '/' }}
               to={item.to}
             >
               <Icon />

@@ -1,4 +1,20 @@
 {
+  "page.catalog.views.all": "Весь каталог",
+  "page.catalog.views.popular": "Популярные",
+  "page.catalog.views.new": "Новинки",
+
+  "genre.action": "Экшены",
+  "genre.adventure": "Приключенческие игры",
+  "genre.rpg": "Ролевые игры",
+  "genre.strategy": "Стратегии",
+  "genre.shooter": "Шутеры",
+  "genre.simulation": "Симуляторы",
+  "genre.survival": "Выживание",
+  "genre.sports": "Спортивные игры",
+  "genre.racing": "Гонки",
+  "genre.indie": "Инди",
+  "genre.horror": "Хорроры",
+
   "page.payment.title": "Информация о покупке",
   "page.payment.serviceLabel": "Оплата сервиса",
   "page.payment.amountLabel": "Сумма",

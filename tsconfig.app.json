@@ -13,9 +13,9 @@
       "@/generated/*": ["./generated/*"],
       "@/*": ["./src/*"]
     },
+    "resolveJsonModule": true,
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

@@ -1,24 +1,27 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
+import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { usePostAuthOtpMutation, usePostUsersSigninMutation } from '@/generated/api';
+import {
+  getUsersSessionQueryKey,
+  getUsersSessionQueryOptions,
+  usePostAuthOtpMutation,
+  usePostUsersSigninMutation
+} from '@/generated/api';
+import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 import { Countdown } from './-components/Countdown/Countdown';
-import {
-  loginSearchSchema,
-  otpFormScheme,
-  phoneFormScheme,
-  resolveLoginRedirect
-} from './-constants';
+import { otpFormScheme, phoneFormScheme } from './-constants';
 
 interface AuthFormValues {
   otp: string;
@@ -29,11 +32,24 @@ const LENGTH = {
   PHONE: 11
 } as const;
 
-const RouteComponent = () => {
-  const search = useSearch({
-    from: '/login/'
-  });
-  const navigate = useNavigate();
+export const Route = createFileRoute('/login/')({
+  component: RouteComponent,
+  validateSearch: z.object({
+    redirect: z.string().optional().catch('')
+  }),
+  beforeLoad: async ({ context: { queryClient }, search }) => {
+    const user = (await queryClient.ensureQueryData(getUsersSessionQueryOptions())).data.user;
+
+    if (user) {
+      throw redirect({ to: search.redirect ?? '/', replace: true });
+    }
+  }
+});
+
+function RouteComponent() {
+  const search = Route.useSearch({});
+  const navigate = Route.useNavigate();
+  const queryClient = useQueryClient();
 
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<Record<string, number>>({});
@@ -85,7 +101,13 @@ const RouteComponent = () => {
       return authForm.setError('otp', { message: response.data.reason });
     }
 
-    await navigate({ to: resolveLoginRedirect(search.redirect) });
+    console.log(response.data.token);
+
+    localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, response.data.token);
+
+    await queryClient.refetchQueries({ queryKey: [getUsersSessionQueryKey] });
+
+    await navigate({ to: search.redirect ?? '/', replace: true });
   });
 
   const onBack = () => {
@@ -236,9 +258,4 @@ const RouteComponent = () => {
       </div>
     </main>
   );
-};
-
-export const Route = createFileRoute('/login/')({
-  component: RouteComponent,
-  validateSearch: loginSearchSchema
-});
+}
