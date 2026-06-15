@@ -1,5 +1,18 @@
 {
   "page.payment.title": "Информация о покупке",
+  "page.payment.serviceLabel": "Оплата сервиса",
+  "page.payment.amountLabel": "Сумма",
+  "page.payment.orderNumberLabel": "Номер заказа",
+  "page.payment.savedCardsTitle": "Сохранённые карты",
+  "page.payment.processing": "Оплачиваем...",
+  "page.payment.payAmount": "Оплатить {amount}",
+  "page.payment.disclaimer": "Оплата не является реальной, списание денежных средств не производится.",
+
+  "field.cardNumber.label": "Номер карты*",
+  "field.cardExpiry.label": "Срок*",
+  "field.cardPin.label": "CVV*",
+
+  "error.validation.required": "Поле обязательно",
 
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
@@ -8,7 +21,8 @@
   "card.order.paymentMethodLabel": "Способ оплаты",
   "card.order.paymentMethod": "JB Карта, *0000",
   "card.order.amountLabel": "Сумма",
-  
+
   "button.pay": "Оплатить",
+  "button.newCard": "Новая карта",
   "button.backToGamesCatalog": "Вернуться в каталог игр"
 }
