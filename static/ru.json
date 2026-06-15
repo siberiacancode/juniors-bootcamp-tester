@@ -15,12 +15,12 @@
   "genre.indie": "Инди",
   "genre.horror": "Хорроры",
 
+  "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
   "page.payment.serviceLabel": "Оплата сервиса",
   "page.payment.amountLabel": "Сумма",
   "page.payment.orderNumberLabel": "Номер заказа",
   "page.payment.savedCardsTitle": "Сохранённые карты",
-  "page.payment.processing": "Оплачиваем...",
   "page.payment.payAmount": "Оплатить {amount}",
   "page.payment.disclaimer": "Оплата не является реальной, списание денежных средств не производится.",
 
@@ -29,6 +29,7 @@
   "field.cardPin.label": "CVV*",
 
   "error.validation.required": "Поле обязательно",
+  "error.validation.min": "Заполните поле полностью",
 
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",

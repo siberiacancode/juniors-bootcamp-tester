@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask } from '@siberiacancode/reactuse';
-import { createFileRoute, Link, redirect } from '@tanstack/react-router';
-import { CheckIcon, CirclePlusIcon } from 'lucide-react';
+import { createFileRoute, Link, redirect, useRouter } from '@tanstack/react-router';
+import { CheckIcon, CirclePlusIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
@@ -73,6 +73,7 @@ export const Route = createFileRoute('/(layout)/payment/')({
 });
 
 function PaymentPage() {
+  const router = useRouter();
   const search = Route.useSearch();
   const dataQuery = useGetUsersSessionQuery();
   const postGamesOrderMutation = usePostGamesOrderMutation();
@@ -121,6 +122,13 @@ function PaymentPage() {
 
     if (postGamesOrderResponse.data.success) {
       setOrder(postGamesOrderResponse.data.order);
+
+      router.history._ignoreSubscribers = true;
+      try {
+        window.history.replaceState(window.history.state, '', window.location.pathname);
+      } finally {
+        router.history._ignoreSubscribers = false;
+      }
     }
   });
 
@@ -129,7 +137,7 @@ function PaymentPage() {
       <div className='fixed inset-0 z-100 overflow-y-auto bg-white'>
         <section className='mx-auto flex w-full flex-col gap-6 px-4 pt-14 pb-28 sm:w-[418px] sm:max-w-[418px] sm:px-0 sm:pb-10'>
           <Typography as='h1' className='text-[24px]/8 tracking-normal' variant='title-md'>
-            <IntlText path='page.payment.title' />
+            <IntlText path='page.pay.title' />
           </Typography>
 
           <form className='flex w-full flex-col items-start gap-6' onSubmit={onPay}>
@@ -285,14 +293,11 @@ function PaymentPage() {
               size='lg'
               type='submit'
             >
-              {postGamesOrderMutation.isPending ? (
-                <IntlText path='page.payment.processing' />
-              ) : (
-                <IntlText
-                  path='page.payment.payAmount'
-                  values={{ amount: formatMoney(search.amount) }}
-                />
-              )}
+              {postGamesOrderMutation.isPending && <Loader2Icon className='animate-spin' />}
+              <IntlText
+                path='page.payment.payAmount'
+                values={{ amount: formatMoney(search.amount) }}
+              />
             </Button>
 
             <Typography as='p' className='text-foreground/50' variant='caption'>
@@ -305,7 +310,7 @@ function PaymentPage() {
   }
 
   return (
-    <section className='flex w-full flex-col gap-6 px-4 pt-6 pb-28 sm:w-[648px] sm:max-w-[648px] sm:px-0 sm:pt-14 sm:pb-10'>
+    <section className='flex w-full flex-col gap-6 px-0 pt-6 pb-28 sm:w-[648px] sm:max-w-[648px] sm:pt-14 sm:pb-10'>
       <Typography as='h1' className='text-[24px]/8 tracking-normal' variant='title-md'>
         <IntlText path='page.payment.title' />
       </Typography>
