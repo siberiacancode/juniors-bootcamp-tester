@@ -1,92 +1,128 @@
-import { OrderDetailsCard } from '@modules/order';
-import { createFileRoute, Link, useParams } from '@tanstack/react-router';
-import { InboxIcon } from 'lucide-react';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
+import { ChevronLeftIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import {
+  OrderCard,
+  OrderCardBadge,
+  OrderCardBadges,
+  OrderCardContent,
+  OrderCardField,
+  OrderCardFieldLabel,
+  OrderCardFieldValue,
+  OrderCardHeader,
+  OrderCardSubtitle,
+  OrderCardThumbnail,
+  OrderCardTitle
+} from '@/components/ui/order-card';
 import { Typography } from '@/components/ui/typography';
-import { useGetGamesOrderByOrderIdQuery } from '@/generated/api';
+import {
+  getGamesOrderByOrderIdSuspenseQueryOptions,
+  useGetGamesOrderByOrderIdSuspenseQuery
+} from '@/generated/api';
+import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
+import { formatMoney, getGameImageSrc } from '@/helpers/utils';
+import { queryClient } from '@/lib';
+import { IntlText } from '@/lib/intl';
 
-import { HistoryDetailsHeader } from './-components';
+export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
+  loader: async ({ params }) => {
+    const getGamesOrderByOrderIdResponse = await queryClient.ensureQueryData(
+      getGamesOrderByOrderIdSuspenseQueryOptions({
+        request: {
+          path: {
+            orderId: params.orderId
+          }
+        }
+      })
+    );
 
-const PAYMENT_METHOD = 'JB Pay';
+    if (
+      !getGamesOrderByOrderIdResponse.data.success ||
+      !getGamesOrderByOrderIdResponse.data.order
+    ) {
+      throw redirect({
+        to: '/history'
+      });
+    }
+  },
+  component: HistoryOrderPage
+});
 
-const RouteComponent = () => {
-  const orderId = useParams({
-    select: (params) => params.orderId,
-    from: '/(layout)/_authenticated/history/$orderId'
-  });
-
-  const { data, isLoading } = useGetGamesOrderByOrderIdQuery({
+function HistoryOrderPage() {
+  const params = Route.useParams();
+  const getGamesOrderByOrderIdSuspenseQuery = useGetGamesOrderByOrderIdSuspenseQuery({
     request: {
       path: {
-        orderId
+        orderId: params.orderId
       }
     }
   });
-  const { order, success } = data?.data ?? {};
-
-  if (isLoading) {
-    return (
-      <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
-        <HistoryDetailsHeader />
-        <Skeleton className='h-120 rounded-24' />
-      </main>
-    );
-  }
-
-  if (!order || success === false) {
-    return (
-      <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
-        <HistoryDetailsHeader />
-
-        <section className='rounded-24 bg-secondary px-6 py-10 sm:px-10 sm:py-12'>
-          <div className='mx-auto flex max-w-xl flex-col items-center gap-5 text-center sm:gap-6'>
-            <div className='flex size-16 items-center justify-center rounded-full border border-foreground/10 bg-background sm:size-18'>
-              <InboxIcon className='size-8 sm:size-9' strokeWidth={1.75} />
-            </div>
-
-            <div className='flex flex-col gap-2 sm:gap-3'>
-              <Typography
-                as='h2'
-                className='text-[24px]/8 font-medium tracking-normal sm:text-[32px]/10'
-                variant='body-lg'
-              >
-                Покупка не найдена
-              </Typography>
-              <Typography
-                as='p'
-                className='max-w-80 text-[16px]/6 font-medium tracking-normal text-foreground/70 sm:max-w-none sm:text-[18px]/6.5'
-                variant='body-md'
-              >
-                Похоже, этой покупки больше нет в истории или ссылка устарела.
-              </Typography>
-            </div>
-
-            <Button asChild className='mt-1 w-full sm:mt-2' size='lg'>
-              <Link to='/history'>Вернуться к истории</Link>
-            </Button>
-          </div>
-        </section>
-      </main>
-    );
-  }
+  const order = getGamesOrderByOrderIdSuspenseQuery.data.data.order!;
 
   return (
-    <main className='mx-auto flex w-full max-w-3xl flex-col gap-8'>
-      <HistoryDetailsHeader />
+    <main className='flex w-full max-w-[648px] flex-col gap-6 pt-14'>
+      <div className='flex w-full items-center gap-4'>
+        <Link className='flex size-6 shrink-0 items-center justify-center' to='/history'>
+          <ChevronLeftIcon className='size-6' strokeWidth={2} />
+        </Link>
+        <Typography as='h1' className='min-w-0 flex-1 text-[24px]/8' variant='title-md'>
+          <IntlText path='page.history.details.title' />
+        </Typography>
+      </div>
 
-      <OrderDetailsCard
-        order={{
-          ...order,
-          paymentAmount: order.gameSnapshot.price,
-          paymentMethod: PAYMENT_METHOD
-        }}
-      />
+      <OrderCard className='min-h-[404px]'>
+        <div className='flex w-full flex-col gap-2'>
+          <OrderCardHeader>
+            <OrderCardThumbnail
+              alt={order.gameSnapshot.name}
+              src={getGameImageSrc(order.gameSnapshot.image)}
+            />
+            <OrderCardTitle>{order.gameSnapshot.name}</OrderCardTitle>
+            <OrderCardSubtitle>{order.gameSnapshot.edition}</OrderCardSubtitle>
+          </OrderCardHeader>
+
+          <OrderCardBadges>
+            <OrderCardBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderCardBadge>
+            <OrderCardBadge>{DELIVERY_LABELS[order.gameSnapshot.deliveryType]}</OrderCardBadge>
+          </OrderCardBadges>
+        </div>
+
+        <OrderCardContent>
+          {order.gameKey && (
+            <div className='flex w-full flex-col items-start'>
+              <Typography as='p' className='w-full text-[18px]/[26px]' variant='body-md'>
+                <IntlText path='card.order.steamKeyLabel' />
+              </Typography>
+              <Typography as='p' className='w-full text-[24px]/8' variant='title-md'>
+                {order.gameKey}
+              </Typography>
+            </div>
+          )}
+
+          <OrderCardField>
+            <OrderCardFieldLabel>
+              <IntlText path='card.order.emailLabel' />
+            </OrderCardFieldLabel>
+            <OrderCardFieldValue>{order.person.email}</OrderCardFieldValue>
+          </OrderCardField>
+
+          <OrderCardField>
+            <OrderCardFieldLabel>
+              <IntlText path='card.order.paymentMethodLabel' />
+            </OrderCardFieldLabel>
+            <OrderCardFieldValue>
+              <IntlText path='card.order.paymentMethod' />
+            </OrderCardFieldValue>
+          </OrderCardField>
+
+          <OrderCardField>
+            <OrderCardFieldLabel>
+              <IntlText path='card.order.amountLabel' />
+            </OrderCardFieldLabel>
+            <OrderCardFieldValue>{formatMoney(order.gameSnapshot.price)}</OrderCardFieldValue>
+          </OrderCardField>
+        </OrderCardContent>
+      </OrderCard>
     </main>
   );
-};
-
-export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId')({
-  component: RouteComponent
-});
+}

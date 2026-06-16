@@ -23,6 +23,10 @@
   "page.payment.savedCardsTitle": "Сохранённые карты",
   "page.payment.payAmount": "Оплатить {amount}",
   "page.payment.disclaimer": "Оплата не является реальной, списание денежных средств не производится.",
+  "page.history.title": "История покупок",
+  "page.history.empty.title": "Здесь пока пусто",
+  "page.history.empty.description": "Соверши любую покупку, чтобы она отобразилась тут",
+  "page.history.details.title": "Подробности покупки",
 
   "field.cardNumber.label": "Номер карты*",
   "field.cardExpiry.label": "Срок*",
@@ -41,5 +45,6 @@
 
   "button.pay": "Оплатить",
   "button.newCard": "Новая карта",
+  "button.goToOrder": "Перейти на заказ",
   "button.backToGamesCatalog": "Вернуться в каталог игр"
 }
