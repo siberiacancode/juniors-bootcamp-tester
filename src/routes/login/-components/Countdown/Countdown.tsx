@@ -12,7 +12,8 @@ interface CountdownProps {
 }
 
 export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps) => {
-  const timer = useTimer(retryAt);
+  // eslint-disable-next-line react-hooks/purity
+  const timer = useTimer(Math.floor((retryAt - Date.now()) / 1000));
   const seconds = timer.seconds + timer.minutes * 60;
 
   if (!seconds)

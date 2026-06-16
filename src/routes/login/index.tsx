@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -8,48 +8,41 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { getUsersSessionQueryOptions } from '@/generated/api';
 import { intl, IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
 
 import { Countdown } from './-components';
-import { useLoginForm } from './-hooks';
+import { useLoginPage } from './-hooks';
+
+const loginSearchSchema = z.object({
+  redirect: z.string().optional().catch('')
+});
 
 export const Route = createFileRoute('/login/')({
   component: LoginPage,
-  validateSearch: z.object({
-    redirect: z.string().optional().catch('')
-  }),
-  beforeLoad: async ({ context: { queryClient }, search }) => {
-    const user = (await queryClient.ensureQueryData(getUsersSessionQueryOptions())).data.user;
-
-    if (user) {
-      throw redirect({ to: search.redirect ?? '/', replace: true });
-    }
-  }
+  validateSearch: loginSearchSchema
 });
 
 function LoginPage() {
-  const { mask, control, action, isLoading, isRetrying, isCodeStep, otpRetryAtByPhone } =
-    useLoginForm();
+  const { state, features, form, functions } = useLoginPage();
 
   return (
     <section className='min-h-dvh px-4 sm:grid sm:place-items-center sm:px-6 sm:py-12'>
       <div className='flex w-full flex-col sm:max-w-70 sm:gap-12'>
         <div className='hidden text-center text-[16px]/6 font-extrabold sm:block'>🎮 GAMES</div>
-        <form className='flex flex-col gap-6 sm:gap-4' onSubmit={action.onSubmit}>
+        <form className='flex flex-col gap-6 sm:gap-4' onSubmit={functions.onSubmit}>
           <div className='flex flex-col gap-6 sm:gap-5'>
             <div className='flex flex-col gap-6 sm:gap-5'>
-              {isCodeStep ? (
+              {state.isCodeStep ? (
                 <div className='flex items-center gap-6 py-3 sm:py-0'>
                   <IconButton
                     rounded
                     className='size-6'
-                    disabled={isLoading}
+                    disabled={state.isLoading}
                     size='sm'
                     type='button'
                     variant='ghost'
-                    onClick={action.onBack}
+                    onClick={functions.onBack}
                   >
                     <ChevronLeftIcon className='size-6' />
                   </IconButton>
@@ -65,15 +58,15 @@ function LoginPage() {
                 </div>
               )}
               <Typography as='p' className='tracking-normal' variant='body-sm'>
-                {isCodeStep ? (
+                {state.isCodeStep ? (
                   <IntlText path='page.login.otp.description' />
                 ) : (
                   <IntlText path='page.login.phone.description' />
                 )}
               </Typography>
             </div>
-            <fieldset className='pb-2' disabled={isLoading}>
-              {!isCodeStep && (
+            <fieldset className='pb-2' disabled={state.isLoading}>
+              {!state.isCodeStep && (
                 <Controller
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
@@ -81,7 +74,7 @@ function LoginPage() {
                         <IntlText path='field.login.phone.label' />
                       </FieldLabel>
                       <Input
-                        {...mask.phone.register({
+                        {...features.phoneMask.register({
                           onBlur: field.onBlur
                         })}
                         id={field.name}
@@ -95,12 +88,12 @@ function LoginPage() {
                       )}
                     </Field>
                   )}
-                  control={control}
+                  control={form.control}
                   name='phone'
                 />
               )}
 
-              {isCodeStep && (
+              {state.isCodeStep && (
                 <Controller
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
@@ -108,7 +101,7 @@ function LoginPage() {
                         <IntlText path='field.login.otp.label' />
                       </FieldLabel>
                       <Input
-                        {...mask.otp.register({
+                        {...features.otpMask.register({
                           onBlur: field.onBlur
                         })}
                         id={field.name}
@@ -122,22 +115,22 @@ function LoginPage() {
                       )}
                     </Field>
                   )}
-                  control={control}
+                  control={form.control}
                   name='otp'
                 />
               )}
             </fieldset>
           </div>
-          <div className={cn('flex flex-col gap-2.5 py-4 sm:py-0', isCodeStep && 'pb-0')}>
-            <Button disabled={isLoading} size='lg' type='submit'>
-              {isLoading && <Loader2Icon className='animate-spin' />}
-              <IntlText path={isCodeStep ? 'button.login' : 'button.submitPhone'} />
+          <div className={cn('flex flex-col gap-2.5 py-4 sm:py-0', state.isCodeStep && 'pb-0')}>
+            <Button disabled={state.isLoading} size='lg' type='submit'>
+              {state.isLoading && <Loader2Icon className='animate-spin' />}
+              <IntlText path={state.isCodeStep ? 'button.login' : 'button.submitPhone'} />
             </Button>
-            {isCodeStep && otpRetryAtByPhone && (
+            {state.isCodeStep && state.submittedPhone && (
               <Countdown
-                loading={isRetrying}
-                retryAt={otpRetryAtByPhone}
-                onRetry={action.onRetry}
+                loading={state.isRetrying}
+                retryAt={state.submittedPhone}
+                onRetry={functions.onRetry}
               />
             )}
           </div>

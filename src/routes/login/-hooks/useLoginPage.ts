@@ -16,15 +16,15 @@ import type { LoginFormValues } from '../-constants';
 
 import { otpFormScheme, phoneFormScheme } from '../-constants';
 
-export const useLoginForm = () => {
+export const useLoginPage = () => {
   const search = useSearch({
     from: '/login/'
   });
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
-  const loginOtpMutation = usePostLoginOtpMutation();
-  const usersSigninMutation = usePostUsersSigninMutation();
+  const postLoginOtpMutation = usePostLoginOtpMutation();
+  const postUsersSigninMutation = usePostUsersSigninMutation();
 
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<Record<string, number>>({});
@@ -40,7 +40,7 @@ export const useLoginForm = () => {
   const phone = loginForm.watch('phone');
 
   const sendOtp = async (phone: string) => {
-    const loginOtpResponse = await loginOtpMutation.mutateAsync({
+    const loginOtpResponse = await postLoginOtpMutation.mutateAsync({
       body: { phone }
     });
 
@@ -57,7 +57,7 @@ export const useLoginForm = () => {
       return;
     }
 
-    const usersSigninResponse = await usersSigninMutation.mutateAsync({
+    const usersSigninResponse = await postUsersSigninMutation.mutateAsync({
       body: {
         code: +values.otp,
         phone: values.phone
@@ -75,8 +75,10 @@ export const useLoginForm = () => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) =>
-      loginForm.setValue('phone', rawValue.length === 10 ? `7${rawValue}` : rawValue)
+    onChangeRaw: (rawValue) => loginForm.setValue('phone', rawValue),
+    tokens: {
+      '7': /7/
+    }
   });
 
   const otpMask = useMask('999999', {
@@ -97,25 +99,19 @@ export const useLoginForm = () => {
     loginForm.clearErrors('otp');
   };
 
-  const otpRetryAtByPhone = submittedPhones[phone];
+  const submittedPhone = submittedPhones[phone];
   const isCodeStep = stage === 'otp';
-  const isRetrying = loginOtpMutation.isPending && isCodeStep;
-  const isLoading = loginForm.formState.isSubmitting || isRetrying || usersSigninMutation.isPending;
+  const isRetrying = postLoginOtpMutation.isPending && isCodeStep;
+  const isLoading =
+    loginForm.formState.isSubmitting || isRetrying || postUsersSigninMutation.isPending;
 
   return {
-    mask: {
-      phone: phoneMask,
-      otp: otpMask
+    state: { isCodeStep, isLoading, isRetrying, submittedPhone },
+    functions: { onSubmit, onBack, onRetry },
+    features: {
+      phoneMask,
+      otpMask
     },
-    control: loginForm.control,
-    isCodeStep,
-    isLoading,
-    isRetrying,
-    otpRetryAtByPhone,
-    action: {
-      onSubmit,
-      onBack,
-      onRetry
-    }
+    form: loginForm
   };
 };
