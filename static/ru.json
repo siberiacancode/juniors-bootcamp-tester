@@ -15,6 +15,13 @@
   "genre.indie": "Инди",
   "genre.horror": "Хорроры",
 
+  "deliveryType.epic_key": "Epic",
+  "deliveryType.nintendo_key": "Nintendo",
+  "deliveryType.playstation_key": "PlayStation",
+  "deliveryType.steam_gift": "Steam Gift",
+  "deliveryType.steam_key": "Steam",
+  "deliveryType.xbox_key": "Xbox",
+
   "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
   "page.payment.serviceLabel": "Оплата сервиса",
@@ -31,6 +38,12 @@
   "field.cardNumber.label": "Номер карты*",
   "field.cardExpiry.label": "Срок*",
   "field.cardPin.label": "CVV*",
+  "field.login.phone.label": "Телефон",
+  "field.login.phone.required": "Поле обязательно для заполнения",
+  "field.login.otp.label": "Проверочный код",
+  "field.login.otp.placeholder": "Проверочный код",
+  "field.login.otp.required": "Поле обязательно для заполнения",
+  "field.login.otp.length": "Код должен содержать 6 цифр",
 
   "error.validation.required": "Поле обязательно",
   "error.validation.min": "Заполните поле полностью",
@@ -46,5 +59,14 @@
   "button.pay": "Оплатить",
   "button.newCard": "Новая карта",
   "button.goToOrder": "Перейти на заказ",
-  "button.backToGamesCatalog": "Вернуться в каталог игр"
+  "button.backToGamesCatalog": "Вернуться в каталог игр",
+  "button.submitPhone": "Продолжить",
+  "button.login": "Войти",
+  "button.retryOtp": "Отправить код повторно",
+
+  "page.login.phone.title": "Авторизация",
+  "page.login.phone.description": "Введите номер телефона для входа в свой профиль",
+  "page.login.otp.title": "Проверочный код",
+  "page.login.otp.description": "На указанный вами номер был отправлен проверочный код",
+  "page.login.otp.retryCountdown": "Отправить код повторно через {seconds} секунд"
 }
