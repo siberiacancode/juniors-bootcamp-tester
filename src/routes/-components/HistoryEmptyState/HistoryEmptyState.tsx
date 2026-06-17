@@ -6,14 +6,14 @@ import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib/intl';
 
 export const HistoryEmptyState = () => (
-  <section className='flex h-[252px] w-full flex-col items-center gap-4 rounded-24 bg-secondary p-6'>
+  <section className='flex h-63 w-full flex-col items-center gap-4 rounded-24 bg-secondary p-6'>
     <InboxIcon className='size-10 shrink-0' strokeWidth={2} />
 
     <div className='flex w-full max-w-70 flex-col items-start text-center'>
-      <Typography as='h2' className='w-full text-[24px]/8 font-medium' variant='body-lg'>
+      <Typography as='h2' className='w-full' variant='body-lg'>
         <IntlText path='page.history.empty.title' />
       </Typography>
-      <Typography as='p' className='w-full text-[16px]/6 font-medium' variant='body-sm'>
+      <Typography as='p' className='w-full' variant='body-sm'>
         <IntlText path='page.history.empty.description' />
       </Typography>
     </div>

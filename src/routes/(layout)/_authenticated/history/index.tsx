@@ -19,13 +19,11 @@ import {
   getGamesOrdersSuspenseQueryOptions,
   useGetGamesOrdersSuspenseQuery
 } from '@/generated/api';
-import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
+import { DELIVERY_LABELS, PAYMENT_METHOD, REGION_LABELS } from '@/helpers/constants';
 import { getGameImageSrc } from '@/helpers/utils';
 import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState } from '@/routes/-components';
-
-const PAYMENT_METHOD = 'JB Карта';
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
   loader: () => queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
@@ -38,7 +36,7 @@ function HistoryPage() {
 
   return (
     <main className='flex w-full max-w-[1256px] flex-col gap-6 pt-14'>
-      <Typography as='h1' className='text-[24px]/8' variant='title-md'>
+      <Typography as='h1' variant='title-md'>
         <IntlText path='page.history.title' />
       </Typography>
       {!orders.length && <HistoryEmptyState />}

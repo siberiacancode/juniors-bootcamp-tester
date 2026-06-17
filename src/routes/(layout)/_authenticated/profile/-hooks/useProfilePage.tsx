@@ -2,7 +2,11 @@ import { useDisclosure, useMask } from '@siberiacancode/reactuse';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { getUsersSessionQueryKey, useGetUsersSessionSuspenseQuery } from '@/generated/api';
+import {
+  getUsersSessionQueryKey,
+  useGetGamesOrdersSuspenseQuery,
+  useGetUsersSessionSuspenseQuery
+} from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 export const useProfilePage = () => {
@@ -12,6 +16,8 @@ export const useProfilePage = () => {
   const confirm = useDisclosure();
 
   const queryClient = useQueryClient();
+
+  const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
   const getUsersSessionSuspenseQuery = useGetUsersSessionSuspenseQuery();
   const user = getUsersSessionSuspenseQuery.data.data.user;
 
@@ -39,9 +45,10 @@ export const useProfilePage = () => {
       phoneMask
     },
     state: {
-      user,
       displayName
     },
+    user,
+    orders: getGamesOrdersSuspenseQuery.data.data.orders,
     functions: {
       onLogout
     }
