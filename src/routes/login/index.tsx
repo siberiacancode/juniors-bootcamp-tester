@@ -14,16 +14,7 @@ import { cn } from '@/lib/utils';
 import { Countdown } from './-components';
 import { useLoginPage } from './-hooks';
 
-const loginSearchSchema = z.object({
-  redirect: z.string().optional().catch('')
-});
-
-export const Route = createFileRoute('/login/')({
-  component: LoginPage,
-  validateSearch: loginSearchSchema
-});
-
-function LoginPage() {
+const LoginPage = () => {
   const { state, features, form, functions } = useLoginPage();
 
   return (
@@ -138,4 +129,13 @@ function LoginPage() {
       </div>
     </section>
   );
-}
+};
+
+const loginSearchSchema = z.object({
+  redirect: z.string().optional().catch('')
+});
+
+export const Route = createFileRoute('/login/')({
+  component: LoginPage,
+  validateSearch: loginSearchSchema
+});

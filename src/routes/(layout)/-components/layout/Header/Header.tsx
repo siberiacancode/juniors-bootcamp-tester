@@ -1,21 +1,23 @@
-import { LogoutConfirmation } from '@modules/LogoutConfirmation/LogoutConfirmation';
+import { useDisclosure } from '@siberiacancode/reactuse';
 import { useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
+import { IntlText } from '@/lib/intl';
+import { LogoutConfirmation } from '@/routes/-components';
 
 export const Header = () => {
   const navigate = useNavigate();
-  const usersSessionQuery = useGetUsersSessionQuery();
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const confirm = useDisclosure();
+
   const queryClient = useQueryClient();
 
-  const user = usersSessionQuery.data?.data.user;
+  const getUsersSessionQuery = useGetUsersSessionQuery();
+  const user = getUsersSessionQuery.data?.data.user;
 
   const onLogout = () => {
     navigate({
@@ -46,21 +48,21 @@ export const Header = () => {
           </IconButton>
         </div>
         {user && (
-          <Button onClick={() => setIsLogoutOpen(true)}>
-            Выйти
+          <Button onClick={confirm.open}>
+            <IntlText path='button.logout.confirm' />
             <LogOutIcon />
           </Button>
         )}
         {!user && (
-          <Link to='/login'>
-            <Button>
-              Войти
+          <Button asChild>
+            <Link to='/login'>
+              <IntlText path='button.login' />
               <LogInIcon />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         )}
       </div>
-      <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
+      {confirm.opened && <LogoutConfirmation onConfirm={onLogout} onOpenChange={confirm.toggle} />}
     </header>
   );
 };

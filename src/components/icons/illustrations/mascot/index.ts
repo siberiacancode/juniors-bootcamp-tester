@@ -1,1 +1,2 @@
-export * from './MascotIcon';
+export * from './MascotFrontIcon';
+export * from './MascotWaveIcon';

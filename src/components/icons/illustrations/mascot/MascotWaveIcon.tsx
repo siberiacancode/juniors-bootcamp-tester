@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export const MascotIcon = (props: SVGProps<SVGSVGElement>) => (
+export const MascotWaveIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     fill='none'
     height='56'

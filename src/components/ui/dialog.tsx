@@ -5,6 +5,9 @@ import { Dialog as DialogPrimitive } from 'radix-ui';
 
 import { cn } from '@/lib/utils';
 
+import { IconButton } from './icon-button';
+import { Typography } from './typography';
+
 const Dialog = ({ ...props }: ComponentProps<typeof DialogPrimitive.Root>) => (
   <DialogPrimitive.Root data-slot='dialog' {...props} />
 );
@@ -44,25 +47,33 @@ const DialogContent = ({
     <DialogOverlay />
     <DialogPrimitive.Content
       className={cn(
-        'fixed top-1/2 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-lg -translate-1/2 flex-col gap-4 rounded-24 bg-background p-6 shadow-elevated duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
+        'fixed top-1/2 left-1/2 z-40 flex max-w-lg min-w-md -translate-1/2 flex-col gap-4 rounded-24 bg-background px-4 py-6 shadow-elevated duration-200 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
         className
       )}
       data-slot='dialog-content'
       {...props}
     >
-      {children}
       {showCloseButton && (
-        <DialogPrimitive.Close className='absolute top-4 right-4 rounded-2 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-surface'>
-          <XIcon className='size-4' />
-          <span className='sr-only'>Close</span>
-        </DialogPrimitive.Close>
+        <div className='flex justify-end gap-10 px-8'>
+          <IconButton asChild variant='ghost'>
+            <DialogPrimitive.Close>
+              <XIcon className='size-6' />
+              <span className='sr-only'>Close</span>
+            </DialogPrimitive.Close>
+          </IconButton>
+        </div>
       )}
+      <div className='flex flex-col justify-center gap-4 px-8'>{children}</div>
     </DialogPrimitive.Content>
   </DialogPortal>
 );
 
 const DialogHeader = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div className={cn('flex flex-col gap-1.5', className)} data-slot='dialog-header' {...props} />
+  <div
+    className={cn('flex flex-col items-center gap-4', className)}
+    data-slot='dialog-header'
+    {...props}
+  />
 );
 
 const DialogFooter = ({ className, ...props }: ComponentProps<'div'>) => (
@@ -73,12 +84,16 @@ const DialogFooter = ({ className, ...props }: ComponentProps<'div'>) => (
   />
 );
 
-const DialogTitle = ({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) => (
-  <DialogPrimitive.Title
-    className={cn('font-semibold text-foreground', className)}
-    data-slot='dialog-title'
-    {...props}
-  />
+const DialogTitle = ({
+  className,
+  children,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Title>) => (
+  <DialogPrimitive.Title asChild data-slot='dialog-title' {...props}>
+    <Typography as='p' className={cn('text-center', className)} variant='title-md'>
+      {children}
+    </Typography>
+  </DialogPrimitive.Title>
 );
 
 const DialogDescription = ({

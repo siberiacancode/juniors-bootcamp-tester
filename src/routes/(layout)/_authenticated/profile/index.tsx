@@ -1,134 +1,87 @@
-import { LogoutConfirmation, OrderHistory } from '@modules';
-import { useMediaQuery } from '@siberiacancode/reactuse';
-import { useQueryClient } from '@tanstack/react-query';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { PatternFormat } from 'react-number-format';
+import { createFileRoute } from '@tanstack/react-router';
 
+import { MascotFrontIcon } from '@/components/icons';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Typography } from '@/components/ui/typography';
-import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
-import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
+import { getUsersSessionQueryOptions } from '@/generated/api';
+import { IntlText } from '@/lib/intl';
+import { LogoutConfirmation, OrderHistory } from '@/routes/-components';
 
-import { EditProfile } from './-components';
-import { ProfileSkeleton } from './-components/ProfileSkeleton/ProfileSkeleton';
+import { EditProfile, ProfileSkeleton } from './-components';
+import { useProfilePage } from './-hooks';
 
-const RouteComponent = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const usersSessionQuery = useGetUsersSessionQuery();
-
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
-
-  const user = usersSessionQuery.data?.data.user;
-
-  if (!user) {
-    return <ProfileSkeleton />;
-  }
-
-  const displayName = [user.lastname, user.firstname, user.middlename].filter(Boolean).join(' ');
-  const avatarFallback = (displayName || user.email || 'A').trim().charAt(0).toUpperCase();
-
-  const onLogout = () => {
-    navigate({
-      to: '/'
-    });
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
-    queryClient.removeQueries({
-      queryKey: [getUsersSessionQueryKey]
-    });
-  };
-
-  if (isEditing && !isDesktop) {
-    return (
-      <EditProfile
-        user={user}
-        onCancel={() => setIsEditing(false)}
-        onSuccess={() => setIsEditing(false)}
-      />
-    );
-  }
+const ProfilePage = () => {
+  const { state, features, functions } = useProfilePage();
 
   return (
-    <main className='mx-auto mt-12 flex w-full flex-col gap-10 lg:grid lg:grid-cols-[minmax(22rem,24rem)_minmax(0,1fr)] lg:gap-16'>
-      <div className='sm:hidden'>
-        <Typography as='h1' className='text-[24px]/[32px]' variant='heading-md'>
-          Профиль
+    <section className='mx-auto flex flex-col gap-10 sm:mt-12 lg:grid lg:grid-cols-[minmax(20rem,25rem)_minmax(0,1fr)] lg:gap-16'>
+      <div className='py-3 sm:hidden sm:py-0'>
+        <Typography as='h1' variant='title-md'>
+          <IntlText path='page.profile.title' />
         </Typography>
       </div>
-      <section className='flex flex-col items-center gap-4'>
-        <div className='flex flex-col items-center gap-4 sm:flex-row'>
+      <section className='flex flex-col gap-4'>
+        <div className='flex flex-col items-center gap-4 lg:flex-row'>
           <Avatar className='bg-secondary' size='xl'>
             <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
-              {avatarFallback}
+              {!state.displayName ? (
+                <MascotFrontIcon />
+              ) : (
+                (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
+              )}
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col items-center text-center sm:items-start sm:text-left'>
-            <Typography as='p' className='text-[24px]/[32px]' variant='body-lg'>
-              {displayName || user.phone}
+            <Typography as='p' variant='body-lg'>
+              {state.displayName || <IntlText path='page.profile.fallbackName' />}
             </Typography>
-            {user.email && (
-              <Typography
-                as='p'
-                className='text-[14px]/5.5 font-medium text-foreground/50'
-                variant='caption'
-              >
-                {user.email}
-              </Typography>
-            )}
-            {displayName && (
-              <Typography
-                as='p'
-                className='mt-4 text-[14px]/5.5 font-medium sm:mt-0'
-                variant='caption'
-              >
-                <PatternFormat format='+7 ### ### ## ##' value={user.phone.slice(1)} />
+            <Typography as='p' className='text-foreground/50' variant='caption'>
+              {state.user.email || features.phoneMask.watch().displayValue}
+            </Typography>
+            {state.user.email && (
+              <Typography as='p' variant='caption'>
+                {features.phoneMask.watch().displayValue}
               </Typography>
             )}
           </div>
         </div>
-        <div className='flex w-full flex-col gap-2.5 p-4 sm:p-0'>
+        <div className='flex w-full flex-col items-center gap-2.5 p-4 sm:p-0'>
           <Button
             className='w-full'
             size='lg'
             type='button'
             variant='secondary'
-            onClick={() => setIsEditing(true)}
+            onClick={features.editDialog.open}
           >
-            Редактировать профиль
+            <IntlText path='button.profile.edit' />
           </Button>
-          <Button className='w-full' size='lg' type='button' onClick={() => setIsLogoutOpen(true)}>
-            Выйти
+          <Button className='w-full' size='lg' type='button' onClick={features.confirmDialog.open}>
+            <IntlText path='button.logout.confirm' />
           </Button>
         </div>
       </section>
       <section className='flex flex-col gap-4'>
-        <Typography
-          as='p'
-          className='block text-[18px]/6.5 font-normal tracking-normal text-foreground sm:hidden sm:text-[18px]/6.5'
-          variant='body-sm'
-        >
-          История покупок
+        <Typography as='p' className='block sm:hidden' variant='body-md'>
+          <IntlText path='page.history.title' />
         </Typography>
         <OrderHistory />
       </section>
-      <LogoutConfirmation open={isLogoutOpen} onConfirm={onLogout} onOpenChange={setIsLogoutOpen} />
-      {isEditing && (
-        <EditProfile
-          user={user}
-          onCancel={() => setIsEditing(false)}
-          onSuccess={() => setIsEditing(false)}
+      {features.confirmDialog.opened && (
+        <LogoutConfirmation
+          onConfirm={functions.onLogout}
+          onOpenChange={features.confirmDialog.toggle}
         />
       )}
-    </main>
+      {features.editDialog.opened && (
+        <EditProfile onCancel={features.editDialog.close} onSuccess={features.editDialog.close} />
+      )}
+    </section>
   );
 };
 
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
-  component: RouteComponent
+  loader: ({ context }) => context.queryClient.ensureQueryData(getUsersSessionQueryOptions()),
+  pendingComponent: ProfileSkeleton,
+  component: ProfilePage
 });

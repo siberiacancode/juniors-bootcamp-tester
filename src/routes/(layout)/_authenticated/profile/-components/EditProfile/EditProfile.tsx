@@ -1,19 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMediaQuery } from '@siberiacancode/reactuse';
-import { useQueryClient } from '@tanstack/react-query';
 import { Loader2Icon, XIcon } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { PatternFormat } from 'react-number-format';
-
-import type { User } from '@/generated/api';
+import { Controller } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer';
@@ -21,182 +14,143 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { getUsersSessionQueryKey, usePatchUsersProfileMutation } from '@/generated/api';
+import { intl, IntlText } from '@/lib/intl';
+import { cn } from '@/lib/utils';
 
-import type { ProfileFormScheme } from '../../-constants';
-
-import { profileFormScheme } from '../../-constants';
+import { useEditProfile } from '../../-hooks';
 
 interface EditProfileProps {
-  user: User;
   onCancel: () => void;
   onSuccess?: () => void;
 }
 
-export const EditProfile = ({ user, onCancel, onSuccess }: EditProfileProps) => {
-  const queryClient = useQueryClient();
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
-
-  const usersProfileMutation = usePatchUsersProfileMutation();
-
-  const profileDefaultValues = useMemo(
-    () => ({
-      email: user.email ?? '',
-      firstname: user.firstname ?? '',
-      middlename: user.middlename ?? '',
-      lastname: user.lastname ?? ''
-    }),
-    [user.email, user.firstname, user.lastname, user.middlename]
-  );
-
-  const profileForm = useForm<ProfileFormScheme>({
-    mode: 'onSubmit',
-    defaultValues: profileDefaultValues,
-    resolver: zodResolver(profileFormScheme)
-  });
-  const { isDirty, isSubmitting } = profileForm.formState;
-
-  useEffect(() => {
-    profileForm.reset(profileDefaultValues);
-  }, [profileDefaultValues, profileForm]);
-
-  const onSubmit = profileForm.handleSubmit(async (values) => {
-    await usersProfileMutation.mutateAsync({
-      body: {
-        phone: user.phone,
-        profile: values
-      }
-    });
-
-    profileForm.reset(values);
-    await queryClient.refetchQueries({
-      queryKey: [getUsersSessionQueryKey]
-    });
-    onSuccess?.();
-  });
-
-  const onCancelEditing = () => {
-    profileForm.reset(profileDefaultValues);
-    onCancel();
-  };
-
-  const form = (
-    <form className='flex w-full flex-col gap-4 lg:max-w-xl' onSubmit={onSubmit}>
-      <fieldset className='flex flex-col gap-4 p-1' disabled={isSubmitting}>
-        <Controller
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Фамилия</FieldLabel>
-              <Input {...field} id={field.name} placeholder='Фамилия' />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-          control={profileForm.control}
-          name='lastname'
-        />
-        <Controller
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Имя</FieldLabel>
-              <Input {...field} id={field.name} placeholder='Имя' />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-          control={profileForm.control}
-          name='firstname'
-        />
-        <Controller
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Отчество</FieldLabel>
-              <Input {...field} id={field.name} placeholder='Отчество' />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-          control={profileForm.control}
-          name='middlename'
-        />
-        <Field>
-          <FieldLabel htmlFor='phone'>Телефон</FieldLabel>
-          <Input asChild disabled id='phone' value={user.phone}>
-            <PatternFormat format='+7 ### ### ## ##' />
-          </Input>
-        </Field>
-        <Controller
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-              <Input {...field} id={field.name} placeholder='Email' />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-          control={profileForm.control}
-          name='email'
-        />
-      </fieldset>
-
-      <div className='flex flex-col gap-2.5 py-4 lg:pt-5'>
-        <Button disabled={!isDirty} size='lg' type='submit' variant='secondary'>
-          {isSubmitting && <Loader2Icon className='animate-spin' />}
-          Обновить данные
-        </Button>
-        {!isDesktop && (
-          <Button size='lg' type='button' onClick={onCancelEditing}>
-            Отмена
-          </Button>
-        )}
-      </div>
-    </form>
-  );
-
-  if (isDesktop) {
-    return (
-      <Drawer
-        open
-        direction='right'
-        shouldScaleBackground={false}
-        onOpenChange={(open) => {
-          if (!open) {
-            onCancelEditing();
-          }
-        }}
-      >
-        <DrawerContent className='max-w-120' showHandle={false}>
-          <DrawerHeader className='flex flex-row items-center justify-between gap-6 px-0 py-3'>
-            <div>
-              <DrawerTitle className='text-[24px]/[32px] font-extrabold tracking-normal text-foreground'>
-                Редактирование данных
-              </DrawerTitle>
-              <DrawerDescription className='sr-only'>
-                Измените данные профиля и сохраните форму
-              </DrawerDescription>
-            </div>
-            <DrawerClose asChild>
-              <IconButton
-                rounded
-                aria-label='Закрыть редактирование профиля'
-                className='size-11 text-foreground'
-                type='button'
-                variant='ghost'
-              >
-                <XIcon className='size-8' />
-              </IconButton>
-            </DrawerClose>
-          </DrawerHeader>
-          <div className='min-h-0 flex-1 overflow-y-auto'>{form}</div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
+export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const { state, features, form, functions } = useEditProfile(onCancel, onSuccess);
 
   return (
-    <main className='flex flex-col items-center gap-4'>
-      <div className='pb-4 sm:hidden'>
-        <Typography as='h1' variant='title-md'>
-          Редактирование данных
-        </Typography>
-      </div>
-      {form}
-    </main>
+    <Drawer
+      open
+      direction={isDesktop ? 'right' : 'bottom'}
+      shouldScaleBackground={false}
+      onOpenChange={(open) => {
+        if (!open) {
+          functions.onCancelEditing();
+        }
+      }}
+    >
+      <DrawerContent
+        className={cn(
+          'p-6 sm:max-w-120',
+          !isDesktop &&
+            'data-[vaul-drawer-direction=right]:inset-0 data-[vaul-drawer-direction=right]:h-dvh data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-none data-[vaul-drawer-direction=right]:transform-none! data-[vaul-drawer-direction=right]:rounded-none data-[vaul-drawer-direction=right]:transition-none!'
+        )}
+        showHandle={false}
+      >
+        <DrawerHeader className='mb-6 flex flex-row justify-between px-0 py-3 sm:mb-0'>
+          <DrawerTitle asChild>
+            <Typography as='h2' variant='title-md'>
+              <IntlText path='page.profile.edit.title' />
+            </Typography>
+          </DrawerTitle>
+          {isDesktop && (
+            <DrawerClose asChild>
+              <IconButton className='size-10' type='button' variant='ghost'>
+                <XIcon className='size-6' />
+              </IconButton>
+            </DrawerClose>
+          )}
+        </DrawerHeader>
+        <form className='flex flex-col gap-4' onSubmit={functions.onSubmit}>
+          <fieldset className='flex flex-col gap-4 p-1' disabled={state.isSubmitting}>
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    <IntlText path='field.profile.lastname.label' />
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={intl.formatMessage({ id: 'field.profile.lastname.placeholder' })}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+              control={form.control}
+              name='lastname'
+            />
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    <IntlText path='field.profile.firstname.label' />
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={intl.formatMessage({ id: 'field.profile.firstname.placeholder' })}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+              control={form.control}
+              name='firstname'
+            />
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    <IntlText path='field.profile.middlename.label' />
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={intl.formatMessage({ id: 'field.profile.middlename.placeholder' })}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+              control={form.control}
+              name='middlename'
+            />
+            <Field>
+              <FieldLabel htmlFor='phone'>
+                <IntlText path='field.profile.phone.label' />
+              </FieldLabel>
+              <Input disabled id='phone' value={features.phoneMask.watch().displayValue} />
+            </Field>
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
+                    <IntlText path='field.profile.email.label' />
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id={field.name}
+                    placeholder={intl.formatMessage({ id: 'field.profile.email.placeholder' })}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+              control={form.control}
+              name='email'
+            />
+          </fieldset>
+          <div className='flex flex-col gap-2.5 py-4 lg:pt-5'>
+            <Button disabled={!state.isDirty} size='lg' type='submit' variant='secondary'>
+              {state.isSubmitting && <Loader2Icon className='animate-spin' />}
+              <IntlText path='button.profile.update' />
+            </Button>
+            {!isDesktop && (
+              <Button size='lg' type='button' onClick={functions.onCancelEditing}>
+                <IntlText path='button.profile.cancel' />
+              </Button>
+            )}
+          </div>
+        </form>
+      </DrawerContent>
+    </Drawer>
   );
 };

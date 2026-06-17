@@ -8,8 +8,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
-      "@modules": ["./src/routes/-components/index.ts"],
-      "@modules/*": ["./src/routes/-components/*"],
       "@/generated/*": ["./generated/*"],
       "@/*": ["./src/*"]
     },

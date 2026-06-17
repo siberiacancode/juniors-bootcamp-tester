@@ -1,9 +1,9 @@
 import { Controller } from 'react-hook-form';
-import { PatternFormat } from 'react-number-format';
+// import { PatternFormat } from 'react-number-format';
 
 import type { PriceVariant } from '@/generated/api';
 
-import { MascotIcon } from '@/components/icons';
+import { MascotWaveIcon } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -114,13 +114,13 @@ export const ProductCheckout = ({
                   id={field.name}
                   placeholder='+7'
                 >
-                  <PatternFormat
+                  {/*<PatternFormat
                     format='+7 ### ### ## ##'
                     getInputRef={field.ref}
                     value={field.value.substring(1)}
                     onBlur={field.onBlur}
                     onValueChange={({ value }) => field.onChange(value ? `7${value}` : '')}
-                  />
+                  />*/}
                 </Input>
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
@@ -153,7 +153,7 @@ export const ProductCheckout = ({
                       </Typography>
                     </span>
                     {method.value === 'jb-pay' && (
-                      <MascotIcon className='pointer-events-none absolute -bottom-px left-27 size-14 -translate-x-1/2' />
+                      <MascotWaveIcon className='pointer-events-none absolute -bottom-px left-27 size-14 -translate-x-1/2' />
                     )}
                     <SelectionMark active={field.value === method.value} />
                   </button>

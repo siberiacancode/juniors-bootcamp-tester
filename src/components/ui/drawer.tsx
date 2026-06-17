@@ -6,6 +6,8 @@ import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { cn } from '@/lib/utils';
 
+import { Typography } from './typography';
+
 const Drawer = ({
   shouldScaleBackground = true,
   ...props
@@ -38,13 +40,13 @@ const DrawerOverlay = ({ className, ...props }: ComponentProps<typeof DrawerPrim
 );
 
 const drawerContentVariants = cva(
-  'fixed z-60 flex flex-col bg-background p-6 outline-none data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[85dvh] data-[vaul-drawer-direction=bottom]:rounded-t-[28px] data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=right]:inset-y-4 data-[vaul-drawer-direction=right]:right-4 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:rounded-24 data-[vaul-drawer-direction=right]:border-none data-[vaul-drawer-direction=right]:after:hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:rounded-b-[28px]'
+  'fixed z-60 flex flex-col bg-background p-4 outline-none data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[85dvh] data-[vaul-drawer-direction=bottom]:rounded-t-[16px] data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=right]:inset-y-4 data-[vaul-drawer-direction=right]:right-4 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:rounded-24 data-[vaul-drawer-direction=right]:border-none data-[vaul-drawer-direction=right]:after:hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:rounded-b-[28px]'
 );
 
 const DrawerContent = ({
   className,
   children,
-  showHandle = true,
+  showHandle = false,
   showCloseButton = false,
   ...props
 }: ComponentProps<typeof DrawerPrimitive.Content> & {
@@ -76,7 +78,7 @@ const DrawerContent = ({
 
 const DrawerHeader = ({ className, ...props }: ComponentProps<'div'>) => (
   <div
-    className={cn('grid gap-1.5 p-6 pb-0 text-left', className)}
+    className={cn('flex flex-col items-center', className)}
     data-slot='drawer-header'
     {...props}
   />
@@ -90,12 +92,16 @@ const DrawerFooter = ({ className, ...props }: ComponentProps<'div'>) => (
   />
 );
 
-const DrawerTitle = ({ className, ...props }: ComponentProps<typeof DrawerPrimitive.Title>) => (
-  <DrawerPrimitive.Title
-    className={cn('text-[20px]/7 font-semibold text-foreground', className)}
-    data-slot='drawer-title'
-    {...props}
-  />
+const DrawerTitle = ({
+  className,
+  children,
+  ...props
+}: ComponentProps<typeof DrawerPrimitive.Title>) => (
+  <DrawerPrimitive.Title asChild data-slot='drawer-title' {...props}>
+    <Typography as='p' className={cn('text-center', className)} variant='title-md'>
+      {children}
+    </Typography>
+  </DrawerPrimitive.Title>
 );
 
 const DrawerDescription = ({
