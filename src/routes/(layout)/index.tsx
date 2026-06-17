@@ -21,13 +21,13 @@ import {
   CATALOG_VIEWS
 } from './-constants/catalog';
 
-export const catalogSearchSchema = z.object({
+const catalogSearchSchema = z.object({
   genre: z.array(z.enum(CATALOG_GENRES)).default([]),
   filter: z.array(z.enum(CATALOG_FILTERS)).default([]),
   view: z.enum(CATALOG_VIEWS).optional().catch(undefined)
 });
 
-export type CatalogSearchParams = z.infer<typeof catalogSearchSchema>;
+type CatalogSearchParams = z.infer<typeof catalogSearchSchema>;
 
 const DEFAULT_SEARCH: CatalogSearchParams = {
   genre: [],
@@ -36,14 +36,14 @@ const DEFAULT_SEARCH: CatalogSearchParams = {
 };
 
 export const Route = createFileRoute('/(layout)/')({
-  component: RouteComponent,
+  component: CatalogPage,
   validateSearch: catalogSearchSchema,
   search: {
     middlewares: [stripSearchParams(DEFAULT_SEARCH)]
   }
 });
 
-function RouteComponent() {
+function CatalogPage() {
   const searchParams = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -75,7 +75,11 @@ function RouteComponent() {
 
   return (
     <div className='flex flex-col gap-4 sm:pt-10 sm:pb-28 lg:gap-5'>
-      <div className='flex items-end gap-3'>
+      <Typography as='h1' className='lg:hidden' variant='title-md'>
+        <IntlText path='page.catalog.title' />
+      </Typography>
+
+      <div className='flex gap-3'>
         <CatalogSearch searchValue={searchValue} onSearchValueChange={setSearchValue} />
 
         {!(searchValue.trim().length > 0) && <CatalogFiltersMobile />}
@@ -118,7 +122,7 @@ function RouteComponent() {
           {gamesInfoQuery.isError && (
             <div className='flex min-h-64 flex-col items-center justify-center gap-4 rounded-24 bg-secondary px-6 text-center'>
               <Typography as='p' className='max-w-80 text-foreground/60' variant='body-md'>
-                Не удалось загрузить игры
+                <IntlText path='page.catalog.games.error' />
               </Typography>
             </div>
           )}
@@ -138,7 +142,7 @@ function RouteComponent() {
               {gamesInfoQuery.data?.pages.flatMap((group) => group.data.games).length === 0 && (
                 <div className='flex min-h-64 items-center justify-center rounded-24 bg-secondary px-6 text-center'>
                   <Typography as='p' className='max-w-80 text-foreground/60' variant='body-md'>
-                    Ничего не найдено
+                    <IntlText path='page.catalog.games.nothingFound' />
                   </Typography>
                 </div>
               )}
@@ -150,7 +154,7 @@ function RouteComponent() {
                     onClick={() => gamesInfoQuery.fetchNextPage()}
                   >
                     {gamesInfoQuery.isFetchingNextPage && <LoaderIcon className='animate-spin' />}
-                    Показать ещё
+                    <IntlText path='button.showMore' />
                   </Button>
                 )}
               </div>

@@ -1,7 +1,10 @@
 {
+  "page.catalog.title": "Магазин игр",
   "page.catalog.views.all": "Весь каталог",
   "page.catalog.views.popular": "Популярные",
   "page.catalog.views.new": "Новинки",
+  "page.catalog.games.error": "Не удалось загрузить игры",
+  "page.catalog.games.nothingFound": "Ничего не найдено",
 
   "genre.action": "Экшены",
   "genre.adventure": "Приключенческие игры",
@@ -48,5 +51,6 @@
 
   "button.pay": "Оплатить",
   "button.newCard": "Новая карта",
-  "button.backToGamesCatalog": "Вернуться в каталог игр"
+  "button.backToGamesCatalog": "Вернуться в каталог игр",
+  "button.showMore": "Показать ещё"
 }
