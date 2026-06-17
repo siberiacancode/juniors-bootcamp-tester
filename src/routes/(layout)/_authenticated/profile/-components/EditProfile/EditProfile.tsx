@@ -39,14 +39,7 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
         }
       }}
     >
-      <DrawerContent
-        className={cn(
-          'p-6 sm:max-w-120',
-          !isDesktop &&
-            'data-[vaul-drawer-direction=right]:inset-0 data-[vaul-drawer-direction=right]:h-dvh data-[vaul-drawer-direction=right]:w-screen data-[vaul-drawer-direction=right]:max-w-none data-[vaul-drawer-direction=right]:transform-none! data-[vaul-drawer-direction=right]:rounded-none data-[vaul-drawer-direction=right]:transition-none!'
-        )}
-        showHandle={false}
-      >
+      <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
         <DrawerHeader className='mb-6 flex flex-row justify-between px-0 py-3 sm:mb-0'>
           <DrawerTitle asChild>
             <Typography as='h2' variant='title-md'>
@@ -61,7 +54,7 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
             </DrawerClose>
           )}
         </DrawerHeader>
-        <form className='flex flex-col gap-4' onSubmit={functions.onSubmit}>
+        <form className='flex flex-col gap-12 sm:gap-4' onSubmit={functions.onSubmit}>
           <fieldset className='flex flex-col gap-4 p-1' disabled={state.isSubmitting}>
             <Controller
               render={({ field, fieldState }) => (
@@ -138,7 +131,7 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
               name='email'
             />
           </fieldset>
-          <div className='flex flex-col gap-2.5 py-4 lg:pt-5'>
+          <div className='flex flex-col gap-2.5 sm:py-4 sm:pt-5'>
             <Button disabled={!state.isDirty} size='lg' type='submit' variant='secondary'>
               {state.isSubmitting && <Loader2Icon className='animate-spin' />}
               <IntlText path='button.profile.update' />
