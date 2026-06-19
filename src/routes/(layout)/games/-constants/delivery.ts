@@ -1,16 +1,62 @@
-import type { ComponentType, SVGProps } from 'react';
+import type { ComponentType } from 'react';
 
-import { Gamepad2Icon, GiftIcon, KeyRoundIcon } from 'lucide-react';
+import { GiftIcon, KeyRoundIcon } from 'lucide-react';
 
 import type { DeliveryType } from '@/generated/api';
 
 import { PlayStationIcon, XboxLogoIcon } from '@/components/icons';
 
-export const deliveryIcons: Record<DeliveryType, ComponentType<SVGProps<SVGSVGElement>>> = {
-  epic_key: KeyRoundIcon,
-  nintendo_key: Gamepad2Icon,
-  playstation_key: PlayStationIcon,
-  steam_gift: GiftIcon,
-  steam_key: KeyRoundIcon,
-  xbox_key: XboxLogoIcon
+export const DELIVERY_TYPES = [
+  'epic_key',
+  'nintendo_key',
+  'playstation_key',
+  'steam_gift',
+  'steam_key',
+  'xbox_key'
+] as const satisfies readonly DeliveryType[];
+
+interface DeliveryTypeOption {
+  Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  platform: string;
+  subtitlePath: MessagePath;
+  titlePath: MessagePath;
+}
+
+export const DELIVERY_TYPE_VIEW: Record<DeliveryType, DeliveryTypeOption> = {
+  steam_key: {
+    titlePath: 'page.gameProduct.delivery.steam_key.title',
+    subtitlePath: 'page.gameProduct.delivery.keySubtitle',
+    Icon: KeyRoundIcon,
+    platform: 'Steam'
+  },
+  steam_gift: {
+    titlePath: 'page.gameProduct.delivery.steam_gift.title',
+    subtitlePath: 'page.gameProduct.delivery.codeSubtitle',
+    Icon: GiftIcon,
+    platform: 'Steam'
+  },
+  xbox_key: {
+    titlePath: 'page.gameProduct.delivery.xbox_key.title',
+    subtitlePath: 'page.gameProduct.delivery.keySubtitle',
+    Icon: XboxLogoIcon,
+    platform: 'Xbox'
+  },
+  playstation_key: {
+    titlePath: 'page.gameProduct.delivery.playstation_key.title',
+    subtitlePath: 'page.gameProduct.delivery.keySubtitle',
+    Icon: PlayStationIcon,
+    platform: 'PlayStation'
+  },
+  epic_key: {
+    titlePath: 'page.gameProduct.delivery.epic_key.title',
+    subtitlePath: 'page.gameProduct.delivery.keySubtitle',
+    Icon: KeyRoundIcon,
+    platform: 'Epic Games'
+  },
+  nintendo_key: {
+    titlePath: 'page.gameProduct.delivery.nintendo_key.title',
+    subtitlePath: 'page.gameProduct.delivery.keySubtitle',
+    Icon: KeyRoundIcon,
+    platform: 'Nintendo'
+  }
 };

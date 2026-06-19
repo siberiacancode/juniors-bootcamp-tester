@@ -1,33 +1,48 @@
 export const FOOTER_PRODUCTS = [
   {
-    href: 'https://store.steampowered.com/',
+    search: {
+      filter: [],
+      genre: [],
+      view: undefined
+    },
+    to: '/',
     label: 'Весь каталог'
   },
   {
-    href: '#',
+    search: {
+      filter: [],
+      genre: [],
+      view: 'new'
+    },
+    to: '/',
     label: 'Новинки'
   },
   {
-    href: 'https://www.xbox.com/ru-RU/games/store',
+    search: {
+      filter: [],
+      genre: [],
+      view: 'popular'
+    },
+    to: '/',
     label: 'Популярные'
   }
 ] as const;
 
 export const FOOTER_CONTACTS = [
   {
-    href: '#',
+    href: '/profile',
     label: 'Поддержка клиентов'
   },
   {
-    href: '#',
+    href: '/profile',
     label: 'Написать нам на почту'
   },
   {
-    href: '#',
+    href: '/profile',
     label: 'По вопросам рекламы'
   },
   {
-    href: '#',
+    href: '/profile',
     label: 'Контакты'
   }
 ] as const;

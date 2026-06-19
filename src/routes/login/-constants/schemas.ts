@@ -3,7 +3,7 @@ import z from 'zod';
 import { intl } from '@/lib';
 
 export const LENGTH = {
-  PHONE: 10,
+  PHONE: 11,
   OTP: 6
 } as const;
 

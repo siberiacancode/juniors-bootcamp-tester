@@ -18,5 +18,14 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://juniorsbootcamp.ru',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 });

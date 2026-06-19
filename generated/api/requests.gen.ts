@@ -28,8 +28,8 @@ import type {
   GamesControllerGetGameOrderData,
   GamesControllerGetGameOrderResponse
 } from './types.gen';
+import { instance } from '@/helpers/api/instance';
 
-import { instance } from '..\\..\\src\\helpers\\api\\instance';
 
 export type PostAuthOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
 

@@ -25,9 +25,12 @@ import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState } from '@/routes/-components';
 
+import { HistorySkeleton } from './-components';
+
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
   loader: () => queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
-  component: HistoryPage
+  component: HistoryPage,
+  pendingComponent: HistorySkeleton
 });
 
 function HistoryPage() {

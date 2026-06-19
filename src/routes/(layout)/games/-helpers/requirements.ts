@@ -1,29 +1,43 @@
-import type { SystemRequirements } from '@/generated/api';
+import type { DetailedGame, SystemRequirements } from '@/generated/api';
+
+import { intl } from '@/lib';
+
+export const getRequirementSections = ({
+  minimumSystemRequirements,
+  recommendedSystemRequirements
+}: Pick<DetailedGame, 'minimumSystemRequirements' | 'recommendedSystemRequirements'>) =>
+  [
+    {
+      key: 'minimum',
+      requirements: minimumSystemRequirements,
+      title: intl.formatMessage({ id: 'page.gameProduct.minimumRequirements' })
+    },
+    {
+      key: 'recommended',
+      requirements: recommendedSystemRequirements,
+      title: intl.formatMessage({ id: 'page.gameProduct.recommendedRequirements' })
+    }
+  ] as const;
 
 export const getRequirementRows = (requirements: SystemRequirements) => [
   {
-    label: 'ОС:',
+    label: intl.formatMessage({ id: 'page.gameProduct.requirement.os' }),
     value: requirements.oc
   },
   {
-    label: 'Процессор',
+    label: intl.formatMessage({ id: 'page.gameProduct.requirement.processor' }),
     value: requirements.processor
   },
   {
-    label: 'Оперативная память',
+    label: intl.formatMessage({ id: 'page.gameProduct.requirement.memory' }),
     value: requirements.memory
   },
   {
-    label: 'Видеокарта',
+    label: intl.formatMessage({ id: 'page.gameProduct.requirement.graphics' }),
     value: requirements.graphics
   },
   {
-    label: 'Место на диске:',
+    label: intl.formatMessage({ id: 'page.gameProduct.requirement.storage' }),
     value: requirements.storage
-  },
-  {
-    label: 'Дополнительно:',
-    value:
-      '*1080p основное разрешение / 720p разрешение прорисовки, низкие настройки графики, 30 кадров в секунду, требуется SSD'
   }
 ];
