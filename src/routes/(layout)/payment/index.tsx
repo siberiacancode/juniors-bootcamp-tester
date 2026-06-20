@@ -26,19 +26,9 @@ import {
 } from '@/components/ui/order-card';
 import { Typography } from '@/components/ui/typography';
 import { useGetUsersSessionQuery, usePostGamesOrderMutation } from '@/generated/api';
-import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
+import { DELIVERY_TYPES, REGIONS } from '@/helpers/constants';
 import { formatMoney, getGameImageSrc } from '@/helpers/utils';
 import { IntlText } from '@/lib/intl';
-
-const DELIVERY_TYPES = [
-  'epic_key',
-  'nintendo_key',
-  'playstation_key',
-  'steam_gift',
-  'steam_key',
-  'xbox_key'
-] as const;
-const REGIONS = ['all_world', 'asia', 'by', 'europe', 'kz', 'pl', 'ru', 'tr', 'ua'] as const;
 
 const paymentSearchSchema = z.object({
   amount: z.coerce.number().positive(),
@@ -135,7 +125,7 @@ function PaymentPage() {
   if (!order) {
     return (
       <div className='fixed inset-0 z-100 overflow-y-auto bg-white'>
-        <section className='mx-auto flex w-full flex-col gap-6 px-4 pt-14 pb-28 sm:w-[418px] sm:max-w-[418px] sm:px-0 sm:pb-10'>
+        <section className='mx-auto flex w-full flex-col gap-6 px-4 pt-14 pb-28 sm:max-w-104.5 sm:px-0 sm:pb-10'>
           <Typography as='h1' className='text-[24px]/8 tracking-normal' variant='title-md'>
             <IntlText path='page.pay.title' />
           </Typography>
@@ -310,7 +300,7 @@ function PaymentPage() {
   }
 
   return (
-    <section className='flex w-full flex-col gap-6 px-0 pt-6 pb-28 sm:w-[648px] sm:max-w-[648px] sm:pt-14 sm:pb-10'>
+    <section className='flex w-full flex-col gap-6 px-0 pt-6 pb-28 sm:max-w-162 sm:pt-14 sm:pb-10'>
       <Typography as='h1' className='text-[24px]/8 tracking-normal' variant='title-md'>
         <IntlText path='page.payment.title' />
       </Typography>
@@ -348,12 +338,12 @@ function PaymentPage() {
 
           <OrderCardBadges>
             <OrderCardBadge>
-              <IntlText
-                path='card.order.region'
-                values={{ region: REGION_LABELS[order.gameSnapshot.region] }}
-              />
+              <IntlText path='card.order.region' />
+              <IntlText path={`region.${order.gameSnapshot.region}`} />
             </OrderCardBadge>
-            <OrderCardBadge>{DELIVERY_LABELS[order.gameSnapshot.deliveryType]}</OrderCardBadge>
+            <OrderCardBadge>
+              <IntlText path={`deliveryType.${order.gameSnapshot.deliveryType}`} />
+            </OrderCardBadge>
           </OrderCardBadges>
         </div>
 

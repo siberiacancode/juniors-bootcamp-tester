@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/order-card';
 import { Typography } from '@/components/ui/typography';
 import { getGamesOrdersSuspenseQueryOptions, getUsersSessionQueryOptions } from '@/generated/api';
-import { DELIVERY_LABELS, PAYMENT_METHOD, REGION_LABELS } from '@/helpers/constants';
+import { PAYMENT_METHOD } from '@/helpers/constants';
 import { getGameImageSrc } from '@/helpers/utils';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState, LogoutConfirmation } from '@/routes/-components';
@@ -96,9 +96,11 @@ const ProfilePage = () => {
                   </OrderCardHeader>
 
                   <OrderCardBadges>
-                    <OrderCardBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderCardBadge>
                     <OrderCardBadge>
-                      {DELIVERY_LABELS[order.gameSnapshot.deliveryType]}
+                      <IntlText path={`region.${order.gameSnapshot.region}`} />
+                    </OrderCardBadge>
+                    <OrderCardBadge>
+                      <IntlText path={`deliveryType.${order.gameSnapshot.deliveryType}`} />
                     </OrderCardBadge>
                   </OrderCardBadges>
                 </div>

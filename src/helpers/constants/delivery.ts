@@ -1,10 +1,10 @@
 import type { DeliveryType } from '@/generated/api';
 
-export const DELIVERY_LABELS: Record<DeliveryType, string> = {
-  epic_key: 'Epic',
-  nintendo_key: 'Nintendo',
-  playstation_key: 'PlayStation',
-  steam_gift: 'Steam Gift',
-  steam_key: 'Steam ключ',
-  xbox_key: 'Xbox One/Series'
-};
+export const DELIVERY_TYPES: DeliveryType[] = [
+  'epic_key',
+  'nintendo_key',
+  'playstation_key',
+  'steam_gift',
+  'steam_key',
+  'xbox_key'
+];

@@ -1,4 +1,3 @@
-import { useNavigate, useSearch } from '@tanstack/react-router';
 import { ListFilterIcon, SearchIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,23 +23,9 @@ import { intl, IntlText } from '@/lib';
 import { useCatalogFilters } from './useCatalogFilters';
 
 export const CatalogFiltersMobile = () => {
-  const searchParams = useSearch({
-    from: '/(layout)/'
-  });
-
-  const navigate = useNavigate({
-    from: '/'
-  });
-
   const {
-    genreQuery,
-    setGenreQuery,
-    filteredGenres,
-    visibleGenres,
-    showedAllGenres,
-    showMoreGenres,
-    hideMoreGenres,
-    onResetFilters
+    functions: { hideMoreGenres, navigate, showMoreGenres, onResetFilters, setGenreQuery },
+    state: { filteredGenres, genreQuery, searchParams, showedAllGenres, visibleGenres }
   } = useCatalogFilters();
 
   const [selectedFilters, setSelectedFilters] = useState({

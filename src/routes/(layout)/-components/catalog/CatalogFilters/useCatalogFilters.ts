@@ -1,11 +1,15 @@
 import { useDisclosure } from '@siberiacancode/reactuse';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 
+import { GENRES } from '@/helpers/constants';
 import { intl } from '@/lib';
-import { CATALOG_GENRES } from '@/routes/(layout)/-constants';
 
 export const useCatalogFilters = () => {
+  const searchParams = useSearch({
+    from: '/(layout)/'
+  });
+
   const navigate = useNavigate({
     from: '/'
   });
@@ -15,7 +19,7 @@ export const useCatalogFilters = () => {
   const filteredGenres = useMemo(() => {
     const normalizedQuery = genreQuery.trim().toLowerCase();
 
-    return CATALOG_GENRES.filter((genre) =>
+    return GENRES.filter((genre) =>
       intl
         .formatMessage({
           id: `genre.${genre}`
@@ -45,13 +49,19 @@ export const useCatalogFilters = () => {
   };
 
   return {
-    genreQuery,
-    setGenreQuery,
-    filteredGenres,
-    visibleGenres,
-    showedAllGenres,
-    showMoreGenres,
-    hideMoreGenres,
-    onResetFilters
+    state: {
+      genreQuery,
+      filteredGenres,
+      visibleGenres,
+      showedAllGenres,
+      searchParams
+    },
+    functions: {
+      setGenreQuery,
+      showMoreGenres,
+      hideMoreGenres,
+      onResetFilters,
+      navigate
+    }
   };
 };

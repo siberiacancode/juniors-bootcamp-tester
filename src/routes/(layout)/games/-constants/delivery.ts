@@ -6,15 +6,6 @@ import type { DeliveryType } from '@/generated/api';
 
 import { PlayStationIcon, XboxLogoIcon } from '@/components/icons';
 
-export const DELIVERY_TYPES = [
-  'epic_key',
-  'nintendo_key',
-  'playstation_key',
-  'steam_gift',
-  'steam_key',
-  'xbox_key'
-] as const satisfies readonly DeliveryType[];
-
 interface DeliveryTypeOption {
   Icon: ComponentType<{ className?: string; strokeWidth?: number }>;
   platform: string;

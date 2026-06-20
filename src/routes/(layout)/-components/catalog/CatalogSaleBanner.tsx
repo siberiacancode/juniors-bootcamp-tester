@@ -8,7 +8,7 @@ interface CatalogSaleBannerProps {
 }
 
 export const CatalogSaleBanner = ({ className }: CatalogSaleBannerProps) => (
-  <aside
+  <div
     className={cn(
       'relative h-53.5 w-full overflow-hidden rounded-24 bg-[#7c3aed14] px-6 py-4',
       className
@@ -26,5 +26,5 @@ export const CatalogSaleBanner = ({ className }: CatalogSaleBannerProps) => (
     </div>
 
     <MascotWaveLargeIcon className='absolute top-15 right-2' />
-  </aside>
+  </div>
 );

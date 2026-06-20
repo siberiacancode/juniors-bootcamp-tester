@@ -53,6 +53,16 @@
   "page.gameProduct.delivery.keySubtitle": "Ключ",
   "page.gameProduct.delivery.codeSubtitle": "Код",
 
+  "region.all_world": "Весь мир",
+  "region.asia": "Азия",
+  "region.by": "Беларусь",
+  "region.europe": "Европа",
+  "region.kz": "Казахстан",
+  "region.pl": "Польша",
+  "region.ru": "Россия",
+  "region.tr": "Турция",
+  "region.ua": "Украина",
+
   "genre.action": "Экшены",
   "genre.adventure": "Приключенческие игры",
   "genre.rpg": "Ролевые игры",
@@ -71,6 +81,7 @@
   "deliveryType.steam_gift": "Steam Gift",
   "deliveryType.steam_key": "Steam",
   "deliveryType.xbox_key": "Xbox",
+
   "paymentMethod.card": "Картой",
   "paymentMethod.jb-pay": "JB Pay",
 
@@ -119,7 +130,7 @@
 
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
-  "card.order.region": "Регион {region}",
+  "card.order.region": "Регион",
   "card.order.emailLabel": "Почта, куда отправили детали покупки",
   "card.order.paymentMethodLabel": "Способ оплаты",
   "card.order.paymentMethod": "JB Карта, *0000",

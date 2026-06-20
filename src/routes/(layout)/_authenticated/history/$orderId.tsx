@@ -19,7 +19,6 @@ import {
   getGamesOrderByOrderIdSuspenseQueryOptions,
   useGetGamesOrderByOrderIdSuspenseQuery
 } from '@/generated/api';
-import { DELIVERY_LABELS, REGION_LABELS } from '@/helpers/constants';
 import { formatMoney, getGameImageSrc } from '@/helpers/utils';
 import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
@@ -60,7 +59,7 @@ function HistoryOrderPage() {
   const order = getGamesOrderByOrderIdSuspenseQuery.data.data.order!;
 
   return (
-    <main className='flex w-full max-w-[648px] flex-col gap-6 pt-14'>
+    <main className='flex w-full max-w-162 flex-col gap-6 pt-14'>
       <div className='flex w-full items-center gap-4'>
         <Link className='flex size-6 shrink-0 items-center justify-center' to='/history'>
           <ChevronLeftIcon className='size-6' strokeWidth={2} />
@@ -70,7 +69,7 @@ function HistoryOrderPage() {
         </Typography>
       </div>
 
-      <OrderCard className='min-h-[404px]'>
+      <OrderCard className='min-h-101'>
         <div className='flex w-full flex-col gap-2'>
           <OrderCardHeader>
             <OrderCardThumbnail
@@ -82,8 +81,12 @@ function HistoryOrderPage() {
           </OrderCardHeader>
 
           <OrderCardBadges>
-            <OrderCardBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderCardBadge>
-            <OrderCardBadge>{DELIVERY_LABELS[order.gameSnapshot.deliveryType]}</OrderCardBadge>
+            <OrderCardBadge>
+              <IntlText path={`region.${order.gameSnapshot.region}`} />
+            </OrderCardBadge>
+            <OrderCardBadge>
+              <IntlText path={`deliveryType.${order.gameSnapshot.deliveryType}`} />
+            </OrderCardBadge>
           </OrderCardBadges>
         </div>
 

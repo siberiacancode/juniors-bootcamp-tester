@@ -18,7 +18,6 @@ import {
   getGamesInfoBySlugSuspenseQueryOptions,
   getGamesRegionsSuspenseQueryOptions
 } from '@/generated/api';
-import { GENRE_LABELS } from '@/helpers/constants';
 import { getGameImageSrc } from '@/helpers/utils/games';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
@@ -76,7 +75,7 @@ const GameProductPage = () => {
             <div className='flex max-w-full scrollbar-none gap-2 overflow-x-auto lg:flex-wrap lg:overflow-visible'>
               {game.genres.map((genre) => (
                 <Badge key={genre} className='px-4 py-2 text-[12px]/4 font-bold tracking-wide'>
-                  {GENRE_LABELS[genre]}
+                  <IntlText path={`genre.${genre}`} />
                 </Badge>
               ))}
             </div>

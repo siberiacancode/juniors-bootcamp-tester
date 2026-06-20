@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ChipGroup, ChipGroupItem } from '@/components/ui/chip-group';
 import { Typography } from '@/components/ui/typography';
 import { getGamesInfo, getGamesInfoQueryKey } from '@/generated/api';
+import { GENRES } from '@/helpers/constants';
 import { IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
@@ -15,15 +16,10 @@ import { CatalogSearch } from './-components';
 import { CatalogSaleBanner, CatalogSkeleton } from './-components/catalog';
 import { CatalogFiltersDesktop, CatalogFiltersMobile } from './-components/catalog/CatalogFilters';
 import { GameCard } from './-components/catalog/GameCard';
-import {
-  ALL_CATALOG_VIEWS,
-  CATALOG_FILTERS,
-  CATALOG_GENRES,
-  CATALOG_VIEWS
-} from './-constants/catalog';
+import { ALL_CATALOG_VIEWS, CATALOG_FILTERS, CATALOG_VIEWS } from './-constants/catalog';
 
 const catalogSearchSchema = z.object({
-  genre: z.array(z.enum(CATALOG_GENRES)).default([]),
+  genre: z.array(z.enum(GENRES)).default([]),
   filter: z.array(z.enum(CATALOG_FILTERS)).default([]),
   view: z.enum(CATALOG_VIEWS).optional().catch(undefined)
 });
@@ -113,7 +109,7 @@ function CatalogPage() {
           <CatalogSaleBanner />
         </aside>
 
-        <section className='flex min-w-0 flex-col gap-6 lg:gap-4'>
+        <main className='flex min-w-0 flex-col gap-6 lg:gap-4'>
           {gamesInfoQuery.isFetching && !gamesInfoQuery.isLoading && (
             <div className='grid w-full place-items-center self-stretch py-4'>
               <Loader2Icon className='size-8 animate-spin' />
@@ -171,7 +167,7 @@ function CatalogPage() {
               <CatalogSaleBanner className='lg:hidden' />
             </>
           )}
-        </section>
+        </main>
       </div>
     </div>
   );

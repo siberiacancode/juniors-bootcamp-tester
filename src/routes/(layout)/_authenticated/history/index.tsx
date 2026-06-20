@@ -19,7 +19,7 @@ import {
   getGamesOrdersSuspenseQueryOptions,
   useGetGamesOrdersSuspenseQuery
 } from '@/generated/api';
-import { DELIVERY_LABELS, PAYMENT_METHOD, REGION_LABELS } from '@/helpers/constants';
+import { PAYMENT_METHOD } from '@/helpers/constants';
 import { getGameImageSrc } from '@/helpers/utils';
 import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
@@ -62,9 +62,11 @@ function HistoryPage() {
                 </OrderCardHeader>
 
                 <OrderCardBadges>
-                  <OrderCardBadge>{REGION_LABELS[order.gameSnapshot.region]}</OrderCardBadge>
                   <OrderCardBadge>
-                    {DELIVERY_LABELS[order.gameSnapshot.deliveryType]}
+                    <IntlText path={`region.${order.gameSnapshot.region}`} />
+                  </OrderCardBadge>
+                  <OrderCardBadge>
+                    <IntlText path={`deliveryType.${order.gameSnapshot.deliveryType}`} />
                   </OrderCardBadge>
                 </OrderCardBadges>
               </div>

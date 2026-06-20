@@ -10,7 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { paymentMethods, REGION_LABELS } from '@/helpers/constants';
+import { paymentMethods } from '@/helpers/constants';
 import { formatMoney, getGameImageSrc } from '@/helpers/utils';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
@@ -91,7 +91,7 @@ export const ProductOrderPanel = ({ game }: { game: DetailedGame }) => {
                 variant='secondary'
                 onClick={() => functions.onRegionChange(region)}
               >
-                {REGION_LABELS[region]}
+                <IntlText path={`region.${region}`} />
               </Button>
             ))}
           </div>
@@ -149,10 +149,8 @@ export const ProductOrderPanel = ({ game }: { game: DetailedGame }) => {
           </div>
           <div className='flex flex-wrap gap-2 px-1'>
             <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
-              <IntlText
-                path='card.order.region'
-                values={{ region: REGION_LABELS[state.selectedRegion] }}
-              />
+              <IntlText path='card.order.region' />
+              <IntlText path={`region.${state.selectedRegion}`} />
             </Badge>
             <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
               <IntlText path={DELIVERY_TYPE_VIEW[state.selectedDeliveryType].titlePath} />

@@ -1,4 +1,3 @@
-import { useNavigate, useSearch } from '@tanstack/react-router';
 import { SearchIcon } from 'lucide-react';
 
 import type { GameFilter, GameGenre } from '@/generated/api';
@@ -9,28 +8,13 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
 import { intl, IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
 
 import { useCatalogFilters } from './useCatalogFilters';
 
 export const CatalogFiltersDesktop = () => {
-  const searchParams = useSearch({
-    from: '/(layout)/'
-  });
-
-  const navigate = useNavigate({
-    from: '/'
-  });
-
   const {
-    genreQuery,
-    setGenreQuery,
-    filteredGenres,
-    visibleGenres,
-    showedAllGenres,
-    showMoreGenres,
-    hideMoreGenres,
-    onResetFilters
+    functions: { hideMoreGenres, navigate, showMoreGenres, onResetFilters, setGenreQuery },
+    state: { filteredGenres, genreQuery, searchParams, showedAllGenres, visibleGenres }
   } = useCatalogFilters();
 
   const onGenreChange = (newGenre: GameGenre, checked: boolean) => {
@@ -93,7 +77,7 @@ export const CatalogFiltersDesktop = () => {
         </label>
       </div>
 
-      <div className={cn('flex flex-col gap-4')}>
+      <div className='flex flex-col gap-4'>
         <Typography as='p' className='font-normal' variant='body-md'>
           <IntlText path='page.catalog.filters.genre' />
         </Typography>
