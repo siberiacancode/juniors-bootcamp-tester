@@ -19,7 +19,7 @@ import { InputGroupAddon, InputGroupIconButton } from '@/components/ui/input-gro
 import { Typography } from '@/components/ui/typography';
 import { useGetGamesSearchQuery } from '@/generated/api';
 import { formatDiscountPercent, formatMoney, getGameImageSrc } from '@/helpers/utils';
-import { IntlText } from '@/lib';
+import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 interface CatalogSearchProps {
@@ -58,7 +58,7 @@ export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearc
   return (
     <div className='flex min-w-0 flex-1 flex-col gap-1'>
       <label className='text-[14px]/[22px] font-medium' htmlFor={searchInputId}>
-        Поиск
+        <IntlText path='page.catalog.search.label' />
       </label>
 
       <Combobox
@@ -71,7 +71,7 @@ export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearc
           className='w-full'
           id={searchInputId}
           inputGroupRef={comboboxAnchorRef}
-          placeholder='Название игры'
+          placeholder={intl.formatMessage({ id: 'page.catalog.search.placeholder' })}
           showTrigger={false}
           value={searchValue}
         >
@@ -88,7 +88,9 @@ export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearc
         </ComboboxInput>
         {!gamesSearchQuery.isPending && (
           <ComboboxContent anchor={comboboxAnchorRef}>
-            <ComboboxEmpty className={cn(isNotEmpty && 'hidden')}>Ничего не нашлось</ComboboxEmpty>
+            <ComboboxEmpty className={cn(isNotEmpty && 'hidden')}>
+              <IntlText path='page.catalog.search.nothingFound' />
+            </ComboboxEmpty>
             <ComboboxStatus className={cn(!gamesSearchQuery.isLoading && 'hidden')}>
               <Loader2Icon className='animate-spin' />
             </ComboboxStatus>

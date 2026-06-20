@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib';
+import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 import { useCatalogFilters } from './useCatalogFilters';
@@ -77,10 +77,9 @@ export const CatalogFiltersDesktop = () => {
       <div className='flex flex-col gap-4'>
         <label className='flex items-center justify-between gap-4'>
           <Typography as='span' className='font-normal' variant='body-md'>
-            Только со скидкой
+            <IntlText path='page.catalog.filters.discount' />
           </Typography>
           <Switch
-            aria-label='Только со скидкой'
             checked={searchParams.filter.includes('discount')}
             onCheckedChange={onToggleDiscount}
           />
@@ -88,19 +87,15 @@ export const CatalogFiltersDesktop = () => {
 
         <label className='flex items-center justify-between gap-4'>
           <Typography as='span' className='font-normal' variant='body-md'>
-            Показывать DLC
+            <IntlText path='page.catalog.filters.dlc' />
           </Typography>
-          <Switch
-            aria-label='Показывать DLC'
-            checked={searchParams.filter.includes('dlc')}
-            onCheckedChange={onToggleDlc}
-          />
+          <Switch checked={searchParams.filter.includes('dlc')} onCheckedChange={onToggleDlc} />
         </label>
       </div>
 
       <div className={cn('flex flex-col gap-4')}>
         <Typography as='p' className='font-normal' variant='body-md'>
-          Жанр
+          <IntlText path='page.catalog.filters.genre' />
         </Typography>
 
         <InputGroup>
@@ -108,7 +103,7 @@ export const CatalogFiltersDesktop = () => {
             <SearchIcon className='size-4 text-input' />
           </InputGroupAddon>
           <InputGroupInput
-            placeholder='Название жанра'
+            placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
             value={genreQuery}
             onChange={(event) => setGenreQuery(event.target.value)}
           />
@@ -131,24 +126,24 @@ export const CatalogFiltersDesktop = () => {
 
         {filteredGenres.length === 0 && (
           <Typography as='p' className='text-foreground/50' variant='body-sm'>
-            Жанры не найдены
+            <IntlText path='page.catalog.filters.genreNotFound' />
           </Typography>
         )}
 
         {showedAllGenres && (
           <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
-            Cкрыть
+            <IntlText path='page.catalog.filters.hide' />
           </Button>
         )}
 
         {!showedAllGenres && (
           <Button size='sm' variant='ghost' onClick={showMoreGenres}>
-            Показать ещё
+            <IntlText path='button.showMore' />
           </Button>
         )}
 
         <Button size='lg' variant='secondary' onClick={onResetFilters}>
-          Сбросить фильтры
+          <IntlText path='page.catalog.filters.reset' />
         </Button>
       </div>
     </div>

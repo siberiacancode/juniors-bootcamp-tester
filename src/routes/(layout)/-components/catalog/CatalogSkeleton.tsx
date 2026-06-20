@@ -1,4 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton';
+import { IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 const skeletonCards = Array.from({ length: 15 }, (_, index) => index);
@@ -23,7 +24,7 @@ export const CatalogSkeleton = () => (
 
     <div className='flex h-13 w-full items-center justify-center rounded-full bg-primary/20 px-6 py-3 lg:w-[314px]'>
       <span className='text-[14px]/[21px] font-medium tracking-wide text-primary-fg'>
-        Показать ещё
+        <IntlText path='button.showMore' />
       </span>
     </div>
   </div>

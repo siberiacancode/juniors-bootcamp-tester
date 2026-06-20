@@ -19,7 +19,7 @@ import { IconButton } from '@/components/ui/icon-button';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib';
+import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 import { useCatalogFilters } from './useCatalogFilters';
@@ -93,22 +93,17 @@ export const CatalogFiltersMobile = () => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <IconButton rounded aria-label='Открыть фильтры' className='lg:hidden' variant='secondary'>
+        <IconButton rounded className='lg:hidden' variant='secondary'>
           <ListFilterIcon />
         </IconButton>
       </DrawerTrigger>
       <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
         <DrawerHeader className='mb-6 flex flex-row items-center justify-between px-0 py-3 sm:mb-0'>
           <DrawerTitle className='text-[32px]/10 font-extrabold tracking-normal'>
-            Фильтры
+            <IntlText path='page.catalog.filters.title' />
           </DrawerTitle>
           <DrawerClose asChild>
-            <IconButton
-              rounded
-              aria-label='Закрыть фильтры'
-              className='size-10 text-foreground'
-              variant='ghost'
-            >
+            <IconButton rounded className='size-10 text-foreground' variant='ghost'>
               <XIcon className='size-6' />
             </IconButton>
           </DrawerClose>
@@ -123,10 +118,9 @@ export const CatalogFiltersMobile = () => {
                   className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
                   variant='body-lg'
                 >
-                  Только со скидкой
+                  <IntlText path='page.catalog.filters.discount' />
                 </Typography>
                 <Switch
-                  aria-label='Только со скидкой'
                   checked={selectedFilters.showedDiscount}
                   onCheckedChange={onToggleDiscount}
                 />
@@ -138,13 +132,9 @@ export const CatalogFiltersMobile = () => {
                   className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
                   variant='body-lg'
                 >
-                  Показывать DLC
+                  <IntlText path='page.catalog.filters.dlc' />
                 </Typography>
-                <Switch
-                  aria-label='Показывать DLC'
-                  checked={selectedFilters.showedDlc}
-                  onCheckedChange={onToggleDlc}
-                />
+                <Switch checked={selectedFilters.showedDlc} onCheckedChange={onToggleDlc} />
               </label>
             </div>
 
@@ -154,7 +144,7 @@ export const CatalogFiltersMobile = () => {
                 className='text-[26px]/8 font-medium tracking-normal lg:text-[13px]/4.5'
                 variant='title-md'
               >
-                Жанр
+                <IntlText path='page.catalog.filters.genre' />
               </Typography>
 
               <InputGroup className='h-15'>
@@ -163,7 +153,7 @@ export const CatalogFiltersMobile = () => {
                 </InputGroupAddon>
                 <InputGroupInput
                   className='text-[24px]/8 placeholder:text-foreground/30 lg:text-[13px]/4.5'
-                  placeholder='Название жанра'
+                  placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
                   value={genreQuery}
                   onChange={(event) => setGenreQuery(event.target.value)}
                 />
@@ -190,19 +180,19 @@ export const CatalogFiltersMobile = () => {
 
               {filteredGenres.length === 0 && (
                 <Typography as='p' className='text-foreground/50' variant='body-sm'>
-                  Жанры не найдены
+                  <IntlText path='page.catalog.filters.genreNotFound' />
                 </Typography>
               )}
 
               {showedAllGenres && (
                 <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
-                  Cкрыть
+                  <IntlText path='page.catalog.filters.hide' />
                 </Button>
               )}
 
               {!showedAllGenres && (
                 <Button size='sm' variant='ghost' onClick={showMoreGenres}>
-                  Показать ещё
+                  <IntlText path='button.showMore' />
                 </Button>
               )}
             </div>
@@ -212,12 +202,12 @@ export const CatalogFiltersMobile = () => {
         <DrawerFooter className='gap-2.5 px-0 pt-8 pb-0 sm:py-4 sm:pt-5'>
           <DrawerClose asChild>
             <Button size='lg' variant='secondary' onClick={onResetFilters}>
-              Сбросить фильтры
+              <IntlText path='page.catalog.filters.reset' />
             </Button>
           </DrawerClose>
           <DrawerClose asChild>
             <Button size='lg' onClick={onApplyFilters}>
-              Найти
+              <IntlText path='page.catalog.filters.apply' />
             </Button>
           </DrawerClose>
         </DrawerFooter>
