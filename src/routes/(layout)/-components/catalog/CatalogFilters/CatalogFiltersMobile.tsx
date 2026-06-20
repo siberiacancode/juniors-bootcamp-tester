@@ -144,13 +144,13 @@ export const CatalogFiltersMobile = () => {
 
             {!showedAllGenres && filteredGenres.length > visibleGenres.length && (
               <Button size='sm' variant='ghost' onClick={showMoreGenres}>
-                Показать ещё
+                <IntlText path='button.showMore' />
               </Button>
             )}
 
             {showedAllGenres && (
               <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
-                Скрыть
+                <IntlText path='page.catalog.filters.hide' />
               </Button>
             )}
           </div>
