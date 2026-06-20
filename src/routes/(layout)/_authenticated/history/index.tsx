@@ -38,11 +38,15 @@ function HistoryPage() {
   const orders = getGamesOrdersSuspenseQuery.data.data.orders;
 
   return (
-    <main className='flex w-full max-w-[1256px] flex-col gap-6 pt-14'>
+    <main className='mb-110 flex w-full max-w-314 flex-col gap-6 sm:mb-0 sm:pt-14'>
       <Typography as='h1' variant='title-md'>
         <IntlText path='page.history.title' />
       </Typography>
-      {!orders.length && <HistoryEmptyState />}
+      {!orders.length && (
+        <div className='max-w-160'>
+          <HistoryEmptyState />
+        </div>
+      )}
       {!!orders.length && (
         <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-2'>
           {orders.map((order) => (

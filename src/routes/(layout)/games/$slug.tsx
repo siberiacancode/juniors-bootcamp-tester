@@ -103,8 +103,7 @@ const GameProductPage = () => {
                   <div className='aspect-68/32 w-50 overflow-hidden rounded-24 bg-secondary sm:w-68'>
                     <img
                       alt={intl.formatMessage({
-                        id: 'page.gameProduct.screenshotAlt',
-                        values: { name: game.name }
+                        id: 'page.gameProduct.screenshotAlt'
                       })}
                       className='block size-full object-cover'
                       src={getGameImageSrc(screenshot)}

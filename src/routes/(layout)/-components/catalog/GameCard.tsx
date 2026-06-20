@@ -17,7 +17,7 @@ export const GameCard = ({ game }: GameCardProps) => (
       params={{ slug: game.slug }}
       to='/games/$slug'
     >
-      <div className='aspect-460/215 w-full overflow-hidden rounded-24 bg-secondary lg:rounded-12'>
+      <div className='h-[158px] w-full overflow-hidden rounded-24 bg-secondary'>
         <img
           alt={game.name}
           className='size-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]'
@@ -26,27 +26,24 @@ export const GameCard = ({ game }: GameCardProps) => (
         />
       </div>
 
-      <div className='mt-4 flex min-w-0 flex-col gap-1.5 lg:mt-2 lg:gap-0.5'>
-        <div className='flex min-h-8 flex-wrap items-center gap-x-3 gap-y-1 lg:min-h-4 lg:gap-x-1.5'>
+      <div className='mt-2 flex min-w-0 flex-col'>
+        <div className='flex min-h-6 flex-wrap items-center gap-x-2 gap-y-1'>
           <Typography
             as='span'
-            className='text-[24px]/8 font-medium tracking-normal lg:text-[12px]/4'
+            className='text-[16px]/6 font-medium tracking-wide'
             variant='body-lg'
           >
             {formatMoney(game.priceVariant.price)}
           </Typography>
           {game.priceVariant.oldPrice && (
-            <Badge
-              className='px-3 py-1 text-[16px]/5 font-extrabold tracking-normal lg:px-1.5 lg:py-0.5 lg:text-[10px]/3'
-              variant='accent'
-            >
+            <Badge className='px-2 py-1 text-[12px]/4 font-bold tracking-wide' variant='accent'>
               {formatDiscountPercent(game.priceVariant.price, game.priceVariant.oldPrice)}
             </Badge>
           )}
           {game.priceVariant.oldPrice && (
             <Typography
               as='span'
-              className='text-[20px]/7 font-medium tracking-normal text-foreground/40 line-through lg:text-[11px]/4'
+              className='text-[14px]/[22px] font-medium tracking-wide text-foreground/40 line-through'
               variant='body-md'
             >
               {formatMoney(game.priceVariant.oldPrice)}
@@ -56,7 +53,7 @@ export const GameCard = ({ game }: GameCardProps) => (
 
         <Typography
           as='h2'
-          className='min-w-0 text-[22px]/7 font-medium tracking-normal text-foreground lg:text-[11px]/4'
+          className='min-w-0 text-[16px]/6 font-medium tracking-wide text-foreground'
           variant='body-lg'
         >
           {game.name}

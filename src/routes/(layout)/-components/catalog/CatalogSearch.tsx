@@ -1,7 +1,7 @@
 import { useDebounceValue } from '@siberiacancode/reactuse';
 import { Link } from '@tanstack/react-router';
 import { Loader2Icon, SearchIcon, XIcon } from 'lucide-react';
-import { Fragment, useRef } from 'react';
+import { Fragment, useId, useRef } from 'react';
 
 import type { FilteredGame } from '@/generated/api';
 
@@ -29,6 +29,7 @@ interface CatalogSearchProps {
 
 export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearchProps) => {
   const comboboxAnchorRef = useRef<HTMLDivElement>(null);
+  const searchInputId = useId();
 
   const debouncedValue = useDebounceValue(searchValue, 500);
 
@@ -55,97 +56,106 @@ export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearc
   };
 
   return (
-    <Combobox
-      filter={null}
-      items={searchGames}
-      openOnInputClick={false}
-      onInputValueChange={onSearchValueChange}
-    >
-      <ComboboxInput
-        className='w-full'
-        inputGroupRef={comboboxAnchorRef}
-        placeholder='Поиск'
-        showTrigger={false}
-        value={searchValue}
+    <div className='flex min-w-0 flex-1 flex-col gap-1'>
+      <label className='text-[14px]/[22px] font-medium' htmlFor={searchInputId}>
+        Поиск
+      </label>
+
+      <Combobox
+        filter={null}
+        items={searchGames}
+        openOnInputClick={false}
+        onInputValueChange={onSearchValueChange}
       >
-        <InputGroupAddon align='start'>
-          <SearchIcon />
-        </InputGroupAddon>
-        {!!searchValue && (
-          <InputGroupAddon align='end'>
-            <InputGroupIconButton onClick={onClear}>
-              <XIcon />
-            </InputGroupIconButton>
+        <ComboboxInput
+          className='w-full'
+          id={searchInputId}
+          inputGroupRef={comboboxAnchorRef}
+          placeholder='Название игры'
+          showTrigger={false}
+          value={searchValue}
+        >
+          <InputGroupAddon align='start'>
+            <SearchIcon />
           </InputGroupAddon>
-        )}
-      </ComboboxInput>
-      {!gamesSearchQuery.isPending && (
-        <ComboboxContent anchor={comboboxAnchorRef}>
-          <ComboboxEmpty className={cn(isNotEmpty && 'hidden')}>Ничего не нашлось</ComboboxEmpty>
-          <ComboboxStatus className={cn(!gamesSearchQuery.isLoading && 'hidden')}>
-            <Loader2Icon className='animate-spin' />
-          </ComboboxStatus>
-          <ComboboxList>
-            {(game: FilteredGame) => {
-              const priceVariant = game.priceVariant;
-              return (
-                <Fragment key={game.slug}>
-                  <ComboboxItem value={game.slug}>
-                    <Link
-                      params={{
-                        slug: game.slug
-                      }}
-                      className='flex min-h-10 w-full flex-wrap items-center gap-2'
-                      to='/games/$slug'
-                    >
-                      <div className='flex w-full max-w-112.5 items-center gap-2'>
-                        <div className='aspect-460/215 h-10 shrink-0 overflow-hidden rounded-24 lg:rounded-12'>
-                          <img
-                            alt={game.name}
-                            className='object-cover object-center'
-                            src={getGameImageSrc(game.image)}
-                          />
-                        </div>
-                        <Typography as='span' className='whitespace-nowrap' variant='body-md'>
-                          {game.name}
-                        </Typography>
-                      </div>
-
-                      <div className='max-w-112.5 flex-1'>
-                        <Badge>
-                          <IntlText path={`deliveryType.${game.priceVariant.deliveryType}`} />{' '}
-                        </Badge>
-                      </div>
-
-                      <div className='flex items-center gap-2 justify-self-end'>
-                        {priceVariant.oldPrice && (
-                          <Badge className='px-2 py-1' variant='accent'>
-                            {formatDiscountPercent(priceVariant.price, priceVariant.oldPrice)}
-                          </Badge>
-                        )}
-                        <div className='flex flex-col items-end'>
-                          {priceVariant.oldPrice && (
-                            <Typography
-                              as='span'
-                              className='text-muted-fg line-through'
-                              variant='caption'
-                            >
-                              {formatMoney(priceVariant.oldPrice)}
-                            </Typography>
-                          )}
-                          <Typography as='span' variant='body-sm'>
-                            от {formatMoney(priceVariant.price)}
+          {!!searchValue && (
+            <InputGroupAddon align='end'>
+              <InputGroupIconButton onClick={onClear}>
+                <XIcon />
+              </InputGroupIconButton>
+            </InputGroupAddon>
+          )}
+        </ComboboxInput>
+        {!gamesSearchQuery.isPending && (
+          <ComboboxContent anchor={comboboxAnchorRef}>
+            <ComboboxEmpty className={cn(isNotEmpty && 'hidden')}>Ничего не нашлось</ComboboxEmpty>
+            <ComboboxStatus className={cn(!gamesSearchQuery.isLoading && 'hidden')}>
+              <Loader2Icon className='animate-spin' />
+            </ComboboxStatus>
+            <ComboboxList>
+              {(game: FilteredGame) => {
+                const priceVariant = game.priceVariant;
+                return (
+                  <Fragment key={game.slug}>
+                    <ComboboxItem value={game.slug}>
+                      <Link
+                        params={{
+                          slug: game.slug
+                        }}
+                        className='flex min-h-10 w-full flex-wrap items-center gap-2'
+                        to='/games/$slug'
+                      >
+                        <div className='flex w-full max-w-112.5 items-center gap-2'>
+                          <div className='aspect-460/215 h-10 shrink-0 overflow-hidden rounded-24 lg:rounded-12'>
+                            <img
+                              alt={game.name}
+                              className='object-cover object-center'
+                              src={getGameImageSrc(game.image)}
+                            />
+                          </div>
+                          <Typography as='span' className='whitespace-nowrap' variant='body-md'>
+                            {game.name}
                           </Typography>
                         </div>
-                      </div>
-                    </Link>
-                  </ComboboxItem>
-                </Fragment>
-              );
-            }}
-          </ComboboxList>
-        </ComboboxContent>
-      )}
-    </Combobox>
+
+                        <div className='max-w-112.5 flex-1'>
+                          <Badge>
+                            <IntlText
+                              path={`deliveryType.${game.priceVariant.deliveryType}`}
+                            />{' '}
+                          </Badge>
+                        </div>
+
+                        <div className='flex items-center gap-2 justify-self-end'>
+                          {priceVariant.oldPrice && (
+                            <Badge className='px-2 py-1' variant='accent'>
+                              {formatDiscountPercent(priceVariant.price, priceVariant.oldPrice)}
+                            </Badge>
+                          )}
+                          <div className='flex flex-col items-end'>
+                            {priceVariant.oldPrice && (
+                              <Typography
+                                as='span'
+                                className='text-muted-fg line-through'
+                                variant='caption'
+                              >
+                                {formatMoney(priceVariant.oldPrice)}
+                              </Typography>
+                            )}
+                            <Typography as='span' variant='body-sm'>
+                              от {formatMoney(priceVariant.price)}
+                            </Typography>
+                          </div>
+                        </div>
+                      </Link>
+                    </ComboboxItem>
+                  </Fragment>
+                );
+              }}
+            </ComboboxList>
+          </ComboboxContent>
+        )}
+      </Combobox>
+    </div>
   );
 };

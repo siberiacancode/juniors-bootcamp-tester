@@ -12,6 +12,7 @@ import { IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 import { CatalogSearch } from './-components';
+import { CatalogSaleBanner, CatalogSkeleton } from './-components/catalog';
 import { CatalogFiltersDesktop, CatalogFiltersMobile } from './-components/catalog/CatalogFilters';
 import { GameCard } from './-components/catalog/GameCard';
 import {
@@ -74,52 +75,59 @@ function CatalogPage() {
   const [searchValue, setSearchValue] = useState('');
 
   return (
-    <div className='flex flex-col gap-4 sm:pt-10 sm:pb-28 lg:gap-5'>
+    <div className='flex flex-col gap-6 sm:pt-10 sm:pb-28'>
       <Typography as='h1' className='lg:hidden' variant='title-md'>
         <IntlText path='page.catalog.title' />
       </Typography>
 
-      <div className='flex gap-3'>
+      <div className='flex items-end gap-2'>
         <CatalogSearch searchValue={searchValue} onSearchValueChange={setSearchValue} />
-
         {!(searchValue.trim().length > 0) && <CatalogFiltersMobile />}
       </div>
 
-      <div className='grid gap-8 lg:grid-cols-[264px_minmax(0,1fr)] lg:items-start lg:gap-4'>
-        <aside className='hidden lg:block'>
+      <ChipGroup
+        className='max-w-full scrollbar-none justify-start gap-2 overflow-x-auto overflow-y-hidden bg-transparent p-0 [&::-webkit-scrollbar]:hidden'
+        type='single'
+        value={searchParams.view ?? 'all'}
+        onValueChange={onViewChange}
+      >
+        {ALL_CATALOG_VIEWS.map((view) => (
+          <ChipGroupItem
+            key={view}
+            className={cn(
+              'h-13 flex-none bg-secondary px-8 text-[20px]/7 font-bold tracking-wide text-foreground shadow-none',
+              'data-[state=on]:bg-accent-secondary data-[state=on]:text-accent-secondary-fg data-[state=on]:shadow-none',
+              view === 'all' && 'px-4.5'
+            )}
+            icon={false}
+            value={view}
+          >
+            <IntlText path={`page.catalog.views.${view}`} />
+          </ChipGroupItem>
+        ))}
+      </ChipGroup>
+
+      <div className='grid gap-10 lg:grid-cols-[264px_minmax(0,1fr)] lg:items-start lg:gap-4'>
+        <aside className='hidden flex-col gap-6 lg:flex'>
           <CatalogFiltersDesktop />
+          <CatalogSaleBanner />
         </aside>
 
-        <section className='flex min-w-0 flex-col gap-4'>
-          <ChipGroup
-            className='max-w-full scrollbar-none justify-start gap-3 overflow-x-auto overflow-y-hidden bg-transparent p-0 lg:gap-2 [&::-webkit-scrollbar]:hidden'
-            type='single'
-            value={searchParams.view ?? 'all'}
-            onValueChange={onViewChange}
-          >
-            {ALL_CATALOG_VIEWS.map((view) => (
-              <ChipGroupItem
-                key={view}
-                className={cn(
-                  'h-19 flex-none bg-secondary px-8 text-[26px]/8 font-extrabold tracking-normal text-foreground shadow-none',
-                  'data-[state=on]:bg-accent-secondary data-[state=on]:text-accent-secondary-fg data-[state=on]:shadow-none',
-                  'lg:h-10 lg:px-6 lg:text-[14px]/5'
-                )}
-                icon={false}
-                value={view}
-              >
-                <IntlText path={`page.catalog.views.${view}`} />
-              </ChipGroupItem>
-            ))}
-          </ChipGroup>
-
-          {gamesInfoQuery.isFetching && (
-            <div className='grid w-full place-items-center self-stretch'>
+        <section className='flex min-w-0 flex-col gap-6 lg:gap-4'>
+          {gamesInfoQuery.isFetching && !gamesInfoQuery.isLoading && (
+            <div className='grid w-full place-items-center self-stretch py-4'>
               <Loader2Icon className='size-8 animate-spin' />
             </div>
           )}
 
-          {gamesInfoQuery.isError && (
+          {gamesInfoQuery.isLoading && (
+            <>
+              <CatalogSkeleton />
+              <CatalogSaleBanner className='lg:hidden' />
+            </>
+          )}
+
+          {!gamesInfoQuery.isLoading && gamesInfoQuery.isError && (
             <div className='flex min-h-64 flex-col items-center justify-center gap-4 rounded-24 bg-secondary px-6 text-center'>
               <Typography as='p' className='max-w-80 text-foreground/60' variant='body-md'>
                 <IntlText path='page.catalog.games.error' />
@@ -127,9 +135,9 @@ function CatalogPage() {
             </div>
           )}
 
-          {!gamesInfoQuery.isLoading && (
+          {!gamesInfoQuery.isLoading && !gamesInfoQuery.isError && (
             <>
-              <div className='grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-x-3 lg:gap-y-5 xl:gap-x-4'>
+              <div className='grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-6'>
                 {gamesInfoQuery.data?.pages.map((group, i) => (
                   <Fragment key={i}>
                     {group.data.games.map((game) => (
@@ -150,6 +158,7 @@ function CatalogPage() {
               <div className='flex justify-center'>
                 {gamesInfoQuery.hasNextPage && (
                   <Button
+                    className='h-13 w-full lg:w-78.5'
                     disabled={gamesInfoQuery.isFetching}
                     onClick={() => gamesInfoQuery.fetchNextPage()}
                   >
@@ -158,6 +167,8 @@ function CatalogPage() {
                   </Button>
                 )}
               </div>
+
+              <CatalogSaleBanner className='lg:hidden' />
             </>
           )}
         </section>

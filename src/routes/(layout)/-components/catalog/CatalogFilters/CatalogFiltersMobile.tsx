@@ -20,6 +20,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib';
+import { cn } from '@/lib/utils';
 
 import { useCatalogFilters } from './useCatalogFilters';
 
@@ -96,8 +97,8 @@ export const CatalogFiltersMobile = () => {
           <ListFilterIcon />
         </IconButton>
       </DrawerTrigger>
-      <DrawerContent className='max-h-[86dvh] rounded-t-20 px-0' showHandle={false}>
-        <DrawerHeader className='flex flex-row items-center justify-between px-9 pt-11 pb-5'>
+      <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
+        <DrawerHeader className='mb-6 flex flex-row items-center justify-between px-0 py-3 sm:mb-0'>
           <DrawerTitle className='text-[32px]/10 font-extrabold tracking-normal'>
             Фильтры
           </DrawerTitle>
@@ -105,15 +106,15 @@ export const CatalogFiltersMobile = () => {
             <IconButton
               rounded
               aria-label='Закрыть фильтры'
-              className='size-11 text-foreground'
+              className='size-10 text-foreground'
               variant='ghost'
             >
-              <XIcon className='size-8' />
+              <XIcon className='size-6' />
             </IconButton>
           </DrawerClose>
         </DrawerHeader>
 
-        <div className='min-h-0 flex-1 overflow-y-auto px-9 pb-4'>
+        <div className='min-h-0 flex-1 overflow-y-auto'>
           <div className='flex flex-col gap-7'>
             <div className='flex flex-col gap-5'>
               <label className='flex items-center justify-between gap-4'>
@@ -208,14 +209,14 @@ export const CatalogFiltersMobile = () => {
           </div>
         </div>
 
-        <DrawerFooter className='gap-3 px-9 pt-0 pb-8'>
+        <DrawerFooter className='gap-2.5 px-0 pt-8 pb-0 sm:py-4 sm:pt-5'>
           <DrawerClose asChild>
             <Button size='lg' variant='secondary' onClick={onResetFilters}>
               Сбросить фильтры
             </Button>
           </DrawerClose>
           <DrawerClose asChild>
-            <Button className='h-18 text-[20px]/7 font-medium' size='lg' onClick={onApplyFilters}>
+            <Button size='lg' onClick={onApplyFilters}>
               Найти
             </Button>
           </DrawerClose>

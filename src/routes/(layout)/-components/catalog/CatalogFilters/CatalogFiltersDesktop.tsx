@@ -73,14 +73,10 @@ export const CatalogFiltersDesktop = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5'>
-      <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-6'>
+      <div className='flex flex-col gap-4'>
         <label className='flex items-center justify-between gap-4'>
-          <Typography
-            as='span'
-            className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
-            variant='body-lg'
-          >
+          <Typography as='span' className='font-normal' variant='body-md'>
             Только со скидкой
           </Typography>
           <Switch
@@ -91,11 +87,7 @@ export const CatalogFiltersDesktop = () => {
         </label>
 
         <label className='flex items-center justify-between gap-4'>
-          <Typography
-            as='span'
-            className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
-            variant='body-lg'
-          >
+          <Typography as='span' className='font-normal' variant='body-md'>
             Показывать DLC
           </Typography>
           <Switch
@@ -106,28 +98,23 @@ export const CatalogFiltersDesktop = () => {
         </label>
       </div>
 
-      <div className={cn('flex flex-col gap-3')}>
-        <Typography
-          as='h2'
-          className='text-[26px]/8 font-medium tracking-normal lg:text-[13px]/4.5'
-          variant='title-md'
-        >
+      <div className={cn('flex flex-col gap-4')}>
+        <Typography as='p' className='font-normal' variant='body-md'>
           Жанр
         </Typography>
 
-        <InputGroup className='h-7'>
+        <InputGroup>
           <InputGroupAddon align='start'>
-            <SearchIcon className={'size-3.5 text-input'} />
+            <SearchIcon className='size-4 text-input' />
           </InputGroupAddon>
           <InputGroupInput
-            className='text-[24px]/8 placeholder:text-foreground/30 lg:text-[13px]/4.5'
             placeholder='Название жанра'
             value={genreQuery}
             onChange={(event) => setGenreQuery(event.target.value)}
           />
         </InputGroup>
 
-        <div className={'flex flex-col gap-2'}>
+        <div className='flex flex-col gap-3'>
           {visibleGenres.map((genre) => (
             <label key={genre} className='flex min-h-5 items-center gap-2'>
               <Checkbox
@@ -135,11 +122,7 @@ export const CatalogFiltersDesktop = () => {
                 className='rounded-4 border border-ring bg-background'
                 onCheckedChange={(checked) => onGenreChange(genre, checked as boolean)}
               />
-              <Typography
-                as='span'
-                className='text-[18px]/6.5 font-medium tracking-normal lg:text-[11px]/4'
-                variant='body-md'
-              >
+              <Typography as='span' variant='caption'>
                 <IntlText path={`genre.${genre}`} />
               </Typography>
             </label>
