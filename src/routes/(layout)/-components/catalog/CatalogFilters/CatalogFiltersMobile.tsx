@@ -20,7 +20,6 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
 import { intl, IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
 
 import { useCatalogFilters } from './useCatalogFilters';
 
@@ -91,115 +90,87 @@ export const CatalogFiltersMobile = () => {
   };
 
   return (
-    <Drawer>
+    <Drawer direction='bottom' shouldScaleBackground={false}>
       <DrawerTrigger asChild>
         <IconButton rounded className='lg:hidden' variant='secondary'>
           <ListFilterIcon />
         </IconButton>
       </DrawerTrigger>
-      <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
-        <DrawerHeader className='mb-6 flex flex-row items-center justify-between px-0 py-3 sm:mb-0'>
-          <DrawerTitle className='text-[32px]/10 font-extrabold tracking-normal'>
-            <IntlText path='page.catalog.filters.title' />
+      <DrawerContent className='p-4' showHandle={false}>
+        <DrawerHeader className='flex flex-row justify-between px-2 py-3'>
+          <DrawerTitle asChild>
+            <Typography as='h2' variant='title-md'>
+              <IntlText path='page.catalog.filters.title' />
+            </Typography>
           </DrawerTitle>
           <DrawerClose asChild>
-            <IconButton rounded className='size-10 text-foreground' variant='ghost'>
+            <IconButton className='size-6' type='button' variant='ghost'>
               <XIcon className='size-6' />
             </IconButton>
           </DrawerClose>
         </DrawerHeader>
+        <div className='flex flex-col gap-6 px-2'>
+          <label className='flex items-center justify-between gap-4'>
+            <Typography as='span' variant='body-md'>
+              <IntlText path='page.catalog.filters.discount' />
+            </Typography>
+            <Switch checked={selectedFilters.showedDiscount} onCheckedChange={onToggleDiscount} />
+          </label>
 
-        <div className='min-h-0 flex-1 overflow-y-auto'>
-          <div className='flex flex-col gap-7'>
-            <div className='flex flex-col gap-5'>
-              <label className='flex items-center justify-between gap-4'>
-                <Typography
-                  as='span'
-                  className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
-                  variant='body-lg'
-                >
-                  <IntlText path='page.catalog.filters.discount' />
-                </Typography>
-                <Switch
-                  checked={selectedFilters.showedDiscount}
-                  onCheckedChange={onToggleDiscount}
-                />
-              </label>
+          <label className='flex items-center justify-between gap-4'>
+            <Typography as='span' variant='body-md'>
+              <IntlText path='page.catalog.filters.dlc' />
+            </Typography>
+            <Switch checked={selectedFilters.showedDlc} onCheckedChange={onToggleDlc} />
+          </label>
 
-              <label className='flex items-center justify-between gap-4'>
-                <Typography
-                  as='span'
-                  className='text-[22px]/7 font-medium tracking-normal lg:text-[13px]/4.5'
-                  variant='body-lg'
-                >
-                  <IntlText path='page.catalog.filters.dlc' />
-                </Typography>
-                <Switch checked={selectedFilters.showedDlc} onCheckedChange={onToggleDlc} />
-              </label>
-            </div>
+          <div className='mb-6 flex flex-col gap-4'>
+            <Typography as='span' variant='body-md'>
+              <IntlText path='page.catalog.filters.genre' />
+            </Typography>
 
-            <div className='flex flex-col gap-4'>
-              <Typography
-                as='h2'
-                className='text-[26px]/8 font-medium tracking-normal lg:text-[13px]/4.5'
-                variant='title-md'
-              >
-                <IntlText path='page.catalog.filters.genre' />
-              </Typography>
+            <InputGroup className='h-10'>
+              <InputGroupAddon align='start'>
+                <SearchIcon className='text-input' />
+              </InputGroupAddon>
+              <InputGroupInput
+                placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
+                value={genreQuery}
+                onChange={(event) => setGenreQuery(event.target.value)}
+              />
+            </InputGroup>
 
-              <InputGroup className='h-15'>
-                <InputGroupAddon align='start'>
-                  <SearchIcon className='text-input' />
-                </InputGroupAddon>
-                <InputGroupInput
-                  className='text-[24px]/8 placeholder:text-foreground/30 lg:text-[13px]/4.5'
-                  placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
-                  value={genreQuery}
-                  onChange={(event) => setGenreQuery(event.target.value)}
-                />
-              </InputGroup>
-
+            <div className='max-h-52 overflow-y-auto'>
               <div className='flex flex-col gap-3'>
                 {visibleGenres.map((genre) => (
                   <label key={genre} className='flex min-h-8 items-center gap-3'>
                     <Checkbox
                       checked={selectedFilters.genre.includes(genre)}
-                      className='size-7 rounded-4 border-2 border-ring bg-background'
+                      className='size-5 rounded-6 border-2 border-ring bg-background'
                       onCheckedChange={(checked) => onGenreChange(genre, checked as boolean)}
                     />
-                    <Typography
-                      as='span'
-                      className='text-[18px]/6.5 font-medium tracking-normal lg:text-[11px]/4'
-                      variant='body-md'
-                    >
+                    <Typography as='span' variant='caption'>
                       <IntlText path={`genre.${genre}`} />
                     </Typography>
                   </label>
                 ))}
               </div>
-
-              {filteredGenres.length === 0 && (
-                <Typography as='p' className='text-foreground/50' variant='body-sm'>
-                  <IntlText path='page.catalog.filters.genreNotFound' />
-                </Typography>
-              )}
-
-              {showedAllGenres && (
-                <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
-                  <IntlText path='page.catalog.filters.hide' />
-                </Button>
-              )}
-
-              {!showedAllGenres && (
-                <Button size='sm' variant='ghost' onClick={showMoreGenres}>
-                  <IntlText path='button.showMore' />
-                </Button>
-              )}
             </div>
+
+            {!showedAllGenres && filteredGenres.length > visibleGenres.length && (
+              <Button size='sm' variant='ghost' onClick={showMoreGenres}>
+                Показать ещё
+              </Button>
+            )}
+
+            {showedAllGenres && (
+              <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
+                Скрыть
+              </Button>
+            )}
           </div>
         </div>
-
-        <DrawerFooter className='gap-2.5 px-0 pt-8 pb-0 sm:py-4 sm:pt-5'>
+        <DrawerFooter className='gap-2 px-0 py-2'>
           <DrawerClose asChild>
             <Button size='lg' variant='secondary' onClick={onResetFilters}>
               <IntlText path='page.catalog.filters.reset' />
