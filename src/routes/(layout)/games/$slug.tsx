@@ -36,7 +36,7 @@ const GameProductPage = () => {
   const { state, features, functions, form } = useGameProductPage();
 
   return (
-    <section className='mt-2 flex flex-col gap-2 sm:pb-2'>
+    <section className='flex flex-col gap-2 sm:mt-2 sm:pb-2'>
       <Link className='flex h-14 items-center gap-4' to='/'>
         <ChevronLeftIcon className='size-6' />
         <Typography
@@ -82,7 +82,7 @@ const GameProductPage = () => {
           </Typography>
         </section>
 
-        <section className='mb-6 flex flex-col gap-3 [grid-area:screenshots] sm:mb-0'>
+        <section className='mb-6 flex min-w-0 flex-col gap-3 [grid-area:screenshots] sm:mb-0'>
           <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
             <IntlText path='page.gameProduct.screenshots' />
           </Typography>
@@ -91,12 +91,12 @@ const GameProductPage = () => {
               align: 'start',
               dragFree: true
             }}
-            className='pb-10'
+            className='max-w-full min-w-0 pb-10'
           >
             <CarouselContent className='-ml-2'>
               {state.game.screenshots.map((screenshot) => (
                 <CarouselItem key={screenshot} className='basis-auto pl-2'>
-                  <div className='aspect-68/32 w-50 overflow-hidden rounded-24 bg-secondary sm:w-68'>
+                  <div className='aspect-68/39 w-[min(82vw,24rem)] overflow-hidden rounded-24 bg-secondary sm:w-68'>
                     <img
                       alt={intl.formatMessage({
                         id: 'page.gameProduct.screenshotAlt'
@@ -109,11 +109,11 @@ const GameProductPage = () => {
               ))}
             </CarouselContent>
             <CarouselPrevious
-              className='top-auto bottom-0 left-0 size-8 translate-y-0 rounded-full'
+              className='top-auto bottom-0 left-0 hidden size-8 translate-y-0 rounded-full sm:block'
               variant='ghost'
             />
             <CarouselNext
-              className='top-auto right-0 bottom-0 size-8 translate-y-0 rounded-full'
+              className='top-auto right-0 bottom-0 hidden size-8 translate-y-0 rounded-full sm:block'
               variant='ghost'
             />
           </Carousel>
@@ -300,7 +300,7 @@ const GameProductPage = () => {
             </div>
           </section>
 
-          <section className='mt-6 border-none bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
+          <section className='mt-6 rounded-24 border-none bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
             <form className='flex flex-col gap-4' onSubmit={functions.onSubmit}>
               <div className='flex gap-3'>
                 <div className='aspect-square size-14 overflow-hidden rounded-8'>
