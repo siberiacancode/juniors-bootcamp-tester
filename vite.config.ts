@@ -17,6 +17,14 @@ export default defineConfig({
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://juniorsbootcamp.ru',
+        changeOrigin: true
+      }
+    }
+  },
   resolve: {
     tsconfigPaths: true
   }

@@ -6,8 +6,6 @@ pipeline {
 
         IMAGE_NAME='siberiacancode/juniors-bootcamp-tester'
         IMAGE_VERSION='latest'
-
-        API_URL='https://juniorsbootcamp.ru/api'
         PORT='3014'
     }
     stages {
@@ -18,7 +16,7 @@ pipeline {
         }
         stage('build image') {
             steps {
-                sh 'docker build --build-arg VITE_API_URL=$API_URL -t $IMAGE_NAME:$IMAGE_VERSION .'
+                sh 'docker build -t $IMAGE_NAME:$IMAGE_VERSION .'
             }
         }
         stage('login to GHCR') {
