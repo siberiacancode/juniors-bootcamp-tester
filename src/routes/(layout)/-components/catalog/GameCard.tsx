@@ -20,7 +20,7 @@ export const GameCard = ({ game }: GameCardProps) => (
       <div className='h-[158px] w-full overflow-hidden rounded-24 bg-secondary'>
         <img
           alt={game.name}
-          className='size-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]'
+          className='block size-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]'
           loading='lazy'
           src={getGameImageSrc(game.image)}
         />

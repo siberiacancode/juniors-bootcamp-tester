@@ -1,1 +1,1 @@
-export * from './useProductOrdel';
+export * from './useGameProductPage';

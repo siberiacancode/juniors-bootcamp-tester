@@ -9,26 +9,26 @@ interface LogoutConfirmationProps extends ModalProps {
   onConfirm: () => void;
 }
 
-export const LogoutConfirmation = ({ onConfirm, onOpenChange }: LogoutConfirmationProps) => {
-  const handleConfirm = () => {
-    onOpenChange(false);
-    onConfirm();
-  };
-
-  return (
-    <Modal
-      icon={<QuestionMarkIcon />}
-      title={<IntlText path='modal.logout.title' />}
-      onOpenChange={onOpenChange}
-    >
-      <div className='flex flex-col gap-4'>
-        <Button size='lg' type='button' variant='secondary' onClick={() => onOpenChange(false)}>
-          <IntlText path='button.logout.cancel' />
-        </Button>
-        <Button size='lg' type='button' onClick={handleConfirm}>
-          <IntlText path='button.logout.confirm' />
-        </Button>
-      </div>
-    </Modal>
-  );
-};
+export const LogoutConfirmation = ({ onConfirm, onOpenChange }: LogoutConfirmationProps) => (
+  <Modal
+    icon={<QuestionMarkIcon />}
+    title={<IntlText path='modal.logout.title' />}
+    onOpenChange={onOpenChange}
+  >
+    <div className='flex flex-col gap-4'>
+      <Button size='lg' type='button' variant='secondary' onClick={() => onOpenChange(false)}>
+        <IntlText path='button.logout.cancel' />
+      </Button>
+      <Button
+        size='lg'
+        type='button'
+        onClick={() => {
+          onOpenChange(false);
+          onConfirm();
+        }}
+      >
+        <IntlText path='button.logout.confirm' />
+      </Button>
+    </div>
+  </Modal>
+);

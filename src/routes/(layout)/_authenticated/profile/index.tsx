@@ -17,17 +17,16 @@ import {
   OrderCardTitle
 } from '@/components/ui/order-card';
 import { Typography } from '@/components/ui/typography';
-import { getGamesOrdersSuspenseQueryOptions, getUsersSessionQueryOptions } from '@/generated/api';
-import { PAYMENT_METHOD } from '@/helpers/constants';
+import { getGamesOrdersSuspenseQueryOptions } from '@/generated/api';
 import { getGameImageSrc } from '@/helpers/utils';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState, LogoutConfirmation } from '@/routes/-components';
 
-import { EditProfile, ProfileSkeleton } from './-components';
+import { EditProfileDrawer, ProfileSkeleton } from './-components';
 import { useProfilePage } from './-hooks';
 
 const ProfilePage = () => {
-  const { user, orders, state, features, functions } = useProfilePage();
+  const { state, features, functions } = useProfilePage();
 
   return (
     <section className='mx-auto flex flex-col gap-10 sm:mt-12 lg:grid lg:grid-cols-[minmax(20rem,25rem)_minmax(0,1fr)] lg:gap-16'>
@@ -43,7 +42,7 @@ const ProfilePage = () => {
               {!state.displayName ? (
                 <MascotFrontIcon />
               ) : (
-                (state.displayName || user.email || 'A').trim().charAt(0).toUpperCase()
+                (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
               )}
             </AvatarFallback>
           </Avatar>
@@ -52,11 +51,11 @@ const ProfilePage = () => {
               {state.displayName || <IntlText path='page.profile.fallbackName' />}
             </Typography>
             <Typography as='p' className='text-foreground/50' variant='caption'>
-              {user.email || features.phoneMask.watch().displayValue}
+              {state.user.email || state.phone}
             </Typography>
-            {user.email && (
+            {state.user.email && (
               <Typography as='p' variant='caption'>
-                {features.phoneMask.watch().displayValue}
+                {state.phone}
               </Typography>
             )}
           </div>
@@ -80,10 +79,10 @@ const ProfilePage = () => {
         <Typography as='p' className='block sm:hidden' variant='body-md'>
           <IntlText path='page.history.title' />
         </Typography>
-        {!orders.length && <HistoryEmptyState />}
-        {!!orders.length && (
+        {!state.orders.length && <HistoryEmptyState />}
+        {!!state.orders.length && (
           <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-2'>
-            {orders.map((order) => (
+            {state.orders.map((order) => (
               <OrderCard key={order._id}>
                 <div className='flex w-full flex-col gap-2'>
                   <OrderCardHeader>
@@ -117,7 +116,9 @@ const ProfilePage = () => {
                     <OrderCardFieldLabel>
                       <IntlText path='card.order.paymentMethodLabel' />
                     </OrderCardFieldLabel>
-                    <OrderCardFieldValue>{PAYMENT_METHOD}</OrderCardFieldValue>
+                    <OrderCardFieldValue>
+                      <IntlText path='card.order.paymentMethod' />
+                    </OrderCardFieldValue>
                   </OrderCardField>
                 </OrderCardContent>
 
@@ -134,22 +135,17 @@ const ProfilePage = () => {
       {features.confirmDialog.opened && (
         <LogoutConfirmation
           onConfirm={functions.onLogout}
-          onOpenChange={features.confirmDialog.toggle}
+          onOpenChange={features.confirmDialog.close}
         />
       )}
-      {features.editDialog.opened && (
-        <EditProfile onCancel={features.editDialog.close} onSuccess={features.editDialog.close} />
-      )}
+      {features.editDialog.opened && <EditProfileDrawer onClose={features.editDialog.close} />}
     </section>
   );
 };
 
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
   loader: ({ context }) =>
-    Promise.all([
-      context.queryClient.ensureQueryData(getUsersSessionQueryOptions()),
-      context.queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions())
-    ]),
+    Promise.all([context.queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions())]),
   pendingComponent: ProfileSkeleton,
   component: ProfilePage
 });

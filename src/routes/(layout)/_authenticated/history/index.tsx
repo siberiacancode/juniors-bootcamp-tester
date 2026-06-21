@@ -19,7 +19,6 @@ import {
   getGamesOrdersSuspenseQueryOptions,
   useGetGamesOrdersSuspenseQuery
 } from '@/generated/api';
-import { PAYMENT_METHOD } from '@/helpers/constants';
 import { getGameImageSrc } from '@/helpers/utils';
 import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
@@ -83,7 +82,9 @@ function HistoryPage() {
                   <OrderCardFieldLabel>
                     <IntlText path='card.order.paymentMethodLabel' />
                   </OrderCardFieldLabel>
-                  <OrderCardFieldValue>{PAYMENT_METHOD}</OrderCardFieldValue>
+                  <OrderCardFieldValue>
+                    <IntlText path='card.order.paymentMethod' />
+                  </OrderCardFieldValue>
                 </OrderCardField>
               </OrderCardContent>
 

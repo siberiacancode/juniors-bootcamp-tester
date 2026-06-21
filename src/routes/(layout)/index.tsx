@@ -49,6 +49,7 @@ function CatalogPage() {
     queryFn: ({ pageParam }) =>
       getGamesInfo({
         query: {
+          limit: 12,
           page: pageParam,
           ...searchParams
         }
@@ -61,8 +62,8 @@ function CatalogPage() {
   const onViewChange = (view: '' | (typeof ALL_CATALOG_VIEWS)[number]) => {
     if (view === '') return;
     navigate({
-      search: (s) => ({
-        ...s,
+      search: (currentSearch) => ({
+        ...currentSearch,
         view: view === 'all' ? undefined : view
       })
     });

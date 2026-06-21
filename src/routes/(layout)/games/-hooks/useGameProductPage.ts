@@ -4,12 +4,12 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { getRouteApi, useRouterState } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 
-import type { CreateGameOrderDto, DeliveryType, DetailedGame, Region } from '@/generated/api';
+import type { DeliveryType, Region } from '@/generated/api';
 
 import {
   getGamesEditionsSuspenseQueryOptions,
-  getGamesRegionsSuspenseQueryOptions,
-  usePostGamesOrderMutation
+  getGamesInfoBySlugSuspenseQueryOptions,
+  getGamesRegionsSuspenseQueryOptions
 } from '@/generated/api';
 
 import type { ProductCheckoutFormValues } from '../-constants';
@@ -18,16 +18,27 @@ import { productCheckoutFormSchema } from '../-constants';
 
 const gameRoute = getRouteApi('/(layout)/games/$slug');
 
-export const useProductOrder = (game: DetailedGame) => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+export const useGameProductPage = () => {
+  const params = gameRoute.useParams();
   const navigate = gameRoute.useNavigate();
-  const postGamesOrderMutation = usePostGamesOrderMutation();
-
   const { selectedDeliveryType, selectedRegion, selectedEdition } = gameRoute.useLoaderData();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const isRouteLoading = useRouterState({
     select: (state) => state.isLoading
   });
+
+  const getGameInfoBySlugQuery = useSuspenseQuery(
+    getGamesInfoBySlugSuspenseQueryOptions({
+      request: {
+        path: {
+          slug: params.slug
+        }
+      }
+    })
+  );
+
+  const game = getGameInfoBySlugQuery.data.data.game;
 
   const getGamesRegionsQuery = useSuspenseQuery(
     getGamesRegionsSuspenseQueryOptions({
@@ -52,50 +63,27 @@ export const useProductOrder = (game: DetailedGame) => {
     })
   );
 
-  const productOrderForm = useForm<ProductCheckoutFormValues>({
+  const gameProductForm = useForm<ProductCheckoutFormValues>({
     defaultValues: {
-      bindJbPay: false,
       email: '',
       inviteLink: '',
-      paymentMethod: 'jb-pay',
-      payWithoutBinding: true,
+      paymentMethod: 'card',
       phone: ''
     },
     mode: 'onSubmit',
     resolver: zodResolver(productCheckoutFormSchema)
   });
 
-  const onSubmit = productOrderForm.handleSubmit(async (values) => {
-    const createGameOrderResponse = await postGamesOrderMutation.mutateAsync({
-      body: {
-        debitCard: values.paymentMethod,
-        deliveryType: selectedDeliveryType,
-        edition: selectedEdition,
-        gameSlug: game.slug,
-        person: {
-          email: values.email,
-          phone: values.phone,
-          ...(values.inviteLink && { inviteLink: values.inviteLink })
-        },
-        region: selectedRegion
-      } satisfies CreateGameOrderDto
-    });
-
-    if (!createGameOrderResponse.data.success) {
-      return;
-    }
-
-    const order = createGameOrderResponse.data.order;
-
+  const onSubmit = gameProductForm.handleSubmit(async (values) => {
     await navigate({
       to: '/payment',
       search: {
-        amount: order.gameSnapshot.price,
+        amount: 4680,
         deliveryType: selectedDeliveryType,
         edition: selectedEdition,
         gameSlug: game.slug,
         email: values.email,
-        orderNumber: order._id,
+        ...(values.inviteLink && { inviteLink: values.inviteLink }),
         phone: values.phone,
         region: selectedRegion
       }
@@ -104,7 +92,7 @@ export const useProductOrder = (game: DetailedGame) => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => productOrderForm.setValue('phone', rawValue),
+    onChangeRaw: (rawValue) => gameProductForm.setValue('phone', rawValue),
     tokens: {
       '7': /7/
     }
@@ -144,9 +132,9 @@ export const useProductOrder = (game: DetailedGame) => {
   };
 
   return {
+    game,
     state: {
       editions: getGamesEditionsQuery.data.data.editions.flat(),
-      isCreatingOrder: postGamesOrderMutation.isPending,
       isDesktop,
       isInviteLinkAvailable: selectedDeliveryType === 'steam_gift',
       isRouteLoading,
@@ -155,15 +143,15 @@ export const useProductOrder = (game: DetailedGame) => {
       selectedEdition,
       selectedRegion
     },
-    features: {
-      phoneMask
-    },
     functions: {
       onSubmit,
       onDeliveryTypeChange,
       onEditionChange,
       onRegionChange
     },
-    form: productOrderForm
+    features: {
+      phoneMask
+    },
+    form: gameProductForm
   };
 };

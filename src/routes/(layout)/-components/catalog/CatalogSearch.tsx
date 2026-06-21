@@ -111,7 +111,8 @@ export const CatalogSearch = ({ onSearchValueChange, searchValue }: CatalogSearc
                           <div className='aspect-460/215 h-10 shrink-0 overflow-hidden rounded-24 lg:rounded-12'>
                             <img
                               alt={game.name}
-                              className='object-cover object-center'
+                              className='block size-full object-cover object-center'
+                              loading='lazy'
                               src={getGameImageSrc(game.image)}
                             />
                           </div>

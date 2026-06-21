@@ -1,23 +1,13 @@
 import z from 'zod';
 
-import { intl } from '@/lib';
-
-export const LENGTH = {
-  PHONE: 11,
-  OTP: 6
-} as const;
-
 export const otpFieldScheme = z
   .string()
-  .min(1, intl.formatMessage({ id: 'field.login.otp.required' }))
-  .refine(
-    (data) => data.trim().length >= LENGTH.OTP,
-    intl.formatMessage({ id: 'field.login.otp.length' })
-  );
-
+  .min(1, 'error.validation.required')
+  .length(6, 'error.validation.length');
 export const phoneFieldScheme = z
   .string()
-  .min(LENGTH.PHONE, intl.formatMessage({ id: 'field.login.phone.required' }));
+  .min(1, 'error.validation.required')
+  .length(11, 'error.validation.length');
 
 export const phoneFormScheme = z.object({
   phone: phoneFieldScheme,

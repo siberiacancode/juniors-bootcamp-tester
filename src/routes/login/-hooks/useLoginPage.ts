@@ -1,13 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask } from '@siberiacancode/reactuse';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { getRouteApi } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
-  getUsersSessionQueryKey,
-  usePostAuthOtpMutation as usePostLoginOtpMutation,
+  getUsersSessionQueryOptions,
+  usePostAuthOtpMutation,
   usePostUsersSigninMutation
 } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
@@ -16,14 +16,14 @@ import type { LoginFormValues } from '../-constants';
 
 import { otpFormScheme, phoneFormScheme } from '../-constants';
 
+const loginRoute = getRouteApi('/login/');
+
 export const useLoginPage = () => {
-  const search = useSearch({
-    from: '/login/'
-  });
-  const navigate = useNavigate();
+  const search = loginRoute.useSearch();
+  const navigate = loginRoute.useNavigate();
 
   const queryClient = useQueryClient();
-  const postLoginOtpMutation = usePostLoginOtpMutation();
+  const postAuthOtpMutation = usePostAuthOtpMutation();
   const postUsersSigninMutation = usePostUsersSigninMutation();
 
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
@@ -40,7 +40,7 @@ export const useLoginPage = () => {
   const phone = loginForm.watch('phone');
 
   const sendOtp = async (phone: string) => {
-    const loginOtpResponse = await postLoginOtpMutation.mutateAsync({
+    const loginOtpResponse = await postAuthOtpMutation.mutateAsync({
       body: { phone }
     });
 
@@ -69,16 +69,19 @@ export const useLoginPage = () => {
     }
     localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, usersSigninResponse.data.token);
 
-    await queryClient.refetchQueries({ queryKey: [getUsersSessionQueryKey] });
+    await queryClient.ensureQueryData(
+      getUsersSessionQueryOptions({
+        params: {
+          gcTime: Infinity
+        }
+      })
+    );
     await navigate({ to: search.redirect ?? '/', replace: true });
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => loginForm.setValue('phone', rawValue),
-    tokens: {
-      '7': /7/
-    }
+    onChangeRaw: (rawValue) => loginForm.setValue('phone', `7${rawValue}`)
   });
 
   const otpMask = useMask('999999', {
@@ -101,7 +104,7 @@ export const useLoginPage = () => {
 
   const submittedPhone = submittedPhones[phone];
   const isCodeStep = stage === 'otp';
-  const isRetrying = postLoginOtpMutation.isPending && isCodeStep;
+  const isRetrying = postAuthOtpMutation.isPending && isCodeStep;
   const isLoading =
     loginForm.formState.isSubmitting || isRetrying || postUsersSigninMutation.isPending;
 

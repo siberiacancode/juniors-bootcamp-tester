@@ -82,8 +82,7 @@
   "deliveryType.steam_key": "Steam",
   "deliveryType.xbox_key": "Xbox",
 
-  "paymentMethod.card": "Картой",
-  "paymentMethod.jb-pay": "JB Pay",
+  "paymentMethod.card": "JB Карта",
 
   "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
@@ -126,7 +125,7 @@
 
   "error.validation.required": "Поле обязательно",
   "error.validation.email": "Введите корректную почту",
-  "error.validation.min": "Заполните поле полностью",
+  "error.validation.length": "Заполните поле полностью",
 
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
@@ -150,8 +149,6 @@
   "button.profile.update": "Обновить данные",
   "button.profile.cancel": "Отмена",
   "button.product.pay": "Оплатить",
-  "button.product.bindJbPay": "Привязать счёт JB Pay",
-  "button.product.payWithoutBinding": "Оплатить без привязки",
 
   "page.login.phone.title": "Авторизация",
   "page.login.phone.description": "Введите номер телефона для входа в свой профиль",

@@ -51,7 +51,7 @@ const OrderCardHeader = ({
 
 const OrderCardThumbnail = ({ className, ...props }: ComponentProps<'img'>) => (
   <img
-    className={cn('size-14 shrink-0 rounded-8 object-cover', className)}
+    className={cn('block size-14 shrink-0 rounded-8 object-cover', className)}
     data-slot='order-card-thumbnail'
     {...props}
   />

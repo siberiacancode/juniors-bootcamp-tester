@@ -1,13 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router';
+import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
+
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
+
+import type { SessionResponse } from '@/generated/api';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
+import { getUsersSessionQueryKey } from '@/generated/api';
+import { queryClient } from '@/lib';
 import { intl, IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
 
@@ -19,7 +25,7 @@ const LoginPage = () => {
 
   return (
     <section className='min-h-dvh px-4 sm:grid sm:place-items-center sm:px-6 sm:py-12'>
-      <div className='flex w-full flex-col sm:max-w-70 sm:gap-12'>
+      <div className='flex w-full flex-col sm:max-w-85 sm:gap-12'>
         <div className='hidden text-center text-[16px]/6 font-extrabold sm:block'>🎮 GAMES</div>
         <form className='flex flex-col gap-6 sm:gap-4' onSubmit={functions.onSubmit}>
           <div className='flex flex-col gap-6 sm:gap-5'>
@@ -65,6 +71,7 @@ const LoginPage = () => {
                         <IntlText path='field.login.phone.label' />
                       </FieldLabel>
                       <Input
+                        autoComplete='off'
                         {...features.phoneMask.register({
                           onBlur: field.onBlur
                         })}
@@ -137,5 +144,17 @@ const loginSearchSchema = z.object({
 
 export const Route = createFileRoute('/login/')({
   component: LoginPage,
-  validateSearch: loginSearchSchema
+  validateSearch: loginSearchSchema,
+  beforeLoad: () => {
+    const usersSessionResponse = queryClient.getQueryData<ApicraftFetchesResponse<SessionResponse>>(
+      [getUsersSessionQueryKey]
+    );
+    const user = usersSessionResponse?.data.user;
+
+    if (user) {
+      throw redirect({
+        to: '/'
+      });
+    }
+  }
 });

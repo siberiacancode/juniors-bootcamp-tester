@@ -14,7 +14,13 @@ const init = async () => {
   const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN);
 
   if (token) {
-    await queryClient.prefetchQuery(getUsersSessionQueryOptions());
+    await queryClient.ensureQueryData(
+      getUsersSessionQueryOptions({
+        params: {
+          gcTime: Infinity
+        }
+      })
+    );
   }
 
   const root = createRoot(document.getElementById('root')!);

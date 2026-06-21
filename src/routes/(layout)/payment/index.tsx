@@ -36,7 +36,7 @@ const paymentSearchSchema = z.object({
   edition: z.coerce.string().min(1),
   email: z.coerce.string().pipe(z.email()),
   gameSlug: z.coerce.string().min(1),
-  orderNumber: z.coerce.string().min(1),
+  inviteLink: z.coerce.string().optional(),
   phone: z.coerce.string().min(1),
   region: z.enum(REGIONS)
 });
@@ -65,10 +65,10 @@ export const Route = createFileRoute('/(layout)/payment/')({
 function PaymentPage() {
   const router = useRouter();
   const search = Route.useSearch();
-  const dataQuery = useGetUsersSessionQuery();
+  const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
   const postGamesOrderMutation = usePostGamesOrderMutation();
   const [order, setOrder] = useState<GameOrder>();
-  const user = dataQuery.data?.data.user;
+  const user = getUsersSessionSuspenseQuery.data!.data.user;
 
   const paymentForm = useForm<PaymentFormValues>({
     defaultValues: {
@@ -102,7 +102,8 @@ function PaymentPage() {
         gameSlug: search.gameSlug,
         person: {
           email: search.email,
-          phone: search.phone
+          phone: search.phone,
+          ...(search.inviteLink && { inviteLink: search.inviteLink })
         },
         region: search.region
       } satisfies CreateGameOrderDto
@@ -153,14 +154,14 @@ function PaymentPage() {
                 </Typography>
               </div>
 
-              <div className='flex w-full flex-col'>
+              {/* <div className='flex w-full flex-col'>
                 <Typography as='p' className='text-foreground/50' variant='caption'>
                   <IntlText path='page.payment.orderNumberLabel' />
                 </Typography>
                 <Typography as='p' variant='body-sm'>
                   {search.orderNumber}
                 </Typography>
-              </div>
+              </div> */}
             </div>
 
             <div className='flex w-full flex-col gap-4'>

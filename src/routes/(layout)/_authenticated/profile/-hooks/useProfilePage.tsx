@@ -5,21 +5,20 @@ import { useNavigate } from '@tanstack/react-router';
 import {
   getUsersSessionQueryKey,
   useGetGamesOrdersSuspenseQuery,
-  useGetUsersSessionSuspenseQuery
+  useGetUsersSessionQuery
 } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 export const useProfilePage = () => {
   const navigate = useNavigate();
-
-  const edit = useDisclosure();
-  const confirm = useDisclosure();
-
   const queryClient = useQueryClient();
 
+  const editDialog = useDisclosure();
+  const confirmDialog = useDisclosure();
+
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
-  const getUsersSessionSuspenseQuery = useGetUsersSessionSuspenseQuery();
-  const user = getUsersSessionSuspenseQuery.data.data.user;
+  const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
+  const user = getUsersSessionSuspenseQuery.data!.data.user;
 
   const phoneMask = useMask('+9 999 999 99 99', {
     showMask: 'never',
@@ -37,18 +36,19 @@ export const useProfilePage = () => {
   };
 
   const displayName = [user.lastname, user.firstname, user.middlename].filter(Boolean).join(' ');
+  const phone = phoneMask.watch().displayValue;
 
   return {
-    features: {
-      editDialog: edit,
-      confirmDialog: confirm,
-      phoneMask
-    },
     state: {
-      displayName
+      user,
+      orders: getGamesOrdersSuspenseQuery.data.data.orders,
+      displayName,
+      phone
     },
-    user,
-    orders: getGamesOrdersSuspenseQuery.data.data.orders,
+    features: {
+      editDialog,
+      confirmDialog
+    },
     functions: {
       onLogout
     }

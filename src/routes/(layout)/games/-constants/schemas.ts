@@ -4,11 +4,9 @@ import { DELIVERY_TYPES, PAYMENT_METHODS, REGIONS } from '@/helpers/constants';
 import { intl } from '@/lib';
 
 export const productCheckoutFormSchema = z.object({
-  bindJbPay: z.boolean(),
   email: z.string().email(intl.formatMessage({ id: 'error.validation.email' })),
   inviteLink: z.string(),
   paymentMethod: z.enum(PAYMENT_METHODS),
-  payWithoutBinding: z.boolean(),
   phone: z.string().min(11, intl.formatMessage({ id: 'field.login.phone.required' }))
 });
 

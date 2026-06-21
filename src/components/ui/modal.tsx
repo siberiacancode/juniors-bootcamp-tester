@@ -13,7 +13,7 @@ export interface ModalProps {
   description?: ReactNode;
   icon?: ReactNode;
   title?: ReactNode;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange: (value: boolean) => void;
 }
 
 export const Modal = ({

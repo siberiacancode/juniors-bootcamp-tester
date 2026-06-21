@@ -6,6 +6,7 @@ import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/tester',
   plugins: [
     tanstackRouter({
       target: 'react',
@@ -18,14 +19,5 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://juniorsbootcamp.ru',
-        changeOrigin: true,
-        secure: false
-      }
-    }
   }
 });

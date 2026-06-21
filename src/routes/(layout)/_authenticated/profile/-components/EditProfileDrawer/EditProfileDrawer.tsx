@@ -1,4 +1,5 @@
-import { useMediaQuery } from '@siberiacancode/reactuse';
+import type { ComponentProps } from 'react';
+
 import { Loader2Icon, XIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 
@@ -17,27 +18,20 @@ import { Typography } from '@/components/ui/typography';
 import { intl, IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
 
-import { useEditProfile } from '../../-hooks';
+import { useEditProfileDrawer } from './hooks';
 
-interface EditProfileProps {
-  onCancel: () => void;
-  onSuccess?: () => void;
-}
+type EditProfileProps = ComponentProps<typeof Drawer>;
 
-export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const { state, features, form, functions } = useEditProfile(onCancel, onSuccess);
+export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
+  const { state, features, form, functions } = useEditProfileDrawer({ onClose });
 
   return (
     <Drawer
       open
-      direction={isDesktop ? 'right' : 'bottom'}
+      direction={state.isDesktop ? 'right' : 'bottom'}
+      dismissible={!state.isDesktop}
       shouldScaleBackground={false}
-      onOpenChange={(open) => {
-        if (!open) {
-          functions.onCancelEditing();
-        }
-      }}
+      onOpenChange={onClose}
     >
       <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
         <DrawerHeader className='mb-6 flex flex-row justify-between px-0 py-3 sm:mb-0'>
@@ -46,8 +40,8 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
               <IntlText path='page.profile.edit.title' />
             </Typography>
           </DrawerTitle>
-          {isDesktop && (
-            <DrawerClose asChild>
+          {state.isDesktop && (
+            <DrawerClose asChild onClick={onClose}>
               <IconButton className='size-10' type='button' variant='ghost'>
                 <XIcon className='size-6' />
               </IconButton>
@@ -67,7 +61,11 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
                     id={field.name}
                     placeholder={intl.formatMessage({ id: 'field.profile.lastname.placeholder' })}
                   />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
                 </Field>
               )}
               control={form.control}
@@ -84,7 +82,11 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
                     id={field.name}
                     placeholder={intl.formatMessage({ id: 'field.profile.firstname.placeholder' })}
                   />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
                 </Field>
               )}
               control={form.control}
@@ -101,7 +103,11 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
                     id={field.name}
                     placeholder={intl.formatMessage({ id: 'field.profile.middlename.placeholder' })}
                   />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
                 </Field>
               )}
               control={form.control}
@@ -124,7 +130,11 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
                     id={field.name}
                     placeholder={intl.formatMessage({ id: 'field.profile.email.placeholder' })}
                   />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
                 </Field>
               )}
               control={form.control}
@@ -136,8 +146,8 @@ export const EditProfile = ({ onCancel, onSuccess }: EditProfileProps) => {
               {state.isSubmitting && <Loader2Icon className='animate-spin' />}
               <IntlText path='button.profile.update' />
             </Button>
-            {!isDesktop && (
-              <Button size='lg' type='button' onClick={functions.onCancelEditing}>
+            {!state.isDesktop && (
+              <Button size='lg' type='button' onClick={onClose}>
                 <IntlText path='button.profile.cancel' />
               </Button>
             )}

@@ -1,9 +1,9 @@
-import { useMediaQuery } from '@siberiacancode/reactuse';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ChevronLeftIcon } from 'lucide-react';
+import { CheckIcon, ChevronLeftIcon } from 'lucide-react';
+import { Controller } from 'react-hook-form';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -11,6 +11,8 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Typography } from '@/components/ui/typography';
 import {
@@ -18,36 +20,30 @@ import {
   getGamesInfoBySlugSuspenseQueryOptions,
   getGamesRegionsSuspenseQueryOptions
 } from '@/generated/api';
+import { PAYMENT_METHODS } from '@/helpers/constants';
+import { formatMoney } from '@/helpers/utils';
 import { getGameImageSrc } from '@/helpers/utils/games';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
-import { GameProductSkeleton, ProductOrderPanel } from './-components';
-import { gameProductSearchSchema } from './-constants';
+import { GameProductSkeleton } from './-components';
+import { DELIVERY_TYPE_VIEW, gameProductSearchSchema } from './-constants';
 import { getRequirementRows, getRequirementSections, productMetaItems } from './-helpers';
+import { useGameProductPage } from './-hooks';
 
 const GameProductPage = () => {
-  // eslint-disable-next-line ts/no-use-before-define
-  const params = Route.useParams();
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-
-  const getGameInfoBySlugQuery = useSuspenseQuery(
-    getGamesInfoBySlugSuspenseQueryOptions({
-      request: {
-        path: {
-          slug: params.slug
-        }
-      }
-    })
-  );
-  const game = getGameInfoBySlugQuery.data.data.game;
+  const { game, state, features, functions, form } = useGameProductPage();
 
   return (
     <section className='mt-2 flex flex-col gap-2 sm:pb-2'>
       <Link className='flex h-14 items-center gap-4' to='/'>
         <ChevronLeftIcon className='size-6' />
-        <Typography as='p' className='tracking-normal' variant={isDesktop ? 'body-lg' : 'title-md'}>
-          {isDesktop ? <IntlText path='page.gameProduct.backToCatalog' /> : game.name}
+        <Typography
+          as='p'
+          className='tracking-normal'
+          variant={state.isDesktop ? 'body-lg' : 'title-md'}
+        >
+          {state.isDesktop ? <IntlText path='page.gameProduct.backToCatalog' /> : game.name}
         </Typography>
       </Link>
 
@@ -86,7 +82,7 @@ const GameProductPage = () => {
         </section>
 
         <section className='mb-6 flex flex-col gap-3 [grid-area:screenshots] sm:mb-0'>
-          <Typography variant={isDesktop ? 'title-md' : 'body-md'}>
+          <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
             <IntlText path='page.gameProduct.screenshots' />
           </Typography>
           <Carousel
@@ -136,10 +132,10 @@ const GameProductPage = () => {
         </section>
 
         <section className='mb-6 flex flex-col gap-3 [grid-area:requirements] sm:mb-0'>
-          <Typography variant={isDesktop ? 'title-md' : 'body-md'}>
+          <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
             <IntlText path='page.gameProduct.systemRequirements' />
           </Typography>
-          {isDesktop ? (
+          {state.isDesktop ? (
             <div className='grid gap-4 lg:grid-cols-2'>
               {getRequirementSections(game).map((section) => (
                 <div key={section.key} className='flex flex-col gap-2'>
@@ -194,7 +190,272 @@ const GameProductPage = () => {
           )}
         </section>
 
-        <ProductOrderPanel game={game} />
+        <>
+          <section className={cn('flex flex-col gap-6 [grid-area:selection] lg:gap-4')}>
+            <div className='flex flex-col gap-3'>
+              <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+                <IntlText path='page.gameProduct.deliveryTypeTitle' />
+              </Typography>
+              <div className={cn('flex flex-col gap-2', state.isRouteLoading && 'opacity-100')}>
+                {game.deliveryTypes.map((deliveryType) => {
+                  const option = DELIVERY_TYPE_VIEW[deliveryType];
+                  const Icon = option.Icon;
+
+                  return (
+                    <Button
+                      key={deliveryType}
+                      className='h-auto w-full justify-start rounded-24! bg-secondary p-4 text-left whitespace-normal hover:bg-secondary-hover/40 disabled:opacity-70'
+                      disabled={state.isRouteLoading}
+                      size='lg'
+                      type='button'
+                      variant='secondary'
+                      onClick={() => functions.onDeliveryTypeChange(deliveryType)}
+                    >
+                      <Icon className='size-8' />
+                      <span className='flex flex-1 flex-col'>
+                        <Typography variant='body-sm'>
+                          <IntlText path={option.titlePath} />
+                        </Typography>
+                        <Typography className='text-muted-fg' variant='caption'>
+                          <IntlText path={option.subtitlePath} />
+                        </Typography>
+                      </span>
+                      <span
+                        className={cn(
+                          'flex size-5 shrink-0 items-center justify-center rounded-full bg-background',
+                          state.selectedDeliveryType === deliveryType &&
+                            'border-primary bg-primary text-primary-fg'
+                        )}
+                      >
+                        {state.selectedDeliveryType === deliveryType && (
+                          <CheckIcon className='size-4' />
+                        )}
+                      </span>
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+                <IntlText
+                  path='page.gameProduct.regionTitle'
+                  values={{ platform: DELIVERY_TYPE_VIEW[state.selectedDeliveryType].platform }}
+                />
+              </Typography>
+              <div className={cn('flex flex-wrap gap-2', state.isRouteLoading && 'opacity-100')}>
+                {state.regions.map((region) => (
+                  <Button
+                    key={region}
+                    className={cn(
+                      'bg-secondary text-foreground hover:bg-secondary-hover/50 disabled:opacity-70',
+                      state.selectedRegion === region &&
+                        'bg-primary text-primary-fg hover:bg-primary/90'
+                    )}
+                    disabled={state.isRouteLoading}
+                    size='md'
+                    type='button'
+                    variant='secondary'
+                    onClick={() => functions.onRegionChange(region)}
+                  >
+                    <IntlText path={`region.${region}`} />
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+              <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+                <IntlText path='page.gameProduct.editionTitle' />
+              </Typography>
+              <div className={cn('flex flex-col gap-2', state.isRouteLoading && 'opacity-100')}>
+                {state.editions.map((edition) => (
+                  <Button
+                    key={edition}
+                    className='h-auto w-full justify-start rounded-16 bg-transparent px-0 py-1 text-left hover:bg-transparent disabled:opacity-70'
+                    disabled={state.isRouteLoading}
+                    type='button'
+                    variant='ghost'
+                    onClick={() => functions.onEditionChange(edition)}
+                  >
+                    <span
+                      className={cn(
+                        'flex size-5 items-center justify-center rounded-full bg-background',
+                        state.selectedEdition === edition && 'bg-primary text-primary-fg'
+                      )}
+                    >
+                      {state.selectedEdition === edition && <CheckIcon className='size-4' />}
+                    </span>
+                    <Typography as='span' variant='caption'>
+                      {edition}
+                    </Typography>
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className='mt-6 border-none bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
+            <form className='flex flex-col gap-4' onSubmit={functions.onSubmit}>
+              <div className='flex gap-3'>
+                <div className='aspect-square size-14 overflow-hidden rounded-8'>
+                  <img
+                    alt={game.name}
+                    className='size-full object-cover'
+                    src={getGameImageSrc(game.image)}
+                  />
+                </div>
+                <div className='flex-1'>
+                  <Typography as='p' className='truncate' variant='body-md'>
+                    {game.name}
+                  </Typography>
+                  <Typography as='p' className='truncate text-muted-fg' variant='caption'>
+                    {state.selectedEdition}
+                  </Typography>
+                </div>
+              </div>
+              <div className='flex flex-wrap gap-2 px-1'>
+                <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
+                  <IntlText path='card.order.region' />
+                  <IntlText path={`region.${state.selectedRegion}`} />
+                </Badge>
+                <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
+                  <IntlText path={DELIVERY_TYPE_VIEW[state.selectedDeliveryType].titlePath} />
+                </Badge>
+              </div>
+              <div className='flex flex-col gap-4'>
+                {state.isInviteLinkAvailable && (
+                  <Controller
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <Input
+                          {...field}
+                          placeholder={intl.formatMessage({
+                            id: 'field.product.inviteLink.placeholder'
+                          })}
+                          className='bg-background placeholder:text-muted-fg'
+                          id={field.name}
+                        />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
+                    )}
+                    control={form.control}
+                    name='inviteLink'
+                  />
+                )}
+                <Controller
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel
+                        className='text-[14px]/[22px] font-medium text-foreground'
+                        htmlFor={field.name}
+                      >
+                        <IntlText path='field.product.email.label' />
+                      </FieldLabel>
+                      <Input
+                        {...field}
+                        className='bg-background placeholder:text-muted-fg'
+                        id={field.name}
+                        placeholder={intl.formatMessage({ id: 'field.product.email.placeholder' })}
+                        type='email'
+                      />
+                      {fieldState.error?.message && (
+                        <FieldError>
+                          <IntlText path={fieldState.error.message as MessagePath} />
+                        </FieldError>
+                      )}
+                    </Field>
+                  )}
+                  control={form.control}
+                  name='email'
+                />
+                <Controller
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel
+                        className='text-[14px]/[22px] font-medium text-foreground'
+                        htmlFor={field.name}
+                      >
+                        <IntlText path='field.product.phone.label' />
+                      </FieldLabel>
+                      <Input
+                        {...features.phoneMask.register({
+                          onBlur: field.onBlur
+                        })}
+                        className='bg-background'
+                        id={field.name}
+                        name={field.name}
+                        placeholder='+7'
+                      />
+                      {fieldState.error?.message && (
+                        <FieldError>
+                          <IntlText path={fieldState.error.message as MessagePath} />
+                        </FieldError>
+                      )}
+                    </Field>
+                  )}
+                  control={form.control}
+                  name='phone'
+                />
+              </div>
+
+              <div className='flex flex-col gap-3'>
+                <Typography as='p' variant='body-md'>
+                  <IntlText path='page.gameProduct.paymentMethodTitle' />
+                </Typography>
+                <Controller
+                  render={({ field }) => (
+                    <div className='grid grid-cols-2 gap-2'>
+                      {PAYMENT_METHODS.map((method) => (
+                        <button
+                          key={method}
+                          className='relative flex min-h-20 items-start gap-2 overflow-hidden rounded-16 bg-background p-4 text-left transition'
+                          type='button'
+                          onClick={() => field.onChange(method)}
+                        >
+                          <span className='flex flex-1 flex-col gap-1'>
+                            <span className='w-fit rounded-full bg-primary px-3 py-0.5 font-pixelify-sans text-[20px]/5 font-bold tracking-wide text-primary-fg'>
+                              jb
+                            </span>
+                            <Typography as='p' variant='body-sm'>
+                              <IntlText path={`paymentMethod.${method}` as MessagePath} />
+                            </Typography>
+                          </span>
+                          <span
+                            className={cn(
+                              'flex size-5 shrink-0 items-center justify-center rounded-full bg-background',
+                              field.value === method && 'border-primary bg-primary text-primary-fg'
+                            )}
+                          >
+                            {field.value === method && <CheckIcon className='size-4' />}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  control={form.control}
+                  name='paymentMethod'
+                />
+              </div>
+
+              <div className='rounded-16 bg-background p-3'>
+                <div className='flex items-center justify-between gap-4'>
+                  <Typography as='p' variant='body-sm'>
+                    <IntlText path='page.gameProduct.totalLabel' />
+                  </Typography>
+                  {/*TODO: Replace with API price*/}
+                  <Typography as='span' variant='body-lg'>
+                    {formatMoney(4680)}
+                  </Typography>
+                </div>
+              </div>
+              <Button className='h-13 w-full' type='submit'>
+                <IntlText path='button.product.pay' />
+              </Button>
+            </form>
+          </section>
+        </>
       </div>
     </section>
   );
@@ -204,14 +465,14 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
   component: GameProductPage,
   pendingComponent: GameProductSkeleton,
   validateSearch: gameProductSearchSchema,
-  loaderDeps: ({ search }) => ({
+  beforeLoad: ({ search }) => ({
     deliveryType: search.deliveryType,
     region: search.region,
     edition: search.edition
   }),
   loader: {
     staleReloadMode: 'background',
-    handler: async ({ context, deps, params }) => {
+    handler: async ({ context, params }) => {
       const gameInfoResponse = await context.queryClient.ensureQueryData(
         getGamesInfoBySlugSuspenseQueryOptions({
           request: {
@@ -220,11 +481,11 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
         })
       );
       const game = gameInfoResponse.data.game;
-      const defaultDeliveryType = game.deliveryTypes[0];
+      const [defaultDeliveryType] = game.deliveryTypes;
 
       const selectedDeliveryType =
-        deps.deliveryType && game.deliveryTypes.includes(deps.deliveryType)
-          ? deps.deliveryType
+        context.deliveryType && game.deliveryTypes.includes(context.deliveryType)
+          ? context.deliveryType
           : defaultDeliveryType;
 
       const regionsResponse = await context.queryClient.ensureQueryData(
@@ -239,10 +500,10 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       );
 
       const regions = regionsResponse.data.regions;
-      const defaultRegion = regions[0];
+      const [defaultRegion] = regions;
 
       const selectedRegion =
-        deps.region && regions.includes(deps.region) ? deps.region : defaultRegion;
+        context.region && regions.includes(context.region) ? context.region : defaultRegion;
 
       const gamesEditionsResponse = await context.queryClient.ensureQueryData(
         getGamesEditionsSuspenseQueryOptions({
@@ -257,10 +518,9 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       );
 
       const editions = gamesEditionsResponse.data.editions.flat();
-      const defaultEdition = editions[0];
-
+      const [defaultEdition] = editions;
       const selectedEdition =
-        deps.edition && editions.includes(deps.edition) ? deps.edition : defaultEdition;
+        context.edition && editions.includes(context.edition) ? context.edition : defaultEdition;
 
       return {
         editions,

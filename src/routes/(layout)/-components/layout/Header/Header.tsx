@@ -16,8 +16,10 @@ export const Header = () => {
 
   const queryClient = useQueryClient();
 
-  const getUsersSessionQuery = useGetUsersSessionQuery();
-  const user = getUsersSessionQuery.data?.data.user;
+  const usersSessionResponse = useGetUsersSessionQuery({
+    params: { enabled: false }
+  });
+  const user = usersSessionResponse.data?.data.user;
 
   const onLogout = () => {
     navigate({
