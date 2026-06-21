@@ -5,6 +5,7 @@ import { routeTree } from '@/generated/router/index.gen';
 import { queryClient } from '../lib/query-client';
 
 export const router = createRouter({
+  basepath: '/tester',
   routeTree,
   context: {
     queryClient
