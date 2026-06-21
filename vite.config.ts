@@ -19,7 +19,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': {
+      '/api/tester': {
         target: 'https://juniorsbootcamp.ru',
         changeOrigin: true
       }

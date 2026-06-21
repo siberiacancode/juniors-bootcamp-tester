@@ -3,25 +3,33 @@ import { useMask, useMediaQuery } from '@siberiacancode/reactuse';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getRouteApi, useRouterState } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
+import z from 'zod';
 
 import type { DeliveryType, Region } from '@/generated/api';
 
 import {
-  getGamesEditionsSuspenseQueryOptions,
   getGamesInfoBySlugSuspenseQueryOptions,
+  getGamesPriceVariantsSuspenseQueryOptions,
   getGamesRegionsSuspenseQueryOptions
 } from '@/generated/api';
+import { PAYMENT_METHODS } from '@/helpers/constants';
 
-import type { ProductCheckoutFormValues } from '../-constants';
+export const productCheckoutFormSchema = z.object({
+  email: z.email('error.validation.email'),
+  inviteLink: z.string(),
+  paymentMethod: z.enum(PAYMENT_METHODS),
+  phone: z.string().min(11, 'field.login.phone.required')
+});
 
-import { productCheckoutFormSchema } from '../-constants';
+export type ProductCheckoutFormValues = z.infer<typeof productCheckoutFormSchema>;
 
 const gameRoute = getRouteApi('/(layout)/games/$slug');
 
 export const useGameProductPage = () => {
   const params = gameRoute.useParams();
   const navigate = gameRoute.useNavigate();
-  const { selectedDeliveryType, selectedRegion, selectedEdition } = gameRoute.useLoaderData();
+
+  const { selectedDeliveryType, selectedRegion, selectedPriceVariant } = gameRoute.useLoaderData();
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
   const isRouteLoading = useRouterState({
@@ -51,8 +59,8 @@ export const useGameProductPage = () => {
     })
   );
 
-  const getGamesEditionsQuery = useSuspenseQuery(
-    getGamesEditionsSuspenseQueryOptions({
+  const getGamesPriceVariantsQuery = useSuspenseQuery(
+    getGamesPriceVariantsSuspenseQueryOptions({
       request: {
         query: {
           slug: game.slug,
@@ -78,24 +86,21 @@ export const useGameProductPage = () => {
     await navigate({
       to: '/payment',
       search: {
-        amount: 4680,
-        deliveryType: selectedDeliveryType,
-        edition: selectedEdition,
+        amount: selectedPriceVariant.price,
+        deliveryType: selectedPriceVariant.deliveryType,
+        edition: selectedPriceVariant.edition,
         gameSlug: game.slug,
         email: values.email,
         ...(values.inviteLink && { inviteLink: values.inviteLink }),
         phone: values.phone,
-        region: selectedRegion
+        region: selectedPriceVariant.region
       }
     });
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => gameProductForm.setValue('phone', rawValue),
-    tokens: {
-      '7': /7/
-    }
+    onChangeRaw: (rawValue) => gameProductForm.setValue('phone', `7${rawValue}`)
   });
 
   const onDeliveryTypeChange = (deliveryType: DeliveryType) => {
@@ -132,15 +137,17 @@ export const useGameProductPage = () => {
   };
 
   return {
-    game,
     state: {
-      editions: getGamesEditionsQuery.data.data.editions.flat(),
+      game,
+      editions: getGamesPriceVariantsQuery.data.data.priceVariants.map(
+        (variant) => variant.edition
+      ),
       isDesktop,
       isInviteLinkAvailable: selectedDeliveryType === 'steam_gift',
       isRouteLoading,
       regions: getGamesRegionsQuery.data.data.regions,
       selectedDeliveryType,
-      selectedEdition,
+      selectedPriceVariant,
       selectedRegion
     },
     functions: {

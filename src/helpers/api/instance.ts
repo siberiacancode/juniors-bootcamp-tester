@@ -3,7 +3,7 @@ import fetches from '@siberiacancode/fetches';
 import { LOCAL_STORAGE_KEYS } from '../constants';
 
 export const instance = fetches.create({
-  baseURL: '/api',
+  baseURL: '/api/tester',
   validateStatus: (status) => status < 500
 });
 

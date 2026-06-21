@@ -1,1 +1,1 @@
-export const getGameImageSrc = (image: string) => `/api${image}`;
+export const getGameImageSrc = (image: string) => `/api/tester${image}`;

@@ -316,13 +316,13 @@
             }
           }
         },
-        "summary": "Получить регионы для способа получения",
+        "summary": "Получить регионы",
         "tags": ["🎮 games"]
       }
     },
-    "/api/games/editions": {
+    "/api/games/price-variants": {
       "get": {
-        "operationId": "GamesController_getEditions",
+        "operationId": "GamesController_getPriceVariants",
         "parameters": [
           {
             "name": "slug",
@@ -358,13 +358,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EditionsResponse"
+                  "$ref": "#/components/schemas/PriceVariantsResponse"
                 }
               }
             }
           }
         },
-        "summary": "Получить издания для региона",
+        "summary": "Получить варианты цен",
         "tags": ["🎮 games"]
       }
     },
@@ -1094,7 +1094,7 @@
         },
         "required": ["success", "regions"]
       },
-      "EditionsResponse": {
+      "PriceVariantsResponse": {
         "type": "object",
         "properties": {
           "success": {
@@ -1105,18 +1105,15 @@
             "type": "string",
             "description": "Причина ошибки"
           },
-          "editions": {
-            "description": "Доступные издания",
+          "priceVariants": {
+            "description": "Варианты цен для изданий",
+            "type": "array",
             "items": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "type": "array"
+              "$ref": "#/components/schemas/PriceVariant"
+            }
           }
         },
-        "required": ["success", "editions"]
+        "required": ["success", "priceVariants"]
       },
       "CreateGameOrderPersonDto": {
         "type": "object",

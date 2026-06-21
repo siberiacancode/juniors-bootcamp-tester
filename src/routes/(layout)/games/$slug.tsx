@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { CheckIcon, ChevronLeftIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
+import z from 'zod';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,23 +17,23 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Typography } from '@/components/ui/typography';
 import {
-  getGamesEditionsSuspenseQueryOptions,
   getGamesInfoBySlugSuspenseQueryOptions,
+  getGamesPriceVariantsSuspenseQueryOptions,
   getGamesRegionsSuspenseQueryOptions
 } from '@/generated/api';
-import { PAYMENT_METHODS } from '@/helpers/constants';
+import { DELIVERY_TYPES, PAYMENT_METHODS, REGIONS } from '@/helpers/constants';
 import { formatMoney } from '@/helpers/utils';
 import { getGameImageSrc } from '@/helpers/utils/games';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
 import { GameProductSkeleton } from './-components';
-import { DELIVERY_TYPE_VIEW, gameProductSearchSchema } from './-constants';
+import { DELIVERY_TYPE_VIEW } from './-constants';
 import { getRequirementRows, getRequirementSections, productMetaItems } from './-helpers';
 import { useGameProductPage } from './-hooks';
 
 const GameProductPage = () => {
-  const { game, state, features, functions, form } = useGameProductPage();
+  const { state, features, functions, form } = useGameProductPage();
 
   return (
     <section className='mt-2 flex flex-col gap-2 sm:pb-2'>
@@ -43,7 +44,7 @@ const GameProductPage = () => {
           className='tracking-normal'
           variant={state.isDesktop ? 'body-lg' : 'title-md'}
         >
-          {state.isDesktop ? <IntlText path='page.gameProduct.backToCatalog' /> : game.name}
+          {state.isDesktop ? <IntlText path='page.gameProduct.backToCatalog' /> : state.game.name}
         </Typography>
       </Link>
 
@@ -60,16 +61,16 @@ const GameProductPage = () => {
           <div className='flex flex-col gap-2'>
             <div className='aspect-460/215 w-full overflow-hidden rounded-24 bg-secondary'>
               <img
-                alt={game.name}
+                alt={state.game.name}
                 className='block size-full object-cover object-center'
-                src={getGameImageSrc(game.image)}
+                src={getGameImageSrc(state.game.image)}
               />
             </div>
             <Typography as='h1' className='hidden lg:block' variant='title-lg'>
-              {game.name}
+              {state.game.name}
             </Typography>
             <div className='flex max-w-full scrollbar-none gap-2 overflow-x-auto lg:flex-wrap lg:overflow-visible'>
-              {game.genres.map((genre) => (
+              {state.game.genres.map((genre) => (
                 <Badge key={genre} className='px-4 py-2 text-[12px]/4 font-bold tracking-wide'>
                   <IntlText path={`genre.${genre}`} />
                 </Badge>
@@ -77,7 +78,7 @@ const GameProductPage = () => {
             </div>
           </div>
           <Typography as='p' className='mb-6 tracking-normal sm:mb-0' variant='body-sm'>
-            {game.description}
+            {state.game.description}
           </Typography>
         </section>
 
@@ -93,7 +94,7 @@ const GameProductPage = () => {
             className='pb-10'
           >
             <CarouselContent className='-ml-2'>
-              {game.screenshots.map((screenshot) => (
+              {state.game.screenshots.map((screenshot) => (
                 <CarouselItem key={screenshot} className='basis-auto pl-2'>
                   <div className='aspect-68/32 w-50 overflow-hidden rounded-24 bg-secondary sm:w-68'>
                     <img
@@ -118,8 +119,8 @@ const GameProductPage = () => {
           </Carousel>
         </section>
 
-        <section className='mb-6 flex h-fit flex-col gap-2 border-none p-0 [grid-area:meta] sm:-mt-10 sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6'>
-          {productMetaItems(game).map((item) => (
+        <section className='mb-6 flex h-fit flex-col gap-2 border-none p-0 [grid-area:meta] sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6'>
+          {productMetaItems(state.game).map((item) => (
             <div key={item.label} className='flex flex-col'>
               <Typography as='span' className='text-muted-fg' variant='caption'>
                 {item.label}
@@ -137,7 +138,7 @@ const GameProductPage = () => {
           </Typography>
           {state.isDesktop ? (
             <div className='grid gap-4 lg:grid-cols-2'>
-              {getRequirementSections(game).map((section) => (
+              {getRequirementSections(state.game).map((section) => (
                 <div key={section.key} className='flex flex-col gap-2'>
                   <Typography as='h3' className='font-medium' variant='title-md'>
                     {section.title}
@@ -161,13 +162,13 @@ const GameProductPage = () => {
           ) : (
             <Tabs defaultValue='minimum'>
               <TabsList className='w-full'>
-                {getRequirementSections(game).map((section) => (
+                {getRequirementSections(state.game).map((section) => (
                   <TabsTrigger key={section.key} value={section.key}>
                     {section.title}
                   </TabsTrigger>
                 ))}
               </TabsList>
-              {getRequirementSections(game).map((section) => (
+              {getRequirementSections(state.game).map((section) => (
                 <TabsContent key={section.key} value={section.key}>
                   <div className='flex flex-col gap-2'>
                     {getRequirementRows(section.requirements).map(
@@ -197,7 +198,7 @@ const GameProductPage = () => {
                 <IntlText path='page.gameProduct.deliveryTypeTitle' />
               </Typography>
               <div className={cn('flex flex-col gap-2', state.isRouteLoading && 'opacity-100')}>
-                {game.deliveryTypes.map((deliveryType) => {
+                {state.game.deliveryTypes.map((deliveryType) => {
                   const option = DELIVERY_TYPE_VIEW[deliveryType];
                   const Icon = option.Icon;
 
@@ -282,10 +283,13 @@ const GameProductPage = () => {
                     <span
                       className={cn(
                         'flex size-5 items-center justify-center rounded-full bg-background',
-                        state.selectedEdition === edition && 'bg-primary text-primary-fg'
+                        state.selectedPriceVariant.edition === edition &&
+                          'bg-primary text-primary-fg'
                       )}
                     >
-                      {state.selectedEdition === edition && <CheckIcon className='size-4' />}
+                      {state.selectedPriceVariant.edition === edition && (
+                        <CheckIcon className='size-4' />
+                      )}
                     </span>
                     <Typography as='span' variant='caption'>
                       {edition}
@@ -301,23 +305,23 @@ const GameProductPage = () => {
               <div className='flex gap-3'>
                 <div className='aspect-square size-14 overflow-hidden rounded-8'>
                   <img
-                    alt={game.name}
+                    alt={state.game.name}
                     className='size-full object-cover'
-                    src={getGameImageSrc(game.image)}
+                    src={getGameImageSrc(state.game.image)}
                   />
                 </div>
                 <div className='flex-1'>
                   <Typography as='p' className='truncate' variant='body-md'>
-                    {game.name}
+                    {state.game.name}
                   </Typography>
                   <Typography as='p' className='truncate text-muted-fg' variant='caption'>
-                    {state.selectedEdition}
+                    {state.selectedPriceVariant.edition}
                   </Typography>
                 </div>
               </div>
               <div className='flex flex-wrap gap-2 px-1'>
                 <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
-                  <IntlText path='card.order.region' />
+                  <IntlText path='card.order.region' />{' '}
                   <IntlText path={`region.${state.selectedRegion}`} />
                 </Badge>
                 <Badge className='bg-secondary px-4 py-2 text-[12px]/4'>
@@ -334,7 +338,7 @@ const GameProductPage = () => {
                           placeholder={intl.formatMessage({
                             id: 'field.product.inviteLink.placeholder'
                           })}
-                          className='bg-background placeholder:text-muted-fg'
+                          className='bg-background'
                           id={field.name}
                         />
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -355,7 +359,7 @@ const GameProductPage = () => {
                       </FieldLabel>
                       <Input
                         {...field}
-                        className='bg-background placeholder:text-muted-fg'
+                        className='bg-background'
                         id={field.name}
                         placeholder={intl.formatMessage({ id: 'field.product.email.placeholder' })}
                         type='email'
@@ -444,9 +448,8 @@ const GameProductPage = () => {
                   <Typography as='p' variant='body-sm'>
                     <IntlText path='page.gameProduct.totalLabel' />
                   </Typography>
-                  {/*TODO: Replace with API price*/}
                   <Typography as='span' variant='body-lg'>
-                    {formatMoney(4680)}
+                    {formatMoney(state.selectedPriceVariant.price)}
                   </Typography>
                 </div>
               </div>
@@ -461,18 +464,24 @@ const GameProductPage = () => {
   );
 };
 
+const gameProductSearchSchema = z.object({
+  deliveryType: z.enum(DELIVERY_TYPES).optional().catch(undefined),
+  region: z.enum(REGIONS).optional().catch(undefined),
+  edition: z.string().optional().catch(undefined)
+});
+
 export const Route = createFileRoute('/(layout)/games/$slug')({
   component: GameProductPage,
   pendingComponent: GameProductSkeleton,
   validateSearch: gameProductSearchSchema,
-  beforeLoad: ({ search }) => ({
+  loaderDeps: ({ search }) => ({
     deliveryType: search.deliveryType,
     region: search.region,
     edition: search.edition
   }),
   loader: {
     staleReloadMode: 'background',
-    handler: async ({ context, params }) => {
+    handler: async ({ context, deps, params }) => {
       const gameInfoResponse = await context.queryClient.ensureQueryData(
         getGamesInfoBySlugSuspenseQueryOptions({
           request: {
@@ -484,8 +493,8 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       const [defaultDeliveryType] = game.deliveryTypes;
 
       const selectedDeliveryType =
-        context.deliveryType && game.deliveryTypes.includes(context.deliveryType)
-          ? context.deliveryType
+        deps.deliveryType && game.deliveryTypes.includes(deps.deliveryType)
+          ? deps.deliveryType
           : defaultDeliveryType;
 
       const regionsResponse = await context.queryClient.ensureQueryData(
@@ -503,10 +512,10 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       const [defaultRegion] = regions;
 
       const selectedRegion =
-        context.region && regions.includes(context.region) ? context.region : defaultRegion;
+        deps.region && regions.includes(deps.region) ? deps.region : defaultRegion;
 
-      const gamesEditionsResponse = await context.queryClient.ensureQueryData(
-        getGamesEditionsSuspenseQueryOptions({
+      const gamesPriceVariantsResponse = await context.queryClient.ensureQueryData(
+        getGamesPriceVariantsSuspenseQueryOptions({
           request: {
             query: {
               slug: params.slug,
@@ -517,15 +526,17 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
         })
       );
 
-      const editions = gamesEditionsResponse.data.editions.flat();
-      const [defaultEdition] = editions;
-      const selectedEdition =
-        context.edition && editions.includes(context.edition) ? context.edition : defaultEdition;
+      const priceVariants = gamesPriceVariantsResponse.data.priceVariants;
+      const [defaultPriceVariant] = priceVariants;
+
+      const selectedPriceVariant =
+        priceVariants.find((priceVariant) => priceVariant.edition === deps.edition) ??
+        defaultPriceVariant;
 
       return {
-        editions,
+        priceVariants,
         selectedDeliveryType,
-        selectedEdition,
+        selectedPriceVariant,
         selectedRegion
       };
     }
