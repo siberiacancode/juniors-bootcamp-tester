@@ -43,9 +43,9 @@ pipeline {
                     sh 'cp -i $SSH_PRIVATE_KEY ~/.ssh/id_rsa'
                     sh 'ssh -o "StrictHostKeyChecking=no" $SSH_USERNAME@$IP \
                         "sudo docker login ghcr.io -u $GITHUB_TOKEN_USR --password $GITHUB_TOKEN_PSW &&\
-                        sudo docker rm -f juniors-bootcamp-web-tester &&\
+                        sudo docker rm -f juniors-bootcamp-tester &&\
                         sudo docker pull ghcr.io/siberiacancode/juniors-bootcamp-tester:latest &&\
-                        sudo docker run --restart=always --name juniors-bootcamp-web-tester -d -p $PORT:80 -e PORT=80 --network juniors-bootcamp ghcr.io/siberiacancode/juniors-bootcamp-tester:latest"'
+                        sudo docker run --restart=always --name juniors-bootcamp-tester -d -p $PORT:80 -e PORT=80 --network juniors-bootcamp ghcr.io/siberiacancode/juniors-bootcamp-tester:latest"'
                 }
             }
         }
