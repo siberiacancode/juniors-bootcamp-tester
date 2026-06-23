@@ -4,7 +4,7 @@ import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacanc
 
 import type { OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetRegionsData, GamesControllerGetRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
 
-import { instance } from "..\\..\\src\\helpers\\api\\instance";
+import { instance } from "../../src/helpers/api/instance";
 
 export type PostAuthOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
 

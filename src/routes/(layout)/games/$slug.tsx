@@ -30,7 +30,7 @@ import { cn } from '@/lib/utils';
 import { DELIVERY_TYPE_VIEW } from './-constants';
 import { getRequirementRows, getRequirementSections, productMetaItems } from './-helpers';
 import { useGamePage } from './-hooks';
-import { GameLoading } from './loading';
+import { GameLoading } from './-loading';
 
 const GameProductPage = () => {
   const { state, features, functions, form } = useGamePage();

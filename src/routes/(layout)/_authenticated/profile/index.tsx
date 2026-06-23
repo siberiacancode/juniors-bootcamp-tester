@@ -24,7 +24,7 @@ import { HistoryEmptyState, LogoutConfirmation } from '@/routes/-components';
 
 import { EditProfileDrawer } from './-components';
 import { useProfilePage } from './-hooks';
-import { ProfileLoading } from './loading';
+import { ProfileLoading } from './-loading';
 
 const ProfilePage = () => {
   const { state, features, functions } = useProfilePage();
