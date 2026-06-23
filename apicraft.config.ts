@@ -2,8 +2,7 @@ import { apicraft } from '@siberiacancode/apicraft';
 
 export default apicraft([
   {
-    // https://juniorsbootcamp.ru/api/rest/games.json не работает
-    input: 'openapi.json',
+    input: 'https://juniorsbootcamp.ru/api/rest/games.json',
     output: 'generated/api',
     instance: {
       name: 'fetches',
