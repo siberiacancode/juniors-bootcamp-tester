@@ -8,7 +8,7 @@ import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
-export const GameProductSkeleton = () => {
+export const GameLoading = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const metaRows = [
     { labelPath: 'page.gameProduct.meta.releaseDate', width: 'w-40' },
@@ -73,9 +73,9 @@ export const GameProductSkeleton = () => {
 
           <div className='relative pb-10'>
             <div className='flex max-w-full min-w-0 scrollbar-none gap-2 overflow-x-auto'>
-              {[0, 1, 2, 3, 4].map((item) => (
+              {Array.from({ length: 5 }, (_, index) => (
                 <Skeleton
-                  key={item}
+                  key={index}
                   className='aspect-68/39 w-[min(82vw,24rem)] shrink-0 rounded-24 lg:w-68'
                 />
               ))}
@@ -191,9 +191,9 @@ export const GameProductSkeleton = () => {
             </h2>
 
             <div className='flex flex-col gap-2'>
-              {[0, 1, 2, 3].map((card) => (
+              {Array.from({ length: 3 }, (_, index) => (
                 <div
-                  key={card}
+                  key={index}
                   className='flex w-full items-center gap-2 rounded-24 bg-secondary p-4'
                 >
                   <div className='size-8 shrink-0 rounded-full border border-muted-fg' />
@@ -265,9 +265,9 @@ export const GameProductSkeleton = () => {
                 <IntlText path='page.gameProduct.paymentMethodTitle' />
               </p>
               <div className='grid grid-cols-2 gap-2'>
-                {[0, 1].map((method) => (
+                {Array.from({ length: 2 }, (_, index) => (
                   <div
-                    key={method}
+                    key={index}
                     className='flex min-h-20 flex-col gap-3.5 rounded-16 bg-background p-4'
                   >
                     <Skeleton className='h-5 w-12 rounded-24 bg-muted-fg/40' />

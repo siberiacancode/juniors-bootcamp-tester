@@ -1,31 +1,23 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask, useMediaQuery } from '@siberiacancode/reactuse';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { getRouteApi, useRouterState } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
 
 import type { DeliveryType, Region } from '@/generated/api';
 
 import {
-  getGamesInfoBySlugSuspenseQueryOptions,
-  getGamesPriceVariantsSuspenseQueryOptions,
-  getGamesRegionsSuspenseQueryOptions
+  useGetGamesInfoBySlugSuspenseQuery,
+  useGetGamesPriceVariantsSuspenseQuery,
+  useGetGamesRegionsSuspenseQuery
 } from '@/generated/api';
-import { PAYMENT_METHODS } from '@/helpers/constants';
 
-export const productCheckoutFormSchema = z.object({
-  email: z.email('error.validation.email'),
-  inviteLink: z.string(),
-  paymentMethod: z.enum(PAYMENT_METHODS),
-  phone: z.string().min(11, 'field.login.phone.required')
-});
+import type { GameCheckoutFormValues } from '../-constants';
 
-export type ProductCheckoutFormValues = z.infer<typeof productCheckoutFormSchema>;
+import { gameCheckoutFormSchema } from '../-constants';
 
 const gameRoute = getRouteApi('/(layout)/games/$slug');
 
-export const useGameProductPage = () => {
+export const useGamePage = () => {
   const params = gameRoute.useParams();
   const navigate = gameRoute.useNavigate();
 
@@ -36,42 +28,36 @@ export const useGameProductPage = () => {
     select: (state) => state.isLoading
   });
 
-  const getGameInfoBySlugQuery = useSuspenseQuery(
-    getGamesInfoBySlugSuspenseQueryOptions({
-      request: {
-        path: {
-          slug: params.slug
-        }
+  const getGameInfoBySlugQuery = useGetGamesInfoBySlugSuspenseQuery({
+    request: {
+      path: {
+        slug: params.slug
       }
-    })
-  );
+    }
+  });
 
   const game = getGameInfoBySlugQuery.data.data.game;
 
-  const getGamesRegionsQuery = useSuspenseQuery(
-    getGamesRegionsSuspenseQueryOptions({
-      request: {
-        query: {
-          slug: game.slug,
-          deliveryType: selectedDeliveryType
-        }
+  const getGamesRegionsQuery = useGetGamesRegionsSuspenseQuery({
+    request: {
+      query: {
+        slug: game.slug,
+        deliveryType: selectedDeliveryType
       }
-    })
-  );
+    }
+  });
 
-  const getGamesPriceVariantsQuery = useSuspenseQuery(
-    getGamesPriceVariantsSuspenseQueryOptions({
-      request: {
-        query: {
-          slug: game.slug,
-          deliveryType: selectedDeliveryType,
-          region: selectedRegion
-        }
+  const getGamesPriceVariantsQuery = useGetGamesPriceVariantsSuspenseQuery({
+    request: {
+      query: {
+        slug: game.slug,
+        deliveryType: selectedDeliveryType,
+        region: selectedRegion
       }
-    })
-  );
+    }
+  });
 
-  const gameProductForm = useForm<ProductCheckoutFormValues>({
+  const gameCheckoutForm = useForm<GameCheckoutFormValues>({
     defaultValues: {
       email: '',
       inviteLink: '',
@@ -79,10 +65,10 @@ export const useGameProductPage = () => {
       phone: ''
     },
     mode: 'onSubmit',
-    resolver: zodResolver(productCheckoutFormSchema)
+    resolver: zodResolver(gameCheckoutFormSchema)
   });
 
-  const onSubmit = gameProductForm.handleSubmit(async (values) => {
+  const onSubmit = gameCheckoutForm.handleSubmit(async (values) => {
     await navigate({
       to: '/payment',
       search: {
@@ -100,7 +86,7 @@ export const useGameProductPage = () => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => gameProductForm.setValue('phone', `7${rawValue}`)
+    onChangeRaw: (rawValue) => gameCheckoutForm.setValue('phone', `7${rawValue}`)
   });
 
   const onDeliveryTypeChange = (deliveryType: DeliveryType) => {
@@ -159,6 +145,6 @@ export const useGameProductPage = () => {
     features: {
       phoneMask
     },
-    form: gameProductForm
+    form: gameCheckoutForm
   };
 };

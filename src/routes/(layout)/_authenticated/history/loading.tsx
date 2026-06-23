@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { IntlText } from '@/lib/intl';
 
-export const HistorySkeleton = () => (
+export const HistoryLoading = () => (
   <section className='mx-auto flex w-full flex-col gap-24 sm:mt-12 lg:gap-50'>
     <section className='flex w-full flex-col gap-6'>
       <h1 className='text-[24px]/8 font-bold tracking-wide sm:text-[24px]/8'>
@@ -10,8 +10,8 @@ export const HistorySkeleton = () => (
       </h1>
 
       <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-2'>
-        {[0, 1].map((card) => (
-          <article key={card} className='flex w-full flex-col gap-4 rounded-24 bg-secondary p-6'>
+        {Array.from({ length: 2 }, (_, index) => (
+          <article key={index} className='flex w-full flex-col gap-4 rounded-24 bg-secondary p-6'>
             <div className='flex flex-col gap-2'>
               <div className='grid w-full min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2'>
                 <Skeleton className='row-span-2 size-14 rounded-8 bg-muted-fg/40' />

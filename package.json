@@ -11,10 +11,10 @@
     "lint": "eslint . --fix",
     "lint-inspector": "npx @eslint/config-inspector@latest",
     "format": "prettier --write .",
-    "pretty": "yarn lint && yarn format",
+    "pretty": "yarn types && yarn lint && yarn format",
     "unit-test": "vitest",
     "prepare": "husky",
-    "api-generate": "yarn apicraft"
+    "generate-api": "yarn apicraft"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

@@ -22,8 +22,9 @@ import { getGameImageSrc } from '@/helpers/utils';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState, LogoutConfirmation } from '@/routes/-components';
 
-import { EditProfileDrawer, ProfileSkeleton } from './-components';
+import { EditProfileDrawer } from './-components';
 import { useProfilePage } from './-hooks';
+import { ProfileLoading } from './loading';
 
 const ProfilePage = () => {
   const { state, features, functions } = useProfilePage();
@@ -146,6 +147,6 @@ const ProfilePage = () => {
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
   loader: ({ context }) =>
     Promise.all([context.queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions())]),
-  pendingComponent: ProfileSkeleton,
+  pendingComponent: ProfileLoading,
   component: ProfilePage
 });

@@ -4,6 +4,8 @@ LABEL org.opencontainers.image.source https://github.com/shift-intensive/web-tes
 FROM base AS builder
 
 WORKDIR /app
+ARG VITE_ASSETS_URL
+ENV VITE_ASSETS_URL=$VITE_ASSETS_URL
 COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn --production --frozen-lockfile
@@ -15,7 +17,7 @@ RUN yarn build
 
 FROM nginx:latest
 
-COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=builder /app/dist /usr/share/nginx/html/tester
 
 EXPOSE 80 443

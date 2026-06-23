@@ -10,7 +10,7 @@ import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
 
-export const ProfileSkeleton = () => (
+export const ProfileLoading = () => (
   <section className='mx-auto flex flex-col gap-10 sm:mt-12 lg:grid lg:grid-cols-[minmax(20rem,25rem)_minmax(0,1fr)] lg:gap-16'>
     <div className='py-3 sm:hidden sm:py-0'>
       <Typography as='h1' variant='title-md'>
@@ -45,7 +45,7 @@ export const ProfileSkeleton = () => (
       </Typography>
 
       <div className='grid w-full grid-cols-1 gap-6'>
-        {[0, 1].map((card) => (
+        {Array.from({ length: 2 }, (_, card) => (
           <OrderCard key={card} className={cn(card === 1 && 'hidden lg:flex')}>
             <div className='flex flex-col gap-2'>
               <OrderCardHeader>

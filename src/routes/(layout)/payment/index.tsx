@@ -1,12 +1,15 @@
+import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask } from '@siberiacancode/reactuse';
+import { useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link, redirect, useRouter } from '@tanstack/react-router';
 import { CheckIcon, CirclePlusIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import z from 'zod';
 
-import type { CreateGameOrderDto, GameOrder } from '@/generated/api';
+import type { CreateGameOrderDto, GameOrder, SessionResponse } from '@/generated/api';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
@@ -25,7 +28,7 @@ import {
   OrderCardTitle
 } from '@/components/ui/order-card';
 import { Typography } from '@/components/ui/typography';
-import { useGetUsersSessionQuery, usePostGamesOrderMutation } from '@/generated/api';
+import { getUsersSessionQueryKey, usePostGamesOrderMutation } from '@/generated/api';
 import { DELIVERY_TYPES, REGIONS } from '@/helpers/constants';
 import { formatMoney, getGameImageSrc } from '@/helpers/utils';
 import { IntlText } from '@/lib/intl';
@@ -65,10 +68,14 @@ export const Route = createFileRoute('/(layout)/payment/')({
 function PaymentPage() {
   const router = useRouter();
   const search = Route.useSearch();
-  const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
+  const queryClient = useQueryClient();
+
   const postGamesOrderMutation = usePostGamesOrderMutation();
   const [order, setOrder] = useState<GameOrder>();
-  const user = getUsersSessionSuspenseQuery.data!.data.user;
+  const sessionResponse = queryClient.getQueryData<ApicraftFetchesResponse<SessionResponse>>([
+    getUsersSessionQueryKey
+  ]);
+  const user = sessionResponse?.data.user;
 
   const paymentForm = useForm<PaymentFormValues>({
     defaultValues: {

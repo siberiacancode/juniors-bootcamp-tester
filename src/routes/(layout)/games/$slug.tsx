@@ -27,13 +27,13 @@ import { getGameImageSrc } from '@/helpers/utils/games';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
-import { GameProductSkeleton } from './-components';
 import { DELIVERY_TYPE_VIEW } from './-constants';
 import { getRequirementRows, getRequirementSections, productMetaItems } from './-helpers';
-import { useGameProductPage } from './-hooks';
+import { useGamePage } from './-hooks';
+import { GameLoading } from './loading';
 
 const GameProductPage = () => {
-  const { state, features, functions, form } = useGameProductPage();
+  const { state, features, functions, form } = useGamePage();
 
   return (
     <section className='flex flex-col gap-2 sm:mt-2 sm:pb-2'>
@@ -98,9 +98,14 @@ const GameProductPage = () => {
                 <CarouselItem key={screenshot} className='basis-auto pl-2'>
                   <div className='aspect-68/39 w-[min(82vw,24rem)] overflow-hidden rounded-24 bg-secondary sm:w-68'>
                     <img
-                      alt={intl.formatMessage({
-                        id: 'page.gameProduct.screenshotAlt'
-                      })}
+                      alt={intl.formatMessage(
+                        {
+                          id: 'page.gameProduct.screenshotAlt'
+                        },
+                        {
+                          name: screenshot
+                        }
+                      )}
                       className='block size-full object-cover'
                       src={getGameImageSrc(screenshot)}
                     />
@@ -141,14 +146,14 @@ const GameProductPage = () => {
               {getRequirementSections(state.game).map((section) => (
                 <div key={section.key} className='flex flex-col gap-2'>
                   <Typography as='h3' className='font-medium' variant='title-md'>
-                    {section.title}
+                    <IntlText path={section.titlePath} />
                   </Typography>
                   {getRequirementRows(section.requirements).map(
                     (row) =>
                       row.value && (
-                        <div key={row.label} className='flex flex-col'>
+                        <div key={row.labelPath} className='flex flex-col'>
                           <Typography as='span' className='text-muted-fg' variant='caption'>
-                            {`${row.label}:`}
+                            <IntlText path={row.labelPath as MessagePath} />:
                           </Typography>
                           <Typography as='span' variant='body-sm'>
                             {row.value}
@@ -164,7 +169,7 @@ const GameProductPage = () => {
               <TabsList className='w-full'>
                 {getRequirementSections(state.game).map((section) => (
                   <TabsTrigger key={section.key} value={section.key}>
-                    {section.title}
+                    <IntlText path={section.titlePath} />
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -174,9 +179,9 @@ const GameProductPage = () => {
                     {getRequirementRows(section.requirements).map(
                       (row) =>
                         row.value && (
-                          <div key={row.label} className='flex flex-col'>
+                          <div key={row.labelPath} className='flex flex-col'>
                             <Typography as='span' className='text-muted-fg' variant='caption'>
-                              {`${row.label}:`}
+                              <IntlText path={row.labelPath as MessagePath} />:
                             </Typography>
                             <Typography as='span' variant='body-sm'>
                               {row.value}
@@ -472,7 +477,7 @@ const gameProductSearchSchema = z.object({
 
 export const Route = createFileRoute('/(layout)/games/$slug')({
   component: GameProductPage,
-  pendingComponent: GameProductSkeleton,
+  pendingComponent: GameLoading,
   validateSearch: gameProductSearchSchema,
   loaderDeps: ({ search }) => ({
     deliveryType: search.deliveryType,

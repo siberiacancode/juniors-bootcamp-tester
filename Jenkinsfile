@@ -7,6 +7,8 @@ pipeline {
         IMAGE_NAME='siberiacancode/juniors-bootcamp-tester'
         IMAGE_VERSION='latest'
         PORT='3014'
+        BACKEND_URL='https://juniorsbootcamp.ru'
+        VITE_ASSETS_URL='https://juniorsbootcamp.ru/api'
     }
     stages {
         stage('cleanup') {
@@ -16,7 +18,7 @@ pipeline {
         }
         stage('build image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$IMAGE_VERSION .'
+                sh 'docker build --build-arg VITE_ASSETS_URL=$VITE_ASSETS_URL -t $IMAGE_NAME:$IMAGE_VERSION .'
             }
         }
         stage('login to GHCR') {
@@ -45,7 +47,7 @@ pipeline {
                         "sudo docker login ghcr.io -u $GITHUB_TOKEN_USR --password $GITHUB_TOKEN_PSW &&\
                         sudo docker rm -f juniors-bootcamp-tester &&\
                         sudo docker pull ghcr.io/siberiacancode/juniors-bootcamp-tester:latest &&\
-                        sudo docker run --restart=always --name juniors-bootcamp-tester -d -p $PORT:80 -e PORT=80 --network juniors-bootcamp ghcr.io/siberiacancode/juniors-bootcamp-tester:latest"'
+                        sudo docker run --restart=always --name juniors-bootcamp-tester -d -p $PORT:80 -e PORT=80 -e BACKEND_URL=$BACKEND_URL --network juniors-bootcamp ghcr.io/siberiacancode/juniors-bootcamp-tester:latest"'
                 }
             }
         }
