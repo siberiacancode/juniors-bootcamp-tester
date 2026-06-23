@@ -4,7 +4,7 @@ import { useQuery, useMutation, queryOptions, useSuspenseQuery } from "@tanstack
 
 import type { TanstackQuerySettings, TanstackMutationSettings, TanstackSuspenseQuerySettings } from "@siberiacancode/apicraft";
 
-import { postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesEditions, postGamesOrder, getGamesOrders, getGamesOrderByOrderId } from "./requests.gen";
+import { postAuthOtp, postUsersSignin, patchUsersProfile, getUsersSession, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesPriceVariants, postGamesOrder, getGamesOrders, getGamesOrderByOrderId } from "./requests.gen";
 
 export const postAuthOtpQueryKey = "postAuthOtpQueryKey";
 
@@ -230,33 +230,33 @@ export const getGamesRegionsSuspenseQueryOptions = (settings: TanstackSuspenseQu
 
 export const useGetGamesRegionsSuspenseQuery = (...args: Parameters<typeof getGamesRegionsSuspenseQueryOptions>) => useSuspenseQuery(getGamesRegionsSuspenseQueryOptions(...args));
 
-export const getGamesEditionsQueryKey = "getGamesEditionsQueryKey";
+export const getGamesPriceVariantsQueryKey = "getGamesPriceVariantsQueryKey";
 
-export const getGamesEditionsQueryOptions = (settings: TanstackQuerySettings<typeof getGamesEditions>) => queryOptions({
-    queryKey: [getGamesEditionsQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
-    queryFn: async () => getGamesEditions({ ...settings.request }),
+export const getGamesPriceVariantsQueryOptions = (settings: TanstackQuerySettings<typeof getGamesPriceVariants>) => queryOptions({
+    queryKey: [getGamesPriceVariantsQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesPriceVariants({ ...settings.request }),
     ...settings.params
 });
 
-export const useGetGamesEditionsQuery = (...args: Parameters<typeof getGamesEditionsQueryOptions>) => useQuery(getGamesEditionsQueryOptions(...args));
+export const useGetGamesPriceVariantsQuery = (...args: Parameters<typeof getGamesPriceVariantsQueryOptions>) => useQuery(getGamesPriceVariantsQueryOptions(...args));
 
-export const getGamesEditionsMutationKey = "getGamesEditionsMutationKey";
+export const getGamesPriceVariantsMutationKey = "getGamesPriceVariantsMutationKey";
 
-export const useGetGamesEditionsMutation = (settings?: TanstackMutationSettings<typeof getGamesEditions>) => useMutation({
-    mutationKey: [getGamesEditionsMutationKey],
-    mutationFn: async (params) => getGamesEditions({ ...settings?.request, ...params }),
+export const useGetGamesPriceVariantsMutation = (settings?: TanstackMutationSettings<typeof getGamesPriceVariants>) => useMutation({
+    mutationKey: [getGamesPriceVariantsMutationKey],
+    mutationFn: async (params) => getGamesPriceVariants({ ...settings?.request, ...params }),
     ...settings?.params
 });
 
-export const getGamesEditionsSuspenseQueryKey = "getGamesEditionsSuspenseQueryKey";
+export const getGamesPriceVariantsSuspenseQueryKey = "getGamesPriceVariantsSuspenseQueryKey";
 
-export const getGamesEditionsSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesEditions>) => queryOptions({
-    queryKey: [getGamesEditionsSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
-    queryFn: async () => getGamesEditions({ ...settings.request }),
+export const getGamesPriceVariantsSuspenseQueryOptions = (settings: TanstackSuspenseQuerySettings<typeof getGamesPriceVariants>) => queryOptions({
+    queryKey: [getGamesPriceVariantsSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => getGamesPriceVariants({ ...settings.request }),
     ...settings.params
 });
 
-export const useGetGamesEditionsSuspenseQuery = (...args: Parameters<typeof getGamesEditionsSuspenseQueryOptions>) => useSuspenseQuery(getGamesEditionsSuspenseQueryOptions(...args));
+export const useGetGamesPriceVariantsSuspenseQuery = (...args: Parameters<typeof getGamesPriceVariantsSuspenseQueryOptions>) => useSuspenseQuery(getGamesPriceVariantsSuspenseQueryOptions(...args));
 
 export const postGamesOrderQueryKey = "postGamesOrderQueryKey";
 

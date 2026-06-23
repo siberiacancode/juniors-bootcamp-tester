@@ -11,8 +11,6 @@ RUN yarn add vite @vitejs/plugin-react
 
 COPY . .
 
-ARG VITE_API_URL
-
 RUN yarn build
 
 FROM nginx:latest

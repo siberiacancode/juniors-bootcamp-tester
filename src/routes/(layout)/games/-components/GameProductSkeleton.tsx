@@ -1,7 +1,8 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
 import { Link } from '@tanstack/react-router';
-import { ChevronLeftIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib';
@@ -17,17 +18,17 @@ export const GameProductSkeleton = () => {
   ];
 
   const requirementRows = [
-    { labelPath: 'page.gameProduct.requirement.os', width: 'w-3/4' },
-    { labelPath: 'page.gameProduct.requirement.processor', width: 'w-2/3' },
-    { labelPath: 'page.gameProduct.requirement.memory', width: 'w-18' },
-    { labelPath: 'page.gameProduct.requirement.graphics', width: 'w-5/6' },
-    { labelPath: 'page.gameProduct.requirement.directx', width: 'w-18' },
-    { labelPath: 'page.gameProduct.requirement.network', width: 'w-11/12' },
-    { labelPath: 'page.gameProduct.requirement.storage', width: 'w-16' }
+    { labelPath: 'page.gameProduct.requirement.os', width: 'w-3/8' },
+    { labelPath: 'page.gameProduct.requirement.processor', width: 'w-1/3' },
+    { labelPath: 'page.gameProduct.requirement.memory', width: 'w-9' },
+    { labelPath: 'page.gameProduct.requirement.graphics', width: 'w-5/12' },
+    { labelPath: 'page.gameProduct.requirement.directx', width: 'w-9' },
+    { labelPath: 'page.gameProduct.requirement.network', width: 'w-11/24' },
+    { labelPath: 'page.gameProduct.requirement.storage', width: 'w-8' }
   ];
 
   return (
-    <section className='mt-2 flex flex-col gap-2 sm:pb-2'>
+    <section className='flex min-w-0 flex-col gap-2 overflow-x-hidden sm:mt-2 sm:pb-2'>
       <Link className='flex h-14 items-center gap-4' to='/'>
         <ChevronLeftIcon className='size-6' />
         <Typography as='p' className='tracking-normal' variant={isDesktop ? 'body-lg' : 'title-md'}>
@@ -37,7 +38,7 @@ export const GameProductSkeleton = () => {
 
       <div
         className={cn(
-          'sm:grid sm:gap-6',
+          'min-w-0 sm:grid sm:gap-6',
           '[grid-template-areas:"overview"_"screenshots"_"meta"_"requirements"_"selection"_"checkout"]',
           'lg:grid-cols-[minmax(0,1fr)_minmax(0,418px)_minmax(0,372px)]',
           'lg:gap-6',
@@ -47,37 +48,51 @@ export const GameProductSkeleton = () => {
         <section className='flex flex-col gap-3 [grid-area:overview] lg:gap-4'>
           <div className='flex flex-col gap-2'>
             <Skeleton className='aspect-460/215 w-full rounded-24' />
-            <Skeleton className='hidden h-6 w-3/4 rounded-24 bg-muted-fg/30 lg:block' />
+            <Skeleton className='hidden h-4.5 w-3/4 rounded-24 bg-muted-fg/30 lg:block' />
 
             <div className='flex max-w-full scrollbar-none gap-2 overflow-x-auto p-1 sm:p-0 lg:flex-wrap lg:overflow-visible'>
-              <Skeleton className='h-8 w-24 shrink-0 rounded-full bg-background ring-1 ring-ring' />
-              <Skeleton className='h-8 w-28 shrink-0 rounded-full bg-background ring-1 ring-ring' />
-              <Skeleton className='h-8 w-24 shrink-0 rounded-full bg-background ring-1 ring-ring' />
-              <Skeleton className='h-8 w-20 shrink-0 rounded-full bg-background ring-1 ring-ring' />
+              <Skeleton className='h-8 w-26 shrink-0 rounded-full bg-background ring-1 ring-ring' />
+              <Skeleton className='h-8 w-26 shrink-0 rounded-full bg-background ring-1 ring-ring' />
+              <Skeleton className='h-8 w-26 shrink-0 rounded-full bg-background ring-1 ring-ring' />
+              <Skeleton className='h-8 w-26 shrink-0 rounded-full bg-background ring-1 ring-ring' />
             </div>
           </div>
 
-          <div className='mb-6 flex flex-col gap-2 sm:mb-0'>
-            <Skeleton className='h-4 w-full rounded-24 bg-muted-fg/20' />
-            <Skeleton className='h-4 w-11/12 rounded-24 bg-muted-fg/20' />
-            <Skeleton className='h-4 w-4/5 rounded-24 bg-muted-fg/20' />
-            <Skeleton className='h-4 w-2/3 rounded-24 bg-muted-fg/20' />
+          <div className='mb-6 flex flex-col gap-4 sm:mb-3'>
+            <Skeleton className='h-4 w-7/9 rounded-24 bg-muted-fg/20' />
+            <Skeleton className='h-4 w-5/7 rounded-24 bg-muted-fg/20' />
+            <Skeleton className='h-4 w-3/5 rounded-24 bg-muted-fg/20' />
+            <Skeleton className='h-4 w-3/6 rounded-24 bg-muted-fg/20' />
           </div>
         </section>
 
-        <section className='mb-6 flex flex-col gap-3 [grid-area:screenshots] sm:mb-0'>
+        <section className='mb-6 flex min-w-0 flex-col gap-3 overflow-x-hidden [grid-area:screenshots] sm:mb-0'>
           <h2 className='text-[16px]/6 font-medium tracking-wide lg:text-[24px]/8 lg:font-bold'>
             <IntlText path='page.gameProduct.screenshots' />
           </h2>
 
-          <div className='flex max-w-full scrollbar-none gap-2 overflow-x-auto'>
-            {[0, 1, 2, 3, 4].map((item) => (
-              <Skeleton key={item} className='h-44 w-80 shrink-0 rounded-24 lg:h-45 lg:w-68' />
-            ))}
+          <div className='relative pb-10'>
+            <div className='flex max-w-full min-w-0 scrollbar-none gap-2 overflow-x-auto'>
+              {[0, 1, 2, 3, 4].map((item) => (
+                <Skeleton
+                  key={item}
+                  className='aspect-68/39 w-[min(82vw,24rem)] shrink-0 rounded-24 lg:w-68'
+                />
+              ))}
+            </div>
+
+            <div className='pointer-events-none absolute inset-x-0 bottom-0 hidden items-center justify-between lg:flex'>
+              <div className='flex size-8 items-center justify-center rounded-full'>
+                <ChevronLeftIcon className='size-4 text-muted-fg' />
+              </div>
+              <div className='flex size-8 items-center justify-center rounded-full'>
+                <ChevronRightIcon className='size-4 text-muted-fg' />
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className='mb-6 flex h-fit flex-col gap-10 border-none p-0 [grid-area:meta] sm:-mt-10 sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6'>
+        <section className='mb-6 flex h-fit flex-col gap-4 border-none p-0 [grid-area:meta] sm:-mt-10 sm:mb-0 sm:gap-10 sm:rounded-24 sm:bg-secondary sm:p-6'>
           {metaRows.map((row) => (
             <div key={row.labelPath} className='flex flex-col'>
               <span className='text-[12px]/4 font-medium tracking-wide text-muted-fg sm:hidden'>
@@ -116,7 +131,7 @@ export const GameProductSkeleton = () => {
                     <span className='text-[12px]/4 font-medium tracking-wide text-muted-fg'>
                       <IntlText path={row.labelPath as MessagePath} />:
                     </span>
-                    <Skeleton className={cn('h-4 rounded-24 bg-secondary', row.width)} />
+                    <Skeleton className={cn('h-4 rounded-24 bg-muted-fg/20', row.width)} />
                   </div>
                 ))}
 
@@ -125,8 +140,11 @@ export const GameProductSkeleton = () => {
                     <IntlText path='page.gameProduct.additionalRequirements' />:
                   </span>
                   <div className='mt-1 flex flex-col gap-2'>
-                    {['w-11/12', 'w-5/6', 'w-3/4', 'w-2/3'].map((width) => (
-                      <Skeleton key={width} className={cn('h-4 rounded-24 bg-secondary', width)} />
+                    {['w-11/24', 'w-5/12', 'w-3/8', 'w-1/3'].map((width) => (
+                      <Skeleton
+                        key={width}
+                        className={cn('h-4 rounded-24 bg-muted-fg/20', width)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -144,7 +162,7 @@ export const GameProductSkeleton = () => {
                     <span className='text-[12px]/4 font-medium tracking-wide text-muted-fg'>
                       <IntlText path={row.labelPath as MessagePath} />:
                     </span>
-                    <Skeleton className={cn('h-4 rounded-24 bg-secondary', row.width)} />
+                    <Skeleton className={cn('h-4 rounded-24 bg-muted-fg/20', row.width)} />
                   </div>
                 ))}
 
@@ -153,8 +171,11 @@ export const GameProductSkeleton = () => {
                     <IntlText path='page.gameProduct.additionalRequirements' />:
                   </span>
                   <div className='mt-1 flex flex-col gap-2'>
-                    {['w-11/12', 'w-5/6', 'w-3/4', 'w-2/3'].map((width) => (
-                      <Skeleton key={width} className={cn('h-4 rounded-24 bg-secondary', width)} />
+                    {['w-11/24', 'w-5/12', 'w-3/8', 'w-1/3'].map((width) => (
+                      <Skeleton
+                        key={width}
+                        className={cn('h-4 rounded-24 bg-muted-fg/20', width)}
+                      />
                     ))}
                   </div>
                 </div>
@@ -176,9 +197,9 @@ export const GameProductSkeleton = () => {
                   className='flex w-full items-center gap-2 rounded-24 bg-secondary p-4'
                 >
                   <div className='size-8 shrink-0 rounded-full border border-muted-fg' />
-                  <div className='flex flex-1 flex-col gap-2'>
+                  <div className='flex flex-1 flex-col gap-3.5'>
                     <Skeleton className='h-4 w-40 rounded-24 bg-muted-fg/30' />
-                    <Skeleton className='h-3 w-20 rounded-24 bg-secondary' />
+                    <Skeleton className='h-3 w-20 rounded-24 bg-muted-fg/10' />
                   </div>
                 </div>
               ))}
@@ -191,7 +212,7 @@ export const GameProductSkeleton = () => {
             </h2>
 
             <div className='flex flex-wrap gap-2'>
-              {['w-24', 'w-24', 'w-28', 'w-20', 'w-24', 'w-28', 'w-26', 'w-22'].map(
+              {['w-24', 'w-24', 'w-28', 'w-20', 'w-24', 'w-28', 'w-26', 'w-22', 'w-18'].map(
                 (width, index) => (
                   <Skeleton key={`${width}-${index}`} className={cn('h-10 rounded-full', width)} />
                 )
@@ -205,19 +226,19 @@ export const GameProductSkeleton = () => {
             </h2>
 
             <div className='flex items-center gap-2'>
-              <Skeleton className='h-4 flex-1 rounded-24 bg-secondary' />
-              <Skeleton className='h-4 w-14 rounded-24 bg-secondary' />
+              <Skeleton className='h-4 flex-1 rounded-24 bg-muted-fg/20' />
+              <Skeleton className='h-4 w-14 rounded-24 bg-muted-fg/20' />
             </div>
           </div>
         </section>
 
-        <section className='mt-6 bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
+        <section className='mt-6 rounded-24 bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
           <div className='flex flex-col gap-4'>
             <div className='flex gap-3'>
               <Skeleton className='size-14 shrink-0 rounded-8 bg-muted-fg/30' />
-              <div className='flex flex-1 flex-col gap-2 pt-1'>
+              <div className='flex flex-1 flex-col gap-3'>
                 <Skeleton className='h-4 w-4/5 rounded-24 bg-muted-fg/30' />
-                <Skeleton className='h-4 w-2/3 rounded-24 bg-secondary' />
+                <Skeleton className='h-3 w-2/3 rounded-24 bg-muted-fg/10' />
               </div>
             </div>
 
@@ -247,10 +268,10 @@ export const GameProductSkeleton = () => {
                 {[0, 1].map((method) => (
                   <div
                     key={method}
-                    className='flex min-h-20 flex-col gap-2 rounded-16 bg-background p-4'
+                    className='flex min-h-20 flex-col gap-3.5 rounded-16 bg-background p-4'
                   >
                     <Skeleton className='h-5 w-12 rounded-24 bg-muted-fg/40' />
-                    <Skeleton className='h-3 w-16 rounded-24 bg-secondary' />
+                    <Skeleton className='h-2.5 w-16 rounded-24 bg-secondary' />
                   </div>
                 ))}
               </div>
@@ -269,7 +290,9 @@ export const GameProductSkeleton = () => {
               </div>
             </div>
 
-            <Skeleton className='h-13 w-full rounded-full bg-muted-fg/40' />
+            <Button disabled className='w-full' size='lg' type='button'>
+              <IntlText path='button.product.pay' />
+            </Button>
           </div>
         </section>
       </div>

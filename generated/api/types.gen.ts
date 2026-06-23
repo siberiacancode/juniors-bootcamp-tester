@@ -384,7 +384,7 @@ export type RegionsResponse = {
     regions: Array<Region>;
 };
 
-export type EditionsResponse = {
+export type PriceVariantsResponse = {
     /**
      * Статус запроса
      */
@@ -394,9 +394,9 @@ export type EditionsResponse = {
      */
     reason?: string;
     /**
-     * Доступные издания
+     * Варианты цен для изданий
      */
-    editions: Array<Array<string>>;
+    priceVariants: Array<PriceVariant>;
 };
 
 export type CreateGameOrderPersonDto = {
@@ -717,7 +717,7 @@ export type GamesControllerGetRegionsResponses = {
 
 export type GamesControllerGetRegionsResponse = GamesControllerGetRegionsResponses[keyof GamesControllerGetRegionsResponses];
 
-export type GamesControllerGetEditionsData = {
+export type GamesControllerGetPriceVariantsData = {
     body?: never;
     path?: never;
     query: {
@@ -734,14 +734,14 @@ export type GamesControllerGetEditionsData = {
          */
         region: Region;
     };
-    url: '/api/games/editions';
+    url: '/api/games/price-variants';
 };
 
-export type GamesControllerGetEditionsResponses = {
-    200: EditionsResponse;
+export type GamesControllerGetPriceVariantsResponses = {
+    200: PriceVariantsResponse;
 };
 
-export type GamesControllerGetEditionsResponse = GamesControllerGetEditionsResponses[keyof GamesControllerGetEditionsResponses];
+export type GamesControllerGetPriceVariantsResponse = GamesControllerGetPriceVariantsResponses[keyof GamesControllerGetPriceVariantsResponses];
 
 export type GamesControllerCreateGameOrderData = {
     body: CreateGameOrderDto;

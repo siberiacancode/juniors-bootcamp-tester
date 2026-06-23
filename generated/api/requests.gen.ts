@@ -2,9 +2,9 @@
 
 import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacancode/apicraft";
 
-import type { OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetRegionsData, GamesControllerGetRegionsResponse, GamesControllerGetEditionsData, GamesControllerGetEditionsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
+import type { OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetRegionsData, GamesControllerGetRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
 
-import { instance } from "..\\..\\src\\helpers\\api\\instance";
+import { instance } from "../../src/helpers/api/instance";
 
 export type PostAuthOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
 
@@ -22,7 +22,7 @@ export type GetGamesInfoBySlugRequestParams = FetchesRequestParams<GamesControll
 
 export type GetGamesRegionsRequestParams = FetchesRequestParams<GamesControllerGetRegionsData>;
 
-export type GetGamesEditionsRequestParams = FetchesRequestParams<GamesControllerGetEditionsData>;
+export type GetGamesPriceVariantsRequestParams = FetchesRequestParams<GamesControllerGetPriceVariantsData>;
 
 export type PostGamesOrderRequestParams = FetchesRequestParams<GamesControllerCreateGameOrderData>;
 
@@ -70,7 +70,7 @@ export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams)
     ...config
 });
 
-export const getGamesEditions = ({ config, query }: GetGamesEditionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetEditionsResponse>> => instance.call("GET", "/games/editions", {
+export const getGamesPriceVariants = ({ config, query }: GetGamesPriceVariantsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetPriceVariantsResponse>> => instance.call("GET", "/games/price-variants", {
     query,
     ...config
 });
