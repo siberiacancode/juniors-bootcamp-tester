@@ -62,7 +62,7 @@
   /* Status */
   --color-danger: var(--color-danger);
 
-  --shadow-elevated: 0px 0px 12px 0px rgb(0 0 0 / 0.14);
+  --shadow-elevated: 0px 11px 45.6px 0px rgb(0 0 0 / 0.05);
 
   --radius-2: 0.125rem;
   --radius-4: 0.25rem;
@@ -114,8 +114,8 @@
   --color-accent-primary-hover: var(--color-yellow-400);
   --color-accent-primary-fg: var(--color-neutral-900);
 
-  --color-accent-secondary: var(--color-violet-500);
-  --color-accent-secondary-hover: var(--color-violet-600);
+  --color-accent-secondary: var(--color-violet-600);
+  --color-accent-secondary-hover: var(--color-violet-500);
   --color-accent-secondary-fg: var(--color-neutral-50);
 
   --color-accent-tertiary: var(--color-orange-600);
