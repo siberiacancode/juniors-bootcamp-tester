@@ -1,7 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router';
 
-import { cn } from '@/lib/utils';
-
 import { navItems } from './constants';
 
 export const MobileNav = () => {
@@ -15,13 +13,13 @@ export const MobileNav = () => {
 
   return (
     <nav className='fixed inset-x-4 bottom-4 z-50 sm:hidden'>
-      <div className='relative grid h-18 grid-cols-3 items-center gap-1 rounded-full border border-foreground bg-background p-1 shadow-elevated'>
+      <div className='relative grid grid-cols-3 items-center gap-1 rounded-full bg-background p-1 shadow-elevated'>
         {activeNavIndex >= 0 && (
           <div
             style={{
               transform: `translateX(calc(${activeNavIndex * 100}% + ${activeNavIndex * 0.25}rem))`
             }}
-            className='pointer-events-none absolute inset-y-1 left-1 w-[calc((100%-1rem)/3)] rounded-full bg-[#7c3aed] transition-transform duration-300 ease-out'
+            className='pointer-events-none absolute inset-y-1 left-1 w-[calc((100%-1rem)/3)] rounded-full bg-violet-50 transition-transform duration-300 ease-out'
           />
         )}
         {navItems.map((item) => {
@@ -31,16 +29,21 @@ export const MobileNav = () => {
             <Link
               key={item.to}
               activeProps={{
-                className: 'text-white [&_svg]:stroke-white'
+                className: 'font-bold text-accent-secondary'
               }}
-              className={cn(
-                'relative z-10 flex h-full flex-col items-center justify-center gap-1 rounded-full text-[14px]/4.5 font-bold tracking-normal text-foreground transition-colors duration-300 ease-out',
-                '[&_svg]:size-7'
-              )}
+              inactiveProps={{
+                className: 'font-medium text-muted-fg'
+              }}
+              activeOptions={{ exact: item.to === '/' }}
+              className='relative z-10 flex flex-col items-center justify-center gap-0.5 rounded-full py-2 text-[12px]/4 tracking-wide transition-colors duration-300 ease-out'
               to={item.to}
             >
-              <Icon />
-              <span>{item.label}</span>
+              {({ isActive }) => (
+                <>
+                  <Icon strokeWidth={isActive ? 2 : 1.5} />
+                  <span>{item.label}</span>
+                </>
+              )}
             </Link>
           );
         })}
