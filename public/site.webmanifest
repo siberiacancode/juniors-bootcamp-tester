@@ -1,7 +1,7 @@
 {
   "name": "jb tester",
   "short_name": "jb tester",
-  "description": "jb tester",
+  "description": "Платформа для тестирования junior-разработчиков",
   "start_url": "/tester",
   "scope": "/tester",
   "display": "standalone",

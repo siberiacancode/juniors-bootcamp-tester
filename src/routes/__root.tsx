@@ -8,18 +8,20 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 const RootComponent = () => (
   <>
     <Outlet />
-    <TanStackDevtools
-      plugins={[
-        {
-          name: 'TanStack Query',
-          render: <ReactQueryDevtoolsPanel />
-        },
-        {
-          name: 'TanStack Router',
-          render: <TanStackRouterDevtoolsPanel />
-        }
-      ]}
-    />
+    {import.meta.env.DEV && (
+      <TanStackDevtools
+        plugins={[
+          {
+            name: 'TanStack Query',
+            render: <ReactQueryDevtoolsPanel />
+          },
+          {
+            name: 'TanStack Router',
+            render: <TanStackRouterDevtoolsPanel />
+          }
+        ]}
+      />
+    )}
   </>
 );
 
