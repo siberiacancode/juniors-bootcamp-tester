@@ -84,7 +84,9 @@ export const useLoginPage = () => {
     onChangeRaw: (rawValue) => loginForm.setValue('phone', `7${rawValue}`)
   });
 
-  const otpMask = useMask('999999', {
+  // 🐛 bug
+  // allow entering OTP longer than 6 digits
+  const otpMask = useMask('999999999', {
     showMask: 'never',
     onChangeRaw: (rawValue) => loginForm.setValue('otp', rawValue)
   });

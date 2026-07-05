@@ -18,7 +18,10 @@ export const profileFormScheme = z.object({
   lastname: z.string(),
   firstname: z.string(),
   middlename: z.string(),
-  email: z.email('error.validation.email')
+  // 🐛 bug
+  // email field does not validate format in profile editing
+  // email: z.email('error.validation.email')
+  email: z.string()
 });
 
 export type ProfileFormScheme = z.infer<typeof profileFormScheme>;
@@ -45,10 +48,14 @@ export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) =>
   });
 
   const onSubmit = editProfileForm.handleSubmit(async (values) => {
+    const { middlename, ...profileWithoutMiddlename } = values;
+
     await patchUsersProfileMutation.mutateAsync({
       body: {
         phone: user.phone,
-        profile: values
+        // 🐛 bug
+        // omit middlename from PATCH /profile payload
+        profile: profileWithoutMiddlename
       }
     });
 

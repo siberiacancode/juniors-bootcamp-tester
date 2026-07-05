@@ -1,9 +1,10 @@
 import z from 'zod';
 
-export const otpFieldScheme = z
-  .string()
-  .min(1, 'error.validation.required')
-  .length(6, 'error.validation.length');
+export const otpFieldScheme = z.string().min(1, 'error.validation.required');
+// 🐛 bug
+// OTP max length validation is disabled
+// .length(6, 'error.validation.length');
+
 export const phoneFieldScheme = z
   .string()
   .min(1, 'error.validation.required')

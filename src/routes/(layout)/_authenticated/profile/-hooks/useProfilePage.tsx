@@ -15,7 +15,6 @@ export const useProfilePage = () => {
 
   const editDialog = useDisclosure();
   const confirmDialog = useDisclosure();
-
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
   const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
   const user = getUsersSessionSuspenseQuery.data!.data.user;
@@ -26,6 +25,13 @@ export const useProfilePage = () => {
   });
 
   const onLogout = () => {
+    // 🐛 bug
+    // first logout confirm click does nothing
+    const logoutClicks =
+      ((window as typeof window & { __logoutClicks?: number }).__logoutClicks ?? 0) + 1;
+    (window as typeof window & { __logoutClicks?: number }).__logoutClicks = logoutClicks;
+    if (logoutClicks % 2 !== 0) return;
+
     navigate({
       to: '/'
     });

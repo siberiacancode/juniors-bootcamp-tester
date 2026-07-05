@@ -40,11 +40,15 @@ const ProfilePage = () => {
         <div className='flex flex-col items-center gap-4 lg:flex-row'>
           <Avatar className='bg-secondary' size='xl'>
             <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
-              {!state.displayName ? (
-                <MascotFrontIcon />
-              ) : (
-                (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
-              )}
+              {/* 🐛 bug */}
+              {/* Safari does not show profile fallback avatar content */}
+              <span className='supports-[-webkit-hyphens:none]:hidden'>
+                {!state.displayName ? (
+                  <MascotFrontIcon />
+                ) : (
+                  (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
+                )}
+              </span>
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col items-center text-center lg:items-start lg:text-left'>
