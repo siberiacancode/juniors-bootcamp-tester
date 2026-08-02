@@ -25,7 +25,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'docker build --build-arg -t ghcr.io/$IMAGE_NAME:$IMAGE_VERSION .'
+                sh 'docker build -t ghcr.io/$IMAGE_NAME:$IMAGE_VERSION .'
                 sh 'echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin'
                 sh 'docker push ghcr.io/$IMAGE_NAME:$IMAGE_VERSION'
             }
