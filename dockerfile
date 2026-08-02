@@ -18,6 +18,6 @@ FROM nginx:latest
 COPY --from=builder /app/nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=builder /app/dist /usr/share/nginx/html/tester
 
-EXPOSE 80 443
+EXPOSE 3014
 
 CMD ["nginx", "-g", "daemon off;"]
