@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { CheckIcon, ChevronLeftIcon } from 'lucide-react';
+import { CheckIcon, ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import z from 'zod';
 
@@ -17,13 +17,13 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Typography } from '@/components/ui/typography';
 import {
-  getGamesInfoBySlugSuspenseQueryOptions,
-  getGamesPriceVariantsSuspenseQueryOptions,
-  getGamesRegionsSuspenseQueryOptions
+  getGamesInfoBySlugQueryOptions,
+  getGamesPriceVariantsQueryOptions,
+  getGamesRegionsQueryOptions
 } from '@/generated/api';
 import { DELIVERY_TYPES, PAYMENT_METHODS, REGIONS } from '@/helpers/constants';
 import { formatMoney } from '@/helpers/utils';
-import { getGameImageSrc } from '@/helpers/utils/games';
+import { getAsset } from '@/helpers/utils/assets';
 import { intl, IntlText } from '@/lib';
 import { cn } from '@/lib/utils';
 
@@ -63,7 +63,7 @@ const GameProductPage = () => {
               <img
                 alt={state.game.name}
                 className='block size-full object-cover object-center'
-                src={getGameImageSrc(state.game.image)}
+                src={getAsset(state.game.image)}
               />
             </div>
             <Typography as='h1' className='hidden lg:block' variant='title-lg'>
@@ -107,7 +107,7 @@ const GameProductPage = () => {
                         }
                       )}
                       className='block size-full object-cover'
-                      src={getGameImageSrc(screenshot)}
+                      src={getAsset(screenshot)}
                     />
                   </div>
                 </CarouselItem>
@@ -202,7 +202,7 @@ const GameProductPage = () => {
               <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
                 <IntlText path='page.gameProduct.deliveryTypeTitle' />
               </Typography>
-              <div className={cn('flex flex-col gap-2', state.isRouteLoading && 'opacity-100')}>
+              <div className={cn('flex flex-col gap-2', state.isSelectionLoading && 'opacity-100')}>
                 {state.game.deliveryTypes.map((deliveryType) => {
                   const option = DELIVERY_TYPE_VIEW[deliveryType];
                   const Icon = option.Icon;
@@ -211,7 +211,7 @@ const GameProductPage = () => {
                     <Button
                       key={deliveryType}
                       className='h-auto w-full justify-start rounded-24! bg-secondary p-4 text-left whitespace-normal hover:bg-secondary-hover/40 disabled:opacity-70'
-                      disabled={state.isRouteLoading}
+                      disabled={state.isSelectionLoading}
                       size='lg'
                       type='button'
                       variant='secondary'
@@ -250,7 +250,9 @@ const GameProductPage = () => {
                   values={{ platform: DELIVERY_TYPE_VIEW[state.selectedDeliveryType].platform }}
                 />
               </Typography>
-              <div className={cn('flex flex-wrap gap-2', state.isRouteLoading && 'opacity-100')}>
+              <div
+                className={cn('flex flex-wrap gap-2', state.isSelectionLoading && 'opacity-100')}
+              >
                 {state.regions.map((region) => (
                   <Button
                     key={region}
@@ -259,7 +261,7 @@ const GameProductPage = () => {
                       state.selectedRegion === region &&
                         'bg-primary text-primary-fg hover:bg-primary/90'
                     )}
-                    disabled={state.isRouteLoading}
+                    disabled={state.isSelectionLoading}
                     size='md'
                     type='button'
                     variant='secondary'
@@ -275,12 +277,12 @@ const GameProductPage = () => {
               <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
                 <IntlText path='page.gameProduct.editionTitle' />
               </Typography>
-              <div className={cn('flex flex-col gap-2', state.isRouteLoading && 'opacity-100')}>
+              <div className={cn('flex flex-col gap-2', state.isSelectionLoading && 'opacity-100')}>
                 {state.editions.map((edition) => (
                   <Button
                     key={edition}
                     className='h-auto w-full justify-start rounded-16 bg-transparent px-0 py-1 text-left hover:bg-transparent disabled:opacity-70'
-                    disabled={state.isRouteLoading}
+                    disabled={state.isSelectionLoading}
                     type='button'
                     variant='ghost'
                     onClick={() => functions.onEditionChange(edition)}
@@ -312,7 +314,7 @@ const GameProductPage = () => {
                   <img
                     alt={state.game.name}
                     className='size-full object-cover'
-                    src={getGameImageSrc(state.game.image)}
+                    src={getAsset(state.game.image)}
                   />
                 </div>
                 <div className='flex-1'>
@@ -425,7 +427,7 @@ const GameProductPage = () => {
                         >
                           <span className='flex flex-1 flex-col gap-1'>
                             <span className='w-fit rounded-full bg-primary px-3 py-0.5 font-pixelify-sans text-[20px]/5 font-bold tracking-wide text-primary-fg'>
-                              jb
+                              {method === 'qr' ? 'QR' : 'card'}
                             </span>
                             <Typography as='p' variant='body-sm'>
                               <IntlText path={`paymentMethod.${method}` as MessagePath} />
@@ -458,8 +460,14 @@ const GameProductPage = () => {
                   </Typography>
                 </div>
               </div>
-              <Button className='h-13 w-full' type='submit'>
-                <IntlText path='button.product.pay' />
+              {form.formState.errors.root?.message && (
+                <Typography as='p' className='text-destructive' variant='caption'>
+                  {form.formState.errors.root.message}
+                </Typography>
+              )}
+              <Button className='h-13 w-full' disabled={state.isPaymentStarting} type='submit'>
+                {state.isPaymentStarting && <Loader2Icon className='animate-spin' />}
+                <IntlText path='button.pay' />
               </Button>
             </form>
           </section>
@@ -477,73 +485,56 @@ const gameProductSearchSchema = z.object({
 
 export const Route = createFileRoute('/(layout)/games/$slug')({
   component: GameProductPage,
+  loaderDeps: ({ search }) => search,
+  loader: async ({ context, deps, params }) => {
+    const getGameInfoBySlugResponse = await context.queryClient.ensureQueryData(
+      getGamesInfoBySlugQueryOptions({
+        request: {
+          path: {
+            slug: params.slug
+          }
+        }
+      })
+    );
+
+    const game = getGameInfoBySlugResponse.data.game;
+    const [defaultDeliveryType] = game.deliveryTypes;
+    const deliveryType =
+      deps.deliveryType && game.deliveryTypes.includes(deps.deliveryType)
+        ? deps.deliveryType
+        : defaultDeliveryType;
+
+    if (!deliveryType) return;
+
+    const getGamesRegionsResponse = await context.queryClient.ensureQueryData(
+      getGamesRegionsQueryOptions({
+        request: {
+          query: {
+            slug: game.slug,
+            deliveryType
+          }
+        }
+      })
+    );
+
+    const regions = getGamesRegionsResponse.data.regions;
+    const [defaultRegion] = regions;
+    const region = deps.region && regions.includes(deps.region) ? deps.region : defaultRegion;
+
+    if (!region) return;
+
+    await context.queryClient.ensureQueryData(
+      getGamesPriceVariantsQueryOptions({
+        request: {
+          query: {
+            slug: game.slug,
+            deliveryType,
+            region
+          }
+        }
+      })
+    );
+  },
   pendingComponent: GameLoading,
-  validateSearch: gameProductSearchSchema,
-  loaderDeps: ({ search }) => ({
-    deliveryType: search.deliveryType,
-    region: search.region,
-    edition: search.edition
-  }),
-  loader: {
-    staleReloadMode: 'background',
-    handler: async ({ context, deps, params }) => {
-      const gameInfoResponse = await context.queryClient.ensureQueryData(
-        getGamesInfoBySlugSuspenseQueryOptions({
-          request: {
-            path: { slug: params.slug }
-          }
-        })
-      );
-      const game = gameInfoResponse.data.game;
-      const [defaultDeliveryType] = game.deliveryTypes;
-
-      const selectedDeliveryType =
-        deps.deliveryType && game.deliveryTypes.includes(deps.deliveryType)
-          ? deps.deliveryType
-          : defaultDeliveryType;
-
-      const regionsResponse = await context.queryClient.ensureQueryData(
-        getGamesRegionsSuspenseQueryOptions({
-          request: {
-            query: {
-              slug: params.slug,
-              deliveryType: selectedDeliveryType
-            }
-          }
-        })
-      );
-
-      const regions = regionsResponse.data.regions;
-      const [defaultRegion] = regions;
-
-      const selectedRegion =
-        deps.region && regions.includes(deps.region) ? deps.region : defaultRegion;
-
-      const gamesPriceVariantsResponse = await context.queryClient.ensureQueryData(
-        getGamesPriceVariantsSuspenseQueryOptions({
-          request: {
-            query: {
-              slug: params.slug,
-              deliveryType: selectedDeliveryType,
-              region: selectedRegion
-            }
-          }
-        })
-      );
-
-      const priceVariants = gamesPriceVariantsResponse.data.priceVariants;
-      const [defaultPriceVariant] = priceVariants;
-
-      const selectedPriceVariant =
-        priceVariants.find((priceVariant) => priceVariant.edition === deps.edition) ??
-        defaultPriceVariant;
-
-      return {
-        priceVariants,
-        selectedDeliveryType,
-        selectedPriceVariant,
-        selectedRegion
-      };
-    }
-  }
+  validateSearch: gameProductSearchSchema
 });

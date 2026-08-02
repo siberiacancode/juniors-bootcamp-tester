@@ -19,7 +19,7 @@ import {
   getGamesOrdersSuspenseQueryOptions,
   useGetGamesOrdersSuspenseQuery
 } from '@/generated/api';
-import { getGameImageSrc } from '@/helpers/utils';
+import { getAsset } from '@/helpers/utils';
 import { queryClient } from '@/lib';
 import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState } from '@/routes/-components';
@@ -52,20 +52,17 @@ function HistoryPage() {
             <OrderCard key={order._id}>
               <div className='flex w-full flex-col gap-2'>
                 <OrderCardHeader>
-                  <OrderCardThumbnail
-                    alt={order.gameSnapshot.name}
-                    src={getGameImageSrc(order.gameSnapshot.image)}
-                  />
-                  <OrderCardTitle>{order.gameSnapshot.name}</OrderCardTitle>
-                  <OrderCardSubtitle>{order.gameSnapshot.edition}</OrderCardSubtitle>
+                  <OrderCardThumbnail alt={order.gameName} src={getAsset(order.gameImage)} />
+                  <OrderCardTitle>{order.gameName}</OrderCardTitle>
+                  <OrderCardSubtitle>{order.edition}</OrderCardSubtitle>
                 </OrderCardHeader>
 
                 <OrderCardBadges>
                   <OrderCardBadge>
-                    <IntlText path={`region.${order.gameSnapshot.region}`} />
+                    <IntlText path={`region.${order.region}`} />
                   </OrderCardBadge>
                   <OrderCardBadge>
-                    <IntlText path={`deliveryType.${order.gameSnapshot.deliveryType}`} />
+                    <IntlText path={`deliveryType.${order.deliveryType}`} />
                   </OrderCardBadge>
                 </OrderCardBadges>
               </div>

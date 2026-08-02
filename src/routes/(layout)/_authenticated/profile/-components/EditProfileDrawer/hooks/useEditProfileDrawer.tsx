@@ -9,8 +9,8 @@ import z from 'zod';
 import type { Drawer } from '@/components/ui/drawer';
 
 import {
-  getUsersSessionQueryKey,
-  useGetUsersSessionQuery,
+  getUsersProfileQueryKey,
+  useGetUsersProfileQuery,
   usePatchUsersProfileMutation
 } from '@/generated/api';
 
@@ -33,8 +33,8 @@ export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) =>
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const patchUsersProfileMutation = usePatchUsersProfileMutation();
-  const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
-  const user = getUsersSessionSuspenseQuery.data!.data.user;
+  const getUsersProfileQuery = useGetUsersProfileQuery();
+  const user = getUsersProfileQuery.data!.data.user;
 
   const editProfileForm = useForm<ProfileFormScheme>({
     mode: 'onSubmit',
@@ -48,19 +48,12 @@ export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) =>
   });
 
   const onSubmit = editProfileForm.handleSubmit(async (values) => {
-    const { middlename, ...profileWithoutMiddlename } = values;
-
     await patchUsersProfileMutation.mutateAsync({
-      body: {
-        phone: user.phone,
-        // 🐛 bug
-        // omit middlename from PATCH /profile payload
-        profile: profileWithoutMiddlename
-      }
+      body: values
     });
 
     await queryClient.invalidateQueries({
-      queryKey: [getUsersSessionQueryKey]
+      queryKey: [getUsersProfileQueryKey]
     });
 
     onClose?.();

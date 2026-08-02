@@ -1,60 +1,58 @@
 pipeline {
     agent any
-    environment {
-        GITHUB_TOKEN=credentials('github-container')
-        IP=credentials('yandex-apps-ip')
 
-        IMAGE_NAME='siberiacancode/juniors-bootcamp-tester'
-        IMAGE_VERSION='latest'
-        PORT='3014'
-        BACKEND_URL='https://juniorsbootcamp.ru'
-        VITE_ASSETS_URL='https://juniorsbootcamp.ru/api'
+    options {
+        disableConcurrentBuilds(abortPrevious: true)
+        timeout(time: 20, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
     }
+
+    environment {
+        GITHUB_TOKEN    = credentials('github-container')
+        COOLIFY_WEBHOOK = credentials('coolify-webhook')   
+        COOLIFY_TOKEN   = credentials('coolify-api-token')
+
+        IMAGE_NAME      = 'siberiacancode/juniors-bootcamp-tester'
+        IMAGE_VERSION   = 'latest'
+    }
+
     stages {
-        stage('cleanup') {
-            steps {
-                sh 'docker system prune -a --volumes --force'
+        stage('build & push') {
+            when {
+                anyOf {
+                    branch 'main'
+                    expression { env.GIT_BRANCH == 'origin/main' }
+                }
             }
-        }
-        stage('build image') {
             steps {
-                sh 'docker build --build-arg VITE_ASSETS_URL=$VITE_ASSETS_URL -t $IMAGE_NAME:$IMAGE_VERSION .'
-            }
-        }
-        stage('login to GHCR') {
-            steps {
+                sh 'docker build --build-arg -t ghcr.io/$IMAGE_NAME:$IMAGE_VERSION .'
                 sh 'echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin'
-            }
-        }
-        stage('tag image') {
-            steps {
-                sh 'docker tag $IMAGE_NAME:$IMAGE_VERSION ghcr.io/$IMAGE_NAME:$IMAGE_VERSION'
-            }
-        }
-        stage('push image') {
-            steps {
                 sh 'docker push ghcr.io/$IMAGE_NAME:$IMAGE_VERSION'
             }
         }
-        stage('deploy') {
-            steps {
-                withCredentials(bindings: [sshUserPrivateKey(credentialsId: 'yandex-apps-container', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'SSH_USERNAME')]) {
-                    sh 'echo $SSH_USERNAME'
-                    sh 'install -m 600 -D /dev/null ~/.ssh/id_rsa'
-                    sh 'rm ~/.ssh/id_rsa'
-                    sh 'cp -i $SSH_PRIVATE_KEY ~/.ssh/id_rsa'
-                    sh 'ssh -o "StrictHostKeyChecking=no" $SSH_USERNAME@$IP \
-                        "sudo docker login ghcr.io -u $GITHUB_TOKEN_USR --password $GITHUB_TOKEN_PSW &&\
-                        sudo docker rm -f juniors-bootcamp-tester &&\
-                        sudo docker pull ghcr.io/siberiacancode/juniors-bootcamp-tester:latest &&\
-                        sudo docker run --restart=always --name juniors-bootcamp-tester -d -p $PORT:80 -e PORT=80 -e BACKEND_URL=$BACKEND_URL --network juniors-bootcamp ghcr.io/siberiacancode/juniors-bootcamp-tester:latest"'
+
+        stage('deploy via coolify') {
+            when {
+                anyOf {
+                    branch 'main'
+                    expression { env.GIT_BRANCH == 'origin/main' }
                 }
+            }
+            steps {
+                sh '''
+                    curl --fail --request GET "$COOLIFY_WEBHOOK" \
+                         --header "Authorization: Bearer $COOLIFY_TOKEN"
+                '''
             }
         }
     }
+
     post {
         always {
-            sh 'docker logout'
+            sh 'docker logout || true'
+        }
+        cleanup {
+            sh 'docker system prune -f || true'
         }
     }
 }

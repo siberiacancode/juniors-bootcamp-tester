@@ -2,17 +2,17 @@ import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
 
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import type { SessionResponse } from '@/generated/api';
+import type { GetProfileResponse } from '@/generated/api';
 
-import { getUsersSessionQueryKey } from '@/generated/api';
+import { getUsersProfileQueryKey } from '@/generated/api';
 import { queryClient } from '@/lib';
 
 export const Route = createFileRoute('/(layout)/_authenticated')({
   beforeLoad: () => {
-    const usersSessionResponse = queryClient.getQueryData<ApicraftFetchesResponse<SessionResponse>>(
-      [getUsersSessionQueryKey]
+    const usersProfileResponse = queryClient.getQueryData<ApicraftFetchesResponse<GetProfileResponse>>(
+      [getUsersProfileQueryKey]
     );
-    const user = usersSessionResponse?.data.user;
+    const user = usersProfileResponse?.data.user;
 
     if (!user) {
       throw redirect({

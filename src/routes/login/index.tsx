@@ -5,14 +5,14 @@ import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
 
-import type { SessionResponse } from '@/generated/api';
+import type { GetProfileResponse } from '@/generated/api';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { IconButton } from '@/components/ui/icon-button';
 import { Input } from '@/components/ui/input';
 import { Typography } from '@/components/ui/typography';
-import { getUsersSessionQueryKey } from '@/generated/api';
+import { getUsersProfileQueryKey } from '@/generated/api';
 import { queryClient } from '@/lib';
 import { intl, IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
@@ -146,10 +146,10 @@ export const Route = createFileRoute('/login/')({
   component: LoginPage,
   validateSearch: loginSearchSchema,
   beforeLoad: () => {
-    const usersSessionResponse = queryClient.getQueryData<ApicraftFetchesResponse<SessionResponse>>(
-      [getUsersSessionQueryKey]
+    const usersProfileResponse = queryClient.getQueryData<ApicraftFetchesResponse<GetProfileResponse>>(
+      [getUsersProfileQueryKey]
     );
-    const user = usersSessionResponse?.data.user;
+    const user = usersProfileResponse?.data.user;
 
     if (user) {
       throw redirect({

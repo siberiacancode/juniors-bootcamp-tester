@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
-  getUsersSessionQueryOptions,
-  usePostAuthOtpMutation,
-  usePostUsersSigninMutation
+  getUsersProfileQueryOptions,
+  usePostAuthSignInMutation,
+  usePostOtpsOtpMutation
 } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
@@ -23,8 +23,8 @@ export const useLoginPage = () => {
   const navigate = loginRoute.useNavigate();
 
   const queryClient = useQueryClient();
-  const postAuthOtpMutation = usePostAuthOtpMutation();
-  const postUsersSigninMutation = usePostUsersSigninMutation();
+  const postOtpsOtpMutation = usePostOtpsOtpMutation();
+  const postAuthSignInMutation = usePostAuthSignInMutation();
 
   const [stage, setStage] = useState<'otp' | 'phone'>('phone');
   const [submittedPhones, setSubmittedPhones] = useState<Record<string, number>>({});
@@ -40,7 +40,7 @@ export const useLoginPage = () => {
   const phone = loginForm.watch('phone');
 
   const sendOtp = async (phone: string) => {
-    const loginOtpResponse = await postAuthOtpMutation.mutateAsync({
+    const loginOtpResponse = await postOtpsOtpMutation.mutateAsync({
       body: { phone }
     });
 
@@ -57,20 +57,20 @@ export const useLoginPage = () => {
       return;
     }
 
-    const usersSigninResponse = await postUsersSigninMutation.mutateAsync({
+    const authSignInResponse = await postAuthSignInMutation.mutateAsync({
       body: {
         code: +values.otp,
         phone: values.phone
       }
     });
 
-    if (!usersSigninResponse.data.success) {
-      return loginForm.setError('otp', { message: usersSigninResponse.data.reason });
+    if (!authSignInResponse.data.success) {
+      return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
-    localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, usersSigninResponse.data.token);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, authSignInResponse.data.token);
 
     await queryClient.ensureQueryData(
-      getUsersSessionQueryOptions({
+      getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
         }
@@ -106,9 +106,9 @@ export const useLoginPage = () => {
 
   const submittedPhone = submittedPhones[phone];
   const isCodeStep = stage === 'otp';
-  const isRetrying = postAuthOtpMutation.isPending && isCodeStep;
+  const isRetrying = postOtpsOtpMutation.isPending && isCodeStep;
   const isLoading =
-    loginForm.formState.isSubmitting || isRetrying || postUsersSigninMutation.isPending;
+    loginForm.formState.isSubmitting || isRetrying || postAuthSignInMutation.isPending;
 
   return {
     state: { isCodeStep, isLoading, isRetrying, submittedPhone },

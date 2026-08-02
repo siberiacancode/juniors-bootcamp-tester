@@ -1,7 +1,4 @@
 import { ListFilterIcon, SearchIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
-
-import type { GameFilter, GameGenre } from '@/generated/api';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -20,59 +17,10 @@ import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
 import { intl, IntlText } from '@/lib';
 
-import { useCatalogFilters } from './useCatalogFilters';
+import { useCatalogFiltersMobile } from './hooks';
 
 export const CatalogFiltersMobile = () => {
-  const {
-    functions: { hideMoreGenres, navigate, showMoreGenres, onResetFilters, setGenreQuery },
-    state: { filteredGenres, genreQuery, searchParams, showedAllGenres, visibleGenres }
-  } = useCatalogFilters();
-
-  const [selectedFilters, setSelectedFilters] = useState({
-    genre: searchParams.genre,
-    showedDlc: searchParams.filter.includes('dlc'),
-    showedDiscount: searchParams.filter.includes('discount')
-  });
-
-  const onGenreChange = (newGenre: GameGenre, checked: boolean) => {
-    const nextGenres = checked
-      ? [...selectedFilters.genre, newGenre]
-      : selectedFilters.genre.filter((genre) => genre !== newGenre);
-
-    setSelectedFilters((s) => ({
-      ...s,
-      genre: nextGenres
-    }));
-  };
-
-  const onToggleDiscount = (checked: boolean) => {
-    setSelectedFilters((s) => ({
-      ...s,
-      showedDiscount: checked
-    }));
-  };
-
-  const onToggleDlc = (checked: boolean) => {
-    setSelectedFilters((s) => ({
-      ...s,
-      showedDlc: checked
-    }));
-  };
-
-  const onApplyFilters = () => {
-    const filter: GameFilter[] = [
-      ...(selectedFilters.showedDlc ? ['dlc' as const] : []),
-      ...(selectedFilters.showedDiscount ? ['discount' as const] : [])
-    ];
-
-    navigate({
-      search: (s) => ({
-        ...s,
-        filter,
-        genre: selectedFilters.genre
-      })
-    });
-  };
+  const { state, functions } = useCatalogFiltersMobile();
 
   return (
     <Drawer direction='bottom' shouldScaleBackground={false}>
@@ -94,19 +42,25 @@ export const CatalogFiltersMobile = () => {
             </IconButton>
           </DrawerClose>
         </DrawerHeader>
-        <div className='flex flex-col gap-6 px-2'>
+        <form className='flex flex-col gap-6 px-2' onSubmit={functions.onFiltersApply}>
           <label className='flex items-center justify-between gap-4'>
             <Typography as='span' variant='body-md'>
               <IntlText path='page.catalog.filters.discount' />
             </Typography>
-            <Switch checked={selectedFilters.showedDiscount} onCheckedChange={onToggleDiscount} />
+            <Switch
+              checked={state.selectedFilters.showedDiscount}
+              onCheckedChange={(checked) => functions.onDiscountChange(!!checked)}
+            />
           </label>
 
           <label className='flex items-center justify-between gap-4'>
             <Typography as='span' variant='body-md'>
               <IntlText path='page.catalog.filters.dlc' />
             </Typography>
-            <Switch checked={selectedFilters.showedDlc} onCheckedChange={onToggleDlc} />
+            <Switch
+              checked={state.selectedFilters.showedDlc}
+              onCheckedChange={(checked) => functions.onDlcChange(!!checked)}
+            />
           </label>
 
           <div className='mb-6 flex flex-col gap-4'>
@@ -120,19 +74,19 @@ export const CatalogFiltersMobile = () => {
               </InputGroupAddon>
               <InputGroupInput
                 placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
-                value={genreQuery}
-                onChange={(event) => setGenreQuery(event.target.value)}
+                value={state.genreQuery}
+                onChange={(event) => functions.onGenreQueryChange(event.target.value)}
               />
             </InputGroup>
 
             <div className='max-h-52 overflow-y-auto'>
               <div className='flex flex-col gap-3'>
-                {visibleGenres.map((genre) => (
+                {state.visibleGenres.map((genre) => (
                   <label key={genre} className='flex min-h-8 items-center gap-3'>
                     <Checkbox
-                      checked={selectedFilters.genre.includes(genre)}
+                      checked={state.selectedFilters.genre.includes(genre)}
                       className='size-5 rounded-6 border-2 border-ring bg-background'
-                      onCheckedChange={(checked) => onGenreChange(genre, checked as boolean)}
+                      onCheckedChange={(checked) => functions.onGenreChange(genre, !!checked)}
                     />
                     <Typography as='span' variant='caption'>
                       <IntlText path={`genre.${genre}`} />
@@ -142,31 +96,47 @@ export const CatalogFiltersMobile = () => {
               </div>
             </div>
 
-            {!showedAllGenres && filteredGenres.length > visibleGenres.length && (
-              <Button size='sm' variant='ghost' onClick={showMoreGenres}>
-                <IntlText path='button.showMore' />
-              </Button>
-            )}
+            {!state.showedAllGenres &&
+              state.filteredGenres.length > state.visibleGenres.length && (
+                <Button
+                  size='sm'
+                  type='button'
+                  variant='ghost'
+                  onClick={functions.onMoreGenresShow}
+                >
+                  <IntlText path='button.showMore' />
+                </Button>
+              )}
 
-            {showedAllGenres && (
-              <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
+            {state.showedAllGenres && (
+              <Button
+                size='sm'
+                type='button'
+                variant='ghost'
+                onClick={functions.onMoreGenresHide}
+              >
                 <IntlText path='page.catalog.filters.hide' />
               </Button>
             )}
           </div>
-        </div>
-        <DrawerFooter className='gap-2 px-0 py-2'>
-          <DrawerClose asChild>
-            <Button size='lg' variant='secondary' onClick={onResetFilters}>
-              <IntlText path='page.catalog.filters.reset' />
-            </Button>
-          </DrawerClose>
-          <DrawerClose asChild>
-            <Button size='lg' onClick={onApplyFilters}>
-              <IntlText path='page.catalog.filters.apply' />
-            </Button>
-          </DrawerClose>
-        </DrawerFooter>
+          <DrawerFooter className='gap-2 px-0 py-2'>
+            <DrawerClose asChild>
+              <Button
+                size='lg'
+                type='button'
+                variant='secondary'
+                onClick={functions.onFiltersReset}
+              >
+                <IntlText path='page.catalog.filters.reset' />
+              </Button>
+            </DrawerClose>
+            <DrawerClose asChild>
+              <Button size='lg' type='submit'>
+                <IntlText path='page.catalog.filters.apply' />
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </form>
       </DrawerContent>
     </Drawer>
   );

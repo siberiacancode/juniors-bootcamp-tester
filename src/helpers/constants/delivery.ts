@@ -1,6 +1,6 @@
-import type { DeliveryType } from '@/generated/api';
+import type { GameDeliveryType } from '@/generated/api';
 
-export const DELIVERY_TYPES: DeliveryType[] = [
+export const DELIVERY_TYPES: GameDeliveryType[] = [
   'epic_key',
   'nintendo_key',
   'playstation_key',

@@ -1,0 +1,68 @@
+import { MascotFrontIcon } from '@/components/icons';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Typography } from '@/components/ui/typography';
+import { IntlText } from '@/lib/intl';
+import { LogoutConfirmation } from '@/routes/-components';
+
+import { EditProfileDrawer } from '../EditProfileDrawer/EditProfileDrawer';
+import { useProfileInfo } from './hooks';
+
+export const ProfileInfo = () => {
+  const { state, features, functions } = useProfileInfo();
+
+  return (
+    <section className='flex flex-col gap-4'>
+      <div className='flex flex-col items-center gap-4 lg:flex-row'>
+        <Avatar className='bg-secondary' size='xl'>
+          <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
+            {/* 🐛 bug */}
+            {/* Safari does not show profile fallback avatar content */}
+            <span className='supports-[-webkit-hyphens:none]:hidden'>
+              {!state.displayName ? (
+                <MascotFrontIcon />
+              ) : (
+                (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
+              )}
+            </span>
+          </AvatarFallback>
+        </Avatar>
+        <div className='flex flex-col items-center text-center lg:items-start lg:text-left'>
+          <Typography as='p' variant='body-lg'>
+            {state.displayName || <IntlText path='page.profile.fallbackName' />}
+          </Typography>
+          <Typography as='p' className='text-foreground/50' variant='caption'>
+            {state.user.email || state.phone}
+          </Typography>
+          {state.user.email && (
+            <Typography as='p' variant='caption'>
+              {state.phone}
+            </Typography>
+          )}
+        </div>
+      </div>
+      <div className='flex w-full flex-col items-center gap-2.5 p-4 sm:p-0'>
+        <Button
+          className='w-full'
+          size='lg'
+          type='button'
+          variant='secondary'
+          onClick={features.editDialog.open}
+        >
+          <IntlText path='button.editProfile' />
+        </Button>
+        <Button className='w-full' size='lg' type='button' onClick={features.confirmDialog.open}>
+          <IntlText path='button.logout' />
+        </Button>
+      </div>
+
+      {features.confirmDialog.opened && (
+        <LogoutConfirmation
+          onConfirm={functions.onLogout}
+          onOpenChange={features.confirmDialog.close}
+        />
+      )}
+      {features.editDialog.opened && <EditProfileDrawer onClose={features.editDialog.close} />}
+    </section>
+  );
+};

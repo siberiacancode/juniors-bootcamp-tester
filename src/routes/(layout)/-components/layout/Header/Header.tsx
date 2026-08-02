@@ -5,7 +5,7 @@ import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
-import { getUsersSessionQueryKey, useGetUsersSessionQuery } from '@/generated/api';
+import { getUsersProfileQueryKey, useGetUsersProfileQuery } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 import { IntlText } from '@/lib/intl';
 import { LogoutConfirmation } from '@/routes/-components';
@@ -16,10 +16,10 @@ export const Header = () => {
 
   const queryClient = useQueryClient();
 
-  const usersSessionResponse = useGetUsersSessionQuery({
+  const usersProfileResponse = useGetUsersProfileQuery({
     params: { enabled: false }
   });
-  const user = usersSessionResponse.data?.data.user;
+  const user = usersProfileResponse.data?.data.user;
 
   const onLogout = () => {
     navigate({
@@ -27,7 +27,7 @@ export const Header = () => {
     });
     localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
     queryClient.removeQueries({
-      queryKey: [getUsersSessionQueryKey]
+      queryKey: [getUsersProfileQueryKey]
     });
   };
 
@@ -51,7 +51,7 @@ export const Header = () => {
         </div>
         {user && (
           <Button onClick={confirm.open}>
-            <IntlText path='button.logout.confirm' />
+            <IntlText path='button.logout' />
             <LogOutIcon />
           </Button>
         )}

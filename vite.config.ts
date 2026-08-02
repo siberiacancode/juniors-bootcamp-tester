@@ -27,7 +27,18 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api/tester': {
           target: env.BACKEND_URL,
-          changeOrigin: true
+          changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on('proxyRes', (proxyResponse, request) => {
+              const url = new URL(request.url ?? '', env.BACKEND_URL);
+              console.log(`[vite-proxy] ${request.method} ${url} ${proxyResponse.statusCode}`);
+            });
+
+            proxy.on('error', (error, request) => {
+              const url = new URL(request.url ?? '', env.BACKEND_URL);
+              console.error(`[vite-proxy] ${request.method} ${url} error`, error);
+            });
+          }
         }
       }
     },

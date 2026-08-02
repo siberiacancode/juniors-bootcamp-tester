@@ -17,7 +17,7 @@ export const LogoutConfirmation = ({ onConfirm, onOpenChange }: LogoutConfirmati
   >
     <div className='flex flex-col gap-4'>
       <Button size='lg' type='button' variant='secondary' onClick={() => onOpenChange(false)}>
-        <IntlText path='button.logout.cancel' />
+        <IntlText path='button.cancel' />
       </Button>
       <Button
         size='lg'
@@ -27,7 +27,7 @@ export const LogoutConfirmation = ({ onConfirm, onOpenChange }: LogoutConfirmati
           onConfirm();
         }}
       >
-        <IntlText path='button.logout.confirm' />
+        <IntlText path='button.logout' />
       </Button>
     </div>
   </Modal>

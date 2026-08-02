@@ -2,7 +2,7 @@ import type { ComponentType } from 'react';
 
 import { GiftIcon, KeyRoundIcon } from 'lucide-react';
 
-import type { DeliveryType } from '@/generated/api';
+import type { GameDeliveryType } from '@/generated/api';
 
 import { PlayStationIcon, XboxLogoIcon } from '@/components/icons';
 
@@ -13,7 +13,7 @@ interface DeliveryTypeOption {
   titlePath: MessagePath;
 }
 
-export const DELIVERY_TYPE_VIEW: Record<DeliveryType, DeliveryTypeOption> = {
+export const DELIVERY_TYPE_VIEW: Record<GameDeliveryType, DeliveryTypeOption> = {
   steam_key: {
     titlePath: 'page.gameProduct.delivery.steam_key.title',
     subtitlePath: 'page.gameProduct.delivery.keySubtitle',

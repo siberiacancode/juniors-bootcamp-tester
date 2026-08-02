@@ -10,7 +10,9 @@
   "page.catalog.saleBanner.discount": "-50%",
   "page.catalog.search.label": "Поиск",
   "page.catalog.search.placeholder": "Название игры",
+  "page.catalog.search.loading": "Загрузка результатов",
   "page.catalog.search.nothingFound": "Ничего не нашлось",
+  "page.catalog.search.changeQuery": "Попробуйте поменять запрос",
   "page.catalog.filters.discount": "Только со скидкой",
   "page.catalog.filters.dlc": "Показывать DLC",
   "page.catalog.filters.genre": "Жанр",
@@ -20,7 +22,6 @@
   "page.catalog.filters.reset": "Сбросить фильтры",
   "page.catalog.filters.apply": "Найти",
   "page.catalog.filters.title": "Фильтры",
-
   "page.gameProduct.backToCatalog": "В каталог",
   "page.gameProduct.screenshots": "Скриншоты",
   "page.gameProduct.screenshotAlt": "Скриншот {name}",
@@ -82,7 +83,8 @@
   "deliveryType.steam_key": "Steam",
   "deliveryType.xbox_key": "Xbox",
 
-  "paymentMethod.card": "JB Карта",
+  "paymentMethod.card": "Карта",
+  "paymentMethod.qr": "QR-код",
 
   "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
@@ -122,20 +124,17 @@
   "field.product.email.label": "Почта",
   "field.product.email.placeholder": "E-mail",
   "field.product.phone.label": "Номер телефона",
-
   "error.validation.required": "Поле обязательно",
   "error.validation.email": "Введите корректную почту",
   "error.validation.length": "Заполните поле полностью",
-
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
   "card.order.region": "Регион",
   "card.order.emailLabel": "Почта, куда отправили детали покупки",
   "card.order.paymentMethodLabel": "Способ оплаты",
-  "card.order.paymentMethod": "JB Карта, *0000",
+  "card.order.paymentMethod": "Платёжный сервис",
   "card.order.amountLabel": "Сумма",
 
-  "button.pay": "Оплатить",
   "button.newCard": "Новая карта",
   "button.goToOrder": "Перейти на заказ",
   "button.backToGamesCatalog": "Вернуться в каталог игр",
@@ -143,17 +142,23 @@
   "button.submitPhone": "Продолжить",
   "button.login": "Войти",
   "button.retryOtp": "Отправить код повторно",
-  "button.logout.cancel": "Отменить",
-  "button.logout.confirm": "Выйти",
-  "button.profile.edit": "Редактировать профиль",
-  "button.profile.update": "Обновить данные",
-  "button.profile.cancel": "Отмена",
-  "button.product.pay": "Оплатить",
+  "button.logout": "Выйти",
+  "button.editProfile": "Редактировать профиль",
+  "button.updateData": "Обновить данные",
+  "button.cancel": "Отмена",
+  "button.pay": "Оплатить",
+  "button.goToMain": "Перейти на главную",
 
   "page.login.phone.title": "Авторизация",
   "page.login.phone.description": "Введите номер телефона для входа в свой профиль",
   "page.login.otp.title": "Проверочный код",
   "page.login.otp.description": "На указанный вами номер был отправлен проверочный код",
   "page.login.otp.retryCountdown": "Отправить код повторно через {seconds} секунд",
+
+  "page.notFound.title": "Ой, страница потерялась в продакшене…",
+  "page.notFound.description": "Страница не найдена: возможно, её удалили во время очередного мерж-реквеста или этот эндпоинт пока находится в стадии разработки.",
+  "page.error.title": "Что-то сломалось, но мы уже чиним!",
+  "page.error.description": "На нашей стороне что-то пошло не так. Мы уже пишем фикс и скоро всё заработает.",
+
   "modal.logout.title": "Вы уверены, что хотите выйти из профиля?"
 }

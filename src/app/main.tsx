@@ -1,7 +1,7 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { getUsersSessionQueryOptions } from '@/generated/api';
+import { getUsersProfileQueryOptions } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 import { queryClient } from '@/lib';
 
@@ -15,7 +15,7 @@ const init = async () => {
 
   if (token) {
     await queryClient.ensureQueryData(
-      getUsersSessionQueryOptions({
+      getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
         }

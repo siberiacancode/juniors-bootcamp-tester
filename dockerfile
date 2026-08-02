@@ -4,8 +4,6 @@ LABEL org.opencontainers.image.source https://github.com/shift-intensive/web-tes
 FROM base AS builder
 
 WORKDIR /app
-ARG VITE_ASSETS_URL
-ENV VITE_ASSETS_URL=$VITE_ASSETS_URL
 COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn --production --frozen-lockfile

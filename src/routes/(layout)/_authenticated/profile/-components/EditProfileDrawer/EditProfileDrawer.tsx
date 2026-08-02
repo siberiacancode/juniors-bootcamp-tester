@@ -144,11 +144,11 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
           <div className='flex flex-col gap-2.5 sm:py-4 sm:pt-5'>
             <Button disabled={!state.isDirty} size='lg' type='submit' variant='secondary'>
               {state.isSubmitting && <Loader2Icon className='animate-spin' />}
-              <IntlText path='button.profile.update' />
+              <IntlText path='button.updateData' />
             </Button>
             {!state.isDesktop && (
               <Button size='lg' type='button' onClick={onClose}>
-                <IntlText path='button.profile.cancel' />
+                <IntlText path='button.cancel' />
               </Button>
             )}
           </div>

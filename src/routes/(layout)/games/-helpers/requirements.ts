@@ -1,6 +1,6 @@
-import type { DetailedGame, SystemRequirements } from '@/generated/api';
+import type { GameDetailed, GameSystemRequirements } from '@/generated/api';
 
-export const getRequirementSections = (game: DetailedGame) =>
+export const getRequirementSections = (game: GameDetailed) =>
   [
     {
       key: 'minimum',
@@ -14,7 +14,7 @@ export const getRequirementSections = (game: DetailedGame) =>
     }
   ] as const;
 
-export const getRequirementRows = (requirements: SystemRequirements) =>
+export const getRequirementRows = (requirements: GameSystemRequirements) =>
   [
     {
       labelPath: 'page.gameProduct.requirement.os',

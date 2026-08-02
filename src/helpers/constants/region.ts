@@ -1,6 +1,6 @@
-import type { Region } from '@/generated/api';
+import type { GameRegion } from '@/generated/api';
 
-export const REGIONS: Region[] = [
+export const REGIONS: GameRegion[] = [
   'all_world',
   'asia',
   'by',

@@ -31,10 +31,10 @@ export const ProfileLoading = () => (
 
       <div className='flex w-full flex-col items-center gap-2.5 p-4 sm:p-0'>
         <Button disabled className='w-full' size='lg' type='button' variant='secondary'>
-          <IntlText path='button.profile.edit' />
+          <IntlText path='button.editProfile' />
         </Button>
         <Button disabled className='w-full' size='lg' type='button'>
-          <IntlText path='button.logout.confirm' />
+          <IntlText path='button.logout' />
         </Button>
       </div>
     </section>

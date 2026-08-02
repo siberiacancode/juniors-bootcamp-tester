@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router';
 
-import type { FilteredGame } from '@/generated/api';
+import type { GameFiltered } from '@/generated/api';
 
 import { Badge } from '@/components/ui/badge';
 import { Typography } from '@/components/ui/typography';
-import { formatDiscountPercent, formatMoney, getGameImageSrc } from '@/helpers/utils';
+import { formatDiscountPercent, formatMoney, getAsset } from '@/helpers/utils';
 
 interface GameCardProps {
-  game: FilteredGame;
+  game: GameFiltered;
 }
 
 export const GameCard = ({ game }: GameCardProps) => (
@@ -22,7 +22,7 @@ export const GameCard = ({ game }: GameCardProps) => (
           alt={game.name}
           className='block size-full object-cover object-center transition-transform duration-300 group-hover:scale-[1.03]'
           loading='lazy'
-          src={getGameImageSrc(game.image)}
+          src={getAsset(game.image)}
         />
       </div>
 

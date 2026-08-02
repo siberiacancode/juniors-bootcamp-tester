@@ -1,7 +1,5 @@
 import { SearchIcon } from 'lucide-react';
 
-import type { GameFilter, GameGenre } from '@/generated/api';
-
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
@@ -9,52 +7,10 @@ import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/ui/typography';
 import { intl, IntlText } from '@/lib';
 
-import { useCatalogFilters } from './useCatalogFilters';
+import { useCatalogFiltersDesktop } from './hooks';
 
 export const CatalogFiltersDesktop = () => {
-  const {
-    functions: { hideMoreGenres, navigate, showMoreGenres, onResetFilters, setGenreQuery },
-    state: { filteredGenres, genreQuery, searchParams, showedAllGenres, visibleGenres }
-  } = useCatalogFilters();
-
-  const onGenreChange = (newGenre: GameGenre, checked: boolean) => {
-    const nextGenres = checked
-      ? [...searchParams.genre, newGenre]
-      : searchParams.genre.filter((genre) => genre !== newGenre);
-
-    navigate({
-      search: (s) => ({
-        ...s,
-        genre: nextGenres
-      })
-    });
-  };
-
-  const onToggleDiscount = (checked: boolean) => {
-    const filter: GameFilter[] = checked
-      ? [...searchParams.filter, 'discount']
-      : searchParams.filter.filter((f) => f !== 'discount');
-
-    navigate({
-      search: (s) => ({
-        ...s,
-        filter
-      })
-    });
-  };
-
-  const onToggleDlc = (checked: boolean) => {
-    const filter: GameFilter[] = checked
-      ? [...searchParams.filter, 'dlc']
-      : searchParams.filter.filter((f) => f !== 'dlc');
-
-    navigate({
-      search: (s) => ({
-        ...s,
-        filter
-      })
-    });
-  };
+  const { state, functions } = useCatalogFiltersDesktop();
 
   return (
     <div className='flex flex-col gap-6'>
@@ -64,8 +20,8 @@ export const CatalogFiltersDesktop = () => {
             <IntlText path='page.catalog.filters.discount' />
           </Typography>
           <Switch
-            checked={searchParams.filter.includes('discount')}
-            onCheckedChange={onToggleDiscount}
+            checked={state.searchParams.filter.includes('discount')}
+            onCheckedChange={(checked) => functions.onDiscountChange(!!checked)}
           />
         </label>
 
@@ -73,7 +29,10 @@ export const CatalogFiltersDesktop = () => {
           <Typography as='span' className='font-normal' variant='body-md'>
             <IntlText path='page.catalog.filters.dlc' />
           </Typography>
-          <Switch checked={searchParams.filter.includes('dlc')} onCheckedChange={onToggleDlc} />
+          <Switch
+            checked={state.searchParams.filter.includes('dlc')}
+            onCheckedChange={(checked) => functions.onDlcChange(!!checked)}
+          />
         </label>
       </div>
 
@@ -88,18 +47,18 @@ export const CatalogFiltersDesktop = () => {
           </InputGroupAddon>
           <InputGroupInput
             placeholder={intl.formatMessage({ id: 'page.catalog.filters.genrePlaceholder' })}
-            value={genreQuery}
-            onChange={(event) => setGenreQuery(event.target.value)}
+            value={state.genreQuery}
+            onChange={(event) => functions.onGenreQueryChange(event.target.value)}
           />
         </InputGroup>
 
         <div className='flex flex-col gap-3'>
-          {visibleGenres.map((genre) => (
+          {state.visibleGenres.map((genre) => (
             <label key={genre} className='flex min-h-5 items-center gap-2'>
               <Checkbox
-                checked={searchParams.genre.includes(genre)}
+                checked={state.searchParams.genre.includes(genre)}
                 className='rounded-4 border border-ring bg-background'
-                onCheckedChange={(checked) => onGenreChange(genre, checked as boolean)}
+                onCheckedChange={(checked) => functions.onGenreChange(genre, !!checked)}
               />
               <Typography as='span' variant='caption'>
                 <IntlText path={`genre.${genre}`} />
@@ -108,25 +67,25 @@ export const CatalogFiltersDesktop = () => {
           ))}
         </div>
 
-        {filteredGenres.length === 0 && (
+        {!state.filteredGenres.length && (
           <Typography as='p' className='text-foreground/50' variant='body-sm'>
             <IntlText path='page.catalog.filters.genreNotFound' />
           </Typography>
         )}
 
-        {showedAllGenres && (
-          <Button size='sm' variant='ghost' onClick={hideMoreGenres}>
+        {state.showedAllGenres && (
+          <Button size='sm' variant='ghost' onClick={functions.onMoreGenresHide}>
             <IntlText path='page.catalog.filters.hide' />
           </Button>
         )}
 
-        {!showedAllGenres && (
-          <Button size='sm' variant='ghost' onClick={showMoreGenres}>
+        {!state.showedAllGenres && (
+          <Button size='sm' variant='ghost' onClick={functions.onMoreGenresShow}>
             <IntlText path='button.showMore' />
           </Button>
         )}
 
-        <Button size='lg' variant='secondary' onClick={onResetFilters}>
+        <Button size='lg' variant='secondary' onClick={functions.onFiltersReset}>
           <IntlText path='page.catalog.filters.reset' />
         </Button>
       </div>

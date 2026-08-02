@@ -1,3 +1,4 @@
 export * from './discount';
-export * from './games';
+export * from './assets';
 export * from './money';
+export * from './payment';

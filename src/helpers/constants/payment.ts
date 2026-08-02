@@ -1,6 +1,6 @@
 export const PAYMENT_METHODS = [
-  // 'jb-pay',
-  'card'
+  'card',
+  'qr'
 ] as const;
 
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];

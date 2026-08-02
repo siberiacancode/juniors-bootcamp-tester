@@ -2,17 +2,25 @@
 
 import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacancode/apicraft";
 
-import type { OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, UsersControllerSigninData, UsersControllerSigninResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerSessionData, UsersControllerSessionResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetRegionsData, GamesControllerGetRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
+import type { AuthControllerSignInData, AuthControllerSignInResponse, AuthControllerSignOutData, AuthControllerSignOutResponse, UsersControllerGetProfileData, UsersControllerGetProfileResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, TransactionsControllerGetTransactionData, TransactionsControllerGetTransactionResponse, TransactionsControllerPayTransactionData, TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionByQrData, TransactionsControllerPayTransactionByQrResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetGameRegionsData, GamesControllerGetGameRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGamePaidOrderData, GamesControllerGetGamePaidOrderResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
 
 import { instance } from "../../src/helpers/api/instance";
 
-export type PostAuthOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
+export type PostAuthSignInRequestParams = FetchesRequestParams<AuthControllerSignInData>;
 
-export type PostUsersSigninRequestParams = FetchesRequestParams<UsersControllerSigninData>;
+export type PostAuthSignOutRequestParams = FetchesRequestParams<AuthControllerSignOutData> | void;
+
+export type GetUsersProfileRequestParams = FetchesRequestParams<UsersControllerGetProfileData> | void;
 
 export type PatchUsersProfileRequestParams = FetchesRequestParams<UsersControllerUpdateProfileData>;
 
-export type GetUsersSessionRequestParams = FetchesRequestParams<UsersControllerSessionData> | void;
+export type PostOtpsOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
+
+export type GetTransactionByIdRequestParams = FetchesRequestParams<TransactionsControllerGetTransactionData>;
+
+export type PostTransactionsPayRequestParams = FetchesRequestParams<TransactionsControllerPayTransactionData>;
+
+export type PostTransactionByIdPayQrRequestParams = FetchesRequestParams<TransactionsControllerPayTransactionByQrData>;
 
 export type GetGamesInfoRequestParams = FetchesRequestParams<GamesControllerGetGamesData> | void;
 
@@ -20,7 +28,7 @@ export type GetGamesSearchRequestParams = FetchesRequestParams<GamesControllerSe
 
 export type GetGamesInfoBySlugRequestParams = FetchesRequestParams<GamesControllerGetGameData>;
 
-export type GetGamesRegionsRequestParams = FetchesRequestParams<GamesControllerGetRegionsData>;
+export type GetGamesRegionsRequestParams = FetchesRequestParams<GamesControllerGetGameRegionsData>;
 
 export type GetGamesPriceVariantsRequestParams = FetchesRequestParams<GamesControllerGetPriceVariantsData>;
 
@@ -28,26 +36,45 @@ export type PostGamesOrderRequestParams = FetchesRequestParams<GamesControllerCr
 
 export type GetGamesOrdersRequestParams = FetchesRequestParams<GamesControllerGetGameOrdersData> | void;
 
+export type GetGamesOrdersPaidRequestParams = FetchesRequestParams<GamesControllerGetGamePaidOrderData>;
+
 export type GetGamesOrderByOrderIdRequestParams = FetchesRequestParams<GamesControllerGetGameOrderData>;
 
-export const postAuthOtp = ({ config, body }: PostAuthOtpRequestParams): Promise<ApicraftFetchesResponse<OtpsControllerCreateOtpResponse>> => instance.call("POST", "/auth/otp", {
-    body,
-    ...config
-});
-
-export const postUsersSignin = ({ config, body }: PostUsersSigninRequestParams): Promise<ApicraftFetchesResponse<UsersControllerSigninResponse>> => instance.call("POST", "/users/signin", {
-    body,
-    ...config
-});
-
-export const patchUsersProfile = ({ config, body, headers }: PatchUsersProfileRequestParams): Promise<ApicraftFetchesResponse<UsersControllerUpdateProfileResponse>> => instance.call("PATCH", "/users/profile", {
+export const postAuthSignIn = ({ config, body, headers }: PostAuthSignInRequestParams): Promise<ApicraftFetchesResponse<AuthControllerSignInResponse>> => instance.call("POST", "/auth/sign-in", {
     body,
     headers,
     ...config
 });
 
-export const getUsersSession = ({ config, headers }: GetUsersSessionRequestParams = {}): Promise<ApicraftFetchesResponse<UsersControllerSessionResponse>> => instance.call("GET", "/users/session", {
+export const postAuthSignOut = ({ config, headers }: PostAuthSignOutRequestParams = {}): Promise<ApicraftFetchesResponse<AuthControllerSignOutResponse>> => instance.call("POST", "/auth/sign-out", {
     headers,
+    ...config
+});
+
+export const getUsersProfile = ({ config }: GetUsersProfileRequestParams = {}): Promise<ApicraftFetchesResponse<UsersControllerGetProfileResponse>> => instance.call("GET", "/users/profile", {
+    ...config
+});
+
+export const patchUsersProfile = ({ config, body }: PatchUsersProfileRequestParams): Promise<ApicraftFetchesResponse<UsersControllerUpdateProfileResponse>> => instance.call("PATCH", "/users/profile", {
+    body,
+    ...config
+});
+
+export const postOtpsOtp = ({ config, body }: PostOtpsOtpRequestParams): Promise<ApicraftFetchesResponse<OtpsControllerCreateOtpResponse>> => instance.call("POST", "/otps/otp", {
+    body,
+    ...config
+});
+
+export const getTransactionById = ({ config, path }: GetTransactionByIdRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerGetTransactionResponse>> => instance.call("GET", `/transactions/${path.id}`, {
+    ...config
+});
+
+export const postTransactionsPay = ({ config, body }: PostTransactionsPayRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionResponse>> => instance.call("POST", "/transactions/pay", {
+    body,
+    ...config
+});
+
+export const postTransactionByIdPayQr = ({ config, path }: PostTransactionByIdPayQrRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionByQrResponse>> => instance.call("POST", `/transactions/${path.id}/pay/qr`, {
     ...config
 });
 
@@ -65,7 +92,7 @@ export const getGamesInfoBySlug = ({ config, path }: GetGamesInfoBySlugRequestPa
     ...config
 });
 
-export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetRegionsResponse>> => instance.call("GET", "/games/regions", {
+export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameRegionsResponse>> => instance.call("GET", "/games/regions", {
     query,
     ...config
 });
@@ -80,12 +107,15 @@ export const postGamesOrder = ({ config, body }: PostGamesOrderRequestParams): P
     ...config
 });
 
-export const getGamesOrders = ({ config, headers }: GetGamesOrdersRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrdersResponse>> => instance.call("GET", "/games/orders", {
-    headers,
+export const getGamesOrders = ({ config }: GetGamesOrdersRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrdersResponse>> => instance.call("GET", "/games/orders", {
     ...config
 });
 
-export const getGamesOrderByOrderId = ({ config, path, headers }: GetGamesOrderByOrderIdRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrderResponse>> => instance.call("GET", `/games/orders/${path.orderId}`, {
-    headers,
+export const getGamesOrdersPaid = ({ config, query }: GetGamesOrdersPaidRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGamePaidOrderResponse>> => instance.call("GET", "/games/orders/paid", {
+    query,
+    ...config
+});
+
+export const getGamesOrderByOrderId = ({ config, path }: GetGamesOrderByOrderIdRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrderResponse>> => instance.call("GET", `/games/orders/${path.orderId}`, {
     ...config
 });

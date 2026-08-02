@@ -3,9 +3,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
 import {
-  getUsersSessionQueryKey,
+  getUsersProfileQueryKey,
   useGetGamesOrdersSuspenseQuery,
-  useGetUsersSessionQuery
+  useGetUsersProfileQuery
 } from '@/generated/api';
 import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
@@ -16,8 +16,8 @@ export const useProfilePage = () => {
   const editDialog = useDisclosure();
   const confirmDialog = useDisclosure();
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
-  const getUsersSessionSuspenseQuery = useGetUsersSessionQuery();
-  const user = getUsersSessionSuspenseQuery.data!.data.user;
+  const getUsersProfileQuery = useGetUsersProfileQuery();
+  const user = getUsersProfileQuery.data!.data.user;
 
   const phoneMask = useMask('+9 999 999 99 99', {
     showMask: 'never',
@@ -37,7 +37,7 @@ export const useProfilePage = () => {
     });
     localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN);
     queryClient.removeQueries({
-      queryKey: [getUsersSessionQueryKey]
+      queryKey: [getUsersProfileQueryKey]
     });
   };
 
