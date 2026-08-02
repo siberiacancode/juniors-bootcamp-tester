@@ -6,7 +6,7 @@ import { IntlText } from '@/lib/intl';
 import { CatalogSearch } from './-components';
 import { CatalogContent, CatalogSaleBanner, CatalogViews } from './-components/catalog';
 import { CatalogFiltersDesktop, CatalogFiltersMobile } from './-components/catalog/CatalogFilters';
-import { DEFAULT_CATALOG_SEARCH, catalogSearchSchema } from './-constants';
+import { catalogSearchSchema, DEFAULT_CATALOG_SEARCH } from './-constants';
 
 const CatalogPage = () => (
   <div className='flex flex-col gap-6 sm:pt-10 sm:pb-28'>

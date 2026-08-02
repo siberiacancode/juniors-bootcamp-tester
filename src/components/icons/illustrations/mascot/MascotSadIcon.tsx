@@ -25,20 +25,20 @@ export const MascotSadIcon = (props: SVGProps<SVGSVGElement>) => (
     <path
       d='M32 79c4-3.5 9-4.5 14-3'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
     <path
       d='M108 79c-4-3.5-9-4.5-14-3'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
 
     <ellipse cx='50' cy='100' fill='#000' rx='12' ry='13' />
     <ellipse cx='94' cy='100' fill='#000' rx='12' ry='13' />
-    <circle cx='46' cy='95' r='3' fill='#fff' />
-    <circle cx='90' cy='95' r='3' fill='#fff' />
+    <circle cx='46' cy='95' fill='#fff' r='3' />
+    <circle cx='90' cy='95' fill='#fff' r='3' />
 
     <path
       d='M110 92c0 3.6-2.7 6.5-6 6.5s-6-2.9-6-6.5c0-3.6 6-11 6-11s6 7.4 6 11'
@@ -48,8 +48,8 @@ export const MascotSadIcon = (props: SVGProps<SVGSVGElement>) => (
     <path
       d='M60 138c3-6 19-6 22 0'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
   </svg>
 );

@@ -103,7 +103,7 @@ function PaymentResultPage({ token }: { token: string }) {
             <Typography as='p' className='w-full font-normal' variant='body-md'>
               <IntlText path='card.order.steamKeyLabel' />
             </Typography>
-            <Typography as='p' className='w-full break-words' variant='title-md'>
+            <Typography as='p' className='w-full wrap-break-word' variant='title-md'>
               {order.gameKey}
             </Typography>
           </div>

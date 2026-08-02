@@ -25,26 +25,26 @@ export const MascotDizzyIcon = (props: SVGProps<SVGSVGElement>) => (
     <path
       d='M47 82c-7.2 0-13 5.8-13 13s5.8 13 13 13 13-5.8 13-13'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
     <path
       d='M47 88c-3.9 0-7 3.1-7 7s3.1 7 7 7'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
     <path
       d='M97 82c-7.2 0-13 5.8-13 13s5.8 13 13 13 13-5.8 13-13'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
     <path
       d='M97 88c-3.9 0-7 3.1-7 7s3.1 7 7 7'
       stroke='#000'
-      strokeWidth='4'
       strokeLinecap='round'
+      strokeWidth='4'
     />
 
     <ellipse cx='72' cy='131' fill='#000' rx='13' ry='15' />

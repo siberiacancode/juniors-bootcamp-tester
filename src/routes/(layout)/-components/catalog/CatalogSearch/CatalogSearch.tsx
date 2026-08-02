@@ -27,12 +27,12 @@ export const CatalogSearch = () => {
   return (
     <>
       {state.isDropdownOpen && (
-        <div className='fixed inset-0 z-[60] bg-foreground/40' onClick={functions.onSearchClose} />
+        <div className='fixed inset-0 z-60 bg-foreground/40' onClick={functions.onSearchClose} />
       )}
 
       <div
         ref={refs.searchRef}
-        className={cn('relative flex min-w-0 flex-1 flex-col', state.isDropdownOpen && 'z-[70]')}
+        className={cn('relative flex min-w-0 flex-1 flex-col', state.isDropdownOpen && 'z-70')}
       >
         <Combobox
           filter={null}
@@ -47,8 +47,8 @@ export const CatalogSearch = () => {
             placeholder={intl.formatMessage({ id: 'page.catalog.search.placeholder' })}
             showTrigger={false}
             value={state.searchValue}
-            onClick={functions.onSearchOpen}
             onChange={(event) => functions.onSearchValueChange(event.target.value)}
+            onClick={functions.onSearchOpen}
             onFocus={functions.onSearchOpen}
           >
             <InputGroupAddon align='start'>
@@ -89,7 +89,7 @@ export const CatalogSearch = () => {
             {!!state.games.length && (
               <ComboboxList
                 showScrollbar
-                className='max-h-72 p-4 pr-6 [scrollbar-color:#B7B7B7_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-4 [&::-webkit-scrollbar-thumb]:rounded-24 [&::-webkit-scrollbar-thumb]:border-x-[6px] [&::-webkit-scrollbar-thumb]:border-y-3 [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#B7B7B7] [&::-webkit-scrollbar-thumb]:bg-clip-content [&::-webkit-scrollbar-track]:bg-transparent'
+                className='max-h-72 scrollbar-thin [scrollbar-color:#B7B7B7_transparent] p-4 pr-6 [&::-webkit-scrollbar]:w-4 [&::-webkit-scrollbar-thumb]:rounded-24 [&::-webkit-scrollbar-thumb]:border-x-[6px] [&::-webkit-scrollbar-thumb]:border-y-3 [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#B7B7B7] [&::-webkit-scrollbar-thumb]:bg-clip-content [&::-webkit-scrollbar-track]:bg-transparent'
               >
                 {(game: GameFiltered) => {
                   const priceVariant = game.priceVariant;

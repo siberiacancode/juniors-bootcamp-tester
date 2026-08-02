@@ -10,8 +10,8 @@ import { intl } from '@/lib';
 
 interface CatalogFiltersMobileFormValues {
   genre: GameGenre[];
-  showedDlc: boolean;
   showedDiscount: boolean;
+  showedDlc: boolean;
 }
 
 const catalogRoute = getRouteApi('/(layout)/');
