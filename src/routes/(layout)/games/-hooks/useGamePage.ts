@@ -17,6 +17,7 @@ import { getPaymentServiceUrl } from '@/helpers/utils';
 import type { GameCheckoutFormValues } from '../-constants';
 
 import { gameCheckoutFormSchema } from '../-constants';
+import { getRequirementSections, productMetaItems } from '../-helpers';
 
 const gameRoute = getRouteApi('/(layout)/games/$slug');
 
@@ -34,6 +35,8 @@ export const useGamePage = () => {
       }
     }
   });
+
+  console.log('@', getGameInfoBySlugQuery);
 
   const game = getGameInfoBySlugQuery.data?.data.game;
   const postGamesOrderMutation = usePostGamesOrderMutation();
@@ -81,6 +84,13 @@ export const useGamePage = () => {
   const selectedPriceVariant =
     priceVariants.find((priceVariant) => priceVariant.edition === search.edition) ??
     defaultPriceVariant;
+
+  const isSelectionLoading =
+    getGamesRegionsQuery.isFetching || getGamesPriceVariantsQuery.isFetching;
+  // Данные выбора готовы к чтению (region/priceVariant существуют).
+  // Пока идёт рефетч после смены deliveryType/region/edition — показываем
+  // частичные скелетоны в блоках selection/checkout вместо чтения .price/.edition.
+  const isSelectionReady = !!selectedRegion && !!selectedPriceVariant;
 
   const gameCheckoutForm = useForm<GameCheckoutFormValues>({
     defaultValues: {
@@ -188,12 +198,16 @@ export const useGamePage = () => {
   return {
     state: {
       game: game!,
+      // Описание игры вынесено из JSX в state согласно конвенции страниц.
+      metaItems: game ? productMetaItems(game) : [],
+      requirementSections: game ? getRequirementSections(game) : [],
       editions: priceVariants.map((variant) => variant.edition),
       isDesktop,
       isInviteLinkAvailable: selectedDeliveryType === 'steam_gift',
       isPaymentStarting:
         postGamesOrderMutation.isPending || gameCheckoutForm.formState.isSubmitting,
-      isSelectionLoading: getGamesRegionsQuery.isFetching || getGamesPriceVariantsQuery.isFetching,
+      isSelectionLoading,
+      isSelectionReady,
       regions,
       selectedDeliveryType: selectedDeliveryType!,
       selectedPriceVariant: selectedPriceVariant!,

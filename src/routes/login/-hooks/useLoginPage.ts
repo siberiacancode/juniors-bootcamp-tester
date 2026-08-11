@@ -30,7 +30,7 @@ export const useLoginPage = () => {
   const [submittedPhones, setSubmittedPhones] = useState<Record<string, number>>({});
 
   const loginForm = useForm<LoginFormValues>({
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       phone: '',
       otp: ''
@@ -44,15 +44,24 @@ export const useLoginPage = () => {
       body: { phone }
     });
 
+    if (!loginOtpResponse.data.success) {
+      return false;
+    }
+
     setSubmittedPhones((currentPhones) => ({
       ...currentPhones,
       [phone]: Date.now() + loginOtpResponse.data.retryDelay
     }));
+
+    return true;
   };
 
   const onSubmit = loginForm.handleSubmit(async (values) => {
     if (stage === 'phone') {
-      await sendOtp(values.phone);
+      const isOtpSent = await sendOtp(values.phone);
+
+      if (!isOtpSent) return;
+
       setStage('otp');
       return;
     }
@@ -81,14 +90,20 @@ export const useLoginPage = () => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => loginForm.setValue('phone', `7${rawValue}`)
+    onChangeRaw: (rawValue) => {
+      loginForm.setValue('phone', `7${rawValue}`);
+      loginForm.clearErrors('phone');
+    }
   });
 
   // 🐛 bug
   // allow entering OTP longer than 6 digits
-  const otpMask = useMask('999999999', {
+  const otpMask = useMask('999999', {
     showMask: 'never',
-    onChangeRaw: (rawValue) => loginForm.setValue('otp', rawValue)
+    onChangeRaw: (rawValue) => {
+      loginForm.setValue('otp', rawValue);
+      loginForm.clearErrors('otp');
+    }
   });
 
   const onBack = () => {
@@ -99,7 +114,10 @@ export const useLoginPage = () => {
   };
 
   const onRetry = async () => {
-    await sendOtp(phone);
+    const isOtpSent = await sendOtp(phone);
+
+    if (!isOtpSent) return;
+
     loginForm.resetField('otp');
     loginForm.clearErrors('otp');
   };

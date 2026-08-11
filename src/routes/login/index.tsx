@@ -18,6 +18,7 @@ import { intl, IntlText } from '@/lib/intl';
 import { cn } from '@/lib/utils';
 
 import { Countdown } from './-components';
+import { LINKS } from './-constants';
 import { useLoginPage } from './-hooks';
 
 const LoginPage = () => {
@@ -100,7 +101,8 @@ const LoginPage = () => {
                       </FieldLabel>
                       <Input
                         {...features.otpMask.register({
-                          onBlur: field.onBlur
+                          onBlur: field.onBlur,
+                          onChange: () => form.clearErrors('otp')
                         })}
                         id={field.name}
                         name={field.name}
@@ -119,7 +121,9 @@ const LoginPage = () => {
               )}
             </fieldset>
           </div>
-          <div className={cn('flex flex-col gap-2.5 py-4 sm:py-0', state.isCodeStep && 'pb-0')}>
+          <div
+            className={cn('flex flex-col gap-2.5 py-4 sm:py-0', state.isCodeStep && 'gap-4 pb-0')}
+          >
             <Button disabled={state.isLoading} size='lg' type='submit'>
               {state.isLoading && <Loader2Icon className='animate-spin' />}
               <IntlText path={state.isCodeStep ? 'button.login' : 'button.submitPhone'} />
@@ -130,6 +134,29 @@ const LoginPage = () => {
                 retryAt={state.submittedPhone}
                 onRetry={functions.onRetry}
               />
+            )}
+            {state.isCodeStep && (
+              <Typography
+                as='p'
+                className='w-full text-left tracking-[0.005em] text-[#969696]'
+                variant='caption'
+              >
+                <IntlText
+                  values={{
+                    otpCodesLink: (chunks) => (
+                      <a
+                        className='underline decoration-[5%] underline-offset-[16%]'
+                        href={LINKS.OTP_CODES}
+                        rel='noreferrer'
+                        target='_blank'
+                      >
+                        {chunks}
+                      </a>
+                    )
+                  }}
+                  path='page.login.otp.legal'
+                />
+              </Typography>
             )}
           </div>
         </form>
@@ -146,9 +173,9 @@ export const Route = createFileRoute('/login/')({
   component: LoginPage,
   validateSearch: loginSearchSchema,
   beforeLoad: () => {
-    const usersProfileResponse = queryClient.getQueryData<ApicraftFetchesResponse<GetProfileResponse>>(
-      [getUsersProfileQueryKey]
-    );
+    const usersProfileResponse = queryClient.getQueryData<
+      ApicraftFetchesResponse<GetProfileResponse>
+    >([getUsersProfileQueryKey]);
     const user = usersProfileResponse?.data.user;
 
     if (user) {

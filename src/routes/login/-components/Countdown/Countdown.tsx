@@ -2,7 +2,6 @@ import { useTimer } from '@siberiacancode/reactuse';
 import { Loader2Icon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Typography } from '@/components/ui/typography';
 import { IntlText } from '@/lib/intl';
 
 interface CountdownProps {
@@ -25,8 +24,8 @@ export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps)
     );
 
   return (
-    <Typography as='p' variant='caption'>
+    <Button className='w-full' size='lg' type='button' variant='ghost'>
       <IntlText path='page.login.otp.retryCountdown' values={{ seconds }} />
-    </Typography>
+    </Button>
   );
 };

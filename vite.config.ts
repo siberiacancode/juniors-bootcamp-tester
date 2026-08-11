@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
     ],
     server: {
       proxy: {
-        '/api/tester': {
+        '/api': {
           target: env.BACKEND_URL,
           changeOrigin: true,
           configure: (proxy) => {
