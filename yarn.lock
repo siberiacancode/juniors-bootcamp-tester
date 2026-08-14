@@ -1987,6 +1987,13 @@
   resolved "https://registry.npmjs.org/@siberiacancode/fetches/-/fetches-1.14.3.tgz"
   integrity sha512-o2+YU66u2VsdypGwmRFVZnjZjNeTSSevd+RdEvo8fdW+eg+Two348H6Dv+ICeFKP3cP9X74Yd57BVk7Wm7vqsg==
 
+"@siberiacancode/lefthook@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@siberiacancode/lefthook/-/lefthook-1.0.0.tgz#857a4c96e5cedba7fd3f18c48adafa0de0f33140"
+  integrity sha512-zEz9WN4aXCFi/UDoYFEP93QmCIRiJcjc1h49b+HYcX7es9slNT2BDdhEMa/BEwV/e/niQ/qbNGSdBYZCM+/LFg==
+  dependencies:
+    lefthook "^2.1.10"
+
 "@siberiacancode/prettier@^1.8.0":
   version "1.8.0"
   resolved "https://registry.npmjs.org/@siberiacancode/prettier/-/prettier-1.8.0.tgz"
@@ -4896,11 +4903,6 @@ human-signals@^8.0.1:
   resolved "https://registry.npmjs.org/human-signals/-/human-signals-8.0.1.tgz"
   integrity sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==
 
-husky@^9.1.7:
-  version "9.1.7"
-  resolved "https://registry.npmjs.org/husky/-/husky-9.1.7.tgz"
-  integrity sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==
-
 iconv-lite@^0.7.0, iconv-lite@~0.7.0:
   version "0.7.2"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.2.tgz"
@@ -5417,6 +5419,72 @@ launch-editor@^2.11.1:
   dependencies:
     picocolors "^1.1.1"
     shell-quote "^1.8.4"
+
+lefthook-darwin-arm64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-darwin-arm64/-/lefthook-darwin-arm64-2.1.10.tgz#d784fca4507676f35026a08c6abe43d4c18b4cad"
+  integrity sha512-nw+X8wRNDoUUV6WSteyKBbcLySq+fsmZt5WV/s50ZJpysmsDKJOUMln6SllNfP+60dzUahAO7REco/2633BsLg==
+
+lefthook-darwin-x64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-darwin-x64/-/lefthook-darwin-x64-2.1.10.tgz#3558963696a4abe4caa022f46a80cca3383d6385"
+  integrity sha512-KQ/bHmvpkFdHMn4pZnUdTf+GuSC+aBBgBTxZT4GW+6cSf+qbErKZBhK7cH6BmILsvx43+VzEArvHYY7YOfRFOQ==
+
+lefthook-freebsd-arm64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-freebsd-arm64/-/lefthook-freebsd-arm64-2.1.10.tgz#11211731fda6645710ee6498cc4c35a6c2c8897d"
+  integrity sha512-8su6DwydP7+pv7kG0zCtjphqsw4ouOnfexRUErapy5GTxYBoUOhYz3RSHTSWNRsK6W4jva7FPUh2Lp5/PSn30w==
+
+lefthook-freebsd-x64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-freebsd-x64/-/lefthook-freebsd-x64-2.1.10.tgz#b473d0b48eabc7196b0bc71b3edf2d3ed9172987"
+  integrity sha512-GeAJEFxko3Lk+AsnS3NleAFrpyMLFUKOlgJvPKuU0xHwVEI/z+ZoCcmuO0BX+4CS0NLbZhC/YQAvBASqDvvVdQ==
+
+lefthook-linux-arm64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-linux-arm64/-/lefthook-linux-arm64-2.1.10.tgz#8aa8b232d7844a808779d4cc6507f7d117a1bbd2"
+  integrity sha512-1sHTCmpTWjVMs+yKPBLRNT1kuuIr1yjietlk7rCB6wFPVOS6Ph3o2zPFH2AvW1UymHlqwyHXzBr9EtDpQ7j1mQ==
+
+lefthook-linux-x64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-linux-x64/-/lefthook-linux-x64-2.1.10.tgz#310ba403bae3b392cacffd1c755fdf20bba43e6b"
+  integrity sha512-z/VlRB3bh6mBvW3r1rwnJ5vP8z+Krx5gJzkZ4veDXh+6FlRTx8wtd3g3fllOv/yZMxkgmL3fQoFXv05Esa7vBQ==
+
+lefthook-openbsd-arm64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-openbsd-arm64/-/lefthook-openbsd-arm64-2.1.10.tgz#a67b49fa02badc153e5532f48cf7fb90cfe0d7ff"
+  integrity sha512-430zL8sSIKw5P0YXGG6PB+eAhHa06n0PXuaERaAQE4Ss3odfqwnl5Mq9hQmkEnOS1EGiQEKkd0UHv/i4PtMNIQ==
+
+lefthook-openbsd-x64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-openbsd-x64/-/lefthook-openbsd-x64-2.1.10.tgz#a29328d22bfadac25755b29206f815e34d912cee"
+  integrity sha512-bgkO8PphGZVDhQgCJ524aYYPI5491pVmCiLPGjBIo1AvOSlIyw4N1Y+1C3QfqwEmechzw+Aq16SNc8pqv6UuXg==
+
+lefthook-windows-arm64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-windows-arm64/-/lefthook-windows-arm64-2.1.10.tgz#1e810f36467bc75604fafe68063480bc2a4db11c"
+  integrity sha512-5Q6etF0Fla2DDA4ilDySrdNgiR5+W7cJZwnZ69Je3kvWCaWm4wnkuc8FEdjp3kiL2x3ZXipdI00f5vpO8aWmog==
+
+lefthook-windows-x64@2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook-windows-x64/-/lefthook-windows-x64-2.1.10.tgz#f25c49c3e8b1872aeb91ec8c8601fe48e51c78d5"
+  integrity sha512-c/XH8YZtylG4XaxzqFfXluvq2LXq2W/p54Bnzn3+Z7E5X2Fk3JlFJAibulMbIt2+w8T7UI/r97ok5GqE4kGaeA==
+
+lefthook@^2.1.10:
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/lefthook/-/lefthook-2.1.10.tgz#e185e72329a4a17bf2ef53b7405de0ff7829bc33"
+  integrity sha512-K7mM4WoqMwqfXYK11EHy+lSH1uW8XHni3Yn/bSqyerPkUPygGdf3xn18JoV5HyA06xuQL3ofGAOjG01QX9oJ4w==
+  optionalDependencies:
+    lefthook-darwin-arm64 "2.1.10"
+    lefthook-darwin-x64 "2.1.10"
+    lefthook-freebsd-arm64 "2.1.10"
+    lefthook-freebsd-x64 "2.1.10"
+    lefthook-linux-arm64 "2.1.10"
+    lefthook-linux-x64 "2.1.10"
+    lefthook-openbsd-arm64 "2.1.10"
+    lefthook-openbsd-x64 "2.1.10"
+    lefthook-windows-arm64 "2.1.10"
+    lefthook-windows-x64 "2.1.10"
 
 levn@^0.4.1:
   version "0.4.1"
@@ -6226,11 +6294,6 @@ ms@^2.1.3:
   version "2.1.3"
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
-
-nano-staged@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/nano-staged/-/nano-staged-1.0.2.tgz"
-  integrity sha512-Fytar3zHLY99nlMfqPPbraxZodqQAHPpdPRyYaplL+lB9DCR6pUrafxbG+Btz4+7fO5Rm/+DO4ZeDO/nLSUMhw==
 
 nanoid@^3.3.16:
   version "3.3.16"
