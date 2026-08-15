@@ -1,6 +1,6 @@
 import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
 
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
@@ -27,7 +27,23 @@ const LoginPage = () => {
   return (
     <section className='min-h-dvh px-4 sm:grid sm:place-items-center sm:px-6 sm:py-12'>
       <div className='flex w-full flex-col sm:max-w-85 sm:gap-12'>
-        <div className='hidden text-center text-[16px]/6 font-extrabold sm:block'>🎮 GAMES</div>
+        <div className='relative mt-3 flex h-6 items-center justify-center sm:mt-0'>
+          <IconButton
+            asChild
+            rounded
+            aria-label='Вернуться на главную'
+            className='absolute left-0 size-6'
+            size='sm'
+            variant='ghost'
+          >
+            <Link to='/'>
+              <ChevronLeftIcon className='size-6' />
+            </Link>
+          </IconButton>
+          <Link className='text-center text-[16px]/6 font-extrabold tracking-wide' to='/'>
+            🎮 GAMES
+          </Link>
+        </div>
         <form className='flex flex-col gap-6 sm:gap-4' onSubmit={functions.onSubmit}>
           <div className='flex flex-col gap-6 sm:gap-5'>
             <div className='flex flex-col gap-6 sm:gap-5'>

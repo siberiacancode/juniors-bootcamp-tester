@@ -1,4 +1,5 @@
 import babel from '@rolldown/plugin-babel';
+import testids from '@siberiacancode/testids/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { devtools } from '@tanstack/devtools-vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
@@ -14,6 +15,10 @@ export default defineConfig(({ mode }) => {
     base: '/tester',
     plugins: [
       devtools(),
+      testids({
+        input: './tests/ids.yaml',
+        output: 'generated/tests/ids.gen.ts'
+      }),
       tanstackRouter({
         target: 'react',
         autoCodeSplitting: true,

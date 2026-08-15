@@ -43,6 +43,7 @@
     "@siberiacancode/eslint": "2.18.1",
     "@siberiacancode/lefthook": "1.0.1",
     "@siberiacancode/prettier": "^1.9.0",
+    "@siberiacancode/testids": "1.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/devtools-vite": "^0.8.3",
     "@tanstack/react-devtools": "^0.10.10",
