@@ -6,7 +6,7 @@ FROM base AS builder
 WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
-RUN yarn --production --frozen-lockfile
+RUN yarn --production --frozen-lockfile --ignore-scripts
 RUN yarn add vite @vitejs/plugin-react
 
 COPY . .
