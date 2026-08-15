@@ -40,7 +40,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    curl --fail --request GET "$COOLIFY_WEBHOOK" \
+                    curl --fail --request POST "$COOLIFY_WEBHOOK" \
                          --header "Authorization: Bearer $COOLIFY_TOKEN"
                 '''
             }
