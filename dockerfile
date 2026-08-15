@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 RUN yarn --production --frozen-lockfile --ignore-scripts
-RUN yarn add vite @vitejs/plugin-react
+RUN yarn add vite @vitejs/plugin-react --ignore-scripts
 
 COPY . .
 
