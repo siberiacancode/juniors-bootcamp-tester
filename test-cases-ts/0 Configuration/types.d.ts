@@ -1,6 +1,7 @@
 type Status = 'actual' | 'needRework';
 
-type Precondition = 'authorizedUser' | 'desktop' | 'mobile' | 'unauthorizedUser';
+type Precondition =
+  'authorizedUser' | 'desktop' | 'loginPage' | 'loginPageOtpStep' | 'mobile' | 'unauthorizedUser';
 
 interface TestCase {
   name: string;
