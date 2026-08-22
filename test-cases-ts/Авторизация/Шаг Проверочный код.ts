@@ -1,6 +1,40 @@
 import { preconditions, statuses } from '../0 Configuration';
 
-export const stepPhone: TestCase[] = [
+export const otpStep: TestCase[] = [
+  {
+    name: 'Авторизация. Проверочный код. Дизайн. Десктоп',
+    preconditions: [
+      preconditions.unauthorizedUser,
+      preconditions.loginPageOtpStep,
+      preconditions.desktop
+    ],
+    status: statuses.actual,
+    steps: [
+      {
+        action: 'Проверить соответствие шага "Проверочный код" дизайну',
+        expected: [
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005051-7605&t=Vnj0EdA8aPfbkmq9-0'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Авторизация. Проверочный код. Дизайн. Мобилка',
+    preconditions: [
+      preconditions.unauthorizedUser,
+      preconditions.loginPageOtpStep,
+      preconditions.mobile
+    ],
+    status: statuses.actual,
+    steps: [
+      {
+        action: 'Проверить соответствие страницы "Проверочный код" дизайну',
+        expected: [
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-7125&t=Vnj0EdA8aPfbkmq9-0'
+        ]
+      }
+    ]
+  },
   {
     name: 'Авторизация. Проверочный код. Валидация',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
@@ -37,7 +71,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
-    name: 'Авторизация. Телефон. Назад',
+    name: 'Авторизация. Проверочный код. Назад',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
@@ -86,7 +120,7 @@ export const stepPhone: TestCase[] = [
         action: 'Проверить текст в кнопке таймера под кнопкой "Войти"',
         expected: [
           'Текст соответствует "Отправить код повторно через X сек", где X соответствует полученному параметру retryDelay из запроса /api/tester/otps/otp, переведенному в секунды',
-          'Кнопка некликабельна'
+          'Кнопка отображается в состоянии disabled'
         ]
       },
       {
@@ -97,7 +131,7 @@ export const stepPhone: TestCase[] = [
         action: 'Подождать окончания таймера',
         expected: [
           'Текст в кнопке таймера заменился на "Отправить код повторно"',
-          'Кнопка кликабельна'
+          'Кнопка без состояния disabled'
         ]
       }
     ]

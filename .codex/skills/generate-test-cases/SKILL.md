@@ -1,0 +1,69 @@
+---
+name: generate-test-cases
+description: Generate, revise, review, or reorganize TypeScript test cases under test-cases-ts using this project's UI, source code, and test-case conventions.
+---
+
+# Generate Test Cases
+
+## Project Evidence
+
+Before asking the user, inspect the nearest confirmed project sources:
+
+- existing cases in `test-cases-ts`;
+- `test-cases-ts/0 Configuration/types.d.ts`;
+- `test-cases-ts/0 Configuration/statuses.ts`;
+- `test-cases-ts/0 Configuration/preconditions.ts`;
+- relevant `src` code: routes, components, labels, validation, API calls, redirects, permissions, links, and UI states.
+
+Use only behavior confirmed by the project or the user. Ask before writing cases when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous.
+
+For design cases, use a user-provided or previously confirmed design link. If none is available, ask for it.
+
+## Workflow
+
+1. Inspect the closest existing cases and relevant source code.
+2. Choose the target folder by interface structure: root page or reusable major system block.
+3. Choose the target file by the main semantic element, for example `Шаг Телефон`, `Шаг Проверочный код`, `Хэдер`, or `Футер`.
+4. Write atomic cases: one element, scenario, or functionality per case.
+5. Reuse precise existing preconditions. If a new precondition is required, update both `types.d.ts` and `preconditions.ts`.
+6. Use existing statuses only, unless the user explicitly confirms a new status.
+7. Preserve unrelated cases and configuration. Change existing cases only when requested or confirmed by the user.
+
+## Case Rules
+
+- Test cases live under `test-cases-ts` and conform to `TestCase`.
+- Each file exports one `TestCase[]` array.
+- Keep setup in `preconditions`; keep steps focused on the checked behavior.
+- Prefer narrow checks over broad end-to-end flows.
+- Do not duplicate reusable setup or shared block checks across page files.
+- Put reusable system block checks in the reusable block folder.
+- Use project base path `/tester` for routes and links.
+
+## Writing Style
+
+- Match interface text exactly for pages, blocks, buttons, inputs, errors, links, sections, and steps.
+- Use common frontend/QA terminology when the interface has no explicit element name.
+- Follow the existing dot-separated hierarchy style for test names.
+- Write for testers who understand IT and frontend terminology.
+- Phrase states as positive checks: disabled, readonly, hidden, active, selected, focused, loading, invalid.
+- State exact expected results for transitions, requests, toasts, validation, selected filters, and UI states.
+- If a click check proves link behavior, do not also check the link attribute unless it adds value.
+- Design cases belong in the relevant page/block file by default and contain one step with one expected result.
+- Prefer one file per user-facing page block or workflow; do not split files by internal React components.
+- Keep child elements, validation, loading, empty, error, selected, disabled, and similar states in the file of the block or form they belong to.
+- Put child pages/screens inside the parent feature folder when they are reached only through that feature, such as order details inside purchase history.
+- Create a separate file for a child element only when it is a major reusable block or has enough independent scenarios to justify its own file.
+
+## Output
+
+When producing cases, provide project-compatible TypeScript:
+
+- import `preconditions` and `statuses` from the correct relative `0 Configuration` path;
+- use `statuses.actual` or another confirmed existing status;
+- use values from `preconditions`;
+- write `steps` as `{ action, expected }`;
+- make `expected` an array of concrete expected results.
+
+When proposing changes in chat, include the target folder/file, changed preconditions or statuses if any, and the TypeScript content.
+
+When editing files directly, run `yarn types` and `yarn lint` when feasible.
