@@ -2,10 +2,8 @@ import { useDisclosure } from '@siberiacancode/reactuse';
 import { getRouteApi } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 
-import type { GameFilter, GameGenre } from '@/generated/api';
-
-import { GENRES } from '@/helpers/constants';
-import { intl } from '@/lib';
+import { GameFilter, GameGenre } from '@/generated/api';
+import { intl } from '@/utils/lib';
 
 const catalogRoute = getRouteApi('/(layout)/');
 
@@ -17,7 +15,7 @@ export const useCatalogFiltersDesktop = () => {
   const filteredGenres = useMemo(() => {
     const normalizedQuery = genreQuery.trim().toLowerCase();
 
-    return GENRES.filter((genre) =>
+    return Object.values(GameGenre).filter((genre) =>
       intl
         .formatMessage({
           id: `genre.${genre}`
@@ -54,8 +52,8 @@ export const useCatalogFiltersDesktop = () => {
 
   const onDiscountChange = (checked: boolean) => {
     const filter: GameFilter[] = checked
-      ? [...searchParams.filter, 'discount']
-      : searchParams.filter.filter((filter) => filter !== 'discount');
+      ? [...searchParams.filter, GameFilter.DISCOUNT]
+      : searchParams.filter.filter((filter) => filter !== GameFilter.DISCOUNT);
 
     navigate({
       search: (currentSearch) => ({
@@ -67,8 +65,8 @@ export const useCatalogFiltersDesktop = () => {
 
   const onDlcChange = (checked: boolean) => {
     const filter: GameFilter[] = checked
-      ? [...searchParams.filter, 'dlc']
-      : searchParams.filter.filter((filter) => filter !== 'dlc');
+      ? [...searchParams.filter, GameFilter.DLC]
+      : searchParams.filter.filter((filter) => filter !== GameFilter.DLC);
 
     navigate({
       search: (currentSearch) => ({

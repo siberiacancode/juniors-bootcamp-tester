@@ -1,6 +1,6 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 
-import { Button } from '@/components/ui/button';
 import {
   OrderCard,
   OrderCardBadge,
@@ -14,24 +14,23 @@ import {
   OrderCardThumbnail,
   OrderCardTitle
 } from '@/components/ui/order-card';
-import { Typography } from '@/components/ui/typography';
 import { useGetGamesOrdersSuspenseQuery } from '@/generated/api';
-import { getAsset } from '@/helpers/utils';
-import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState } from '@/routes/-components';
+import { getAsset } from '@/utils/helpers';
+import { IntlText } from '@/utils/lib/intl';
 
 export const OrderHistory = () => {
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
   const orders = getGamesOrdersSuspenseQuery.data.data.orders;
 
   return (
-    <section className='flex flex-col gap-4'>
+    <section className='flex w-[70%] flex-col gap-4'>
       <Typography as='p' className='block sm:hidden' variant='body-md'>
         <IntlText path='page.history.title' />
       </Typography>
       {!orders.length && <HistoryEmptyState />}
       {!!orders.length && (
-        <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-2'>
+        <div className='grid w-full grid-cols-1 gap-6'>
           {orders.map((order) => (
             <OrderCard key={order._id}>
               <div className='flex w-full flex-col gap-2'>
@@ -71,7 +70,7 @@ export const OrderHistory = () => {
 
               <Button asChild className='w-full' size='lg'>
                 <Link params={{ orderId: order._id }} to='/history/$orderId'>
-                  <IntlText path='button.goToOrder' />
+                  <IntlText path='button.moreDetails' />
                 </Link>
               </Button>
             </OrderCard>

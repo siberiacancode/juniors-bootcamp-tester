@@ -5,7 +5,7 @@
 export const TESTIDS = {
   "CLICKABLE": {
     "BUTTON": {
-      "NEXT": "CLICKABLE-BUTTON-NEXT"
+      "NEXT": "clickable-button-next"
     }
   }
 } as const;

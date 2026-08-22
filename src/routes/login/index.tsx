@@ -1,5 +1,6 @@
 import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
 
+import { Button, IconButton, Input, Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
@@ -7,18 +8,14 @@ import { z } from 'zod';
 
 import type { GetProfileResponse } from '@/generated/api';
 
-import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { IconButton } from '@/components/ui/icon-button';
-import { Input } from '@/components/ui/input';
-import { Typography } from '@/components/ui/typography';
 import { getUsersProfileQueryKey } from '@/generated/api';
-import { queryClient } from '@/lib';
-import { intl, IntlText } from '@/lib/intl';
-import { cn } from '@/lib/utils';
+import { LINKS } from '@/utils/constants';
+import { queryClient } from '@/utils/lib';
+import { intl, IntlText } from '@/utils/lib/intl';
+import { cn } from '@/utils/lib/utils';
 
 import { Countdown } from './-components';
-import { LINKS } from './-constants';
 import { useLoginPage } from './-hooks';
 
 const LoginPage = () => {
@@ -29,17 +26,26 @@ const LoginPage = () => {
       <div className='flex w-full flex-col sm:max-w-85 sm:gap-12'>
         <div className='relative mt-3 flex h-6 items-center justify-center sm:mt-0'>
           <IconButton
-            asChild
-            rounded
             aria-label='Вернуться на главную'
+            asChild={!state.isCodeStep}
             className='absolute left-0 size-6'
             size='sm'
             variant='ghost'
+            {...(state.isCodeStep && {
+              disabled: state.isLoading,
+              type: 'button',
+              onClick: functions.onBack
+            })}
           >
-            <Link to='/'>
+            {!state.isCodeStep ? (
+              <Link to='/'>
+                <ChevronLeftIcon className='size-6' />
+              </Link>
+            ) : (
               <ChevronLeftIcon className='size-6' />
-            </Link>
+            )}
           </IconButton>
+
           <Link className='text-center text-[16px]/6 font-extrabold tracking-wide' to='/'>
             🎮 GAMES
           </Link>
@@ -49,17 +55,6 @@ const LoginPage = () => {
             <div className='flex flex-col gap-6 sm:gap-5'>
               {state.isCodeStep ? (
                 <div className='flex items-center gap-6 py-3 sm:py-0'>
-                  <IconButton
-                    rounded
-                    className='size-6'
-                    disabled={state.isLoading}
-                    size='sm'
-                    type='button'
-                    variant='ghost'
-                    onClick={functions.onBack}
-                  >
-                    <ChevronLeftIcon className='size-6' />
-                  </IconButton>
                   <Typography as='h1' variant='title-md'>
                     <IntlText path='page.login.otp.title' />
                   </Typography>

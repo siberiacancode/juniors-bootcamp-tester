@@ -1,14 +1,18 @@
 import { useClickOutside, useDebounceValue, useDisclosure } from '@siberiacancode/reactuse';
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { getGamesInfo, getGamesInfoQueryKey, useGetGamesSearchQuery } from '@/generated/api';
+
+import { CATALOG_GAMES_LIMIT } from '../../../../-constants';
 
 const catalogRoute = getRouteApi('/(layout)/');
 
 export const useCatalogSearch = () => {
   const searchParams = catalogRoute.useSearch();
+  const comboboxAnchorRef = useRef<HTMLDivElement>(null);
+  const blockOpenUntilRef = useRef(0);
 
   const [searchValue, setSearchValue] = useState('');
   const debouncedSearchValue = useDebounceValue(searchValue, 500);
@@ -23,7 +27,7 @@ export const useCatalogSearch = () => {
     queryFn: ({ pageParam }) =>
       getGamesInfo({
         query: {
-          limit: 12,
+          limit: CATALOG_GAMES_LIMIT,
           page: pageParam,
           ...searchParams
         }
@@ -57,18 +61,38 @@ export const useCatalogSearch = () => {
   const isEmpty =
     isDropdownOpen && isSearching && !isLoading && getGamesSearchQuery.isSuccess && !games.length;
 
-  const onClear = () => setSearchValue('');
+  const onSearchClose = () => {
+    blockOpenUntilRef.current = Date.now() + 150;
+    dropdownDisclosure.close();
+
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
+
+  const onClear = () => {
+    setSearchValue('');
+    onSearchClose();
+  };
 
   const onSearchValueChange = (value: string) => {
     setSearchValue(value);
+
+    if (Date.now() < blockOpenUntilRef.current) return;
+
     dropdownDisclosure.open();
   };
 
-  const onSearchOpen = () => dropdownDisclosure.open();
+  const onSearchOpen = () => {
+    if (Date.now() < blockOpenUntilRef.current) return;
+
+    dropdownDisclosure.open();
+  };
 
   return {
     refs: {
-      searchRef
+      searchRef,
+      comboboxAnchorRef
     },
     state: {
       games,
@@ -80,7 +104,7 @@ export const useCatalogSearch = () => {
     },
     functions: {
       onClear,
-      onSearchClose: dropdownDisclosure.close,
+      onSearchClose,
       onSearchOpen,
       onSearchValueChange
     }

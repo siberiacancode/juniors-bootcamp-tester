@@ -1,33 +1,31 @@
+import { InputGroup, InputGroupAddon, InputGroupInput, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 import { LoaderCircleIcon, SearchIcon, SearchXIcon, XIcon } from 'lucide-react';
-import { useRef } from 'react';
 
 import type { GameFiltered } from '@/generated/api';
 
 import { Badge } from '@/components/ui/badge';
-import {
-  Combobox,
-  ComboboxContent,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList
-} from '@/components/ui/combobox';
-import { InputGroupAddon, InputGroupIconButton } from '@/components/ui/input-group';
-import { Typography } from '@/components/ui/typography';
-import { formatDiscountPercent, formatMoney, getAsset } from '@/helpers/utils';
-import { intl, IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
+import { Combobox, ComboboxContent, ComboboxList } from '@/components/ui/combobox';
+import { formatDiscountPercent, formatMoney, getAsset } from '@/utils/helpers';
+import { intl, IntlText } from '@/utils/lib';
+import { cn } from '@/utils/lib/utils';
 
 import { useCatalogSearch } from './hooks';
 
 export const CatalogSearch = () => {
   const { refs, state, functions } = useCatalogSearch();
-  const comboboxAnchorRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
       {state.isDropdownOpen && (
-        <div className='fixed inset-0 z-60 bg-foreground/40' onClick={functions.onSearchClose} />
+        <div
+          className='fixed inset-0 z-60 bg-foreground/40'
+          onPointerDown={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            functions.onSearchClose();
+          }}
+        />
       )}
 
       <div
@@ -40,29 +38,38 @@ export const CatalogSearch = () => {
           open={state.isDropdownOpen}
           openOnInputClick={false}
         >
-          <ComboboxInput
-            aria-label={intl.formatMessage({ id: 'page.catalog.search.label' })}
-            className='w-full bg-background'
-            inputGroupRef={comboboxAnchorRef}
-            placeholder={intl.formatMessage({ id: 'page.catalog.search.placeholder' })}
-            showTrigger={false}
-            value={state.searchValue}
-            onChange={(event) => functions.onSearchValueChange(event.target.value)}
-            onClick={functions.onSearchOpen}
-            onFocus={functions.onSearchOpen}
-          >
-            <InputGroupAddon align='start'>
+          <InputGroup ref={refs.comboboxAnchorRef} className='relative w-full bg-background pr-11'>
+            <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
+            <InputGroupInput
+              aria-label={intl.formatMessage({ id: 'page.catalog.search.label' })}
+              placeholder={intl.formatMessage({ id: 'page.catalog.search.placeholder' })}
+              value={state.searchValue}
+              onChange={(event) => functions.onSearchValueChange(event.target.value)}
+              onClick={functions.onSearchOpen}
+              onFocus={functions.onSearchOpen}
+            />
             {!!state.searchValue && (
-              <InputGroupAddon align='end'>
-                <InputGroupIconButton onClick={functions.onClear}>
-                  <XIcon />
-                </InputGroupIconButton>
-              </InputGroupAddon>
+              <button
+                aria-label='Очистить поиск'
+                className='absolute top-1/2 right-4 z-10 flex size-5 -translate-y-1/2 items-center justify-center text-foreground/50 transition-colors hover:text-foreground'
+                type='button'
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  functions.onClear();
+                }}
+                onPointerDown={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }}
+              >
+                <XIcon className='size-4.5' />
+              </button>
             )}
-          </ComboboxInput>
-          <ComboboxContent anchor={comboboxAnchorRef} className='p-0'>
+          </InputGroup>
+          <ComboboxContent anchor={refs.comboboxAnchorRef} className='p-0'>
             {state.isLoading && (
               <div className='flex min-h-42 flex-col items-center justify-center gap-4 p-4 text-[#969696]'>
                 <LoaderCircleIcon className='size-10 animate-spin' />
@@ -93,18 +100,18 @@ export const CatalogSearch = () => {
               >
                 {(game: GameFiltered) => {
                   const priceVariant = game.priceVariant;
+                  const oldPrice = priceVariant.oldPrice;
+                  const hasPriceDiscount = !!oldPrice && oldPrice !== priceVariant.price;
+
                   return (
-                    <ComboboxItem
-                      key={game.slug}
-                      className='h-17.5 rounded-none px-2 py-3 pr-2 data-highlighted:bg-transparent'
-                      value={game.slug}
-                    >
+                    <div key={game.slug} className='h-17.5 rounded-none px-2 py-3 pr-2'>
                       <Link
                         params={{
                           slug: game.slug
                         }}
                         className='flex min-w-0 flex-1 items-center gap-2'
                         to='/games/$slug'
+                        onClick={functions.onSearchClose}
                       >
                         <div className='flex h-10 min-w-0 flex-1 items-center gap-2 sm:max-w-112.5'>
                           <div className='h-10 w-22 shrink-0 overflow-hidden rounded-8'>
@@ -128,20 +135,20 @@ export const CatalogSearch = () => {
                           </Badge>
                         </div>
 
-                        <div className='ml-auto flex min-w-fit flex-1 items-center justify-end gap-2'>
-                          {priceVariant.oldPrice && (
-                            <Badge className='px-2 py-1' variant='accent'>
-                              {formatDiscountPercent(priceVariant.price, priceVariant.oldPrice)}
+                        <div className='ml-auto grid w-[138px] shrink-0 grid-cols-[52px_minmax(0,1fr)] items-center gap-1'>
+                          {hasPriceDiscount && (
+                            <Badge className='w-[52px] justify-center px-2 py-1' variant='accent'>
+                              {formatDiscountPercent(priceVariant.price, oldPrice)}
                             </Badge>
                           )}
-                          <div className='flex flex-col items-end'>
-                            {priceVariant.oldPrice && (
+                          <div className='col-start-2 flex min-w-0 flex-col items-end'>
+                            {hasPriceDiscount && (
                               <Typography
                                 as='span'
                                 className='text-muted-fg line-through'
                                 variant='caption'
                               >
-                                {formatMoney(priceVariant.oldPrice)}
+                                {formatMoney(oldPrice)}
                               </Typography>
                             )}
                             <Typography as='span' variant='body-sm'>
@@ -150,7 +157,7 @@ export const CatalogSearch = () => {
                           </div>
                         </div>
                       </Link>
-                    </ComboboxItem>
+                    </div>
                   );
                 }}
               </ComboboxList>

@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
 import { Accordion as AccordionPrimitive } from 'radix-ui';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 const Accordion = ({ ...props }: ComponentProps<typeof AccordionPrimitive.Root>) => (
   <AccordionPrimitive.Root className='flex flex-col gap-6' data-slot='accordion' {...props} />

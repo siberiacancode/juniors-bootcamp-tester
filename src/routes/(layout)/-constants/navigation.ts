@@ -1,19 +1,19 @@
 import { Gamepad2Icon, HistoryIcon, UserIcon } from 'lucide-react';
 
-export const navItems = [
+export const NAV_ITEMS = [
   {
     icon: Gamepad2Icon,
-    label: 'Каталог',
+    title: 'navigation.catalog',
     to: '/'
   },
   {
     icon: HistoryIcon,
-    label: 'История',
+    title: 'navigation.orders',
     to: '/history'
   },
   {
     icon: UserIcon,
-    label: 'Профиль',
+    title: 'navigation.profile',
     to: '/profile'
   }
 ] as const;

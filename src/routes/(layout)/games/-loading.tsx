@@ -1,30 +1,29 @@
 import { useMediaQuery } from '@siberiacancode/reactuse';
+import { Button, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 import { ChevronLeftIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
-import { cn } from '@/lib/utils';
+import { IntlText } from '@/utils/lib/intl';
+import { cn } from '@/utils/lib/utils';
 
 export const GameLoading = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const metaRows = [
-    { labelPath: 'page.gameProduct.meta.releaseDate', width: 'w-40' },
-    { labelPath: 'page.gameProduct.meta.developer', width: 'w-40' },
-    { labelPath: 'page.gameProduct.meta.publisher', width: 'w-40' },
-    { labelPath: 'page.gameProduct.meta.steamId', width: 'w-40' }
+    { label: 'page.gameProduct.meta.releaseDate', width: 'w-40' },
+    { label: 'page.gameProduct.meta.developer', width: 'w-40' },
+    { label: 'page.gameProduct.meta.publisher', width: 'w-40' },
+    { label: 'page.gameProduct.meta.steamId', width: 'w-40' }
   ];
 
   const requirementRows = [
-    { labelPath: 'page.gameProduct.requirement.os', width: 'w-3/8' },
-    { labelPath: 'page.gameProduct.requirement.processor', width: 'w-1/3' },
-    { labelPath: 'page.gameProduct.requirement.memory', width: 'w-9' },
-    { labelPath: 'page.gameProduct.requirement.graphics', width: 'w-5/12' },
-    { labelPath: 'page.gameProduct.requirement.directx', width: 'w-9' },
-    { labelPath: 'page.gameProduct.requirement.network', width: 'w-11/24' },
-    { labelPath: 'page.gameProduct.requirement.storage', width: 'w-8' }
+    { label: 'page.gameProduct.requirement.os', width: 'w-3/8' },
+    { label: 'page.gameProduct.requirement.processor', width: 'w-1/3' },
+    { label: 'page.gameProduct.requirement.memory', width: 'w-9' },
+    { label: 'page.gameProduct.requirement.graphics', width: 'w-5/12' },
+    { label: 'page.gameProduct.requirement.directx', width: 'w-9' },
+    { label: 'page.gameProduct.requirement.network', width: 'w-11/24' },
+    { label: 'page.gameProduct.requirement.storage', width: 'w-8' }
   ];
 
   return (
@@ -76,9 +75,9 @@ export const GameLoading = () => {
 
         <section className='mb-6 flex h-fit flex-col gap-4 [grid-area:meta] sm:mb-0 sm:gap-10 sm:rounded-24 sm:bg-secondary sm:p-6'>
           {metaRows.map((row) => (
-            <div key={row.labelPath} className='flex flex-col'>
+            <div key={row.label} className='flex flex-col'>
               <Typography as='span' className='text-muted-fg' variant='caption'>
-                <IntlText path={row.labelPath as MessagePath} />
+                <IntlText path={row.label as MessagePath} />
               </Typography>
               <Skeleton
                 className={cn('h-4 rounded-24 bg-secondary sm:bg-muted-fg/30', row.width)}
@@ -108,9 +107,9 @@ export const GameLoading = () => {
                 </Typography>
 
                 {requirementRows.map((row) => (
-                  <div key={row.labelPath} className='flex flex-col gap-1'>
+                  <div key={row.label} className='flex flex-col gap-1'>
                     <Typography as='span' className='text-muted-fg' variant='caption'>
-                      <IntlText path={row.labelPath as MessagePath} />:
+                      <IntlText path={row.label as MessagePath} />:
                     </Typography>
                     <Skeleton className={cn('h-4 rounded-24 bg-muted-fg/20', row.width)} />
                   </div>

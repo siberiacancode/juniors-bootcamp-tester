@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 
 import { Slot } from 'radix-ui';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 interface MarqueeProps extends ComponentProps<'div'> {
   asChild?: boolean;

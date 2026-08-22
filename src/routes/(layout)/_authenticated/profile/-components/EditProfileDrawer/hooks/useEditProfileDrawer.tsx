@@ -20,8 +20,8 @@ export const profileFormScheme = z.object({
   middlename: z.string(),
   // 🐛 bug
   // email field does not validate format in profile editing
-  // email: z.email('error.validation.email')
-  email: z.string()
+  // email: z.string()
+  email: z.email('error.validation.email')
 });
 
 export type ProfileFormScheme = z.infer<typeof profileFormScheme>;

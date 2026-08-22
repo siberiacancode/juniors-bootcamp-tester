@@ -30,6 +30,7 @@
   "page.gameProduct.regionTitle": "Регион {platform}-аккаунта",
   "page.gameProduct.editionTitle": "Издание",
   "page.gameProduct.paymentMethodTitle": "Способ оплаты",
+  "page.gameProduct.cardSelectionTitle": "Выбор карты",
   "page.gameProduct.totalLabel": "Итого",
   "page.gameProduct.minimumRequirements": "Минимальные",
   "page.gameProduct.recommendedRequirements": "Рекомендуемые",
@@ -83,7 +84,8 @@
   "deliveryType.steam_key": "Steam",
   "deliveryType.xbox_key": "Xbox",
 
-  "paymentMethod.card": "Карта",
+  "paymentMethod.new_card": "Карта",
+  "paymentMethod.saved_card": "Сохранённая карта",
   "paymentMethod.qr": "QR-код",
 
   "page.pay.title": "Оплата покупки",
@@ -136,7 +138,7 @@
   "card.order.amountLabel": "Сумма",
 
   "button.newCard": "Новая карта",
-  "button.goToOrder": "Перейти на заказ",
+  "button.moreDetails": "Подробнее",
   "button.backToGamesCatalog": "Вернуться в каталог игр",
   "button.showMore": "Показать ещё",
   "button.submitPhone": "Продолжить",
@@ -148,6 +150,30 @@
   "button.cancel": "Отмена",
   "button.pay": "Оплатить",
   "button.goToMain": "Перейти на главную",
+
+  "navigation.games": "Игры",
+  "navigation.gameStore": "магазин игр",
+  "navigation.catalog": "Весь каталог",
+  "navigation.new": "Новинки",
+  "navigation.popular": "Популярные",
+  "navigation.contactUs": "Связаться с нами",
+  "navigation.support": "Поддержка клиентов",
+  "navigation.email": "Написать нам на почту",
+  "navigation.advertising": "По вопросам рекламы",
+  "navigation.contacts": "Контакты",
+  "navigation.orders": "Заказы",
+  "navigation.profile": "Профиль",
+  "navigation.privacyPolicy": "Политика конфиденциальности",
+  "navigation.userAgreement": "Пользовательское соглашение",
+
+  "link.github": "Ссылка на GitHub",
+
+  "page.information.title": "Информация",
+  "page.information.support.description": "Представим, что это настоящий магазин: тут бы помогали с заказами, ключами и доступом к играм. В рамках проекта этот блок нужен, чтобы футер выглядел как у живого сервиса, а студенты могли отработать навигацию.",
+  "page.information.email.description": "Письма отсюда никуда не отправляются: это не боевой продукт, а тренировочная витрина. Зато такой пункт помогает не забыть про обычные разделы, которые часто есть в реальных коммерческих интерфейсах.",
+  "page.information.advertising.description": "Рекламу здесь никто не продает. Этот пункт оставлен как учебная заглушка: можно проверить якорные ссылки, структуру страницы и то, как выглядит информационный раздел без лишней бизнес-магии.",
+  "page.information.contacts.description": "Если хочется найти настоящую точку входа в SiberiaCanCode, удобнее всего перейти в Telegram-канал. Там появляются материалы, новости и ссылки вокруг фронтенда и учебных проектов.",
+  "page.information.contacts.link": "Перейти в канал",
 
   "page.login.phone.title": "Авторизация",
   "page.login.phone.description": "Введите номер телефона для входа в свой профиль",

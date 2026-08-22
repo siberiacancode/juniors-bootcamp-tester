@@ -1,8 +1,8 @@
 import { useTimer } from '@siberiacancode/reactuse';
+import { Button } from '@siberiacancode/uikit';
 import { Loader2Icon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 interface CountdownProps {
   loading?: boolean;
@@ -11,7 +11,6 @@ interface CountdownProps {
 }
 
 export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps) => {
-  // eslint-disable-next-line react-hooks/purity
   const timer = useTimer(Math.floor((retryAt - Date.now()) / 1000));
   const seconds = timer.seconds + timer.minutes * 60;
 

@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react';
 import { cva } from 'class-variance-authority';
 import { Avatar as AvatarPrimitive } from 'radix-ui';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 const avatarVariants = cva(
   'group/avatar relative flex shrink-0 overflow-hidden rounded-full select-none',

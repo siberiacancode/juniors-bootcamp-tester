@@ -1,30 +1,52 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { CheckIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
+import type { GameDeliveryType, GameRegion } from '@/generated/api';
 
-import type { GamePageFunctions, GamePageState } from '../types';
+import { IntlText } from '@/utils/lib';
+import { cn } from '@/utils/lib/utils';
+
+import type { GamePageState } from '../types';
 
 import { DELIVERY_TYPE_VIEW } from '../../-constants';
 import { GameSelectionSkeleton } from './GameSelectionSkeleton';
 
 interface GameSelectionProps {
-  functions: GamePageFunctions;
-  state: GamePageState;
+  deliveryTypes: GamePageState['game']['deliveryTypes'];
+  editions: GamePageState['editions'];
+  isLoading: GamePageState['isSelectionLoading'];
+  isReady: GamePageState['isSelectionReady'];
+  regions: GamePageState['regions'];
+  selectedDeliveryType: GamePageState['selectedDeliveryType'];
+  selectedEdition: GamePageState['selectedPriceVariant']['edition'];
+  selectedRegion: GamePageState['selectedRegion'];
+  onDeliveryTypeChange: (deliveryType: GameDeliveryType) => void;
+  onEditionChange: (edition: string) => void;
+  onRegionChange: (region: GameRegion) => void;
 }
 
-export const GameSelection = ({ functions, state }: GameSelectionProps) => (
+export const GameSelection = ({
+  deliveryTypes,
+  editions,
+  isLoading,
+  isReady,
+  regions,
+  selectedDeliveryType,
+  selectedEdition,
+  selectedRegion,
+  onDeliveryTypeChange,
+  onEditionChange,
+  onRegionChange
+}: GameSelectionProps) => (
   <section className='flex flex-col gap-6 [grid-area:selection] lg:gap-4'>
-    {state.isSelectionReady ? (
+    {isReady && (
       <>
         <div className='flex flex-col gap-3'>
-          <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+          <Typography className='md:text-[24px]/8 md:font-bold md:tracking-wide' variant='body-md'>
             <IntlText path='page.gameProduct.deliveryTypeTitle' />
           </Typography>
           <div className='flex flex-col gap-2'>
-            {state.game.deliveryTypes.map((deliveryType) => {
+            {deliveryTypes.map((deliveryType) => {
               const option = DELIVERY_TYPE_VIEW[deliveryType];
               const Icon = option.Icon;
 
@@ -32,11 +54,11 @@ export const GameSelection = ({ functions, state }: GameSelectionProps) => (
                 <Button
                   key={deliveryType}
                   className='h-auto w-full justify-start rounded-24! bg-secondary p-4 text-left whitespace-normal hover:bg-secondary-hover/40 disabled:opacity-70'
-                  disabled={state.isSelectionLoading}
+                  disabled={isLoading}
                   size='lg'
                   type='button'
                   variant='secondary'
-                  onClick={() => functions.onDeliveryTypeChange(deliveryType)}
+                  onClick={() => onDeliveryTypeChange(deliveryType)}
                 >
                   <Icon className='size-8' />
                   <span className='flex flex-1 flex-col'>
@@ -50,13 +72,11 @@ export const GameSelection = ({ functions, state }: GameSelectionProps) => (
                   <span
                     className={cn(
                       'flex size-5 shrink-0 items-center justify-center rounded-full bg-background',
-                      state.selectedDeliveryType === deliveryType &&
+                      selectedDeliveryType === deliveryType &&
                         'border-primary bg-primary text-primary-fg'
                     )}
                   >
-                    {state.selectedDeliveryType === deliveryType && (
-                      <CheckIcon className='size-4' />
-                    )}
+                    {selectedDeliveryType === deliveryType && <CheckIcon className='size-4' />}
                   </span>
                 </Button>
               );
@@ -65,26 +85,25 @@ export const GameSelection = ({ functions, state }: GameSelectionProps) => (
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+          <Typography className='md:text-[24px]/8 md:font-bold md:tracking-wide' variant='body-md'>
             <IntlText
               path='page.gameProduct.regionTitle'
-              values={{ platform: DELIVERY_TYPE_VIEW[state.selectedDeliveryType].platform }}
+              values={{ platform: DELIVERY_TYPE_VIEW[selectedDeliveryType].platform }}
             />
           </Typography>
           <div className='flex flex-wrap gap-2'>
-            {state.regions.map((region) => (
+            {regions.map((region) => (
               <Button
                 key={region}
                 className={cn(
                   'bg-secondary text-foreground hover:bg-secondary-hover/50 disabled:opacity-70',
-                  state.selectedRegion === region &&
-                    'bg-primary text-primary-fg hover:bg-primary/90'
+                  selectedRegion === region && 'bg-primary text-primary-fg hover:bg-primary/90'
                 )}
-                disabled={state.isSelectionLoading}
+                disabled={isLoading}
                 size='md'
                 type='button'
                 variant='secondary'
-                onClick={() => functions.onRegionChange(region)}
+                onClick={() => onRegionChange(region)}
               >
                 <IntlText path={`region.${region}`} />
               </Button>
@@ -93,28 +112,26 @@ export const GameSelection = ({ functions, state }: GameSelectionProps) => (
         </div>
 
         <div className='flex flex-col gap-3'>
-          <Typography variant={state.isDesktop ? 'title-md' : 'body-md'}>
+          <Typography className='md:text-[24px]/8 md:font-bold md:tracking-wide' variant='body-md'>
             <IntlText path='page.gameProduct.editionTitle' />
           </Typography>
           <div className='flex flex-col gap-2'>
-            {state.editions.map((edition) => (
+            {editions.map((edition) => (
               <Button
                 key={edition}
                 className='h-auto w-full justify-start rounded-16 bg-transparent px-0 py-1 text-left hover:bg-transparent disabled:opacity-70'
-                disabled={state.isSelectionLoading}
+                disabled={isLoading}
                 type='button'
                 variant='ghost'
-                onClick={() => functions.onEditionChange(edition)}
+                onClick={() => onEditionChange(edition)}
               >
                 <span
                   className={cn(
                     'flex size-5 items-center justify-center rounded-full bg-background',
-                    state.selectedPriceVariant.edition === edition && 'bg-primary text-primary-fg'
+                    selectedEdition === edition && 'bg-primary text-primary-fg'
                   )}
                 >
-                  {state.selectedPriceVariant.edition === edition && (
-                    <CheckIcon className='size-4' />
-                  )}
+                  {selectedEdition === edition && <CheckIcon className='size-4' />}
                 </span>
                 <Typography as='span' variant='caption'>
                   {edition}
@@ -124,8 +141,7 @@ export const GameSelection = ({ functions, state }: GameSelectionProps) => (
           </div>
         </div>
       </>
-    ) : (
-      <GameSelectionSkeleton />
     )}
+    {!isReady && <GameSelectionSkeleton />}
   </section>
 );

@@ -1,16 +1,17 @@
+import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { ChevronLeftIcon } from 'lucide-react';
 import z from 'zod';
 
-import { Typography } from '@/components/ui/typography';
 import {
+  GameDeliveryType,
+  GameRegion,
   getGamesInfoBySlugQueryOptions,
   getGamesPriceVariantsQueryOptions,
   getGamesRegionsQueryOptions
 } from '@/generated/api';
-import { DELIVERY_TYPES, REGIONS } from '@/helpers/constants';
-import { IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
+import { IntlText } from '@/utils/lib';
+import { cn } from '@/utils/lib/utils';
 
 import {
   GameCheckout,
@@ -49,19 +50,48 @@ const GameProductPage = () => {
         )}
       >
         <GameOverview game={state.game} />
-        <GameScreenshots isDesktop={state.isDesktop} screenshots={state.game.screenshots} />
+        <GameScreenshots screenshots={state.game.screenshots} />
         <GameMeta items={state.metaItems} />
-        <GameRequirements isDesktop={state.isDesktop} sections={state.requirementSections} />
-        <GameSelection functions={functions} state={state} />
-        <GameCheckout features={features} form={form} functions={functions} state={state} />
+        <GameRequirements sections={state.requirementSections} />
+        <GameSelection
+          deliveryTypes={state.game.deliveryTypes}
+          editions={state.editions}
+          isLoading={state.isSelectionLoading}
+          isReady={state.isSelectionReady}
+          regions={state.regions}
+          selectedDeliveryType={state.selectedDeliveryType}
+          selectedEdition={state.selectedPriceVariant.edition}
+          selectedRegion={state.selectedRegion}
+          onDeliveryTypeChange={functions.onDeliveryTypeChange}
+          onEditionChange={functions.onEditionChange}
+          onRegionChange={functions.onRegionChange}
+        />
+        <GameCheckout
+          control={form.control}
+          errors={form.formState.errors}
+          game={state.game}
+          isInviteLinkAvailable={state.isInviteLinkAvailable}
+          isPaymentStarting={state.isPaymentStarting}
+          isReady={state.isSelectionReady}
+          phoneMask={features.phoneMask}
+          savedCards={state.savedCards}
+          selectedDeliveryType={state.selectedDeliveryType}
+          selectedPaymentMethod={state.selectedPaymentMethod}
+          selectedPriceVariant={state.selectedPriceVariant}
+          selectedRegion={state.selectedRegion}
+          selectedSavedCard={state.selectedSavedCard}
+          onPaymentMethodChange={functions.onPaymentMethodChange}
+          onSavedCardChange={functions.onSavedCardChange}
+          onSubmit={functions.onSubmit}
+        />
       </div>
     </section>
   );
 };
 
 const gameProductSearchSchema = z.object({
-  deliveryType: z.enum(DELIVERY_TYPES).optional().catch(undefined),
-  region: z.enum(REGIONS).optional().catch(undefined),
+  deliveryType: z.enum(GameDeliveryType).optional().catch(undefined),
+  region: z.enum(GameRegion).optional().catch(undefined),
   edition: z.string().optional().catch(undefined)
 });
 

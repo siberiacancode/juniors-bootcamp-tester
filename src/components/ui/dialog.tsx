@@ -1,12 +1,10 @@
 import type { ComponentProps } from 'react';
 
+import { IconButton, Typography } from '@siberiacancode/uikit';
 import { XIcon } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 
-import { cn } from '@/lib/utils';
-
-import { IconButton } from './icon-button';
-import { Typography } from './typography';
+import { cn } from '@/utils/lib/utils';
 
 const Dialog = ({ ...props }: ComponentProps<typeof DialogPrimitive.Root>) => (
   <DialogPrimitive.Root data-slot='dialog' {...props} />

@@ -6,11 +6,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
+  getCardsCardsQueryOptions,
   getUsersProfileQueryOptions,
   usePostAuthSignInMutation,
   usePostOtpsOtpMutation
 } from '@/generated/api';
-import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 import type { LoginFormValues } from '../-constants';
 
@@ -76,15 +76,25 @@ export const useLoginPage = () => {
     if (!authSignInResponse.data.success) {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
-    localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, authSignInResponse.data.token);
 
-    await queryClient.ensureQueryData(
+    const getUsersProfileResponse = await queryClient.ensureQueryData(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
         }
       })
     );
+
+    if (getUsersProfileResponse.data.user) {
+      await queryClient.ensureQueryData(
+        getCardsCardsQueryOptions({
+          params: {
+            gcTime: Infinity
+          }
+        })
+      );
+    }
+
     await navigate({ to: search.redirect ?? '/', replace: true });
   });
 

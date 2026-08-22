@@ -147,12 +147,82 @@ export type CreateOtpResponse = {
     retryDelay: number;
 };
 
+export type Card = {
+    /**
+     * ID карты
+     */
+    _id: string;
+    /**
+     * Телефон владельца карты
+     */
+    phone: string;
+    /**
+     * Замаскированный номер карты
+     */
+    panMasked: string;
+    /**
+     * Срок действия карты
+     */
+    expiry: string;
+    /**
+     * Крипто-пакет карты в base64
+     */
+    cryptoPacket?: string | null;
+};
+
+export type GetCardsResponse = {
+    /**
+     * Статус запроса
+     */
+    success: boolean;
+    /**
+     * Причина ошибки
+     */
+    reason?: string;
+    /**
+     * Список сохраненных карт пользователя
+     */
+    cards: Array<Card>;
+};
+
+export type DeleteCardResponse = {
+    /**
+     * Статус запроса
+     */
+    success: boolean;
+    /**
+     * Причина ошибки
+     */
+    reason?: string;
+    /**
+     * ID удаленной карты
+     */
+    id: string;
+};
+
 /**
  * Тип заказа, связанного с транзакцией
  */
-export type TransactionOrderType = 'car' | 'delivery' | 'pizza' | 'cinema' | 'game';
+export const TransactionOrderType = {
+    CAR: 'car',
+    DELIVERY: 'delivery',
+    PIZZA: 'pizza',
+    CINEMA: 'cinema',
+    GAME: 'game'
+} as const;
 
-export type TransactionStatus = 'pending' | 'paid' | 'failed';
+/**
+ * Тип заказа, связанного с транзакцией
+ */
+export type TransactionOrderType = typeof TransactionOrderType[keyof typeof TransactionOrderType];
+
+export const TransactionStatus = {
+    PENDING: 'pending',
+    PAID: 'paid',
+    FAILED: 'failed'
+} as const;
+
+export type TransactionStatus = typeof TransactionStatus[keyof typeof TransactionStatus];
 
 export type Transaction = {
     /**
@@ -220,7 +290,16 @@ export type GetTransactionResponse = {
 /**
  * Способ оплаты
  */
-export type TransactionPayMethod = 'new_card' | 'saved_card' | 'qr';
+export const TransactionPayMethod = {
+    NEW_CARD: 'new_card',
+    SAVED_CARD: 'saved_card',
+    QR: 'qr'
+} as const;
+
+/**
+ * Способ оплаты
+ */
+export type TransactionPayMethod = typeof TransactionPayMethod[keyof typeof TransactionPayMethod];
 
 export type PayTransactionDto = {
     /**
@@ -268,26 +347,85 @@ export type PayTransactionResponse = {
     transaction: Transaction;
 };
 
-export type GameFilter = 'dlc' | 'discount';
+export const GameFilter = {
+    DLC: 'dlc',
+    DISCOUNT: 'discount'
+} as const;
 
-export type GameView = 'popular' | 'new';
+export type GameFilter = typeof GameFilter[keyof typeof GameFilter];
 
-export type GameGenre = 'action' | 'adventure' | 'rpg' | 'strategy' | 'shooter' | 'simulation' | 'survival' | 'sports' | 'racing' | 'indie' | 'horror';
+export const GameView = {
+    POPULAR: 'popular',
+    NEW: 'new'
+} as const;
+
+export type GameView = typeof GameView[keyof typeof GameView];
+
+export const GameGenre = {
+    ACTION: 'action',
+    ADVENTURE: 'adventure',
+    RPG: 'rpg',
+    STRATEGY: 'strategy',
+    SHOOTER: 'shooter',
+    SIMULATION: 'simulation',
+    SURVIVAL: 'survival',
+    SPORTS: 'sports',
+    RACING: 'racing',
+    INDIE: 'indie',
+    HORROR: 'horror'
+} as const;
+
+export type GameGenre = typeof GameGenre[keyof typeof GameGenre];
 
 /**
  * Тип
  */
-export type GameType = 'game' | 'dlc';
+export const GameType = {
+    GAME: 'game',
+    DLC: 'dlc'
+} as const;
+
+/**
+ * Тип
+ */
+export type GameType = typeof GameType[keyof typeof GameType];
 
 /**
  * Регион
  */
-export type GameRegion = 'ru' | 'kz' | 'by' | 'ua' | 'pl' | 'tr' | 'all_world' | 'europe' | 'asia';
+export const GameRegion = {
+    RU: 'ru',
+    KZ: 'kz',
+    BY: 'by',
+    UA: 'ua',
+    PL: 'pl',
+    TR: 'tr',
+    ALL_WORLD: 'all_world',
+    EUROPE: 'europe',
+    ASIA: 'asia'
+} as const;
+
+/**
+ * Регион
+ */
+export type GameRegion = typeof GameRegion[keyof typeof GameRegion];
 
 /**
  * Способ получения
  */
-export type GameDeliveryType = 'steam_key' | 'steam_gift' | 'epic_key' | 'nintendo_key' | 'xbox_key' | 'playstation_key';
+export const GameDeliveryType = {
+    STEAM_KEY: 'steam_key',
+    STEAM_GIFT: 'steam_gift',
+    EPIC_KEY: 'epic_key',
+    NINTENDO_KEY: 'nintendo_key',
+    XBOX_KEY: 'xbox_key',
+    PLAYSTATION_KEY: 'playstation_key'
+} as const;
+
+/**
+ * Способ получения
+ */
+export type GameDeliveryType = typeof GameDeliveryType[keyof typeof GameDeliveryType];
 
 export type GamePriceVariant = {
     /**
@@ -579,7 +717,15 @@ export type GameOrderPerson = {
 /**
  * Статус заказа
  */
-export type GameOrderStatus = 'awaiting_payment' | 'paid';
+export const GameOrderStatus = {
+    AWAITING_PAYMENT: 'awaiting_payment',
+    PAID: 'paid'
+} as const;
+
+/**
+ * Статус заказа
+ */
+export type GameOrderStatus = typeof GameOrderStatus[keyof typeof GameOrderStatus];
 
 export type GameOrder = {
     /**
@@ -774,6 +920,40 @@ export type OtpsControllerCreateOtpResponses = {
 };
 
 export type OtpsControllerCreateOtpResponse = OtpsControllerCreateOtpResponses[keyof OtpsControllerCreateOtpResponses];
+
+export type CardsControllerGetCardsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/cards/cards';
+};
+
+export type CardsControllerGetCardsResponses = {
+    /**
+     * get user cards
+     */
+    200: GetCardsResponse;
+};
+
+export type CardsControllerGetCardsResponse = CardsControllerGetCardsResponses[keyof CardsControllerGetCardsResponses];
+
+export type CardsControllerDeleteCardData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/cards/cards/{id}';
+};
+
+export type CardsControllerDeleteCardResponses = {
+    /**
+     * delete user card
+     */
+    200: DeleteCardResponse;
+};
+
+export type CardsControllerDeleteCardResponse = CardsControllerDeleteCardResponses[keyof CardsControllerDeleteCardResponses];
 
 export type TransactionsControllerGetTransactionData = {
     body?: never;

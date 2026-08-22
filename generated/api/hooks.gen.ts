@@ -4,7 +4,7 @@ import type { UseSuspenseQueryOptions, UseQueryOptions, UseMutationOptions, Defa
 
 import { useQuery, useMutation, queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-import { postAuthSignIn, postAuthSignOut, getUsersProfile, patchUsersProfile, postOtpsOtp, getTransactionById, postTransactionsPay, postTransactionByIdPayQr, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesPriceVariants, postGamesOrder, getGamesOrders, getGamesOrdersPaid, getGamesOrderByOrderId } from "./requests.gen";
+import { postAuthSignIn, postAuthSignOut, getUsersProfile, patchUsersProfile, postOtpsOtp, getCardsCards, deleteCardsCardById, getTransactionById, postTransactionsPay, postTransactionByIdPayQr, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesPriceVariants, postGamesOrder, getGamesOrders, getGamesOrdersPaid, getGamesOrderByOrderId } from "./requests.gen";
 
 type PostAuthSignInHookData = Awaited<ReturnType<typeof postAuthSignIn>>;
 
@@ -210,6 +210,88 @@ export const postOtpsOtpSuspenseQueryOptions = <TData = PostOtpsOtpHookData, TEr
 });
 
 export const usePostOtpsOtpSuspenseQuery = <TData = PostOtpsOtpHookData, TError = DefaultError>(...args: Parameters<typeof postOtpsOtpSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postOtpsOtpSuspenseQueryOptions<TData, TError>(...args));
+
+type GetCardsCardsHookData = Awaited<ReturnType<typeof getCardsCards>>;
+
+export const getCardsCardsQueryKey = "getCardsCardsQueryKey";
+
+export const getCardsCardsQueryOptions = <TData = GetCardsCardsHookData, TError = DefaultError>(settings?: {
+    params?: Omit<UseQueryOptions<GetCardsCardsHookData, TError, TData>, "queryKey">;
+    request?: NonNullable<Parameters<typeof getCardsCards>[0]>;
+}) => queryOptions({
+    queryKey: [getCardsCardsQueryKey, ...(!!settings?.request?.path ? [settings?.request?.path] : []), ...(!!settings?.request?.query ? [settings?.request?.query] : []), ...(!!settings?.request?.body ? [settings?.request?.body] : [])],
+    queryFn: async () => getCardsCards({ ...settings?.request }),
+    ...settings?.params
+});
+
+export const useGetCardsCardsQuery = <TData = GetCardsCardsHookData, TError = DefaultError>(...args: Parameters<typeof getCardsCardsQueryOptions<TData, TError>>) => useQuery(getCardsCardsQueryOptions<TData, TError>(...args));
+
+export const getCardsCardsMutationKey = "getCardsCardsMutationKey";
+
+type GetCardsCardsMutationVariables = Parameters<typeof getCardsCards>[0];
+
+export const useGetCardsCardsMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+    params?: UseMutationOptions<GetCardsCardsHookData, TError, GetCardsCardsMutationVariables, TContext>;
+    request?: NonNullable<GetCardsCardsMutationVariables>;
+}) => useMutation({
+    mutationKey: [getCardsCardsMutationKey],
+    mutationFn: async (params) => getCardsCards({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const getCardsCardsSuspenseQueryKey = "getCardsCardsQueryKey";
+
+export const getCardsCardsSuspenseQueryOptions = <TData = GetCardsCardsHookData, TError = DefaultError>(settings?: {
+    params?: Omit<UseSuspenseQueryOptions<GetCardsCardsHookData, TError, TData>, "queryKey">;
+    request?: NonNullable<Parameters<typeof getCardsCards>[0]>;
+}) => queryOptions({
+    queryKey: [getCardsCardsSuspenseQueryKey, ...(!!settings?.request?.path ? [settings?.request?.path] : []), ...(!!settings?.request?.query ? [settings?.request?.query] : []), ...(!!settings?.request?.body ? [settings?.request?.body] : [])],
+    queryFn: async () => getCardsCards({ ...settings?.request }),
+    ...settings?.params
+});
+
+export const useGetCardsCardsSuspenseQuery = <TData = GetCardsCardsHookData, TError = DefaultError>(...args: Parameters<typeof getCardsCardsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getCardsCardsSuspenseQueryOptions<TData, TError>(...args));
+
+type DeleteCardsCardByIdHookData = Awaited<ReturnType<typeof deleteCardsCardById>>;
+
+export const deleteCardsCardByIdQueryKey = "deleteCardsCardByIdQueryKey";
+
+export const deleteCardsCardByIdQueryOptions = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(settings: {
+    params?: Omit<UseQueryOptions<DeleteCardsCardByIdHookData, TError, TData>, "queryKey">;
+    request: NonNullable<Parameters<typeof deleteCardsCardById>[0]>;
+}) => queryOptions({
+    queryKey: [deleteCardsCardByIdQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => deleteCardsCardById({ ...settings.request }),
+    ...settings.params
+});
+
+export const useDeleteCardsCardByIdQuery = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(...args: Parameters<typeof deleteCardsCardByIdQueryOptions<TData, TError>>) => useQuery(deleteCardsCardByIdQueryOptions<TData, TError>(...args));
+
+export const deleteCardsCardByIdMutationKey = "deleteCardsCardByIdMutationKey";
+
+type DeleteCardsCardByIdMutationVariables = Parameters<typeof deleteCardsCardById>[0];
+
+export const useDeleteCardsCardByIdMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+    params?: UseMutationOptions<DeleteCardsCardByIdHookData, TError, DeleteCardsCardByIdMutationVariables, TContext>;
+    request?: NonNullable<DeleteCardsCardByIdMutationVariables>;
+}) => useMutation({
+    mutationKey: [deleteCardsCardByIdMutationKey],
+    mutationFn: async (params) => deleteCardsCardById({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const deleteCardsCardByIdSuspenseQueryKey = "deleteCardsCardByIdQueryKey";
+
+export const deleteCardsCardByIdSuspenseQueryOptions = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(settings: {
+    params?: Omit<UseSuspenseQueryOptions<DeleteCardsCardByIdHookData, TError, TData>, "queryKey">;
+    request: NonNullable<Parameters<typeof deleteCardsCardById>[0]>;
+}) => queryOptions({
+    queryKey: [deleteCardsCardByIdSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => deleteCardsCardById({ ...settings.request }),
+    ...settings.params
+});
+
+export const useDeleteCardsCardByIdSuspenseQuery = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(...args: Parameters<typeof deleteCardsCardByIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(deleteCardsCardByIdSuspenseQueryOptions<TData, TError>(...args));
 
 type GetTransactionByIdHookData = Awaited<ReturnType<typeof getTransactionById>>;
 

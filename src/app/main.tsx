@@ -1,9 +1,8 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { getUsersProfileQueryOptions } from '@/generated/api';
-import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
-import { queryClient } from '@/lib';
+import { getCardsCardsQueryOptions, getUsersProfileQueryOptions } from '@/generated/api';
+import { queryClient } from '@/utils/lib';
 
 import { Provider } from './provider';
 import { router } from './router';
@@ -11,10 +10,22 @@ import { router } from './router';
 import './styles/globals.css';
 
 const init = async () => {
-  const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN);
+  const getUsersProfileResponse = await queryClient.ensureQueryData(
+    getUsersProfileQueryOptions({
+      params: {
+        gcTime: Infinity
+      }
+    })
+  );
 
-  if (token) {
-    await queryClient.ensureQueryData(getUsersProfileQueryOptions({}));
+  if (getUsersProfileResponse.data.user) {
+    await queryClient.ensureQueryData(
+      getCardsCardsQueryOptions({
+        params: {
+          gcTime: Infinity
+        }
+      })
+    );
   }
 
   const root = createRoot(document.getElementById('root')!);

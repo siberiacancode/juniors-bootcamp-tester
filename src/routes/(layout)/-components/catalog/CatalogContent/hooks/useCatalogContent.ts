@@ -3,6 +3,8 @@ import { getRouteApi } from '@tanstack/react-router';
 
 import { getGamesInfo, getGamesInfoQueryKey } from '@/generated/api';
 
+import { CATALOG_GAMES_LIMIT } from '../../../../-constants';
+
 const catalogRoute = getRouteApi('/(layout)/');
 
 export const useCatalogContent = () => {
@@ -13,7 +15,7 @@ export const useCatalogContent = () => {
     queryFn: ({ pageParam }) =>
       getGamesInfo({
         query: {
-          limit: 12,
+          limit: CATALOG_GAMES_LIMIT,
           page: pageParam,
           ...searchParams
         }

@@ -1,9 +1,8 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 
 import { MascotSadIcon } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 export const ErrorState = () => (
   <section className='mx-auto flex w-full max-w-207 flex-1 flex-col items-center justify-center gap-6 py-16 text-center'>

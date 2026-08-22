@@ -1,9 +1,10 @@
+import { Button } from '@siberiacancode/uikit';
+
 import type { ModalProps } from '@/components/ui/modal';
 
 import { QuestionMarkIcon } from '@/components/icons/system';
-import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 interface LogoutConfirmationProps extends ModalProps {
   onConfirm: () => void;

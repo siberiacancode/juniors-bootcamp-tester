@@ -1,9 +1,9 @@
 import type { ComponentProps } from 'react';
 
+import { Button, IconButton, Input, Typography } from '@siberiacancode/uikit';
 import { Loader2Icon, XIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerClose,
@@ -12,11 +12,8 @@ import {
   DrawerTitle
 } from '@/components/ui/drawer';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { IconButton } from '@/components/ui/icon-button';
-import { Input } from '@/components/ui/input';
-import { Typography } from '@/components/ui/typography';
-import { intl, IntlText } from '@/lib/intl';
-import { cn } from '@/lib/utils';
+import { intl, IntlText } from '@/utils/lib/intl';
+import { cn } from '@/utils/lib/utils';
 
 import { useEditProfileDrawer } from './hooks';
 
@@ -27,9 +24,9 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
 
   return (
     <Drawer
+      handleOnly
       open
       direction={state.isDesktop ? 'right' : 'bottom'}
-      dismissible={!state.isDesktop}
       shouldScaleBackground={false}
       onOpenChange={onClose}
     >
@@ -42,7 +39,7 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
           </DrawerTitle>
           {state.isDesktop && (
             <DrawerClose asChild onClick={onClose}>
-              <IconButton className='size-10' type='button' variant='ghost'>
+              <IconButton className='size-10' shape='round' type='button' variant='ghost'>
                 <XIcon className='size-6' />
               </IconButton>
             </DrawerClose>

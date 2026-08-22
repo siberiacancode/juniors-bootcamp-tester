@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button';
+import { Button, Typography } from '@siberiacancode/uikit';
+
 import {
   OrderCard,
   OrderCardBadges,
@@ -6,12 +7,11 @@ import {
   OrderCardHeader
 } from '@/components/ui/order-card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
-import { cn } from '@/lib/utils';
+import { IntlText } from '@/utils/lib/intl';
+import { cn } from '@/utils/lib/utils';
 
 export const OrderHistorySkeleton = () => (
-  <section className='flex flex-col gap-4'>
+  <section className='flex w-[70%] flex-col gap-4'>
     <Typography as='p' className='block sm:hidden' variant='body-md'>
       <IntlText path='page.history.title' />
     </Typography>
@@ -43,7 +43,7 @@ export const OrderHistorySkeleton = () => (
           </OrderCardContent>
 
           <Button disabled className='w-full' size='lg' type='button'>
-            <IntlText path='button.goToOrder' />
+            <IntlText path='button.moreDetails' />
           </Button>
         </OrderCard>
       ))}

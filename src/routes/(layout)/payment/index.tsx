@@ -1,8 +1,8 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { CheckIcon } from 'lucide-react';
 import z from 'zod';
 
-import { Button } from '@/components/ui/button';
 import {
   OrderCard,
   OrderCardBadge,
@@ -16,14 +16,13 @@ import {
   OrderCardThumbnail,
   OrderCardTitle
 } from '@/components/ui/order-card';
-import { Typography } from '@/components/ui/typography';
 import {
   getGamesOrdersPaidSuspenseQueryOptions,
   useGetGamesOrdersPaidSuspenseQuery
 } from '@/generated/api';
-import { formatMoney, getAsset } from '@/helpers/utils';
-import { queryClient } from '@/lib';
-import { IntlText } from '@/lib/intl';
+import { formatMoney, getAsset } from '@/utils/helpers';
+import { queryClient } from '@/utils/lib';
+import { IntlText } from '@/utils/lib/intl';
 
 const paymentSearchSchema = z.object({
   token: z.coerce.string().min(1),

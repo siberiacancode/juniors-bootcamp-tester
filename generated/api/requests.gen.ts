@@ -2,9 +2,9 @@
 
 import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacancode/apicraft";
 
-import type { AuthControllerSignInData, AuthControllerSignInResponse, AuthControllerSignOutData, AuthControllerSignOutResponse, UsersControllerGetProfileData, UsersControllerGetProfileResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, TransactionsControllerGetTransactionData, TransactionsControllerGetTransactionResponse, TransactionsControllerPayTransactionData, TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionByQrData, TransactionsControllerPayTransactionByQrResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetGameRegionsData, GamesControllerGetGameRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGamePaidOrderData, GamesControllerGetGamePaidOrderResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
+import type { AuthControllerSignInData, AuthControllerSignInResponse, AuthControllerSignOutData, AuthControllerSignOutResponse, UsersControllerGetProfileData, UsersControllerGetProfileResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, CardsControllerGetCardsData, CardsControllerGetCardsResponse, CardsControllerDeleteCardData, CardsControllerDeleteCardResponse, TransactionsControllerGetTransactionData, TransactionsControllerGetTransactionResponse, TransactionsControllerPayTransactionData, TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionByQrData, TransactionsControllerPayTransactionByQrResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetGameRegionsData, GamesControllerGetGameRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGamePaidOrderData, GamesControllerGetGamePaidOrderResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
 
-import { instance } from "../../src/helpers/api/instance";
+import { instance } from "../../src/utils/api/instance";
 
 export type PostAuthSignInRequestParams = FetchesRequestParams<AuthControllerSignInData>;
 
@@ -15,6 +15,10 @@ export type GetUsersProfileRequestParams = FetchesRequestParams<UsersControllerG
 export type PatchUsersProfileRequestParams = FetchesRequestParams<UsersControllerUpdateProfileData>;
 
 export type PostOtpsOtpRequestParams = FetchesRequestParams<OtpsControllerCreateOtpData>;
+
+export type GetCardsCardsRequestParams = FetchesRequestParams<CardsControllerGetCardsData> | void;
+
+export type DeleteCardsCardByIdRequestParams = FetchesRequestParams<CardsControllerDeleteCardData>;
 
 export type GetTransactionByIdRequestParams = FetchesRequestParams<TransactionsControllerGetTransactionData>;
 
@@ -62,6 +66,14 @@ export const patchUsersProfile = ({ config, body }: PatchUsersProfileRequestPara
 
 export const postOtpsOtp = ({ config, body }: PostOtpsOtpRequestParams): Promise<ApicraftFetchesResponse<OtpsControllerCreateOtpResponse>> => instance.call("POST", "/otps/otp", {
     body,
+    ...config
+});
+
+export const getCardsCards = ({ config }: GetCardsCardsRequestParams = {}): Promise<ApicraftFetchesResponse<CardsControllerGetCardsResponse>> => instance.call("GET", "/cards/cards", {
+    ...config
+});
+
+export const deleteCardsCardById = ({ config, path }: DeleteCardsCardByIdRequestParams): Promise<ApicraftFetchesResponse<CardsControllerDeleteCardResponse>> => instance.call("DELETE", `/cards/cards/${path.id}`, {
     ...config
 });
 

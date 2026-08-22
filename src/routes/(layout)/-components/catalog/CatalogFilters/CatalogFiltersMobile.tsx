@@ -1,6 +1,13 @@
+import {
+  Button,
+  IconButton,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Typography
+} from '@siberiacancode/uikit';
 import { ListFilterIcon, SearchIcon, XIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Drawer,
@@ -11,11 +18,8 @@ import {
   DrawerTitle,
   DrawerTrigger
 } from '@/components/ui/drawer';
-import { IconButton } from '@/components/ui/icon-button';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Switch } from '@/components/ui/switch';
-import { Typography } from '@/components/ui/typography';
-import { intl, IntlText } from '@/lib';
+import { intl, IntlText } from '@/utils/lib';
 
 import { useCatalogFiltersMobile } from './hooks';
 
@@ -25,7 +29,7 @@ export const CatalogFiltersMobile = () => {
   return (
     <Drawer direction='bottom' shouldScaleBackground={false}>
       <DrawerTrigger asChild>
-        <IconButton rounded className='lg:hidden' variant='secondary'>
+        <IconButton className='lg:hidden' shape='rounded' variant='secondary'>
           <ListFilterIcon />
         </IconButton>
       </DrawerTrigger>
@@ -69,7 +73,7 @@ export const CatalogFiltersMobile = () => {
             </Typography>
 
             <InputGroup className='h-10'>
-              <InputGroupAddon align='start'>
+              <InputGroupAddon align='inline-start'>
                 <SearchIcon className='text-input' />
               </InputGroupAddon>
               <InputGroupInput
@@ -96,25 +100,14 @@ export const CatalogFiltersMobile = () => {
               </div>
             </div>
 
-            {!state.showedAllGenres &&
-              state.filteredGenres.length > state.visibleGenres.length && (
-                <Button
-                  size='sm'
-                  type='button'
-                  variant='ghost'
-                  onClick={functions.onMoreGenresShow}
-                >
-                  <IntlText path='button.showMore' />
-                </Button>
-              )}
+            {!state.showedAllGenres && state.filteredGenres.length > state.visibleGenres.length && (
+              <Button size='sm' type='button' variant='ghost' onClick={functions.onMoreGenresShow}>
+                <IntlText path='button.showMore' />
+              </Button>
+            )}
 
             {state.showedAllGenres && (
-              <Button
-                size='sm'
-                type='button'
-                variant='ghost'
-                onClick={functions.onMoreGenresHide}
-              >
+              <Button size='sm' type='button' variant='ghost' onClick={functions.onMoreGenresHide}>
                 <IntlText path='page.catalog.filters.hide' />
               </Button>
             )}

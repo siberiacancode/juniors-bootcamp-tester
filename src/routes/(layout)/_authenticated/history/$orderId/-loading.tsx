@@ -1,14 +1,9 @@
+import { Typography } from '@siberiacancode/uikit';
 import { ChevronLeftIcon } from 'lucide-react';
 
-import {
-  OrderCard,
-  OrderCardBadges,
-  OrderCardContent,
-  OrderCardHeader
-} from '@/components/ui/order-card';
+import { OrderCard, OrderCardContent } from '@/components/ui/order-card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 export const HistoryOrderLoading = () => (
   <main className='flex w-full max-w-162 flex-col gap-6 pt-14'>
@@ -21,30 +16,31 @@ export const HistoryOrderLoading = () => (
       </Typography>
     </div>
 
-    <OrderCard className='min-h-101'>
+    <OrderCard className='h-[290px]'>
       <div className='flex w-full flex-col gap-2'>
-        <OrderCardHeader>
-          <Skeleton className='row-span-2 size-14 rounded-8 bg-muted-fg/40' />
-          <Skeleton className='mt-1 h-6 w-full max-w-88 rounded-24 bg-muted-fg/30 lg:max-w-96' />
-          <Skeleton className='h-3 w-full max-w-72 rounded-24 bg-muted-fg/10 lg:max-w-80' />
-        </OrderCardHeader>
+        <div className='flex h-14 w-full items-start gap-2'>
+          <Skeleton className='size-14 shrink-0 rounded-8 bg-muted-fg' />
 
-        <OrderCardBadges>
-          <Skeleton className='h-8 w-34 rounded-full bg-background ring-1 ring-ring lg:w-30' />
-          <Skeleton className='h-8 w-38 rounded-full bg-background ring-1 ring-ring lg:w-30' />
-        </OrderCardBadges>
+          <div className='flex h-full min-w-0 flex-1 flex-col items-start gap-3'>
+            <Skeleton className='h-[18px] w-[194px] max-w-full rounded-24 bg-muted-fg/70' />
+            <Skeleton className='h-3 w-[163px] max-w-full rounded-24 bg-muted-fg/20' />
+          </div>
+        </div>
+
+        <div className='flex min-h-8 w-full flex-wrap items-start gap-2'>
+          <Skeleton className='h-8 w-30 rounded-full bg-background ring-1 ring-ring' />
+          <Skeleton className='h-8 w-30 rounded-full bg-background ring-1 ring-ring' />
+        </div>
       </div>
 
       <OrderCardContent>
-        <div className='flex w-full flex-col items-start gap-2'>
-          <Skeleton className='h-4 w-40 rounded-24 bg-muted-fg/20' />
-          <Skeleton className='h-6 w-full max-w-100 rounded-24 bg-muted-fg/30' />
+        <div className='flex w-full flex-col items-start'>
+          <Skeleton className='h-8 w-[216px] max-w-full rounded-24 bg-muted-fg/70' />
         </div>
 
-        {Array.from({ length: 3 }, (_, field) => (
-          <div key={field} className='flex w-full flex-col items-start gap-1'>
-            <Skeleton className='h-3 w-32 rounded-24 bg-muted-fg/20' />
-            <Skeleton className='mt-1 h-3 w-56 rounded-24 bg-muted-fg/30 lg:w-48' />
+        {[171, 104, 47].map((width) => (
+          <div key={width} className='flex w-full flex-col items-start'>
+            <Skeleton className='h-3 max-w-full rounded-24 bg-muted-fg/70' style={{ width }} />
           </div>
         ))}
       </OrderCardContent>

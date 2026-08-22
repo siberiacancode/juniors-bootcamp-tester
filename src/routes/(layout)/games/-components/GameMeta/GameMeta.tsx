@@ -1,4 +1,4 @@
-import { Typography } from '@/components/ui/typography';
+import { Typography } from '@siberiacancode/uikit';
 
 import type { GamePageState } from '../types';
 

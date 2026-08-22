@@ -1,12 +1,11 @@
 import type { ComponentProps } from 'react';
 
+import { Typography } from '@siberiacancode/uikit';
 import { cva } from 'class-variance-authority';
 import { XIcon } from 'lucide-react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { cn } from '@/lib/utils';
-
-import { Typography } from './typography';
+import { cn } from '@/utils/lib/utils';
 
 const Drawer = ({
   shouldScaleBackground = true,

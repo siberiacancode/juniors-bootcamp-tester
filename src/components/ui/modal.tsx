@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { useMediaQuery } from '@siberiacancode/reactuse';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './dialog';
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from './drawer';

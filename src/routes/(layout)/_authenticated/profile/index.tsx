@@ -1,9 +1,9 @@
+import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute } from '@tanstack/react-router';
 import { Suspense } from 'react';
 
-import { Typography } from '@/components/ui/typography';
 import { getGamesOrdersSuspenseQueryOptions, getUsersProfileQueryOptions } from '@/generated/api';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 import {
   OrderHistory,
@@ -13,7 +13,7 @@ import {
 } from './-components';
 
 const ProfilePage = () => (
-  <section className='mx-auto flex flex-col gap-10 sm:mt-12 lg:grid lg:grid-cols-[minmax(20rem,25rem)_minmax(0,1fr)] lg:gap-16'>
+  <section className='mx-auto flex w-full flex-col gap-10 sm:mt-12 lg:flex-row lg:gap-16'>
     <div className='py-3 sm:hidden sm:py-0'>
       <Typography as='h1' variant='title-md'>
         <IntlText path='page.profile.title' />

@@ -1,7 +1,8 @@
+import { Typography } from '@siberiacancode/uikit';
+
 import { Badge } from '@/components/ui/badge';
-import { Typography } from '@/components/ui/typography';
-import { getAsset } from '@/helpers/utils/assets';
-import { IntlText } from '@/lib';
+import { getAsset } from '@/utils/helpers/assets';
+import { IntlText } from '@/utils/lib';
 
 import type { GamePageState } from '../types';
 

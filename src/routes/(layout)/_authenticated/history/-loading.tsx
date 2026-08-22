@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@siberiacancode/uikit';
+
 import { Skeleton } from '@/components/ui/skeleton';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 export const HistoryLoading = () => (
   <section className='mx-auto flex w-full flex-col gap-24 sm:mt-12 lg:gap-50'>
@@ -35,7 +36,7 @@ export const HistoryLoading = () => (
             </div>
 
             <Button disabled className='w-full' size='lg' type='button'>
-              <IntlText path='button.goToOrder' />
+              <IntlText path='button.moreDetails' />
             </Button>
           </article>
         ))}

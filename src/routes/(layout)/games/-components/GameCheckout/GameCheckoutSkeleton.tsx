@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@siberiacancode/uikit';
+
 import { Skeleton } from '@/components/ui/skeleton';
-import { IntlText } from '@/lib';
+import { IntlText } from '@/utils/lib';
 
 export const GameCheckoutSkeleton = () => (
   <div className='flex flex-col gap-4'>

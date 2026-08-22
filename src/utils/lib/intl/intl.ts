@@ -1,6 +1,6 @@
 import { createIntl, createIntlCache } from 'react-intl';
 
-import ruMessages from '../../../static/ru.json';
+import ruMessages from '../../../../static/ru.json';
 
 export const LOCALE = 'ru';
 
