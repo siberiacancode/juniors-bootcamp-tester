@@ -12,7 +12,7 @@ export const Header = () => {
     params: { enabled: false }
   });
   const user = usersProfileResponse.data?.data.user;
-  console.log('@Header', user);
+
   return (
     <header className='hidden h-16 items-center justify-between px-3 sm:flex'>
       <Link className='text-[16px]/6 font-extrabold tracking-wide' to='/'>

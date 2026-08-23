@@ -7,7 +7,7 @@ interface GameMetaProps {
 }
 
 export const GameMeta = ({ items }: GameMetaProps) => (
-  <section className='mb-6 flex h-fit flex-col gap-2 border-none p-0 [grid-area:meta] sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6'>
+  <section className='mb-6 flex min-h-[231px] flex-col justify-between gap-2 border-none p-0 [grid-area:meta] sm:mb-0 sm:rounded-24 sm:bg-secondary sm:p-6'>
     {items.map((item) => (
       <div key={item.label} className='flex flex-col'>
         <Typography as='span' className='text-muted-fg' variant='caption'>

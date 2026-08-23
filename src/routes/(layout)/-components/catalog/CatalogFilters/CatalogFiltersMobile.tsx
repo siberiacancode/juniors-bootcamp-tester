@@ -41,7 +41,7 @@ export const CatalogFiltersMobile = () => {
             </Typography>
           </DrawerTitle>
           <DrawerClose asChild>
-            <IconButton className='size-6' type='button' variant='ghost'>
+            <IconButton className='size-6' shape='round' type='button' variant='ghost'>
               <XIcon className='size-6' />
             </IconButton>
           </DrawerClose>
@@ -108,7 +108,7 @@ export const CatalogFiltersMobile = () => {
 
             {state.showedAllGenres && (
               <Button size='sm' type='button' variant='ghost' onClick={functions.onMoreGenresHide}>
-                <IntlText path='page.catalog.filters.hide' />
+                <IntlText path='button.hide' />
               </Button>
             )}
           </div>
@@ -120,12 +120,12 @@ export const CatalogFiltersMobile = () => {
                 variant='secondary'
                 onClick={functions.onFiltersReset}
               >
-                <IntlText path='page.catalog.filters.reset' />
+                <IntlText path='button.reset' />
               </Button>
             </DrawerClose>
             <DrawerClose asChild>
               <Button size='lg' type='submit'>
-                <IntlText path='page.catalog.filters.apply' />
+                <IntlText path='button.apply' />
               </Button>
             </DrawerClose>
           </DrawerFooter>

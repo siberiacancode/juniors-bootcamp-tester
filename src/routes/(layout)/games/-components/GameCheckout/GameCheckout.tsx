@@ -32,7 +32,6 @@ import { cn } from '@/utils/lib/utils';
 import type { GamePageFeatures, GamePageForm, GamePageFunctions, GamePageState } from '../types';
 
 import { DELIVERY_TYPE_VIEW } from '../../-constants';
-import { GameCheckoutSkeleton } from './GameCheckoutSkeleton';
 
 interface JbPayLogoProps {
   className?: string;
@@ -57,7 +56,7 @@ interface GameCheckoutProps {
   isFree: GamePageState['isFree'];
   isInviteLinkAvailable: GamePageState['isInviteLinkAvailable'];
   isPaymentStarting: GamePageState['isPaymentStarting'];
-  isReady: GamePageState['isSelectionReady'];
+  isPending: GamePageState['isSelectionPending'];
   onDismissError: GamePageFunctions['onDismissError'];
   onPaymentMethodChange: GamePageFunctions['onPaymentMethodChange'];
   onSavedCardChange: GamePageFunctions['onSavedCardChange'];
@@ -102,7 +101,7 @@ export const GameCheckout = ({
   isFree,
   isInviteLinkAvailable,
   isPaymentStarting,
-  isReady,
+  isPending,
   phoneMask,
   savedCards,
   selectedDeliveryType,
@@ -116,99 +115,49 @@ export const GameCheckout = ({
   onSubmit
 }: GameCheckoutProps) => {
   const isCardPaymentSelected = selectedPaymentMethod !== TransactionPayMethod.QR;
-  const oldPrice = isReady ? selectedPriceVariant.oldPrice : undefined;
+  const oldPrice = selectedPriceVariant.oldPrice;
   const hasPriceDiscount = !isFree && !!oldPrice && oldPrice !== selectedPriceVariant.price;
 
   return (
-    <section className='mt-6 rounded-24 border-none bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
-      {isReady ? (
-        <OrderCard asChild className='gap-4 rounded-none bg-transparent p-0'>
-          <form onSubmit={onSubmit}>
-            <div className='flex w-full flex-col gap-2'>
-              <OrderCardHeader>
-                <OrderCardThumbnail alt={game.name} src={getAsset(game.image)} />
-                <OrderCardTitle>{game.name}</OrderCardTitle>
-                <OrderCardSubtitle>{selectedPriceVariant.edition}</OrderCardSubtitle>
-              </OrderCardHeader>
+    <section
+      className={cn(
+        'mt-6 rounded-24 border-none bg-secondary p-6 transition-opacity [grid-area:checkout] lg:mt-0',
+        isPending && 'opacity-60'
+      )}
+      aria-busy={isPending}
+      inert={isPending}
+    >
+      <OrderCard asChild className='gap-4 rounded-none bg-transparent p-0'>
+        <form onSubmit={onSubmit}>
+          <div className='flex w-full flex-col gap-2'>
+            <OrderCardHeader>
+              <OrderCardThumbnail alt={game.name} src={getAsset(game.image)} />
+              <OrderCardTitle>{game.name}</OrderCardTitle>
+              <OrderCardSubtitle>{selectedPriceVariant.edition}</OrderCardSubtitle>
+            </OrderCardHeader>
 
-              <OrderCardBadges>
-                <OrderCardBadge>
-                  <IntlText path='card.order.region' />{' '}
-                  <IntlText path={`region.${selectedRegion}`} />
-                </OrderCardBadge>
-                <OrderCardBadge>
-                  <IntlText path={DELIVERY_TYPE_VIEW[selectedDeliveryType].titlePath} />
-                </OrderCardBadge>
-              </OrderCardBadges>
-            </div>
+            <OrderCardBadges>
+              <OrderCardBadge>
+                <IntlText path='card.order.region' /> <IntlText path={`region.${selectedRegion}`} />
+              </OrderCardBadge>
+              <OrderCardBadge>
+                <IntlText path={DELIVERY_TYPE_VIEW[selectedDeliveryType].titlePath} />
+              </OrderCardBadge>
+            </OrderCardBadges>
+          </div>
 
-            <div className='flex w-full flex-col gap-4'>
-              {isInviteLinkAvailable && (
-                <Controller
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <Input
-                        {...field}
-                        placeholder={intl.formatMessage({
-                          id: 'field.product.inviteLink.placeholder'
-                        })}
-                        className='bg-background'
-                        id={field.name}
-                      />
-                      {fieldState.error?.message && (
-                        <FieldError>
-                          <IntlText path={fieldState.error.message as MessagePath} />
-                        </FieldError>
-                      )}
-                    </Field>
-                  )}
-                  control={control}
-                  name='inviteLink'
-                />
-              )}
+          <div className='flex w-full flex-col gap-4'>
+            {isInviteLinkAvailable && (
               <Controller
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel
-                      className='text-[14px]/[22px] font-medium text-foreground'
-                      htmlFor={field.name}
-                    >
-                      <IntlText path='field.product.email.label' />
-                    </FieldLabel>
                     <Input
                       {...field}
-                      className='bg-background'
-                      id={field.name}
-                      placeholder={intl.formatMessage({ id: 'field.product.email.placeholder' })}
-                    />
-                    {fieldState.error?.message && (
-                      <FieldError>
-                        <IntlText path={fieldState.error.message as MessagePath} />
-                      </FieldError>
-                    )}
-                  </Field>
-                )}
-                control={control}
-                name='email'
-              />
-              <Controller
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel
-                      className='text-[14px]/[22px] font-medium text-foreground'
-                      htmlFor={field.name}
-                    >
-                      <IntlText path='field.product.phone.label' />
-                    </FieldLabel>
-                    <Input
-                      {...phoneMask.register({
-                        onBlur: field.onBlur
+                      placeholder={intl.formatMessage({
+                        id: 'field.product.inviteLink.placeholder'
                       })}
                       className='bg-background'
-                      disabled={isAuthorized}
                       id={field.name}
-                      name={field.name}
-                      placeholder='+7'
                     />
                     {fieldState.error?.message && (
                       <FieldError>
@@ -218,172 +167,221 @@ export const GameCheckout = ({
                   </Field>
                 )}
                 control={control}
-                name='phone'
+                name='inviteLink'
               />
-            </div>
+            )}
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel
+                    className='text-[14px]/[22px] font-medium text-foreground'
+                    htmlFor={field.name}
+                  >
+                    <IntlText path='field.product.email.label' />
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    className='bg-background'
+                    id={field.name}
+                    placeholder={intl.formatMessage({ id: 'field.product.email.placeholder' })}
+                  />
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
+                </Field>
+              )}
+              control={control}
+              name='email'
+            />
+            <Controller
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel
+                    className='text-[14px]/[22px] font-medium text-foreground'
+                    htmlFor={field.name}
+                  >
+                    <IntlText path='field.product.phone.label' />
+                  </FieldLabel>
+                  <Input
+                    {...phoneMask.register({
+                      onBlur: field.onBlur
+                    })}
+                    className='bg-background'
+                    disabled={isAuthorized}
+                    id={field.name}
+                    name={field.name}
+                    placeholder='+7'
+                  />
+                  {fieldState.error?.message && (
+                    <FieldError>
+                      <IntlText path={fieldState.error.message as MessagePath} />
+                    </FieldError>
+                  )}
+                </Field>
+              )}
+              control={control}
+              name='phone'
+            />
+          </div>
 
-            {!isFree && (
-              <>
+          {!isFree && (
+            <>
+              <div className='flex w-full flex-col gap-3'>
+                <Typography as='p' variant='body-md'>
+                  <IntlText path='page.gameProduct.paymentMethodTitle' />
+                </Typography>
+
+                <div className='grid grid-cols-2 gap-2'>
+                  <Card
+                    asChild
+                    className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
+                  >
+                    <button
+                      type='button'
+                      onClick={() => onPaymentMethodChange(TransactionPayMethod.QR)}
+                    >
+                      <span className='flex w-full items-start gap-2'>
+                        <span className='relative flex min-w-0 flex-1 flex-col gap-2'>
+                          <JbPayLogo />
+
+                          <Typography as='span' className='relative z-10' variant='body-sm'>
+                            <IntlText path='paymentMethod.jbPay' />
+                          </Typography>
+
+                          <MascotPeekIcon className='pointer-events-none absolute -top-0.5 left-[46px] z-0 h-auto w-[92px]' />
+                        </span>
+
+                        <PaymentRadio checked={selectedPaymentMethod === TransactionPayMethod.QR} />
+                      </span>
+                    </button>
+                  </Card>
+
+                  <Card
+                    asChild
+                    className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
+                  >
+                    <button
+                      type='button'
+                      onClick={() => onPaymentMethodChange(TransactionPayMethod.NEW_CARD)}
+                    >
+                      <span className='flex w-full items-start gap-2'>
+                        <span className='flex min-w-0 flex-1 flex-col gap-2'>
+                          <JbPayLogo />
+
+                          <Typography as='span' variant='body-sm'>
+                            <IntlText path='paymentMethod.byCard' />
+                          </Typography>
+                        </span>
+
+                        <PaymentRadio checked={isCardPaymentSelected} />
+                      </span>
+                    </button>
+                  </Card>
+                </div>
+              </div>
+
+              {isCardPaymentSelected && (
                 <div className='flex w-full flex-col gap-3'>
                   <Typography as='p' variant='body-md'>
-                    <IntlText path='page.gameProduct.paymentMethodTitle' />
+                    <IntlText path='page.gameProduct.cardSelectionTitle' />
                   </Typography>
 
-                  <div className='grid grid-cols-2 gap-2'>
-                    <Card
-                      asChild
-                      className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
+                  <div className='no-scroll flex w-full gap-3.5 overflow-x-auto'>
+                    <NewPaymentCard
+                      className='shrink-0'
+                      selected={selectedPaymentMethod === TransactionPayMethod.NEW_CARD}
+                      onClick={() => onSavedCardChange()}
                     >
-                      <button
-                        type='button'
-                        onClick={() => onPaymentMethodChange(TransactionPayMethod.QR)}
-                      >
-                        <span className='flex w-full items-start gap-2'>
-                          <span className='relative flex min-w-0 flex-1 flex-col gap-2'>
-                            <JbPayLogo />
+                      <IntlText path='button.newCard' />
+                    </NewPaymentCard>
 
-                            <Typography as='span' className='relative z-10' variant='body-sm'>
-                              <IntlText path='paymentMethod.jbPay' />
-                            </Typography>
-
-                            <MascotPeekIcon className='pointer-events-none absolute -top-0.5 left-[46px] z-0 h-auto w-[92px]' />
-                          </span>
-
-                          <PaymentRadio
-                            checked={selectedPaymentMethod === TransactionPayMethod.QR}
-                          />
-                        </span>
-                      </button>
-                    </Card>
-
-                    <Card
-                      asChild
-                      className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
-                    >
-                      <button
-                        type='button'
-                        onClick={() => onPaymentMethodChange(TransactionPayMethod.NEW_CARD)}
-                      >
-                        <span className='flex w-full items-start gap-2'>
-                          <span className='flex min-w-0 flex-1 flex-col gap-2'>
-                            <JbPayLogo />
-
-                            <Typography as='span' variant='body-sm'>
-                              <IntlText path='paymentMethod.byCard' />
-                            </Typography>
-                          </span>
-
-                          <PaymentRadio checked={isCardPaymentSelected} />
-                        </span>
-                      </button>
-                    </Card>
+                    {savedCards.map((card) => (
+                      <SavedPaymentCard
+                        key={card.id}
+                        selected={
+                          selectedPaymentMethod === TransactionPayMethod.SAVED_CARD &&
+                          selectedSavedCard?.id === card.id
+                        }
+                        className='shrink-0'
+                        panSuffix={card.panSuffix}
+                        onClick={() => onSavedCardChange(card.id)}
+                      />
+                    ))}
                   </div>
-                </div>
 
-                {isCardPaymentSelected && (
-                  <div className='flex w-full flex-col gap-3'>
-                    <Typography as='p' variant='body-md'>
-                      <IntlText path='page.gameProduct.cardSelectionTitle' />
-                    </Typography>
+                  {!isAuthorized && (
+                    <Card className='min-h-12 flex-row items-center gap-2 rounded-16 border-0 bg-background p-3'>
+                      <PaymentCheck checked />
 
-                    <div className='flex flex-wrap gap-3.5'>
-                      <NewPaymentCard
-                        selected={selectedPaymentMethod === TransactionPayMethod.NEW_CARD}
-                        onClick={() => onSavedCardChange()}
-                      >
-                        <IntlText path='button.newCard' />
-                      </NewPaymentCard>
-
-                      {savedCards.map((card) => (
-                        <SavedPaymentCard
-                          key={card.id}
-                          selected={
-                            selectedPaymentMethod === TransactionPayMethod.SAVED_CARD &&
-                            selectedSavedCard?.id === card.id
-                          }
-                          panSuffix={card.panSuffix}
-                          onClick={() => onSavedCardChange(card.id)}
-                        />
-                      ))}
-                    </div>
-
-                    {!isAuthorized && (
-                      <Card className='min-h-12 flex-row items-center gap-2 rounded-16 border-0 bg-background p-3'>
-                        <PaymentCheck checked />
-
-                        <Typography as='p' variant='body-sm'>
-                          <IntlText path='page.gameProduct.payWithoutBinding' />
-                        </Typography>
-                      </Card>
-                    )}
-                  </div>
-                )}
-              </>
-            )}
-
-            <div className='w-full rounded-16 bg-background p-3'>
-              <div className='flex items-center justify-between gap-4'>
-                <Typography as='p' variant='body-sm'>
-                  <IntlText path='page.gameProduct.totalLabel' />
-                </Typography>
-                {isFree ? (
-                  <Typography as='span' variant='body-lg'>
-                    <IntlText path='page.gameProduct.free' />
-                  </Typography>
-                ) : (
-                  <div className='flex min-w-0 items-center justify-end gap-2'>
-                    <Typography as='span' className='shrink-0' variant='body-lg'>
-                      {formatMoney(selectedPriceVariant.price)}
-                    </Typography>
-                    {hasPriceDiscount && (
-                      <Badge
-                        className='shrink-0 px-2 py-1 text-[12px]/4 font-bold'
-                        variant='accent'
-                      >
-                        {formatDiscountPercent(selectedPriceVariant.price, oldPrice)}
-                      </Badge>
-                    )}
-                    {hasPriceDiscount && (
-                      <Typography
-                        as='span'
-                        className='shrink-0 text-muted-fg line-through'
-                        variant='caption'
-                      >
-                        {formatMoney(oldPrice)}
+                      <Typography as='p' variant='body-sm'>
+                        <IntlText path='page.gameProduct.payWithoutBinding' />
                       </Typography>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-            {errors.root?.message && (
-              <div
-                className='flex w-full items-center gap-2 rounded-16 bg-background p-3 text-danger'
-                role='alert'
-              >
-                <CircleXIcon className='size-5 shrink-0' />
-                <Typography as='p' className='min-w-0 flex-1' variant='caption'>
-                  {errors.root.message}
+                    </Card>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+
+          <div className='w-full rounded-16 bg-background p-3'>
+            <div className='flex items-center justify-between gap-4'>
+              <Typography as='p' variant='body-sm'>
+                <IntlText path='page.gameProduct.totalLabel' />
+              </Typography>
+              {isFree ? (
+                <Typography as='span' variant='body-lg'>
+                  <IntlText path='page.gameProduct.free' />
                 </Typography>
-                <button
-                  aria-label={intl.formatMessage({ id: 'button.dismiss' })}
-                  className='shrink-0 text-muted-fg transition-colors hover:text-foreground'
-                  type='button'
-                  onClick={onDismissError}
-                >
-                  <XIcon className='size-4' />
-                </button>
-              </div>
-            )}
-            <Button className='h-13 w-full' disabled={isPaymentStarting} type='submit'>
-              {isPaymentStarting && <Loader2Icon className='animate-spin' />}
-              <IntlText path={isFree ? 'button.getGame' : 'button.pay'} />
-            </Button>
-          </form>
-        </OrderCard>
-      ) : (
-        <GameCheckoutSkeleton />
-      )}
+              ) : (
+                <div className='flex min-w-0 items-center justify-end gap-2'>
+                  <Typography as='span' className='shrink-0' variant='body-lg'>
+                    {formatMoney(selectedPriceVariant.price)}
+                  </Typography>
+                  {hasPriceDiscount && (
+                    <Badge className='shrink-0 px-2 py-1 text-[12px]/4 font-bold' variant='accent'>
+                      {formatDiscountPercent(selectedPriceVariant.price, oldPrice)}
+                    </Badge>
+                  )}
+                  {hasPriceDiscount && (
+                    <Typography
+                      as='span'
+                      className='shrink-0 text-muted-fg line-through'
+                      variant='caption'
+                    >
+                      {formatMoney(oldPrice)}
+                    </Typography>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+          {errors.root?.message && (
+            <div
+              className='flex w-full items-center gap-2 rounded-16 bg-background p-3 text-danger'
+              role='alert'
+            >
+              <CircleXIcon className='size-5 shrink-0' />
+              <Typography as='p' className='min-w-0 flex-1' variant='caption'>
+                {errors.root.message}
+              </Typography>
+              <button
+                aria-label={intl.formatMessage({ id: 'button.dismiss' })}
+                className='shrink-0 text-muted-fg transition-colors hover:text-foreground'
+                type='button'
+                onClick={onDismissError}
+              >
+                <XIcon className='size-4' />
+              </button>
+            </div>
+          )}
+          <Button className='h-13 w-full' disabled={isPaymentStarting} type='submit'>
+            {isPaymentStarting && <Loader2Icon className='animate-spin' />}
+            <IntlText path={isFree ? 'button.getGame' : 'button.pay'} />
+          </Button>
+        </form>
+      </OrderCard>
     </section>
   );
 };

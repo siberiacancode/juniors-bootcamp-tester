@@ -34,7 +34,7 @@ const INFORMATION_SECTIONS = [
     id: 'contacts',
     descriptionPath: 'page.information.contacts.description',
     icon: ContactIcon,
-    linklabel: 'page.information.contacts.link',
+    linklabel: 'button.goToChannel',
     titlePath: 'navigation.contacts'
   }
 ] as const;

@@ -109,7 +109,11 @@ export const useGamePage = () => {
       }
     },
     params: {
-      enabled: !!game && !!selectedDeliveryType && !!selectedRegion,
+      enabled:
+        !!game &&
+        !!selectedDeliveryType &&
+        !!selectedRegion &&
+        !getGamesRegionsQuery.isPlaceholderData,
       placeholderData: keepPreviousData
     }
   });
@@ -120,12 +124,8 @@ export const useGamePage = () => {
     priceVariants.find((priceVariant) => priceVariant.edition === search.edition) ??
     defaultPriceVariant;
 
-  const isSelectionLoading =
+  const isSelectionPending =
     getGamesRegionsQuery.isFetching || getGamesPriceVariantsQuery.isFetching;
-  // Данные выбора готовы к чтению (region/priceVariant существуют).
-  // Пока идёт рефетч после смены deliveryType/region/edition — показываем
-  // частичные скелетоны в блоках selection/checkout вместо чтения .price/.edition.
-  const isSelectionReady = !!selectedRegion && !!selectedPriceVariant;
 
   const gameCheckoutForm = useForm<GameCheckoutFormValues>({
     defaultValues: {
@@ -240,9 +240,7 @@ export const useGamePage = () => {
       resetScroll: false,
       search: (search) => ({
         ...search,
-        deliveryType,
-        region: undefined,
-        edition: undefined
+        deliveryType
       })
     });
   };
@@ -252,8 +250,7 @@ export const useGamePage = () => {
       resetScroll: false,
       search: (search) => ({
         ...search,
-        region,
-        edition: undefined
+        region
       })
     });
   };
@@ -291,7 +288,6 @@ export const useGamePage = () => {
   return {
     state: {
       game: game!,
-      // Описание игры вынесено из JSX в state согласно конвенции страниц.
       metaItems: game ? productMetaItems(game) : [],
       requirementSections: game ? getRequirementSections(game) : [],
       editions: priceVariants.map((variant) => variant.edition),
@@ -301,8 +297,7 @@ export const useGamePage = () => {
       isInviteLinkAvailable: selectedDeliveryType === GameDeliveryType.STEAM_GIFT,
       isPaymentStarting:
         postGamesOrderMutation.isPending || gameCheckoutForm.formState.isSubmitting,
-      isSelectionLoading,
-      isSelectionReady,
+      isSelectionPending,
       regions,
       savedCards,
       selectedDeliveryType: selectedDeliveryType!,

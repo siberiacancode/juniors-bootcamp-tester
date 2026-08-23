@@ -36,7 +36,7 @@ const GameProductPage = () => {
           className='tracking-normal'
           variant={state.isDesktop ? 'body-lg' : 'title-md'}
         >
-          {state.isDesktop ? <IntlText path='page.gameProduct.backToCatalog' /> : state.game.name}
+          {state.isDesktop ? <IntlText path='button.backToCatalog' /> : state.game.name}
         </Typography>
       </Link>
 
@@ -45,19 +45,19 @@ const GameProductPage = () => {
           'sm:grid sm:gap-6',
           '[grid-template-areas:"overview"_"screenshots"_"meta"_"requirements"_"selection"_"checkout"]',
           'lg:grid-cols-[minmax(0,1fr)_minmax(0,418px)_minmax(0,372px)]',
-          'lg:gap-6',
-          'lg:[grid-template-areas:"overview_selection_checkout"_"meta_selection_checkout"_"screenshots_screenshots_screenshots"_"requirements_requirements_requirements"]'
+          'lg:[grid-template-areas:"details_selection_checkout"_"screenshots_screenshots_screenshots"_"requirements_requirements_requirements"]'
         )}
       >
-        <GameOverview game={state.game} />
+        <div className='contents lg:flex lg:flex-col lg:gap-4 lg:[grid-area:details]'>
+          <GameOverview game={state.game} />
+          <GameMeta items={state.metaItems} />
+        </div>
         <GameScreenshots screenshots={state.game.screenshots} />
-        <GameMeta items={state.metaItems} />
         <GameRequirements sections={state.requirementSections} />
         <GameSelection
           deliveryTypes={state.game.deliveryTypes}
           editions={state.editions}
-          isLoading={state.isSelectionLoading}
-          isReady={state.isSelectionReady}
+          isPending={state.isSelectionPending}
           regions={state.regions}
           selectedDeliveryType={state.selectedDeliveryType}
           selectedEdition={state.selectedPriceVariant.edition}
@@ -74,7 +74,7 @@ const GameProductPage = () => {
           isFree={state.isFree}
           isInviteLinkAvailable={state.isInviteLinkAvailable}
           isPaymentStarting={state.isPaymentStarting}
-          isReady={state.isSelectionReady}
+          isPending={state.isSelectionPending}
           phoneMask={features.phoneMask}
           savedCards={state.savedCards}
           selectedDeliveryType={state.selectedDeliveryType}
@@ -99,8 +99,8 @@ const gameProductSearchSchema = z.object({
 });
 
 export const Route = createFileRoute('/(layout)/games/$slug')({
-  loaderDeps: ({ search }) => search,
-  loader: async ({ context, deps, params }) => {
+  loader: async ({ context, location, params }) => {
+    const search = gameProductSearchSchema.parse(location.search);
     const getGameInfoBySlugResponse = await context.queryClient.ensureQueryData(
       getGamesInfoBySlugQueryOptions({
         params: {
@@ -117,13 +117,21 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 
     const game = getGameInfoBySlugResponse.data.game;
 
+    if (
+      getGameInfoBySlugResponse.status === 404 ||
+      !getGameInfoBySlugResponse.data.success ||
+      !game
+    ) {
+      throw notFound();
+    }
+
     const [defaultDeliveryType] = game.deliveryTypes;
     const deliveryType =
-      deps.deliveryType && game.deliveryTypes.includes(deps.deliveryType)
-        ? deps.deliveryType
+      search.deliveryType && game.deliveryTypes.includes(search.deliveryType)
+        ? search.deliveryType
         : defaultDeliveryType;
 
-    if (!deliveryType) return notFound();
+    if (!deliveryType) throw notFound();
 
     const getGamesRegionsResponse = await context.queryClient.ensureQueryData(
       getGamesRegionsQueryOptions({
@@ -142,9 +150,9 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 
     const regions = getGamesRegionsResponse.data.regions;
     const [defaultRegion] = regions;
-    const region = deps.region && regions.includes(deps.region) ? deps.region : defaultRegion;
+    const region = search.region && regions.includes(search.region) ? search.region : defaultRegion;
 
-    if (!region) return notFound();
+    if (!region) throw notFound();
 
     await context.queryClient.ensureQueryData(
       getGamesPriceVariantsQueryOptions({

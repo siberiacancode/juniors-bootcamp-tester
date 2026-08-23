@@ -80,7 +80,7 @@ export const CatalogFiltersDesktop = () => {
 
         {state.showedAllGenres && (
           <Button size='sm' variant='ghost' onClick={functions.onMoreGenresHide}>
-            <IntlText path='page.catalog.filters.hide' />
+            <IntlText path='button.hide' />
           </Button>
         )}
 
@@ -91,7 +91,7 @@ export const CatalogFiltersDesktop = () => {
         )}
 
         <Button size='lg' variant='secondary' onClick={functions.onFiltersReset}>
-          <IntlText path='page.catalog.filters.reset' />
+          <IntlText path='button.reset' />
         </Button>
       </div>
     </div>

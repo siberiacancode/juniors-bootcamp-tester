@@ -201,3 +201,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.no-scroll {
+  scrollbar-width: none;
+}
+
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}

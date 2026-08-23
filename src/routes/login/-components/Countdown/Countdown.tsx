@@ -24,7 +24,7 @@ export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps)
 
   return (
     <Button className='w-full' size='lg' type='button' variant='ghost'>
-      <IntlText path='page.login.otp.retryCountdown' values={{ seconds }} />
+      <IntlText path='button.retryOtpCountdown' values={{ seconds }} />
     </Button>
   );
 };

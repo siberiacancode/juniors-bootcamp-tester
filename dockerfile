@@ -1,17 +1,19 @@
 FROM node:22-alpine AS base
-LABEL org.opencontainers.image.source https://github.com/shift-intensive/web-tester
+LABEL org.opencontainers.image.source=https://github.com/siberiacancode/juniors-bootcamp-tester
 
 FROM base AS builder
 
 WORKDIR /app
-COPY package*.json ./
-COPY yarn.lock ./
-RUN yarn --production --frozen-lockfile --ignore-scripts
-RUN yarn add vite @vitejs/plugin-react --ignore-scripts
+
+RUN corepack enable
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+RUN CI=true pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN yarn build
+RUN pnpm build
 
 FROM nginx:latest
 
