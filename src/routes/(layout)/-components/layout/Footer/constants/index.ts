@@ -1,37 +1,40 @@
 import { GameView } from '@/generated/api';
 
+export const FOOTER_DOCS = {
+  PRIVACY_POLICY: '/privacy-policy.html',
+  USER_AGREEMENT: '/user-agreement.html'
+};
+
 export const FOOTER_PRODUCTS = [
   {
-    href: '/',
+    href: `${import.meta.env.BASE_URL}/`,
     label: 'navigation.catalog'
   },
   {
-    href: `/?view=${GameView.NEW}`,
+    href: `${import.meta.env.BASE_URL}/?view=${GameView.NEW}`,
     label: 'navigation.new'
   },
   {
-    href: `/?view=${GameView.POPULAR}`,
+    href: `${import.meta.env.BASE_URL}/?view=${GameView.POPULAR}`,
     label: 'navigation.popular'
   }
 ] as const;
 
 export const FOOTER_CONTACTS = [
   {
-    href: '/information#support',
+    href: `${import.meta.env.BASE_URL}/information#support`,
     label: 'navigation.support'
   },
   {
-    href: '/information#email',
+    href: `${import.meta.env.BASE_URL}/information#email`,
     label: 'navigation.email'
   },
   {
-    href: '/information#advertising',
+    href: `${import.meta.env.BASE_URL}/information#advertising`,
     label: 'navigation.advertising'
   },
   {
-    href: '/information#contacts',
+    href: `${import.meta.env.BASE_URL}/information#contacts`,
     label: 'navigation.contacts'
   }
 ] as const;
-
-export const FOOTER_REPOSITORY_URL = 'https://github.com/siberiacancode/juniors-bootcamp-tester';

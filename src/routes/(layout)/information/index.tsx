@@ -1,6 +1,12 @@
 import { Button, Typography } from '@siberiacancode/uikit';
 import { createFileRoute } from '@tanstack/react-router';
-import { SendIcon } from 'lucide-react';
+import {
+  ContactIcon,
+  HeadphonesIcon,
+  MailIcon,
+  MessageCircleQuestionIcon,
+  SendIcon
+} from 'lucide-react';
 
 import { LINKS } from '@/utils/constants';
 import { IntlText } from '@/utils/lib/intl';
@@ -9,51 +15,58 @@ const INFORMATION_SECTIONS = [
   {
     id: 'support',
     descriptionPath: 'page.information.support.description',
+    icon: HeadphonesIcon,
     titlePath: 'navigation.support'
   },
   {
     id: 'email',
     descriptionPath: 'page.information.email.description',
+    icon: MailIcon,
     titlePath: 'navigation.email'
   },
   {
     id: 'advertising',
     descriptionPath: 'page.information.advertising.description',
+    icon: MessageCircleQuestionIcon,
     titlePath: 'navigation.advertising'
   },
   {
     id: 'contacts',
     descriptionPath: 'page.information.contacts.description',
+    icon: ContactIcon,
     linklabel: 'page.information.contacts.link',
     titlePath: 'navigation.contacts'
   }
 ] as const;
 
 const InformationPage = () => (
-  <main className='flex flex-col gap-8 py-10 sm:py-16'>
-    <header className='flex max-w-3xl flex-col gap-3'>
+  <main className='flex flex-col gap-6 py-6 sm:py-10'>
+    <div className='flex items-center'>
       <Typography as='h1' variant='title-md'>
         <IntlText path='page.information.title' />
       </Typography>
-    </header>
+    </div>
 
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-4'>
       {INFORMATION_SECTIONS.map((section) => (
         <section
           key={section.id}
-          className='scroll-mt-24 rounded-24 bg-secondary p-6 ring-1 ring-foreground/5'
+          className='flex scroll-mt-24 flex-col gap-4 rounded-24 bg-secondary p-6'
           id={section.id}
         >
-          <div className='mb-4 flex items-center gap-3'>
-            <Typography as='h2' className='text-[20px]/7' variant='body-md'>
-              <IntlText path={section.titlePath} />
+          <div className='flex flex-col gap-2'>
+            <div className='flex items-center gap-2'>
+              <section.icon className='size-5 shrink-0' strokeWidth={2} />
+              <Typography as='h2' className='text-[18px]/[26px]' variant='body-md'>
+                <IntlText path={section.titlePath} />
+              </Typography>
+            </div>
+            <Typography as='p' className='text-[16px]/6 text-muted-fg' variant='body-sm'>
+              <IntlText path={section.descriptionPath} />
             </Typography>
           </div>
-          <Typography as='p' className='text-foreground/70' variant='body-sm'>
-            <IntlText path={section.descriptionPath} />
-          </Typography>
           {section.id === 'contacts' && (
-            <Button asChild className='mt-5 w-fit'>
+            <Button asChild className='w-fit'>
               <a href={LINKS.TELEGRAM} rel='noopener noreferrer' target='_blank'>
                 <IntlText path={section.linklabel} />
                 <SendIcon />

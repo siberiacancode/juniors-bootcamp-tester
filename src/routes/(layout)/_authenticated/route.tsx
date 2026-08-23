@@ -4,9 +4,13 @@ import { getUsersProfileQueryOptions } from '@/generated/api';
 import { queryClient } from '@/utils/lib';
 
 export const Route = createFileRoute('/(layout)/_authenticated')({
-  beforeLoad: () => {
-    const getUsersProfileResponse = queryClient.getQueryData(
-      getUsersProfileQueryOptions().queryKey
+  beforeLoad: async () => {
+    const getUsersProfileResponse = await queryClient.ensureQueryData(
+      getUsersProfileQueryOptions({
+        params: {
+          gcTime: Infinity
+        }
+      })
     );
     const user = getUsersProfileResponse?.data.user;
 

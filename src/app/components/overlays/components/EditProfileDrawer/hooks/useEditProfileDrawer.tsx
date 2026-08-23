@@ -1,18 +1,16 @@
-import type { ComponentProps } from 'react';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask, useMediaQuery } from '@siberiacancode/reactuse';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
-import type { Drawer } from '@/components/ui/drawer';
-
 import {
   getUsersProfileQueryKey,
   useGetUsersProfileQuery,
   usePatchUsersProfileMutation
 } from '@/generated/api';
+
+import { appOverlaysStore } from '../../../store';
 
 export const profileFormScheme = z.object({
   lastname: z.string(),
@@ -26,9 +24,7 @@ export const profileFormScheme = z.object({
 
 export type ProfileFormScheme = z.infer<typeof profileFormScheme>;
 
-type UseEditProfileDrawerParams = ComponentProps<typeof Drawer>;
-
-export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) => {
+export const useEditProfileDrawer = () => {
   const queryClient = useQueryClient();
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
@@ -56,13 +52,15 @@ export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) =>
       queryKey: [getUsersProfileQueryKey]
     });
 
-    onClose?.();
+    appOverlaysStore.get().close();
   });
 
   const phoneMask = useMask('+9 999 999 99 99', {
     showMask: 'never',
     initialValue: user.phone
   });
+
+  const onClose = () => appOverlaysStore.get().close();
 
   return {
     state: {
@@ -71,7 +69,8 @@ export const useEditProfileDrawer = ({ onClose }: UseEditProfileDrawerParams) =>
       isDirty: editProfileForm.formState.isDirty
     },
     functions: {
-      onSubmit
+      onSubmit,
+      onClose
     },
     features: {
       phoneMask

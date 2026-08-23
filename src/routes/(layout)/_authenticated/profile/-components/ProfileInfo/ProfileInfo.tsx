@@ -1,25 +1,24 @@
 import { Button, Typography } from '@siberiacancode/uikit';
 
+import { appOverlaysStore } from '@/app/components/overlays';
 import { MascotFrontIcon } from '@/components/icons';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { LogoutConfirmation } from '@/routes/-components';
 import { IntlText } from '@/utils/lib/intl';
 
-import { EditProfileDrawer } from '../EditProfileDrawer/EditProfileDrawer';
 import { useProfileInfo } from './hooks';
 
 export const ProfileInfo = () => {
-  const { state, features, functions } = useProfileInfo();
+  const { state } = useProfileInfo();
 
   return (
-    <section className='flex w-full max-w-[374px] flex-col gap-4'>
-      <div className='flex w-full flex-row items-center gap-4'>
+    <section className='mx-auto flex w-full max-w-[328px] flex-col gap-4 lg:mx-0 lg:max-w-[374px]'>
+      <div className='flex w-full flex-col items-center gap-4 lg:flex-row'>
         <Avatar className='size-[86px] bg-secondary' size='xl'>
           <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
             {/* 🐛 bug */}
             {/* Safari does not show profile fallback avatar content */}
             {/* <span className='supports-[-webkit-hyphens:none]:hidden'> */}
-            <span>
+            <span className='flex size-full items-center justify-center'>
               {!state.displayName ? (
                 <MascotFrontIcon />
               ) : (
@@ -28,7 +27,7 @@ export const ProfileInfo = () => {
             </span>
           </AvatarFallback>
         </Avatar>
-        <div className='flex w-full min-w-0 flex-col items-start text-left lg:w-[272px]'>
+        <div className='flex w-full min-w-0 flex-col items-center text-center lg:w-[272px] lg:items-start lg:text-left'>
           <Typography as='p' className='w-full truncate' variant='body-lg'>
             {state.displayName || <IntlText path='page.profile.fallbackName' />}
           </Typography>
@@ -44,28 +43,25 @@ export const ProfileInfo = () => {
           )}
         </div>
       </div>
-      <div className='flex w-full flex-col items-center gap-4'>
+      <div className='flex w-full flex-col items-start gap-2.5 lg:items-center lg:gap-4'>
         <Button
           className='w-full'
           size='lg'
           type='button'
           variant='secondary'
-          onClick={features.editDialog.open}
+          onClick={() => appOverlaysStore.get().open('editProfile')}
         >
           <IntlText path='button.editProfile' />
         </Button>
-        <Button className='w-full' size='lg' type='button' onClick={features.confirmDialog.open}>
+        <Button
+          className='w-full'
+          size='lg'
+          type='button'
+          onClick={() => appOverlaysStore.get().open('logout')}
+        >
           <IntlText path='button.logout' />
         </Button>
       </div>
-
-      {features.confirmDialog.opened && (
-        <LogoutConfirmation
-          onConfirm={functions.onLogout}
-          onOpenChange={features.confirmDialog.close}
-        />
-      )}
-      {features.editDialog.opened && <EditProfileDrawer onClose={features.editDialog.close} />}
     </section>
   );
 };

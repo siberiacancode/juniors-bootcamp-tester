@@ -1,4 +1,4 @@
-import { Button, Typography } from '@siberiacancode/uikit';
+import { Button } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 
 import {
@@ -19,15 +19,12 @@ import { HistoryEmptyState } from '@/routes/-components';
 import { getAsset } from '@/utils/helpers';
 import { IntlText } from '@/utils/lib/intl';
 
-export const OrderHistory = () => {
+export const ProfileOrderHistory = () => {
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
   const orders = getGamesOrdersSuspenseQuery.data.data.orders;
 
   return (
-    <section className='flex w-[70%] flex-col gap-4'>
-      <Typography as='p' className='block sm:hidden' variant='body-md'>
-        <IntlText path='page.history.title' />
-      </Typography>
+    <section className='flex w-full flex-col gap-4'>
       {!orders.length && <HistoryEmptyState />}
       {!!orders.length && (
         <div className='grid w-full grid-cols-1 gap-6'>

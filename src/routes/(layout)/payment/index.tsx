@@ -32,7 +32,7 @@ const paymentSearchSchema = z.object({
 export const Route = createFileRoute('/(layout)/payment/')({
   beforeLoad: ({ location }) => {
     const paymentSearchResult = paymentSearchSchema.safeParse(location.search);
-    if (!paymentSearchResult.success) {
+    if (!paymentSearchResult.success || paymentSearchResult.data.status === 'fail') {
       throw redirect({
         to: '/'
       });

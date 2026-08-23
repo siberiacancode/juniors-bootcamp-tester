@@ -1,4 +1,4 @@
-import { Button, Typography } from '@siberiacancode/uikit';
+import { Button } from '@siberiacancode/uikit';
 
 import {
   OrderCard,
@@ -8,17 +8,12 @@ import {
 } from '@/components/ui/order-card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { IntlText } from '@/utils/lib/intl';
-import { cn } from '@/utils/lib/utils';
 
-export const OrderHistorySkeleton = () => (
-  <section className='flex w-[70%] flex-col gap-4'>
-    <Typography as='p' className='block sm:hidden' variant='body-md'>
-      <IntlText path='page.history.title' />
-    </Typography>
-
-    <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-2'>
+export const ProfileContentSkeleton = () => (
+  <section className='flex w-full flex-col gap-4'>
+    <div className='grid w-full grid-cols-1 gap-6'>
       {Array.from({ length: 2 }, (_, card) => (
-        <OrderCard key={card} className={cn(card === 1 && 'hidden lg:flex')}>
+        <OrderCard key={card}>
           <div className='flex flex-col gap-2'>
             <OrderCardHeader>
               <Skeleton className='row-span-2 size-14 rounded-8 bg-muted-fg/40' />

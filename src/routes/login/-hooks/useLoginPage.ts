@@ -77,7 +77,7 @@ export const useLoginPage = () => {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
 
-    const getUsersProfileResponse = await queryClient.ensureQueryData(
+    const getUsersProfileResponse = await queryClient.fetchQuery(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
@@ -86,7 +86,7 @@ export const useLoginPage = () => {
     );
 
     if (getUsersProfileResponse.data.user) {
-      await queryClient.ensureQueryData(
+      await queryClient.fetchQuery(
         getCardsCardsQueryOptions({
           params: {
             gcTime: Infinity

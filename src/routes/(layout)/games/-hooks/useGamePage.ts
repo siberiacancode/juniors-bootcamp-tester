@@ -5,7 +5,7 @@ import { getRouteApi } from '@tanstack/react-router';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { CreateGameOrderDto } from '@/generated/api';
+import type { Card, CreateGameOrderDto } from '@/generated/api';
 
 import {
   GameDeliveryType,
@@ -30,52 +30,20 @@ const gameRoute = getRouteApi('/(layout)/games/$slug');
 interface SavedPaymentCard {
   id: string;
   panmask: string;
-  title: string;
+  panSuffix: string;
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null;
+const getPanSuffix = (panMasked: string) => {
+  const digits = panMasked.replace(/\D/g, '');
 
-const getStringValue = (source: Record<string, unknown>, keys: string[]) => {
-  const value = keys.map((key) => source[key]).find((value) => typeof value === 'string');
-
-  return typeof value === 'string' ? value : undefined;
+  return digits.slice(-4) || panMasked.slice(-4);
 };
 
-const normalizeSavedPaymentCard = (value: unknown): SavedPaymentCard | null => {
-  if (!isRecord(value)) return null;
-
-  const id = getStringValue(value, ['id', '_id', 'cardId']);
-  const panmask = getStringValue(value, ['panmask', 'panMask', 'panMasked', 'mask', 'maskedPan']);
-
-  if (!id || !panmask) return null;
-
-  return {
-    id,
-    panmask,
-    title: getStringValue(value, ['title', 'label', 'name']) ?? 'Карта'
-  };
-};
-
-const getSavedPaymentCards = (source?: unknown) => {
-  if (!source) return [];
-
-  if (Array.isArray(source)) {
-    return source
-      .map((card) => normalizeSavedPaymentCard(card))
-      .filter((card): card is SavedPaymentCard => !!card);
-  }
-
-  if (!isRecord(source)) return [];
-
-  const cards = source.savedCards ?? source.paymentCards ?? source.cards;
-
-  if (!Array.isArray(cards)) return [];
-
-  return cards
-    .map((card) => normalizeSavedPaymentCard(card))
-    .filter((card): card is SavedPaymentCard => !!card);
-};
+const toSavedPaymentCard = (card: Card): SavedPaymentCard => ({
+  id: card._id,
+  panmask: card.panMasked,
+  panSuffix: getPanSuffix(card.panMasked)
+});
 
 export const useGamePage = () => {
   const params = gameRoute.useParams();
@@ -105,12 +73,8 @@ export const useGamePage = () => {
       enabled: !!user
     }
   });
-  const cardsResponse = getCardsCardsQuery.data?.data;
-  const savedCards = useMemo(() => {
-    const savedCards = getSavedPaymentCards(cardsResponse);
-
-    return savedCards.length ? savedCards : getSavedPaymentCards(user);
-  }, [cardsResponse, user]);
+  const cards = getCardsCardsQuery.data?.data.cards;
+  const savedCards = useMemo(() => (cards ?? []).map(toSavedPaymentCard), [cards]);
   const [defaultDeliveryType] = game?.deliveryTypes ?? [];
 
   const selectedDeliveryType =
@@ -165,11 +129,11 @@ export const useGamePage = () => {
 
   const gameCheckoutForm = useForm<GameCheckoutFormValues>({
     defaultValues: {
-      email: '',
+      email: user?.email ?? '',
       inviteLink: '',
       paymentMethod: TransactionPayMethod.NEW_CARD,
       savedCardId: '',
-      phone: ''
+      phone: user?.phone ?? ''
     },
     mode: 'onSubmit',
     resolver: zodResolver(gameCheckoutFormSchema)
@@ -252,9 +216,24 @@ export const useGamePage = () => {
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {
+    initialValue: user?.phone,
     showMask: 'never',
     onChangeRaw: (rawValue) => gameCheckoutForm.setValue('phone', `7${rawValue}`)
   });
+
+  useEffect(() => {
+    if (!user) return;
+
+    if (user.email && gameCheckoutForm.getValues('email') !== user.email) {
+      gameCheckoutForm.setValue('email', user.email);
+    }
+    if (gameCheckoutForm.getValues('phone') !== user.phone) {
+      gameCheckoutForm.setValue('phone', user.phone);
+    }
+    if (phoneMask.getValue() !== user.phone) {
+      phoneMask.setValue(user.phone);
+    }
+  }, [gameCheckoutForm, phoneMask, user]);
 
   const onDeliveryTypeChange = (deliveryType: GameDeliveryType) => {
     navigate({
@@ -305,6 +284,10 @@ export const useGamePage = () => {
     gameCheckoutForm.setValue('savedCardId', cardId ?? '');
   };
 
+  const onDismissError = () => {
+    gameCheckoutForm.clearErrors('root');
+  };
+
   return {
     state: {
       game: game!,
@@ -312,7 +295,9 @@ export const useGamePage = () => {
       metaItems: game ? productMetaItems(game) : [],
       requirementSections: game ? getRequirementSections(game) : [],
       editions: priceVariants.map((variant) => variant.edition),
+      isAuthorized: !!user,
       isDesktop,
+      isFree: selectedPriceVariant?.price === 0,
       isInviteLinkAvailable: selectedDeliveryType === GameDeliveryType.STEAM_GIFT,
       isPaymentStarting:
         postGamesOrderMutation.isPending || gameCheckoutForm.formState.isSubmitting,
@@ -329,6 +314,7 @@ export const useGamePage = () => {
     functions: {
       onSubmit,
       onDeliveryTypeChange,
+      onDismissError,
       onEditionChange,
       onPaymentMethodChange,
       onRegionChange,

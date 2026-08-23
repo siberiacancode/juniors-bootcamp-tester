@@ -23,6 +23,7 @@ export const CatalogContent = () => {
               const priceVariant = game.priceVariant;
               const oldPrice = priceVariant.oldPrice;
               const hasPriceDiscount = !!oldPrice && oldPrice !== priceVariant.price;
+              const free = priceVariant.price === 0;
 
               return (
                 <Link
@@ -49,12 +50,13 @@ export const CatalogContent = () => {
                       >
                         {formatMoney(priceVariant.price)}
                       </Typography>
-                      {hasPriceDiscount && (
+                      {(hasPriceDiscount || free) && (
                         <Badge
                           className='px-2 py-1 text-[12px]/4 font-bold tracking-wide'
                           variant='accent'
                         >
-                          {formatDiscountPercent(priceVariant.price, oldPrice)}
+                          {free && <IntlText path='price.free' />}
+                          {oldPrice && formatDiscountPercent(priceVariant.price, oldPrice)}
                         </Badge>
                       )}
                       {hasPriceDiscount && (

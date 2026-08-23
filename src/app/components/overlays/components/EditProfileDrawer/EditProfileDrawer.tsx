@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { Button, IconButton, Input, Typography } from '@siberiacancode/uikit';
 import { Loader2Icon, XIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
@@ -17,10 +15,8 @@ import { cn } from '@/utils/lib/utils';
 
 import { useEditProfileDrawer } from './hooks';
 
-type EditProfileProps = ComponentProps<typeof Drawer>;
-
-export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
-  const { state, features, form, functions } = useEditProfileDrawer({ onClose });
+export const EditProfileDrawer = () => {
+  const { state, features, form, functions } = useEditProfileDrawer();
 
   return (
     <Drawer
@@ -28,7 +24,7 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
       open
       direction={state.isDesktop ? 'right' : 'bottom'}
       shouldScaleBackground={false}
-      onOpenChange={onClose}
+      onOpenChange={functions.onClose}
     >
       <DrawerContent className={cn('p-4 sm:max-w-120 sm:p-6')} showHandle={false}>
         <DrawerHeader className='mb-6 flex flex-row justify-between px-0 py-3 sm:mb-0'>
@@ -38,7 +34,7 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
             </Typography>
           </DrawerTitle>
           {state.isDesktop && (
-            <DrawerClose asChild onClick={onClose}>
+            <DrawerClose asChild onClick={functions.onClose}>
               <IconButton className='size-10' shape='round' type='button' variant='ghost'>
                 <XIcon className='size-6' />
               </IconButton>
@@ -144,7 +140,7 @@ export const EditProfileDrawer = ({ onClose }: EditProfileProps) => {
               <IntlText path='button.updateData' />
             </Button>
             {!state.isDesktop && (
-              <Button size='lg' type='button' onClick={onClose}>
+              <Button size='lg' type='button' onClick={functions.onClose}>
                 <IntlText path='button.cancel' />
               </Button>
             )}

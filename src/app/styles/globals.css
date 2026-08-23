@@ -17,6 +17,8 @@
 @import '@siberiacancode/uikit/styles/separator.css' layer(components);
 @import '@siberiacancode/uikit/styles/chip.css' layer(components);
 @import '@siberiacancode/uikit/styles/chip-group.css' layer(components);
+@import '@siberiacancode/uikit/styles/new-payment-card.css' layer(components);
+@import '@siberiacancode/uikit/styles/saved-payment-card.css' layer(components);
 @import '@siberiacancode/uikit/styles/theme-switcher.css' layer(components);
 
 @custom-variant dark (&:is(.dark *));

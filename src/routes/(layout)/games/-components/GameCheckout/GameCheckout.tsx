@@ -1,8 +1,17 @@
-import { Button, Field, FieldError, FieldLabel, Input, Typography } from '@siberiacancode/uikit';
-import { CheckIcon, CreditCardIcon, Loader2Icon, PlusCircleIcon, QrCodeIcon } from 'lucide-react';
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  Input,
+  NewPaymentCard,
+  SavedPaymentCard,
+  Typography
+} from '@siberiacancode/uikit';
+import { CheckIcon, CircleXIcon, Loader2Icon, XIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 
-import { MascotFrontIcon } from '@/components/icons';
+import { MascotPeekIcon } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import {
@@ -25,13 +34,31 @@ import type { GamePageFeatures, GamePageForm, GamePageFunctions, GamePageState }
 import { DELIVERY_TYPE_VIEW } from '../../-constants';
 import { GameCheckoutSkeleton } from './GameCheckoutSkeleton';
 
+interface JbPayLogoProps {
+  className?: string;
+}
+
+export const JbPayLogo = ({ className }: JbPayLogoProps) => (
+  <span
+    className={cn(
+      'flex h-6 w-fit items-center justify-center self-start rounded-full bg-primary px-2.5',
+      'font-pixelify-sans text-[20px]/7 font-bold tracking-wider text-primary-fg lowercase',
+      className
+    )}
+  >
+    jB
+  </span>
+);
 interface GameCheckoutProps {
   control: GamePageForm['control'];
   errors: GamePageForm['formState']['errors'];
   game: GamePageState['game'];
+  isAuthorized: GamePageState['isAuthorized'];
+  isFree: GamePageState['isFree'];
   isInviteLinkAvailable: GamePageState['isInviteLinkAvailable'];
   isPaymentStarting: GamePageState['isPaymentStarting'];
   isReady: GamePageState['isSelectionReady'];
+  onDismissError: GamePageFunctions['onDismissError'];
   onPaymentMethodChange: GamePageFunctions['onPaymentMethodChange'];
   onSavedCardChange: GamePageFunctions['onSavedCardChange'];
   onSubmit: GamePageFunctions['onSubmit'];
@@ -44,14 +71,26 @@ interface GameCheckoutProps {
   selectedSavedCard: GamePageState['selectedSavedCard'];
 }
 
-const PaymentCheck = ({ checked }: { checked: boolean }) => (
+const PaymentCheck = ({ checked, className }: { checked: boolean; className?: string }) => (
   <span
     className={cn(
       'flex size-5 shrink-0 items-center justify-center rounded-full bg-background',
-      checked && 'border-primary bg-primary text-primary-fg'
+      checked && 'border-primary bg-primary text-primary-fg',
+      className
     )}
   >
     {checked && <CheckIcon className='size-4' />}
+  </span>
+);
+
+const PaymentRadio = ({ checked }: { checked: boolean }) => (
+  <span
+    className={cn(
+      'flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] border-ring bg-background transition',
+      checked && 'border-primary bg-primary text-primary-fg'
+    )}
+  >
+    {checked && <CheckIcon className='size-3.5' strokeWidth={3} />}
   </span>
 );
 
@@ -59,6 +98,8 @@ export const GameCheckout = ({
   control,
   errors,
   game,
+  isAuthorized,
+  isFree,
   isInviteLinkAvailable,
   isPaymentStarting,
   isReady,
@@ -69,13 +110,14 @@ export const GameCheckout = ({
   selectedPriceVariant,
   selectedRegion,
   selectedSavedCard,
+  onDismissError,
   onPaymentMethodChange,
   onSavedCardChange,
   onSubmit
 }: GameCheckoutProps) => {
   const isCardPaymentSelected = selectedPaymentMethod !== TransactionPayMethod.QR;
   const oldPrice = isReady ? selectedPriceVariant.oldPrice : undefined;
-  const hasPriceDiscount = !!oldPrice && oldPrice !== selectedPriceVariant.price;
+  const hasPriceDiscount = !isFree && !!oldPrice && oldPrice !== selectedPriceVariant.price;
 
   return (
     <section className='mt-6 rounded-24 border-none bg-secondary p-6 [grid-area:checkout] lg:mt-0'>
@@ -138,7 +180,6 @@ export const GameCheckout = ({
                       className='bg-background'
                       id={field.name}
                       placeholder={intl.formatMessage({ id: 'field.product.email.placeholder' })}
-                      type='email'
                     />
                     {fieldState.error?.message && (
                       <FieldError>
@@ -164,6 +205,7 @@ export const GameCheckout = ({
                         onBlur: field.onBlur
                       })}
                       className='bg-background'
+                      disabled={isAuthorized}
                       id={field.name}
                       name={field.name}
                       placeholder='+7'
@@ -180,114 +222,103 @@ export const GameCheckout = ({
               />
             </div>
 
-            <div className='flex w-full flex-col gap-3'>
-              <Typography as='p' variant='body-md'>
-                <IntlText path='page.gameProduct.paymentMethodTitle' />
-              </Typography>
-              <div className='grid grid-cols-2 gap-2'>
-                <Card
-                  asChild
-                  className={cn(
-                    'min-h-20 overflow-hidden border-0 bg-background p-4 text-left transition',
-                    selectedPaymentMethod === TransactionPayMethod.QR && 'ring-2 ring-primary'
-                  )}
-                >
-                  <button
-                    type='button'
-                    onClick={() => onPaymentMethodChange(TransactionPayMethod.QR)}
-                  >
-                    <span className='flex w-full items-start gap-2'>
-                      <span className='flex flex-1 flex-col gap-1'>
-                        <span className='flex size-10 items-center justify-center rounded-full bg-primary text-primary-fg'>
-                          <QrCodeIcon className='size-5' />
-                        </span>
-                        <Typography as='span' variant='body-sm'>
-                          <IntlText path={`paymentMethod.${TransactionPayMethod.QR}`} />
-                        </Typography>
-                      </span>
-                      <PaymentCheck checked={selectedPaymentMethod === TransactionPayMethod.QR} />
-                    </span>
-                  </button>
-                </Card>
+            {!isFree && (
+              <>
+                <div className='flex w-full flex-col gap-3'>
+                  <Typography as='p' variant='body-md'>
+                    <IntlText path='page.gameProduct.paymentMethodTitle' />
+                  </Typography>
 
-                <Card
-                  asChild
-                  className={cn(
-                    'relative min-h-20 overflow-hidden border-0 bg-background p-4 text-left transition',
-                    isCardPaymentSelected && 'ring-2 ring-primary'
-                  )}
-                >
-                  <button
-                    type='button'
-                    onClick={() => onPaymentMethodChange(TransactionPayMethod.NEW_CARD)}
-                  >
-                    <MascotFrontIcon className='pointer-events-none absolute right-8 -bottom-7 size-22' />
-                    <span className='relative flex w-full items-start gap-2'>
-                      <span className='flex flex-1 flex-col gap-1'>
-                        <span className='flex size-10 items-center justify-center rounded-full bg-primary text-primary-fg'>
-                          <CreditCardIcon className='size-5' />
-                        </span>
-                        <Typography as='span' variant='body-sm'>
-                          <IntlText path={`paymentMethod.${TransactionPayMethod.NEW_CARD}`} />
-                        </Typography>
-                      </span>
-                      <PaymentCheck checked={isCardPaymentSelected} />
-                    </span>
-                  </button>
-                </Card>
-              </div>
-            </div>
-
-            {isCardPaymentSelected && (
-              <div className='flex w-full flex-col gap-3'>
-                <Typography as='p' variant='body-md'>
-                  <IntlText path='page.gameProduct.cardSelectionTitle' />
-                </Typography>
-                <div className='grid grid-cols-2 gap-2'>
-                  <Card
-                    asChild
-                    className={cn(
-                      'min-h-20 border-ring bg-background p-4 text-left transition',
-                      selectedPaymentMethod === TransactionPayMethod.NEW_CARD &&
-                        'border-primary ring-2 ring-primary'
-                    )}
-                  >
-                    <button type='button' onClick={() => onSavedCardChange()}>
-                      <span className='flex h-full flex-col items-center justify-center gap-2'>
-                        <PlusCircleIcon className='size-6' />
-                        <Typography as='span' variant='body-sm'>
-                          <IntlText path='button.newCard' />
-                        </Typography>
-                      </span>
-                    </button>
-                  </Card>
-                  {savedCards.map((card) => (
+                  <div className='grid grid-cols-2 gap-2'>
                     <Card
                       asChild
-                      key={card.id}
-                      className={cn(
-                        'min-h-20 border-ring bg-background p-4 text-left transition',
-                        selectedSavedCard?.id === card.id && 'border-primary ring-2 ring-primary'
-                      )}
+                      className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
                     >
-                      <button type='button' onClick={() => onSavedCardChange(card.id)}>
-                        <span className='flex h-full items-start gap-2'>
-                          <CreditCardIcon className='size-6 shrink-0' />
-                          <span className='flex min-w-0 flex-1 flex-col'>
-                            <Typography as='span' className='truncate' variant='body-sm'>
-                              {card.title}
+                      <button
+                        type='button'
+                        onClick={() => onPaymentMethodChange(TransactionPayMethod.QR)}
+                      >
+                        <span className='flex w-full items-start gap-2'>
+                          <span className='relative flex min-w-0 flex-1 flex-col gap-2'>
+                            <JbPayLogo />
+
+                            <Typography as='span' className='relative z-10' variant='body-sm'>
+                              <IntlText path='paymentMethod.jbPay' />
                             </Typography>
-                            <Typography as='span' className='text-muted-fg' variant='caption'>
-                              {card.panmask}
-                            </Typography>
+
+                            <MascotPeekIcon className='pointer-events-none absolute -top-0.5 left-[46px] z-0 h-auto w-[92px]' />
                           </span>
-                          <PaymentCheck checked={selectedSavedCard?.id === card.id} />
+
+                          <PaymentRadio
+                            checked={selectedPaymentMethod === TransactionPayMethod.QR}
+                          />
                         </span>
                       </button>
                     </Card>
-                  ))}
+
+                    <Card
+                      asChild
+                      className='min-h-20 justify-center overflow-hidden rounded-16 border-0 bg-background p-4 text-left transition'
+                    >
+                      <button
+                        type='button'
+                        onClick={() => onPaymentMethodChange(TransactionPayMethod.NEW_CARD)}
+                      >
+                        <span className='flex w-full items-start gap-2'>
+                          <span className='flex min-w-0 flex-1 flex-col gap-2'>
+                            <JbPayLogo />
+
+                            <Typography as='span' variant='body-sm'>
+                              <IntlText path='paymentMethod.byCard' />
+                            </Typography>
+                          </span>
+
+                          <PaymentRadio checked={isCardPaymentSelected} />
+                        </span>
+                      </button>
+                    </Card>
+                  </div>
                 </div>
-              </div>
+
+                {isCardPaymentSelected && (
+                  <div className='flex w-full flex-col gap-3'>
+                    <Typography as='p' variant='body-md'>
+                      <IntlText path='page.gameProduct.cardSelectionTitle' />
+                    </Typography>
+
+                    <div className='flex flex-wrap gap-3.5'>
+                      <NewPaymentCard
+                        selected={selectedPaymentMethod === TransactionPayMethod.NEW_CARD}
+                        onClick={() => onSavedCardChange()}
+                      >
+                        <IntlText path='button.newCard' />
+                      </NewPaymentCard>
+
+                      {savedCards.map((card) => (
+                        <SavedPaymentCard
+                          key={card.id}
+                          selected={
+                            selectedPaymentMethod === TransactionPayMethod.SAVED_CARD &&
+                            selectedSavedCard?.id === card.id
+                          }
+                          panSuffix={card.panSuffix}
+                          onClick={() => onSavedCardChange(card.id)}
+                        />
+                      ))}
+                    </div>
+
+                    {!isAuthorized && (
+                      <Card className='min-h-12 flex-row items-center gap-2 rounded-16 border-0 bg-background p-3'>
+                        <PaymentCheck checked />
+
+                        <Typography as='p' variant='body-sm'>
+                          <IntlText path='page.gameProduct.payWithoutBinding' />
+                        </Typography>
+                      </Card>
+                    )}
+                  </div>
+                )}
+              </>
             )}
 
             <div className='w-full rounded-16 bg-background p-3'>
@@ -295,31 +326,58 @@ export const GameCheckout = ({
                 <Typography as='p' variant='body-sm'>
                   <IntlText path='page.gameProduct.totalLabel' />
                 </Typography>
-                <div className='flex min-w-0 flex-wrap items-center justify-end gap-x-2 gap-y-1'>
+                {isFree ? (
                   <Typography as='span' variant='body-lg'>
-                    {formatMoney(selectedPriceVariant.price)}
+                    <IntlText path='page.gameProduct.free' />
                   </Typography>
-                  {hasPriceDiscount && (
-                    <Badge className='px-2 py-1 text-[12px]/4 font-bold' variant='accent'>
-                      {formatDiscountPercent(selectedPriceVariant.price, oldPrice)}
-                    </Badge>
-                  )}
-                  {hasPriceDiscount && (
-                    <Typography as='span' className='text-muted-fg line-through' variant='caption'>
-                      {formatMoney(oldPrice)}
+                ) : (
+                  <div className='flex min-w-0 items-center justify-end gap-2'>
+                    <Typography as='span' className='shrink-0' variant='body-lg'>
+                      {formatMoney(selectedPriceVariant.price)}
                     </Typography>
-                  )}
-                </div>
+                    {hasPriceDiscount && (
+                      <Badge
+                        className='shrink-0 px-2 py-1 text-[12px]/4 font-bold'
+                        variant='accent'
+                      >
+                        {formatDiscountPercent(selectedPriceVariant.price, oldPrice)}
+                      </Badge>
+                    )}
+                    {hasPriceDiscount && (
+                      <Typography
+                        as='span'
+                        className='shrink-0 text-muted-fg line-through'
+                        variant='caption'
+                      >
+                        {formatMoney(oldPrice)}
+                      </Typography>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             {errors.root?.message && (
-              <Typography as='p' className='text-danger' variant='caption'>
-                {errors.root.message}
-              </Typography>
+              <div
+                className='flex w-full items-center gap-2 rounded-16 bg-background p-3 text-danger'
+                role='alert'
+              >
+                <CircleXIcon className='size-5 shrink-0' />
+                <Typography as='p' className='min-w-0 flex-1' variant='caption'>
+                  {errors.root.message}
+                </Typography>
+                <button
+                  aria-label={intl.formatMessage({ id: 'button.dismiss' })}
+                  className='shrink-0 text-muted-fg transition-colors hover:text-foreground'
+                  type='button'
+                  onClick={onDismissError}
+                >
+                  <XIcon className='size-4' />
+                </button>
+              </div>
             )}
             <Button className='h-13 w-full' disabled={isPaymentStarting} type='submit'>
               {isPaymentStarting && <Loader2Icon className='animate-spin' />}
-              <IntlText path='button.pay' />
+              <IntlText path={isFree ? 'button.getGame' : 'button.pay'} />
             </Button>
           </form>
         </OrderCard>

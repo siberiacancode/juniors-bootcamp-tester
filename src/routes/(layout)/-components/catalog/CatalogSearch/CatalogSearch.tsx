@@ -52,7 +52,6 @@ export const CatalogSearch = () => {
             />
             {!!state.searchValue && (
               <button
-                aria-label='Очистить поиск'
                 className='absolute top-1/2 right-4 z-10 flex size-5 -translate-y-1/2 items-center justify-center text-foreground/50 transition-colors hover:text-foreground'
                 type='button'
                 onClick={(event) => {
@@ -102,6 +101,7 @@ export const CatalogSearch = () => {
                   const priceVariant = game.priceVariant;
                   const oldPrice = priceVariant.oldPrice;
                   const hasPriceDiscount = !!oldPrice && oldPrice !== priceVariant.price;
+                  const free = priceVariant.price === 0;
 
                   return (
                     <div key={game.slug} className='h-17.5 rounded-none px-2 py-3 pr-2'>
@@ -135,13 +135,19 @@ export const CatalogSearch = () => {
                           </Badge>
                         </div>
 
-                        <div className='ml-auto grid w-[138px] shrink-0 grid-cols-[52px_minmax(0,1fr)] items-center gap-1'>
-                          {hasPriceDiscount && (
-                            <Badge className='w-[52px] justify-center px-2 py-1' variant='accent'>
-                              {formatDiscountPercent(priceVariant.price, oldPrice)}
-                            </Badge>
-                          )}
-                          <div className='col-start-2 flex min-w-0 flex-col items-end'>
+                        <div className='ml-auto flex w-[292px] shrink-0 items-center justify-end gap-2'>
+                          <div className='flex shrink-0 justify-center'>
+                            {(hasPriceDiscount || free) && (
+                              <Badge
+                                className='justify-center px-2 py-1 whitespace-nowrap'
+                                variant='accent'
+                              >
+                                {free && <IntlText path='price.free' />}
+                                {oldPrice && formatDiscountPercent(priceVariant.price, oldPrice)}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className='flex w-[78px] shrink-0 flex-col items-end'>
                             {hasPriceDiscount && (
                               <Typography
                                 as='span'

@@ -2,12 +2,16 @@ import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute } from '@tanstack/react-router';
 import { Suspense } from 'react';
 
-import { getGamesOrdersSuspenseQueryOptions, getUsersProfileQueryOptions } from '@/generated/api';
+import {
+  getCardsCardsSuspenseQueryOptions,
+  getGamesOrdersSuspenseQueryOptions,
+  getUsersProfileQueryOptions
+} from '@/generated/api';
 import { IntlText } from '@/utils/lib/intl';
 
 import {
-  OrderHistory,
-  OrderHistorySkeleton,
+  ProfileContent,
+  ProfileContentSkeleton,
   ProfileInfo,
   ProfileInfoSkeleton
 } from './-components';
@@ -24,8 +28,8 @@ const ProfilePage = () => (
       <ProfileInfo />
     </Suspense>
 
-    <Suspense fallback={<OrderHistorySkeleton />}>
-      <OrderHistory />
+    <Suspense fallback={<ProfileContentSkeleton />}>
+      <ProfileContent />
     </Suspense>
   </section>
 );
@@ -34,7 +38,8 @@ export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
   loader: ({ context }) =>
     Promise.all([
       context.queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
-      context.queryClient.ensureQueryData(getUsersProfileQueryOptions())
+      context.queryClient.ensureQueryData(getUsersProfileQueryOptions()),
+      context.queryClient.ensureQueryData(getCardsCardsSuspenseQueryOptions())
     ]),
   component: ProfilePage
 });

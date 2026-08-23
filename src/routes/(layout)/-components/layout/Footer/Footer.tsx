@@ -8,7 +8,7 @@ import { GithubIcon } from '@/components/icons';
 import { LINKS } from '@/utils/constants';
 import { IntlText } from '@/utils/lib/intl';
 
-import { FOOTER_CONTACTS, FOOTER_PRODUCTS, FOOTER_REPOSITORY_URL } from './constants';
+import { FOOTER_CONTACTS, FOOTER_DOCS, FOOTER_PRODUCTS } from './constants';
 
 export const Footer = () => {
   const theme = useTheme();
@@ -30,7 +30,7 @@ export const Footer = () => {
           <div className='lg:hidden'>
             <a
               className='inline-flex items-center gap-2 text-[14px]/[22px] font-medium text-foreground transition-opacity hover:opacity-70'
-              href={FOOTER_REPOSITORY_URL}
+              href={LINKS.REPOSITORY_LINK}
               rel='noopener noreferrer'
               target='_blank'
             >
@@ -72,7 +72,7 @@ export const Footer = () => {
         <div className='order-2 hidden lg:order-0 lg:flex lg:flex-1 lg:items-start lg:justify-end'>
           <a
             className='inline-flex items-center gap-2 self-start text-[14px]/[22px] font-medium text-foreground transition-opacity hover:opacity-70'
-            href={FOOTER_REPOSITORY_URL}
+            href={LINKS.REPOSITORY_LINK}
             rel='noopener noreferrer'
             target='_blank'
           >
@@ -88,7 +88,7 @@ export const Footer = () => {
           <Typography
             as='a'
             className='text-foreground/40 transition-opacity hover:opacity-80'
-            href={LINKS.PRIVACY_POLICY}
+            href={FOOTER_DOCS.PRIVACY_POLICY}
             variant='caption'
           >
             <IntlText path='navigation.privacyPolicy' />
@@ -96,13 +96,17 @@ export const Footer = () => {
           <Typography
             as='a'
             className='text-foreground/40 transition-opacity hover:opacity-80'
-            href={LINKS.USER_AGREEMENT}
+            href={FOOTER_DOCS.USER_AGREEMENT}
             variant='caption'
           >
             <IntlText path='navigation.userAgreement' />
           </Typography>
         </div>
-        <ThemeSwitcher value={theme.value} onValueChange={(value) => theme.set(value as Theme)}>
+        <ThemeSwitcher
+          className='self-start sm:self-auto'
+          value={theme.value}
+          onValueChange={(value) => theme.set(value as Theme)}
+        >
           <ThemeSwitcherItem value='light' />
           <ThemeSwitcherItem value='system' />
           <ThemeSwitcherItem value='dark' />

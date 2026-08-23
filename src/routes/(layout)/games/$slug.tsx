@@ -70,6 +70,8 @@ const GameProductPage = () => {
           control={form.control}
           errors={form.formState.errors}
           game={state.game}
+          isAuthorized={state.isAuthorized}
+          isFree={state.isFree}
           isInviteLinkAvailable={state.isInviteLinkAvailable}
           isPaymentStarting={state.isPaymentStarting}
           isReady={state.isSelectionReady}
@@ -80,6 +82,7 @@ const GameProductPage = () => {
           selectedPriceVariant={state.selectedPriceVariant}
           selectedRegion={state.selectedRegion}
           selectedSavedCard={state.selectedSavedCard}
+          onDismissError={functions.onDismissError}
           onPaymentMethodChange={functions.onPaymentMethodChange}
           onSavedCardChange={functions.onSavedCardChange}
           onSubmit={functions.onSubmit}
@@ -96,7 +99,6 @@ const gameProductSearchSchema = z.object({
 });
 
 export const Route = createFileRoute('/(layout)/games/$slug')({
-  component: GameProductPage,
   loaderDeps: ({ search }) => search,
   loader: async ({ context, deps, params }) => {
     const getGameInfoBySlugResponse = await context.queryClient.ensureQueryData(
@@ -160,6 +162,7 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       })
     );
   },
-  pendingComponent: GameLoading,
-  validateSearch: gameProductSearchSchema
+  validateSearch: gameProductSearchSchema,
+  component: GameProductPage,
+  pendingComponent: GameLoading
 });

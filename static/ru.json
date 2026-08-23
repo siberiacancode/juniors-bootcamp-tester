@@ -13,6 +13,7 @@
   "page.catalog.search.loading": "Загрузка результатов",
   "page.catalog.search.nothingFound": "Ничего не нашлось",
   "page.catalog.search.changeQuery": "Попробуйте поменять запрос",
+  "price.free": "Бесплатно",
   "page.catalog.filters.discount": "Только со скидкой",
   "page.catalog.filters.dlc": "Показывать DLC",
   "page.catalog.filters.genre": "Жанр",
@@ -29,8 +30,10 @@
   "page.gameProduct.deliveryTypeTitle": "Способ получения",
   "page.gameProduct.regionTitle": "Регион {platform}-аккаунта",
   "page.gameProduct.editionTitle": "Издание",
+  "page.gameProduct.payWithoutBinding": "Оплатить без привязки",
   "page.gameProduct.paymentMethodTitle": "Способ оплаты",
   "page.gameProduct.cardSelectionTitle": "Выбор карты",
+  "page.gameProduct.free": "Бесплатно",
   "page.gameProduct.totalLabel": "Итого",
   "page.gameProduct.minimumRequirements": "Минимальные",
   "page.gameProduct.recommendedRequirements": "Рекомендуемые",
@@ -84,9 +87,11 @@
   "deliveryType.steam_key": "Steam",
   "deliveryType.xbox_key": "Xbox",
 
+  "paymentMethod.byCard": "Картой",
+  "paymentMethod.jbPay": "JB Pay",
   "paymentMethod.new_card": "Карта",
-  "paymentMethod.saved_card": "Сохранённая карта",
   "paymentMethod.qr": "QR-код",
+  "paymentMethod.saved_card": "Сохранённая карта",
 
   "page.pay.title": "Оплата покупки",
   "page.payment.title": "Информация о покупке",
@@ -103,6 +108,9 @@
   "page.profile.title": "Профиль",
   "page.profile.fallbackName": "Лучший покупатель",
   "page.profile.edit.title": "Редактирование данных",
+  "page.profile.cards.title": "Мои карты",
+  "page.profile.tabs.orders": "Заказы",
+  "page.profile.tabs.cards": "Карты",
 
   "field.cardNumber.label": "Номер карты*",
   "field.cardExpiry.label": "Срок*",
@@ -148,6 +156,10 @@
   "button.editProfile": "Редактировать профиль",
   "button.updateData": "Обновить данные",
   "button.cancel": "Отмена",
+  "button.delete": "Удалить",
+  "button.deletePaymentCard": "Удалить карту",
+  "button.dismiss": "Скрыть",
+  "button.getGame": "Получить игру",
   "button.pay": "Оплатить",
   "button.goToMain": "Перейти на главную",
 
@@ -187,5 +199,6 @@
   "page.error.title": "Что-то сломалось, но мы уже чиним!",
   "page.error.description": "На нашей стороне что-то пошло не так. Мы уже пишем фикс и скоро всё заработает.",
 
-  "modal.logout.title": "Вы уверены, что хотите выйти из профиля?"
+  "modal.logout.title": "Вы уверены, что хотите выйти из профиля?",
+  "modal.deletePaymentCard.title": "Вы уверены, что хотите удалить карту из сохранённых?"
 }

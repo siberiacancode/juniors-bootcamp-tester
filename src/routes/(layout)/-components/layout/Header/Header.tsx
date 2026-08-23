@@ -1,43 +1,18 @@
-import { useDisclosure } from '@siberiacancode/reactuse';
 import { Button, IconButton } from '@siberiacancode/uikit';
-import { useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 
+import { appOverlaysStore } from '@/app/components/overlays';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import {
-  getUsersProfileQueryKey,
-  useGetUsersProfileQuery,
-  usePostAuthSignOutMutation
-} from '@/generated/api';
-import { LogoutConfirmation } from '@/routes/-components';
+import { useGetUsersProfileQuery } from '@/generated/api';
 import { IntlText } from '@/utils/lib/intl';
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const confirm = useDisclosure();
-
-  const queryClient = useQueryClient();
-  const postAuthSignOutMutation = usePostAuthSignOutMutation();
-
   const usersProfileResponse = useGetUsersProfileQuery({
     params: { enabled: false }
   });
   const user = usersProfileResponse.data?.data.user;
-
-  const onLogout = async () => {
-    const authSignOutResponse = await postAuthSignOutMutation.mutateAsync();
-
-    if (!authSignOutResponse.data.success) return;
-
-    navigate({
-      to: '/'
-    });
-    queryClient.removeQueries({
-      queryKey: [getUsersProfileQueryKey]
-    });
-  };
-
+  console.log('@Header', user);
   return (
     <header className='hidden h-16 items-center justify-between px-3 sm:flex'>
       <Link className='text-[16px]/6 font-extrabold tracking-wide' to='/'>
@@ -72,7 +47,7 @@ export const Header = () => {
             </Tooltip>
           </div>
           {user && (
-            <Button disabled={postAuthSignOutMutation.isPending} onClick={confirm.open}>
+            <Button onClick={() => appOverlaysStore.get().open('logout')}>
               <IntlText path='button.logout' />
               <LogOutIcon />
             </Button>
@@ -87,7 +62,6 @@ export const Header = () => {
           )}
         </div>
       </TooltipProvider>
-      {confirm.opened && <LogoutConfirmation onConfirm={onLogout} onOpenChange={confirm.toggle} />}
     </header>
   );
 };
