@@ -95,7 +95,14 @@ export const useLoginPage = () => {
       );
     }
 
-    await navigate({ to: search.redirect ?? '/', replace: true });
+    const redirectPath = search.redirect
+      ?.replace(window.location.origin, '')
+      .replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '');
+
+    await navigate({
+      to: redirectPath || '/',
+      replace: true
+    });
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {
