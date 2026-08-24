@@ -1,23 +1,45 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { getUsersProfileQueryOptions } from '@/generated/api';
-import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
-import { queryClient } from '@/lib';
+import { Spinner } from '@/components/ui/spinner';
+import { getCardsCardsQueryOptions, getUsersProfileQueryOptions } from '@/generated/api';
+import { queryClient } from '@/utils/lib';
 
 import { Provider } from './provider';
 import { router } from './router';
 
 import './styles/globals.css';
 
+const AppLoader = () => (
+  <Provider queryClient={queryClient}>
+    <div className='flex min-h-dvh items-center justify-center bg-background'>
+      <Spinner className='size-10 text-accent-secondary' />
+    </div>
+  </Provider>
+);
+
 const init = async () => {
-  const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN);
-
-  if (token) {
-    await queryClient.ensureQueryData(getUsersProfileQueryOptions({}));
-  }
-
   const root = createRoot(document.getElementById('root')!);
+
+  root.render(<AppLoader />);
+
+  const getUsersProfileResponse = await queryClient.query(
+    getUsersProfileQueryOptions({
+      params: {
+        gcTime: Infinity
+      }
+    })
+  );
+
+  if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
+    await queryClient.query(
+      getCardsCardsQueryOptions({
+        params: {
+          gcTime: Infinity
+        }
+      })
+    );
+  }
 
   return root.render(
     <Provider queryClient={queryClient}>

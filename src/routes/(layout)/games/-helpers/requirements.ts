@@ -17,23 +17,23 @@ export const getRequirementSections = (game: GameDetailed) =>
 export const getRequirementRows = (requirements: GameSystemRequirements) =>
   [
     {
-      labelPath: 'page.gameProduct.requirement.os',
+      label: 'page.gameProduct.requirement.os',
       value: requirements.oc
     },
     {
-      labelPath: 'page.gameProduct.requirement.processor',
+      label: 'page.gameProduct.requirement.processor',
       value: requirements.processor
     },
     {
-      labelPath: 'page.gameProduct.requirement.memory',
+      label: 'page.gameProduct.requirement.memory',
       value: requirements.memory
     },
     {
-      labelPath: 'page.gameProduct.requirement.graphics',
+      label: 'page.gameProduct.requirement.graphics',
       value: requirements.graphics
     },
     {
-      labelPath: 'page.gameProduct.requirement.storage',
+      label: 'page.gameProduct.requirement.storage',
       value: requirements.storage
     }
   ] as const;

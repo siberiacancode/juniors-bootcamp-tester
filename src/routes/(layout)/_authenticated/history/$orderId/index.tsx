@@ -1,3 +1,4 @@
+import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon } from 'lucide-react';
 
@@ -14,11 +15,10 @@ import {
   OrderCardThumbnail,
   OrderCardTitle
 } from '@/components/ui/order-card';
-import { Typography } from '@/components/ui/typography';
 import { getGamesOrderByOrderIdSuspenseQueryOptions } from '@/generated/api';
-import { formatMoney, getAsset } from '@/helpers/utils';
-import { queryClient } from '@/lib';
-import { IntlText } from '@/lib/intl';
+import { formatMoney, getAsset } from '@/utils/helpers';
+import { queryClient } from '@/utils/lib';
+import { IntlText } from '@/utils/lib/intl';
 
 import { useHistoryOrderPage } from './-hooks';
 import { HistoryOrderLoading } from './-loading';
@@ -97,7 +97,7 @@ const HistoryOrderPage = () => {
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId/')({
   loader: async ({ params }) => {
-    const getGamesOrderByOrderIdResponse = await queryClient.ensureQueryData(
+    const getGamesOrderByOrderIdResponse = await queryClient.query(
       getGamesOrderByOrderIdSuspenseQueryOptions({
         request: {
           path: {

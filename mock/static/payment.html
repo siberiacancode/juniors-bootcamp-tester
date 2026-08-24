@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мок оплаты</title>
+  </head>
+  <body>
+    <h1>Мок оплаты</h1>
+    <p id="meta"></p>
+
+    <button id="pay">Оплатить</button>
+    <button id="pay-error">Ошибка оплаты</button>
+
+    <p id="status"></p>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const transactionId = params.get('transactionId') || '';
+      const backUrl = params.get('backUrl') || '/';
+      const type = params.get('type') || 'card';
+      const cardId = params.get('cardId') || '';
+      const panmask = params.get('panmask') || '';
+
+      const metaEl = document.getElementById('meta');
+      const statusEl = document.getElementById('status');
+      const buttons = Array.from(document.querySelectorAll('button'));
+
+      metaEl.textContent = `Транзакция: ${transactionId}, тип: ${type}`;
+
+      const redirect = (status, token) => {
+        const url = new URL(backUrl, window.location.origin);
+        url.searchParams.set('status', status);
+        if (token) url.searchParams.set('token', token);
+        window.location.assign(url.toString());
+      };
+
+      const disable = () => buttons.forEach((button) => (button.disabled = true));
+      const enable = () => buttons.forEach((button) => (button.disabled = false));
+
+      const complete = async () => {
+        disable();
+        statusEl.textContent = 'Оплачиваем...';
+
+        try {
+          const response = await fetch(`/api/tester/transactions/${transactionId}/complete`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              paymentMethod: type,
+              cardId,
+              panmask
+            })
+          });
+          const data = await response.json();
+
+          if (!data.success || !data.order || !data.token) {
+            statusEl.textContent = data.reason || 'Не удалось завершить оплату';
+            enable();
+            return;
+          }
+
+          redirect('success', data.token);
+        } catch (error) {
+          statusEl.textContent = 'Ошибка сети при оплате';
+          enable();
+        }
+      };
+
+      document.getElementById('pay').addEventListener('click', complete);
+      document.getElementById('pay-error').addEventListener('click', () => {
+        disable();
+        redirect('fail');
+      });
+    </script>
+  </body>
+</html>

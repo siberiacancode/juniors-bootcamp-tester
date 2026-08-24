@@ -1,15 +1,13 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
+import { IntlText } from '@/utils/lib';
+
+import { CATALOG_GAMES_LIMIT } from '../../../-constants';
 
 export const CatalogSkeleton = () => (
   <div className='flex min-w-0 flex-col items-center gap-6'>
     <div className='grid w-full grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-6'>
-      {Array.from({ length: 15 }, (_, index) => index).map((card) => (
-        <article
-          key={card}
-          className={cn('flex min-w-0 flex-col gap-2', card >= 4 && 'hidden lg:flex')}
-        >
+      {Array.from({ length: CATALOG_GAMES_LIMIT }, (_, index) => index).map((card) => (
+        <article key={card} className='flex min-w-0 flex-col gap-2'>
           <Skeleton className='h-39.5 w-full rounded-24' />
           <div className='flex flex-col gap-2'>
             <Skeleton className='h-5 w-2/5 rounded-24' />

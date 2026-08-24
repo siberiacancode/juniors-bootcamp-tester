@@ -1,7 +1,7 @@
 import type { GameDetailed } from '@/generated/api';
 
-import { formatProductDate } from '@/helpers/utils/date';
-import { intl } from '@/lib';
+import { formatProductDate } from '@/utils/helpers/date';
+import { intl } from '@/utils/lib';
 
 export const productMetaItems = (game: GameDetailed): { label: string; value: string }[] => [
   {

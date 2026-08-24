@@ -1,50 +1,40 @@
+import { GameView } from '@/generated/api';
+
+export const FOOTER_DOCS = {
+  PRIVACY_POLICY: '/privacy-policy.html',
+  USER_AGREEMENT: '/user-agreement.html'
+};
+
 export const FOOTER_PRODUCTS = [
   {
-    search: {
-      filter: [],
-      genre: [],
-      view: undefined
-    },
-    to: '/',
-    label: 'Весь каталог'
+    href: `${import.meta.env.BASE_URL}/`,
+    label: 'navigation.catalog'
   },
   {
-    search: {
-      filter: [],
-      genre: [],
-      view: 'new'
-    },
-    to: '/',
-    label: 'Новинки'
+    href: `${import.meta.env.BASE_URL}/?view=${GameView.NEW}`,
+    label: 'navigation.new'
   },
   {
-    search: {
-      filter: [],
-      genre: [],
-      view: 'popular'
-    },
-    to: '/',
-    label: 'Популярные'
+    href: `${import.meta.env.BASE_URL}/?view=${GameView.POPULAR}`,
+    label: 'navigation.popular'
   }
 ] as const;
 
 export const FOOTER_CONTACTS = [
   {
-    href: '/profile',
-    label: 'Поддержка клиентов'
+    href: `${import.meta.env.BASE_URL}/information#support`,
+    label: 'navigation.support'
   },
   {
-    href: '/profile',
-    label: 'Написать нам на почту'
+    href: `${import.meta.env.BASE_URL}/information#email`,
+    label: 'navigation.email'
   },
   {
-    href: '/profile',
-    label: 'По вопросам рекламы'
+    href: `${import.meta.env.BASE_URL}/information#advertising`,
+    label: 'navigation.advertising'
   },
   {
-    href: '/profile',
-    label: 'Контакты'
+    href: `${import.meta.env.BASE_URL}/information#contacts`,
+    label: 'navigation.contacts'
   }
 ] as const;
-
-export const FOOTER_REPOSITORY_URL = 'https://github.com/siberiacancode/juniors-bootcamp-tester';

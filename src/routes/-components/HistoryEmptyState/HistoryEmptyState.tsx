@@ -1,9 +1,8 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 import { InboxIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 export const HistoryEmptyState = () => (
   <section className='flex h-63 w-full flex-col items-center gap-4 rounded-24 bg-secondary p-6'>

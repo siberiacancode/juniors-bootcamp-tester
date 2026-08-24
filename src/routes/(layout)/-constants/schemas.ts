@@ -1,13 +1,13 @@
 import z from 'zod';
 
-import { GENRES } from '@/helpers/constants';
+import { GameFilter, GameGenre, GameView } from '@/generated/api';
 
-import { CATALOG_FILTERS, CATALOG_VIEWS } from './catalog';
+export const CATALOG_GAMES_LIMIT = 12;
 
 export const catalogSearchSchema = z.object({
-  genre: z.array(z.enum(GENRES)).default([]),
-  filter: z.array(z.enum(CATALOG_FILTERS)).default([]),
-  view: z.enum(CATALOG_VIEWS).optional().catch(undefined)
+  genre: z.array(z.enum(GameGenre)).default([]),
+  filter: z.array(z.enum(GameFilter)).default([]),
+  view: z.enum(GameView).optional().catch(undefined)
 });
 
 export type CatalogSearchParams = z.infer<typeof catalogSearchSchema>;

@@ -1,3 +1,5 @@
+import { Typography } from '@siberiacancode/uikit';
+
 import {
   Carousel,
   CarouselContent,
@@ -5,20 +7,18 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel';
-import { Typography } from '@/components/ui/typography';
-import { getAsset } from '@/helpers/utils/assets';
-import { intl, IntlText } from '@/lib';
+import { getAsset } from '@/utils/helpers/assets';
+import { intl, IntlText } from '@/utils/lib';
 
 import type { GamePageState } from '../types';
 
 interface GameScreenshotsProps {
-  isDesktop: GamePageState['isDesktop'];
   screenshots: GamePageState['game']['screenshots'];
 }
 
-export const GameScreenshots = ({ isDesktop, screenshots }: GameScreenshotsProps) => (
+export const GameScreenshots = ({ screenshots }: GameScreenshotsProps) => (
   <section className='mb-6 flex min-w-0 flex-col gap-3 [grid-area:screenshots] sm:mb-0'>
-    <Typography variant={isDesktop ? 'title-md' : 'body-md'}>
+    <Typography className='md:text-[24px]/8 md:font-bold md:tracking-wide' variant='body-md'>
       <IntlText path='page.gameProduct.screenshots' />
     </Typography>
     <Carousel

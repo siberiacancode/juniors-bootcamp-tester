@@ -3,6 +3,8 @@ import { getRouteApi } from '@tanstack/react-router';
 
 import { getGamesInfo, getGamesInfoQueryKey } from '@/generated/api';
 
+import { CATALOG_GAMES_LIMIT } from '../../../../-constants';
+
 const catalogRoute = getRouteApi('/(layout)/');
 
 export const useCatalogContent = () => {
@@ -13,17 +15,23 @@ export const useCatalogContent = () => {
     queryFn: ({ pageParam }) =>
       getGamesInfo({
         query: {
-          limit: 12,
+          limit: CATALOG_GAMES_LIMIT,
           page: pageParam,
           ...searchParams
         }
       }),
     initialPageParam: 1,
-    getNextPageParam: ({ data }) =>
-      data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null
+    getNextPageParam: ({ data }) => {
+      if (!data.success) return null;
+      return data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null;
+    }
   });
 
-  const games = getGamesInfoQuery.data?.pages.flatMap((group) => group.data.games) ?? [];
+  const games =
+    getGamesInfoQuery.data?.pages.flatMap((group) => {
+      if (!group.data.success) return [];
+      return group.data.games;
+    }) ?? [];
 
   return {
     state: {

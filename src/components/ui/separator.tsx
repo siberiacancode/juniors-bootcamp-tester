@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 
 import { Separator as SeparatorPrimitive } from 'radix-ui';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 const Separator = ({
   className,

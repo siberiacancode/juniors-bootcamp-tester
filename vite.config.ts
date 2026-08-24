@@ -1,8 +1,8 @@
-import babel from '@rolldown/plugin-babel';
+import testids from '@siberiacancode/testids/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { devtools } from '@tanstack/devtools-vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
-import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import process from 'node:process';
 import { defineConfig, loadEnv } from 'vite';
 
@@ -14,14 +14,18 @@ export default defineConfig(({ mode }) => {
     base: '/tester',
     plugins: [
       devtools(),
+      testids({
+        input: './tests/ids.yaml',
+        output: 'generated/tests/ids.gen.ts'
+      }),
       tanstackRouter({
         target: 'react',
         autoCodeSplitting: true,
         generatedRouteTree: 'generated/router/index.gen.ts'
       }),
       react(),
-      tailwindcss(),
-      babel({ presets: [reactCompilerPreset()] })
+      tailwindcss()
+      // babel({ presets: [reactCompilerPreset()] })
     ],
     server: {
       proxy: {

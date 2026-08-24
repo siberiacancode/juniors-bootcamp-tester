@@ -6,11 +6,15 @@ export default apicraft([
     output: 'generated/api',
     instance: {
       name: 'fetches',
-      runtimeInstancePath: './src/helpers/api/instance'
+      runtimeInstancePath: './src/utils/api/instance'
     },
     baseUrl: '/api',
     nameBy: 'path',
     groupBy: 'standalone',
-    plugins: ['tanstack']
+    plugins: [
+      'tanstack',
+      { name: 'typescript', enums: true },
+      { name: 'faker', runtimeInstancePath: './mock/faker' }
+    ]
   }
 ]);
