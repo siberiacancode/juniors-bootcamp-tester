@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "dev-mock": "pnpm mock & vite --mode mock",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "types": "tsc --noEmit",
@@ -15,6 +16,7 @@
     "unit-test": "vitest",
     "unit-mutation": "stryker run",
     "generate-api": "yarn apicraft",
+    "mock": "mcs --config ./mock/mock-server.config.ts --watch",
     "prepare": "lefthook install"
   },
   "dependencies": {
@@ -40,6 +42,7 @@
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
+    "@faker-js/faker": "^10.6.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@siberiacancode/apicraft": "^1.12.1",
     "@siberiacancode/eslint": "2.18.1",
@@ -62,6 +65,7 @@
     "@vitejs/plugin-react": "^6.1.0",
     "@vitest/coverage-v8": "4.1.10",
     "babel-plugin-react-compiler": "^1.0.0",
+    "mock-config-server": "5.0.0-beta.4",
     "shadcn": "^4.19.0",
     "tailwindcss": "^4.3.3",
     "tw-animate-css": "^1.4.0",

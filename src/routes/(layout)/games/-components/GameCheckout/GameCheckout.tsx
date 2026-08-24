@@ -1,3 +1,4 @@
+import { useDraggable } from '@siberiacancode/reactuse';
 import {
   Button,
   Field,
@@ -9,6 +10,7 @@ import {
   Typography
 } from '@siberiacancode/uikit';
 import { CheckIcon, CircleXIcon, Loader2Icon, XIcon } from 'lucide-react';
+import { useRef } from 'react';
 import { Controller } from 'react-hook-form';
 
 import { MascotPeekIcon } from '@/components/icons';
@@ -117,6 +119,35 @@ export const GameCheckout = ({
   const isCardPaymentSelected = selectedPaymentMethod !== TransactionPayMethod.QR;
   const oldPrice = selectedPriceVariant.oldPrice;
   const hasPriceDiscount = !isFree && !!oldPrice && oldPrice !== selectedPriceVariant.price;
+  const dragStartScrollLeftRef = useRef(0);
+  const shouldIgnoreCardClickRef = useRef(false);
+  const paymentCardsScroll = useDraggable<HTMLDivElement>({
+    axis: 'x',
+    onStart: ({ event }) => {
+      if (event.button !== 0) return false;
+
+      dragStartScrollLeftRef.current = paymentCardsScroll.ref.current?.scrollLeft ?? 0;
+      shouldIgnoreCardClickRef.current = false;
+    },
+    onMove: ({ delta }) => {
+      const scrollContainer = paymentCardsScroll.ref.current;
+      if (!scrollContainer) return;
+
+      scrollContainer.scrollLeft = dragStartScrollLeftRef.current - delta.x;
+      shouldIgnoreCardClickRef.current = Math.abs(delta.x) > 5;
+    }
+  });
+  const paymentCardCursorClassName = paymentCardsScroll.dragging
+    ? 'cursor-grabbing'
+    : 'cursor-grab';
+  const handlePaymentCardClick = (callback: () => void) => {
+    if (shouldIgnoreCardClickRef.current) {
+      shouldIgnoreCardClickRef.current = false;
+      return;
+    }
+
+    callback();
+  };
 
   return (
     <section
@@ -288,11 +319,17 @@ export const GameCheckout = ({
                     <IntlText path='page.gameProduct.cardSelectionTitle' />
                   </Typography>
 
-                  <div className='no-scroll flex w-full gap-3.5 overflow-x-auto'>
+                  <div
+                    ref={paymentCardsScroll.ref}
+                    className={cn(
+                      'no-scroll flex w-full gap-3.5 overflow-x-auto select-none',
+                      paymentCardCursorClassName
+                    )}
+                  >
                     <NewPaymentCard
-                      className='shrink-0'
+                      className={cn('shrink-0', paymentCardCursorClassName)}
                       selected={selectedPaymentMethod === TransactionPayMethod.NEW_CARD}
-                      onClick={() => onSavedCardChange()}
+                      onClick={() => handlePaymentCardClick(() => onSavedCardChange())}
                     >
                       <IntlText path='button.newCard' />
                     </NewPaymentCard>
@@ -304,9 +341,9 @@ export const GameCheckout = ({
                           selectedPaymentMethod === TransactionPayMethod.SAVED_CARD &&
                           selectedSavedCard?.id === card.id
                         }
-                        className='shrink-0'
+                        className={cn('shrink-0', paymentCardCursorClassName)}
                         panSuffix={card.panSuffix}
-                        onClick={() => onSavedCardChange(card.id)}
+                        onClick={() => handlePaymentCardClick(() => onSavedCardChange(card.id))}
                       />
                     ))}
                   </div>

@@ -11,6 +11,10 @@ export default apicraft([
     baseUrl: '/api',
     nameBy: 'path',
     groupBy: 'standalone',
-    plugins: ['tanstack', { name: 'typescript', enums: true }]
+    plugins: [
+      'tanstack',
+      { name: 'typescript', enums: true },
+      { name: 'faker', runtimeInstancePath: './mock/faker' }
+    ]
   }
 ]);
