@@ -17,7 +17,7 @@
     "unit-mutation": "stryker run",
     "generate-api": "yarn apicraft",
     "mock": "mcs --config ./mock/mock-server.config.ts --watch",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install || true"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
