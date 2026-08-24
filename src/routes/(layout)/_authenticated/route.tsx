@@ -5,16 +5,15 @@ import { queryClient } from '@/utils/lib';
 
 export const Route = createFileRoute('/(layout)/_authenticated')({
   beforeLoad: async () => {
-    const getUsersProfileResponse = await queryClient.ensureQueryData(
+    const getUsersProfileResponse = await queryClient.query(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
         }
       })
     );
-    const user = getUsersProfileResponse?.data.user;
 
-    if (!user) {
+    if (!getUsersProfileResponse.data.success || !getUsersProfileResponse.data.user) {
       throw redirect({
         to: '/login',
         search: {

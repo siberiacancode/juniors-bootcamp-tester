@@ -101,7 +101,7 @@ const gameProductSearchSchema = z.object({
 export const Route = createFileRoute('/(layout)/games/$slug')({
   loader: async ({ context, location, params }) => {
     const search = gameProductSearchSchema.parse(location.search);
-    const getGameInfoBySlugResponse = await context.queryClient.ensureQueryData(
+    const getGameInfoBySlugResponse = await context.queryClient.query(
       getGamesInfoBySlugQueryOptions({
         params: {
           gcTime: Infinity,
@@ -115,16 +115,11 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       })
     );
 
-    const game = getGameInfoBySlugResponse.data.game;
-
-    if (
-      getGameInfoBySlugResponse.status === 404 ||
-      !getGameInfoBySlugResponse.data.success ||
-      !game
-    ) {
+    if (getGameInfoBySlugResponse.status === 404 || !getGameInfoBySlugResponse.data.success) {
       throw notFound();
     }
 
+    const game = getGameInfoBySlugResponse.data.game;
     const [defaultDeliveryType] = game.deliveryTypes;
     const deliveryType =
       search.deliveryType && game.deliveryTypes.includes(search.deliveryType)
@@ -133,7 +128,7 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 
     if (!deliveryType) throw notFound();
 
-    const getGamesRegionsResponse = await context.queryClient.ensureQueryData(
+    const getGamesRegionsResponse = await context.queryClient.query(
       getGamesRegionsQueryOptions({
         params: {
           gcTime: Infinity,
@@ -148,13 +143,15 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
       })
     );
 
+    if (!getGamesRegionsResponse.data.success) throw notFound();
+
     const regions = getGamesRegionsResponse.data.regions;
     const [defaultRegion] = regions;
     const region = search.region && regions.includes(search.region) ? search.region : defaultRegion;
 
     if (!region) throw notFound();
 
-    await context.queryClient.ensureQueryData(
+    await context.queryClient.query(
       getGamesPriceVariantsQueryOptions({
         params: {
           gcTime: Infinity,

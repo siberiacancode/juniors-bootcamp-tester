@@ -10,11 +10,7 @@ export const postAuthSignIn = [
     response: SignInResponse;
   }>('/auth/sign-in', {
     match: {
-      body: fn((data) => Object.keys(USERS).includes(data.phone))
-      // bug
-      // body: {
-      //   phone: oneOf(...Object.keys(USERS).map(equals))
-      // }
+      body: fn((data) => Boolean(db.getUser(data.phone)))
     },
     handler: ({ request, setCookie }) => {
       const { phone } = request.body;
@@ -34,10 +30,7 @@ export const postAuthSignIn = [
       };
     }
   }),
-  rest.post<{
-    body: SignInDto;
-    response: SignInResponse;
-  }>('/auth/sign-in', {
+  rest.post('/auth/sign-in', {
     success: false,
     reason: 'Пользователь с таким номером не найден'
   })

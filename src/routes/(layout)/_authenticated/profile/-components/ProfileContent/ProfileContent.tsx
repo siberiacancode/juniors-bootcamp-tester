@@ -1,6 +1,8 @@
 import { useDidUpdate } from '@siberiacancode/reactuse';
 import { Suspense, useState } from 'react';
 
+import type { GetCardsResponse } from '@/generated/api';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetCardsCardsSuspenseQuery } from '@/generated/api';
 import { IntlText } from '@/utils/lib/intl';
@@ -13,7 +15,8 @@ type ProfileContentTab = 'cards' | 'orders';
 
 export const ProfileContent = () => {
   const getCardsCardsSuspenseQuery = useGetCardsCardsSuspenseQuery();
-  const cards = getCardsCardsSuspenseQuery.data.data.cards;
+  const getCardsCardsData = getCardsCardsSuspenseQuery.data.data as GetCardsResponse;
+  const cards = getCardsCardsData.cards;
   const [activeTab, setActiveTab] = useState<ProfileContentTab>('orders');
 
   useDidUpdate(() => {

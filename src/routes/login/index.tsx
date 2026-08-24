@@ -187,9 +187,8 @@ export const Route = createFileRoute('/login/')({
     const usersProfileResponse = queryClient.getQueryData<
       ApicraftFetchesResponse<GetProfileResponse>
     >([getUsersProfileQueryKey]);
-    const user = usersProfileResponse?.data.user;
 
-    if (user) {
+    if (usersProfileResponse?.data.success && usersProfileResponse.data.user) {
       throw redirect({
         to: '/'
       });

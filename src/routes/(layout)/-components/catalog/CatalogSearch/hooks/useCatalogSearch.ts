@@ -3,6 +3,8 @@ import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
 
+import type { GameSearchResponse, GamesPaginatedResponse } from '@/generated/api';
+
 import { getGamesInfo, getGamesInfoQueryKey, useGetGamesSearchQuery } from '@/generated/api';
 
 import { CATALOG_GAMES_LIMIT } from '../../../../-constants';
@@ -48,8 +50,11 @@ export const useCatalogSearch = () => {
     }
   });
 
-  const catalogGames = getGamesInfoInfiniteQuery.data?.pages?.[0]?.data.games ?? [];
-  const searchedGames = getGamesSearchQuery.data?.data.games ?? [];
+  const catalogGamesData = getGamesInfoInfiniteQuery.data?.pages?.[0]
+    ?.data as GamesPaginatedResponse;
+  const searchedGamesData = getGamesSearchQuery.data?.data as GameSearchResponse;
+  const catalogGames = catalogGamesData.games;
+  const searchedGames = searchedGamesData?.games ?? [];
   const isSearching = !!normalizedDebouncedSearchValue;
   const isLoading = isSearching
     ? getGamesSearchQuery.isLoading

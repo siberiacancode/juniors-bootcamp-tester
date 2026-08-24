@@ -18,9 +18,7 @@ export const getUsersProfile = [
       user: db.getUserByToken(getCookie(db.tokenName))!
     })
   }),
-  rest.get<{
-    response: GetProfileResponse;
-  }>(
+  rest.get(
     '/users/profile',
     {
       success: false,

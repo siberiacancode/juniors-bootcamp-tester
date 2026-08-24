@@ -1,6 +1,8 @@
 import { Button } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 
+import type { GameOrdersResponse } from '@/generated/api';
+
 import {
   OrderCard,
   OrderCardBadge,
@@ -21,7 +23,8 @@ import { IntlText } from '@/utils/lib/intl';
 
 export const ProfileOrderHistory = () => {
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
-  const orders = getGamesOrdersSuspenseQuery.data.data.orders;
+  const getGamesOrdersData = getGamesOrdersSuspenseQuery.data.data as GameOrdersResponse;
+  const orders = getGamesOrdersData.orders;
 
   return (
     <section className='flex w-full flex-col gap-4'>

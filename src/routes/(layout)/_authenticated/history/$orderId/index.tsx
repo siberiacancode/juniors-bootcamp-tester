@@ -97,7 +97,7 @@ const HistoryOrderPage = () => {
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/$orderId/')({
   loader: async ({ params }) => {
-    const getGamesOrderByOrderIdResponse = await queryClient.ensureQueryData(
+    const getGamesOrderByOrderIdResponse = await queryClient.query(
       getGamesOrderByOrderIdSuspenseQueryOptions({
         request: {
           path: {

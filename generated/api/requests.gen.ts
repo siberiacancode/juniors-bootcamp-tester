@@ -2,7 +2,7 @@
 
 import type { FetchesRequestParams, ApicraftFetchesResponse } from "@siberiacancode/apicraft";
 
-import type { AuthControllerSignInData, AuthControllerSignInResponse, AuthControllerSignOutData, AuthControllerSignOutResponse, UsersControllerGetProfileData, UsersControllerGetProfileResponse, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, CardsControllerGetCardsData, CardsControllerGetCardsResponse, CardsControllerDeleteCardData, CardsControllerDeleteCardResponse, TransactionsControllerGetTransactionData, TransactionsControllerGetTransactionResponse, TransactionsControllerPayTransactionData, TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionByQrData, TransactionsControllerPayTransactionByQrResponse, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetGameRegionsData, GamesControllerGetGameRegionsResponse, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGamePaidOrderData, GamesControllerGetGamePaidOrderResponse, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse } from "./types.gen";
+import type { AuthControllerSignInData, AuthControllerSignInResponse, AuthControllerSignInError, AuthControllerSignOutData, AuthControllerSignOutResponse, AuthControllerSignOutError, UsersControllerGetProfileData, UsersControllerGetProfileResponse, UsersControllerGetProfileError, UsersControllerUpdateProfileData, UsersControllerUpdateProfileResponse, UsersControllerUpdateProfileError, OtpsControllerCreateOtpData, OtpsControllerCreateOtpResponse, OtpsControllerCreateOtpError, CardsControllerGetCardsData, CardsControllerGetCardsResponse, CardsControllerDeleteCardData, CardsControllerDeleteCardResponse, TransactionsControllerGetTransactionData, TransactionsControllerGetTransactionResponse, TransactionsControllerGetTransactionError, TransactionsControllerPayTransactionData, TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionError, TransactionsControllerPayTransactionByQrData, TransactionsControllerPayTransactionByQrResponse, TransactionsControllerPayTransactionByQrError, GamesControllerGetGamesData, GamesControllerGetGamesResponse, GamesControllerGetGamesError, GamesControllerSearchGamesData, GamesControllerSearchGamesResponse, GamesControllerSearchGamesError, GamesControllerGetGameData, GamesControllerGetGameResponse, GamesControllerGetGameError, GamesControllerGetGameRegionsData, GamesControllerGetGameRegionsResponse, GamesControllerGetGameRegionsError, GamesControllerGetPriceVariantsData, GamesControllerGetPriceVariantsResponse, GamesControllerGetPriceVariantsError, GamesControllerCreateGameOrderData, GamesControllerCreateGameOrderResponse, GamesControllerCreateGameOrderError, GamesControllerGetGameOrdersData, GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrdersError, GamesControllerGetGamePaidOrderData, GamesControllerGetGamePaidOrderResponse, GamesControllerGetGamePaidOrderError, GamesControllerGetGameOrderData, GamesControllerGetGameOrderResponse, GamesControllerGetGameOrderError } from "./types.gen";
 
 import { instance } from "../../src/utils/api/instance";
 
@@ -44,27 +44,27 @@ export type GetGamesOrdersPaidRequestParams = FetchesRequestParams<GamesControll
 
 export type GetGamesOrderByOrderIdRequestParams = FetchesRequestParams<GamesControllerGetGameOrderData>;
 
-export const postAuthSignIn = ({ config, body, headers }: PostAuthSignInRequestParams): Promise<ApicraftFetchesResponse<AuthControllerSignInResponse>> => instance.call("POST", "/auth/sign-in", {
+export const postAuthSignIn = ({ config, body, headers }: PostAuthSignInRequestParams): Promise<ApicraftFetchesResponse<AuthControllerSignInResponse, AuthControllerSignInError>> => instance.call("POST", "/auth/sign-in", {
     body,
     headers,
     ...config
 });
 
-export const postAuthSignOut = ({ config, headers }: PostAuthSignOutRequestParams = {}): Promise<ApicraftFetchesResponse<AuthControllerSignOutResponse>> => instance.call("POST", "/auth/sign-out", {
+export const postAuthSignOut = ({ config, headers }: PostAuthSignOutRequestParams = {}): Promise<ApicraftFetchesResponse<AuthControllerSignOutResponse, AuthControllerSignOutError>> => instance.call("POST", "/auth/sign-out", {
     headers,
     ...config
 });
 
-export const getUsersProfile = ({ config }: GetUsersProfileRequestParams = {}): Promise<ApicraftFetchesResponse<UsersControllerGetProfileResponse>> => instance.call("GET", "/users/profile", {
+export const getUsersProfile = ({ config }: GetUsersProfileRequestParams = {}): Promise<ApicraftFetchesResponse<UsersControllerGetProfileResponse, UsersControllerGetProfileError>> => instance.call("GET", "/users/profile", {
     ...config
 });
 
-export const patchUsersProfile = ({ config, body }: PatchUsersProfileRequestParams): Promise<ApicraftFetchesResponse<UsersControllerUpdateProfileResponse>> => instance.call("PATCH", "/users/profile", {
+export const patchUsersProfile = ({ config, body }: PatchUsersProfileRequestParams): Promise<ApicraftFetchesResponse<UsersControllerUpdateProfileResponse, UsersControllerUpdateProfileError>> => instance.call("PATCH", "/users/profile", {
     body,
     ...config
 });
 
-export const postOtpsOtp = ({ config, body }: PostOtpsOtpRequestParams): Promise<ApicraftFetchesResponse<OtpsControllerCreateOtpResponse>> => instance.call("POST", "/otps/otp", {
+export const postOtpsOtp = ({ config, body }: PostOtpsOtpRequestParams): Promise<ApicraftFetchesResponse<OtpsControllerCreateOtpResponse, OtpsControllerCreateOtpError>> => instance.call("POST", "/otps/otp", {
     body,
     ...config
 });
@@ -77,57 +77,57 @@ export const deleteCardsCardById = ({ config, path }: DeleteCardsCardByIdRequest
     ...config
 });
 
-export const getTransactionById = ({ config, path }: GetTransactionByIdRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerGetTransactionResponse>> => instance.call("GET", `/transactions/${path.id}`, {
+export const getTransactionById = ({ config, path }: GetTransactionByIdRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerGetTransactionResponse, TransactionsControllerGetTransactionError>> => instance.call("GET", `/transactions/${path.id}`, {
     ...config
 });
 
-export const postTransactionsPay = ({ config, body }: PostTransactionsPayRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionResponse>> => instance.call("POST", "/transactions/pay", {
+export const postTransactionsPay = ({ config, body }: PostTransactionsPayRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionResponse, TransactionsControllerPayTransactionError>> => instance.call("POST", "/transactions/pay", {
     body,
     ...config
 });
 
-export const postTransactionByIdPayQr = ({ config, path }: PostTransactionByIdPayQrRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionByQrResponse>> => instance.call("POST", `/transactions/${path.id}/pay/qr`, {
+export const postTransactionByIdPayQr = ({ config, path }: PostTransactionByIdPayQrRequestParams): Promise<ApicraftFetchesResponse<TransactionsControllerPayTransactionByQrResponse, TransactionsControllerPayTransactionByQrError>> => instance.call("POST", `/transactions/${path.id}/pay/qr`, {
     ...config
 });
 
-export const getGamesInfo = ({ config, query }: GetGamesInfoRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGamesResponse>> => instance.call("GET", "/games/info", {
+export const getGamesInfo = ({ config, query }: GetGamesInfoRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGamesResponse, GamesControllerGetGamesError>> => instance.call("GET", "/games/info", {
     query,
     ...config
 });
 
-export const getGamesSearch = ({ config, query }: GetGamesSearchRequestParams): Promise<ApicraftFetchesResponse<GamesControllerSearchGamesResponse>> => instance.call("GET", "/games/search", {
+export const getGamesSearch = ({ config, query }: GetGamesSearchRequestParams): Promise<ApicraftFetchesResponse<GamesControllerSearchGamesResponse, GamesControllerSearchGamesError>> => instance.call("GET", "/games/search", {
     query,
     ...config
 });
 
-export const getGamesInfoBySlug = ({ config, path }: GetGamesInfoBySlugRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameResponse>> => instance.call("GET", `/games/info/${path.slug}`, {
+export const getGamesInfoBySlug = ({ config, path }: GetGamesInfoBySlugRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameResponse, GamesControllerGetGameError>> => instance.call("GET", `/games/info/${path.slug}`, {
     ...config
 });
 
-export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameRegionsResponse>> => instance.call("GET", "/games/regions", {
+export const getGamesRegions = ({ config, query }: GetGamesRegionsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameRegionsResponse, GamesControllerGetGameRegionsError>> => instance.call("GET", "/games/regions", {
     query,
     ...config
 });
 
-export const getGamesPriceVariants = ({ config, query }: GetGamesPriceVariantsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetPriceVariantsResponse>> => instance.call("GET", "/games/price-variants", {
+export const getGamesPriceVariants = ({ config, query }: GetGamesPriceVariantsRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetPriceVariantsResponse, GamesControllerGetPriceVariantsError>> => instance.call("GET", "/games/price-variants", {
     query,
     ...config
 });
 
-export const postGamesOrder = ({ config, body }: PostGamesOrderRequestParams): Promise<ApicraftFetchesResponse<GamesControllerCreateGameOrderResponse>> => instance.call("POST", "/games/order", {
+export const postGamesOrder = ({ config, body }: PostGamesOrderRequestParams): Promise<ApicraftFetchesResponse<GamesControllerCreateGameOrderResponse, GamesControllerCreateGameOrderError>> => instance.call("POST", "/games/order", {
     body,
     ...config
 });
 
-export const getGamesOrders = ({ config }: GetGamesOrdersRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrdersResponse>> => instance.call("GET", "/games/orders", {
+export const getGamesOrders = ({ config }: GetGamesOrdersRequestParams = {}): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrdersResponse, GamesControllerGetGameOrdersError>> => instance.call("GET", "/games/orders", {
     ...config
 });
 
-export const getGamesOrdersPaid = ({ config, query }: GetGamesOrdersPaidRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGamePaidOrderResponse>> => instance.call("GET", "/games/orders/paid", {
+export const getGamesOrdersPaid = ({ config, query }: GetGamesOrdersPaidRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGamePaidOrderResponse, GamesControllerGetGamePaidOrderError>> => instance.call("GET", "/games/orders/paid", {
     query,
     ...config
 });
 
-export const getGamesOrderByOrderId = ({ config, path }: GetGamesOrderByOrderIdRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrderResponse>> => instance.call("GET", `/games/orders/${path.orderId}`, {
+export const getGamesOrderByOrderId = ({ config, path }: GetGamesOrderByOrderIdRequestParams): Promise<ApicraftFetchesResponse<GamesControllerGetGameOrderResponse, GamesControllerGetGameOrderError>> => instance.call("GET", `/games/orders/${path.orderId}`, {
     ...config
 });

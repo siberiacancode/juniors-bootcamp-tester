@@ -13,10 +13,10 @@ export const getCardsCards = [
         [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777772')
       }
     },
-    handler: () => ({
+    response: {
       success: true,
       cards: []
-    })
+    }
   }),
   rest.get<{
     response: GetCardsResponse;
@@ -31,9 +31,7 @@ export const getCardsCards = [
       cards: db.getCards()
     })
   }),
-  rest.get<{
-    response: GetCardsResponse;
-  }>(
+  rest.get(
     '/cards/cards',
     {
       success: false,

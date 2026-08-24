@@ -9,10 +9,7 @@ import { db } from '../../../database';
 import { faker } from '../../../faker';
 
 export const postGamesOrder = [
-  rest.post<{
-    body: CreateGameOrderDto;
-    response: CreateGameOrderResponse;
-  }>(
+  rest.post(
     '/games/order',
     {
       match: {
@@ -27,14 +24,11 @@ export const postGamesOrder = [
     },
     { status: 400 }
   ),
-  rest.post<{
-    body: CreateGameOrderDto;
-    response: CreateGameOrderResponse;
-  }>(
+  rest.post(
     '/games/order',
     {
       match: {
-        body: fn((body) => !db.getGame(body.gameSlug))
+        body: fn((body) => !db.getGame((body as CreateGameOrderDto).gameSlug))
       },
       response: {
         success: false,

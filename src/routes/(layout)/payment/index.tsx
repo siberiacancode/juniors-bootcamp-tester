@@ -3,6 +3,8 @@ import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { CheckIcon } from 'lucide-react';
 import z from 'zod';
 
+import type { GameOrderResponse } from '@/generated/api';
+
 import {
   OrderCard,
   OrderCardBadge,
@@ -44,7 +46,7 @@ export const Route = createFileRoute('/(layout)/payment/')({
     token: search.token
   }),
   loader: async ({ deps }) => {
-    const getGamesPaidOrderResponse = await queryClient.ensureQueryData(
+    const getGamesPaidOrderResponse = await queryClient.query(
       getGamesOrdersPaidSuspenseQueryOptions({
         request: {
           query: {
@@ -79,7 +81,8 @@ function PaymentResultPage({ token }: { token: string }) {
       }
     }
   });
-  const order = getGamesPaidOrderSuspenseQuery.data.data.order;
+  const getGamesPaidOrderData = getGamesPaidOrderSuspenseQuery.data.data as GameOrderResponse;
+  const order = getGamesPaidOrderData.order;
 
   return (
     <section className='flex w-full flex-col gap-6 px-0 pt-6 pb-28 sm:max-w-162 sm:pt-14 sm:pb-10'>

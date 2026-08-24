@@ -47,10 +47,10 @@ export const useLoginPage = () => {
     if (!loginOtpResponse.data.success) {
       return false;
     }
-
+    const { data } = loginOtpResponse;
     setSubmittedPhones((currentPhones) => ({
       ...currentPhones,
-      [phone]: Date.now() + loginOtpResponse.data.retryDelay
+      [phone]: Date.now() + data.retryDelay
     }));
 
     return true;
@@ -77,7 +77,7 @@ export const useLoginPage = () => {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
 
-    const getUsersProfileResponse = await queryClient.fetchQuery(
+    const getUsersProfileResponse = await queryClient.query(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
@@ -85,8 +85,8 @@ export const useLoginPage = () => {
       })
     );
 
-    if (getUsersProfileResponse.data.user) {
-      await queryClient.fetchQuery(
+    if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
+      await queryClient.query(
         getCardsCardsQueryOptions({
           params: {
             gcTime: Infinity

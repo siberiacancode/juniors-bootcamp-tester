@@ -37,9 +37,9 @@ const ProfilePage = () => (
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
   loader: ({ context }) =>
     Promise.all([
-      context.queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
-      context.queryClient.ensureQueryData(getUsersProfileQueryOptions()),
-      context.queryClient.ensureQueryData(getCardsCardsSuspenseQueryOptions())
+      context.queryClient.query(getGamesOrdersSuspenseQueryOptions()),
+      context.queryClient.query(getUsersProfileQueryOptions()),
+      context.queryClient.query(getCardsCardsSuspenseQueryOptions())
     ]),
   component: ProfilePage
 });

@@ -1,13 +1,13 @@
 import { fn, rest } from 'mock-config-server';
 
-import type { UpdateProfileDto, UpdateProfileResponse } from '@/generated/api';
+import type { ErrorResponse, UpdateProfileDto, UpdateProfileResponse } from '@/generated/api';
 
 import { db } from '../../../database';
 
 export const patchUsersProfile = [
   rest.patch<{
     body: UpdateProfileDto;
-    response: UpdateProfileResponse;
+    response: ErrorResponse;
   }>(
     '/users/profile',
     {
@@ -16,13 +16,9 @@ export const patchUsersProfile = [
           [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777771')
         }
       },
-      handler: ({ getCookie }) => {
-        const user = db.getUserByToken(getCookie(db.tokenName))!;
-        return {
-          success: false,
-          reason: 'Редактирование профиля недоступно',
-          user
-        };
+      response: {
+        success: false,
+        reason: 'Редактирование профиля недоступно'
       }
     },
     { status: 400 }
@@ -44,10 +40,7 @@ export const patchUsersProfile = [
       };
     }
   }),
-  rest.patch<{
-    body: UpdateProfileDto;
-    response: UpdateProfileResponse;
-  }>(
+  rest.patch(
     '/users/profile',
     {
       success: false,

@@ -4,6 +4,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import type { GetProfileResponse } from '@/generated/api';
+
 import {
   getUsersProfileQueryKey,
   useGetUsersProfileQuery,
@@ -30,7 +32,8 @@ export const useEditProfileDrawer = () => {
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const patchUsersProfileMutation = usePatchUsersProfileMutation();
   const getUsersProfileQuery = useGetUsersProfileQuery();
-  const user = getUsersProfileQuery.data!.data.user;
+  const getUsersProfileData = getUsersProfileQuery.data!.data as GetProfileResponse;
+  const user = getUsersProfileData.user;
 
   const editProfileForm = useForm<ProfileFormScheme>({
     mode: 'onSubmit',

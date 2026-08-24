@@ -1,11 +1,11 @@
 import { rest } from 'mock-config-server';
 
-import type { CreateOtpDto, CreateOtpResponse } from '@/generated/api';
+import type { CreateOtpDto, CreateOtpResponse, ErrorResponse } from '@/generated/api';
 
 export const postOtpsOtp = [
   rest.post<{
     body: CreateOtpDto;
-    response: CreateOtpResponse;
+    response: ErrorResponse;
   }>(
     '/otps/otp',
     {
@@ -14,11 +14,10 @@ export const postOtpsOtp = [
           phone: '77777777774'
         }
       },
-      handler: () => ({
+      response: {
         success: false,
-        reason: 'Не удалось отправить код',
-        retryDelay: 30_000
-      })
+        reason: 'Не удалось отправить код'
+      }
     },
     { status: 400 }
   ),

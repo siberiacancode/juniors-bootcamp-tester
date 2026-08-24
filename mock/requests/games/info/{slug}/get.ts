@@ -19,10 +19,7 @@ export const getGamesInfoBySlug = [
       game: db.getGame(request.params.slug)!.detailed
     })
   }),
-  rest.get<{
-    response: GameResponse;
-    params: GamesControllerGetGameData['path'];
-  }>(
+  rest.get(
     '/games/info/:slug',
     {
       success: false,

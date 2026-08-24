@@ -5,10 +5,7 @@ import type { CardsControllerDeleteCardData, DeleteCardResponse } from '@/genera
 import { db } from '../../../../database';
 
 export const deleteCardsCardById = [
-  rest.delete<{
-    response: DeleteCardResponse;
-    params: CardsControllerDeleteCardData['path'];
-  }>(
+  rest.delete(
     '/cards/cards/:id',
     {
       match: {
@@ -40,10 +37,7 @@ export const deleteCardsCardById = [
       };
     }
   }),
-  rest.delete<{
-    response: DeleteCardResponse;
-    params: CardsControllerDeleteCardData['path'];
-  }>(
+  rest.delete(
     '/cards/cards/:id',
     {
       success: false,

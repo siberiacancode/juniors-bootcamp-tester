@@ -31,10 +31,7 @@ export const getGamesPriceVariants = [
       };
     }
   }),
-  rest.get<{
-    query: GamesControllerGetPriceVariantsData['query'];
-    response: GamePriceVariantsResponse;
-  }>(
+  rest.get(
     '/games/price-variants',
     {
       success: false,

@@ -46,7 +46,7 @@ export type SignInResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -61,11 +61,22 @@ export type SignInResponse = {
     user: User;
 };
 
+export type ErrorResponse = {
+    /**
+     * Статус запроса
+     */
+    success: false;
+    /**
+     * Причина ошибки
+     */
+    reason: string;
+};
+
 export type BaseResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -99,7 +110,7 @@ export type UpdateProfileResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -114,7 +125,7 @@ export type GetProfileResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -136,7 +147,7 @@ export type CreateOtpResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -174,7 +185,7 @@ export type GetCardsResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -189,7 +200,7 @@ export type DeleteCardResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -276,7 +287,7 @@ export type GetTransactionResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -336,7 +347,7 @@ export type PayTransactionResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -504,7 +515,7 @@ export type GamesPaginatedResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -523,7 +534,7 @@ export type GameSearchResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -620,7 +631,7 @@ export type GameResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -635,7 +646,7 @@ export type GameRegionsResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -650,7 +661,7 @@ export type GamePriceVariantsResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -790,7 +801,7 @@ export type CreateGameOrderResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -809,7 +820,7 @@ export type GameOrdersResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -824,7 +835,7 @@ export type GameOrderResponse = {
     /**
      * Статус запроса
      */
-    success: boolean;
+    success: true;
     /**
      * Причина ошибки
      */
@@ -845,6 +856,15 @@ export type AuthControllerSignInData = {
     url: '/api/auth/sign-in';
 };
 
+export type AuthControllerSignInErrors = {
+    /**
+     * Неправильный отп код или некорректные данные запроса
+     */
+    400: ErrorResponse;
+};
+
+export type AuthControllerSignInError = AuthControllerSignInErrors[keyof AuthControllerSignInErrors];
+
 export type AuthControllerSignInResponses = {
     /**
      * sign-in
@@ -864,6 +884,19 @@ export type AuthControllerSignOutData = {
     url: '/api/auth/sign-out';
 };
 
+export type AuthControllerSignOutErrors = {
+    /**
+     * Пользователь не найден
+     */
+    400: ErrorResponse;
+    /**
+     * Не авторизован
+     */
+    401: ErrorResponse;
+};
+
+export type AuthControllerSignOutError = AuthControllerSignOutErrors[keyof AuthControllerSignOutErrors];
+
 export type AuthControllerSignOutResponses = {
     /**
      * sign-out
@@ -879,6 +912,19 @@ export type UsersControllerGetProfileData = {
     query?: never;
     url: '/api/users/profile';
 };
+
+export type UsersControllerGetProfileErrors = {
+    /**
+     * Пользователь не найден
+     */
+    400: ErrorResponse;
+    /**
+     * Не авторизован
+     */
+    401: ErrorResponse;
+};
+
+export type UsersControllerGetProfileError = UsersControllerGetProfileErrors[keyof UsersControllerGetProfileErrors];
 
 export type UsersControllerGetProfileResponses = {
     /**
@@ -896,6 +942,19 @@ export type UsersControllerUpdateProfileData = {
     url: '/api/users/profile';
 };
 
+export type UsersControllerUpdateProfileErrors = {
+    /**
+     * Пользователь не найден, пользователь не существует или некорректные данные запроса
+     */
+    400: ErrorResponse;
+    /**
+     * Не авторизован
+     */
+    401: ErrorResponse;
+};
+
+export type UsersControllerUpdateProfileError = UsersControllerUpdateProfileErrors[keyof UsersControllerUpdateProfileErrors];
+
 export type UsersControllerUpdateProfileResponses = {
     /**
      * update profile
@@ -911,6 +970,15 @@ export type OtpsControllerCreateOtpData = {
     query?: never;
     url: '/api/otps/otp';
 };
+
+export type OtpsControllerCreateOtpErrors = {
+    /**
+     * Некорректные данные запроса
+     */
+    400: ErrorResponse;
+};
+
+export type OtpsControllerCreateOtpError = OtpsControllerCreateOtpErrors[keyof OtpsControllerCreateOtpErrors];
 
 export type OtpsControllerCreateOtpResponses = {
     /**
@@ -964,6 +1032,15 @@ export type TransactionsControllerGetTransactionData = {
     url: '/api/transactions/{id}';
 };
 
+export type TransactionsControllerGetTransactionErrors = {
+    /**
+     * Некорректный ID транзакции, транзакция не найдена или уже оплачена
+     */
+    400: ErrorResponse;
+};
+
+export type TransactionsControllerGetTransactionError = TransactionsControllerGetTransactionErrors[keyof TransactionsControllerGetTransactionErrors];
+
 export type TransactionsControllerGetTransactionResponses = {
     /**
      * Получить транзакцию по ID
@@ -979,6 +1056,15 @@ export type TransactionsControllerPayTransactionData = {
     query?: never;
     url: '/api/transactions/pay';
 };
+
+export type TransactionsControllerPayTransactionErrors = {
+    /**
+     * Некорректные данные оплаты, проблема с транзакцией, картой или истёк срок действия транзакции
+     */
+    400: ErrorResponse;
+};
+
+export type TransactionsControllerPayTransactionError = TransactionsControllerPayTransactionErrors[keyof TransactionsControllerPayTransactionErrors];
 
 export type TransactionsControllerPayTransactionResponses = {
     /**
@@ -997,6 +1083,15 @@ export type TransactionsControllerPayTransactionByQrData = {
     query?: never;
     url: '/api/transactions/{id}/pay/qr';
 };
+
+export type TransactionsControllerPayTransactionByQrErrors = {
+    /**
+     * Проблема с транзакцией или истёк срок действия транзакции
+     */
+    400: ErrorResponse;
+};
+
+export type TransactionsControllerPayTransactionByQrError = TransactionsControllerPayTransactionByQrErrors[keyof TransactionsControllerPayTransactionByQrErrors];
 
 export type TransactionsControllerPayTransactionByQrResponses = {
     /**
@@ -1035,6 +1130,15 @@ export type GamesControllerGetGamesData = {
     url: '/api/games/info';
 };
 
+export type GamesControllerGetGamesErrors = {
+    /**
+     * Некорректные параметры запроса
+     */
+    400: ErrorResponse;
+};
+
+export type GamesControllerGetGamesError = GamesControllerGetGamesErrors[keyof GamesControllerGetGamesErrors];
+
 export type GamesControllerGetGamesResponses = {
     200: GamesPaginatedResponse;
 };
@@ -1057,6 +1161,15 @@ export type GamesControllerSearchGamesData = {
     url: '/api/games/search';
 };
 
+export type GamesControllerSearchGamesErrors = {
+    /**
+     * Некорректные параметры поиска
+     */
+    400: ErrorResponse;
+};
+
+export type GamesControllerSearchGamesError = GamesControllerSearchGamesErrors[keyof GamesControllerSearchGamesErrors];
+
 export type GamesControllerSearchGamesResponses = {
     200: GameSearchResponse;
 };
@@ -1074,6 +1187,15 @@ export type GamesControllerGetGameData = {
     query?: never;
     url: '/api/games/info/{slug}';
 };
+
+export type GamesControllerGetGameErrors = {
+    /**
+     * Игра не найдена
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerGetGameError = GamesControllerGetGameErrors[keyof GamesControllerGetGameErrors];
 
 export type GamesControllerGetGameResponses = {
     200: GameResponse;
@@ -1096,6 +1218,19 @@ export type GamesControllerGetGameRegionsData = {
     };
     url: '/api/games/regions';
 };
+
+export type GamesControllerGetGameRegionsErrors = {
+    /**
+     * Некорректные параметры запроса
+     */
+    400: ErrorResponse;
+    /**
+     * Регионы не найдены
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerGetGameRegionsError = GamesControllerGetGameRegionsErrors[keyof GamesControllerGetGameRegionsErrors];
 
 export type GamesControllerGetGameRegionsResponses = {
     200: GameRegionsResponse;
@@ -1123,6 +1258,19 @@ export type GamesControllerGetPriceVariantsData = {
     url: '/api/games/price-variants';
 };
 
+export type GamesControllerGetPriceVariantsErrors = {
+    /**
+     * Некорректные параметры запроса
+     */
+    400: ErrorResponse;
+    /**
+     * Варианты не найдены
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerGetPriceVariantsError = GamesControllerGetPriceVariantsErrors[keyof GamesControllerGetPriceVariantsErrors];
+
 export type GamesControllerGetPriceVariantsResponses = {
     200: GamePriceVariantsResponse;
 };
@@ -1136,6 +1284,19 @@ export type GamesControllerCreateGameOrderData = {
     url: '/api/games/order';
 };
 
+export type GamesControllerCreateGameOrderErrors = {
+    /**
+     * Некорректные данные заказа или не указана ссылка приглашения
+     */
+    400: ErrorResponse;
+    /**
+     * Игра или вариант цены не найдены
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerCreateGameOrderError = GamesControllerCreateGameOrderErrors[keyof GamesControllerCreateGameOrderErrors];
+
 export type GamesControllerCreateGameOrderResponses = {
     200: CreateGameOrderResponse;
 };
@@ -1148,6 +1309,19 @@ export type GamesControllerGetGameOrdersData = {
     query?: never;
     url: '/api/games/orders';
 };
+
+export type GamesControllerGetGameOrdersErrors = {
+    /**
+     * Пользователь не найден
+     */
+    400: ErrorResponse;
+    /**
+     * Не авторизован
+     */
+    401: ErrorResponse;
+};
+
+export type GamesControllerGetGameOrdersError = GamesControllerGetGameOrdersErrors[keyof GamesControllerGetGameOrdersErrors];
 
 export type GamesControllerGetGameOrdersResponses = {
     200: GameOrdersResponse;
@@ -1167,6 +1341,19 @@ export type GamesControllerGetGamePaidOrderData = {
     url: '/api/games/orders/paid';
 };
 
+export type GamesControllerGetGamePaidOrderErrors = {
+    /**
+     * Не указан или недействителен одноразовый токен доступа
+     */
+    400: ErrorResponse;
+    /**
+     * Заказ не найден
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerGetGamePaidOrderError = GamesControllerGetGamePaidOrderErrors[keyof GamesControllerGetGamePaidOrderErrors];
+
 export type GamesControllerGetGamePaidOrderResponses = {
     200: GameOrderResponse;
 };
@@ -1184,6 +1371,23 @@ export type GamesControllerGetGameOrderData = {
     query?: never;
     url: '/api/games/orders/{orderId}';
 };
+
+export type GamesControllerGetGameOrderErrors = {
+    /**
+     * Пользователь не найден
+     */
+    400: ErrorResponse;
+    /**
+     * Не авторизован
+     */
+    401: ErrorResponse;
+    /**
+     * Заказ не найден
+     */
+    404: ErrorResponse;
+};
+
+export type GamesControllerGetGameOrderError = GamesControllerGetGameOrderErrors[keyof GamesControllerGetGameOrderErrors];
 
 export type GamesControllerGetGameOrderResponses = {
     200: GameOrderResponse;

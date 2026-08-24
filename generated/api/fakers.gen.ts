@@ -4,7 +4,7 @@ import { faker } from "../../mock/faker";
 
 import { deepMerge } from "@siberiacancode/apicraft";
 
-import type { SignInDto, User, SignInResponse, BaseResponse, UpdateProfileDto, UpdateProfileResponse, GetProfileResponse, CreateOtpDto, CreateOtpResponse, Card, GetCardsResponse, DeleteCardResponse, TransactionOrderType, TransactionStatus, Transaction, GetTransactionResponse, TransactionPayMethod, PayTransactionDto, PayTransactionResponse, GameFilter, GameView, GameGenre, GameType, GameRegion, GameDeliveryType, GamePriceVariant, GameFiltered, GamePaginationMeta, GamesPaginatedResponse, GameSearchResponse, GameSystemRequirements, GameDetailed, GameResponse, GameRegionsResponse, GamePriceVariantsResponse, CreateGameOrderPersonDto, CreateGameOrderDto, GameOrderPerson, GameOrderStatus, GameOrder, CreateGameOrderResponse, GameOrdersResponse, GameOrderResponse } from "./types.gen";
+import type { SignInDto, User, SignInResponse, ErrorResponse, BaseResponse, UpdateProfileDto, UpdateProfileResponse, GetProfileResponse, CreateOtpDto, CreateOtpResponse, Card, GetCardsResponse, DeleteCardResponse, TransactionOrderType, TransactionStatus, Transaction, GetTransactionResponse, TransactionPayMethod, PayTransactionDto, PayTransactionResponse, GameFilter, GameView, GameGenre, GameType, GameRegion, GameDeliveryType, GamePriceVariant, GameFiltered, GamePaginationMeta, GamesPaginatedResponse, GameSearchResponse, GameSystemRequirements, GameDetailed, GameResponse, GameRegionsResponse, GamePriceVariantsResponse, CreateGameOrderPersonDto, CreateGameOrderDto, GameOrderPerson, GameOrderStatus, GameOrder, CreateGameOrderResponse, GameOrdersResponse, GameOrderResponse } from "./types.gen";
 
 export const createSignInDtoFake = (overrides?: Partial<SignInDto>): SignInDto => deepMerge<SignInDto>({
     phone: faker.phone.number(),
@@ -22,14 +22,19 @@ export const createUserFake = (overrides?: Partial<User>): User => deepMerge<Use
 }, overrides);
 
 export const createSignInResponseFake = (overrides?: Partial<SignInResponse>): SignInResponse => deepMerge<SignInResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     token: faker.string.alphanumeric(32),
     user: createUserFake()
 }, overrides);
 
+export const createErrorResponseFake = (overrides?: Partial<ErrorResponse>): ErrorResponse => deepMerge<ErrorResponse>({
+    success: false,
+    reason: faker.lorem.word()
+}, overrides);
+
 export const createBaseResponseFake = (overrides?: Partial<BaseResponse>): BaseResponse => deepMerge<BaseResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word()
 }, overrides);
 
@@ -42,13 +47,13 @@ export const createUpdateProfileDtoFake = (overrides?: Partial<UpdateProfileDto>
 }, overrides);
 
 export const createUpdateProfileResponseFake = (overrides?: Partial<UpdateProfileResponse>): UpdateProfileResponse => deepMerge<UpdateProfileResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     user: createUserFake()
 }, overrides);
 
 export const createGetProfileResponseFake = (overrides?: Partial<GetProfileResponse>): GetProfileResponse => deepMerge<GetProfileResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     user: createUserFake()
 }, overrides);
@@ -58,7 +63,7 @@ export const createCreateOtpDtoFake = (overrides?: Partial<CreateOtpDto>): Creat
 }, overrides);
 
 export const createCreateOtpResponseFake = (overrides?: Partial<CreateOtpResponse>): CreateOtpResponse => deepMerge<CreateOtpResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     retryDelay: faker.number.int()
 }, overrides);
@@ -72,13 +77,13 @@ export const createCardFake = (overrides?: Partial<Card>): Card => deepMerge<Car
 }, overrides);
 
 export const createGetCardsResponseFake = (overrides?: Partial<GetCardsResponse>): GetCardsResponse => deepMerge<GetCardsResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     cards: [createCardFake()]
 }, overrides);
 
 export const createDeleteCardResponseFake = (overrides?: Partial<DeleteCardResponse>): DeleteCardResponse => deepMerge<DeleteCardResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     id: faker.string.uuid()
 }, overrides);
@@ -103,7 +108,7 @@ export const createTransactionFake = (overrides?: Partial<Transaction>): Transac
 }, overrides);
 
 export const createGetTransactionResponseFake = (overrides?: Partial<GetTransactionResponse>): GetTransactionResponse => deepMerge<GetTransactionResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     transaction: createTransactionFake()
 }, overrides);
@@ -121,7 +126,7 @@ export const createPayTransactionDtoFake = (overrides?: Partial<PayTransactionDt
 }, overrides);
 
 export const createPayTransactionResponseFake = (overrides?: Partial<PayTransactionResponse>): PayTransactionResponse => deepMerge<PayTransactionResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     transaction: createTransactionFake()
 }, overrides);
@@ -164,14 +169,14 @@ export const createGamePaginationMetaFake = (overrides?: Partial<GamePaginationM
 }, overrides);
 
 export const createGamesPaginatedResponseFake = (overrides?: Partial<GamesPaginatedResponse>): GamesPaginatedResponse => deepMerge<GamesPaginatedResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     games: [createGameFilteredFake()],
     meta: createGamePaginationMetaFake()
 }, overrides);
 
 export const createGameSearchResponseFake = (overrides?: Partial<GameSearchResponse>): GameSearchResponse => deepMerge<GameSearchResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     games: [createGameFilteredFake()]
 }, overrides);
@@ -202,19 +207,19 @@ export const createGameDetailedFake = (overrides?: Partial<GameDetailed>): GameD
 }, overrides);
 
 export const createGameResponseFake = (overrides?: Partial<GameResponse>): GameResponse => deepMerge<GameResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     game: createGameDetailedFake()
 }, overrides);
 
 export const createGameRegionsResponseFake = (overrides?: Partial<GameRegionsResponse>): GameRegionsResponse => deepMerge<GameRegionsResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     regions: [createGameRegionFake()]
 }, overrides);
 
 export const createGamePriceVariantsResponseFake = (overrides?: Partial<GamePriceVariantsResponse>): GamePriceVariantsResponse => deepMerge<GamePriceVariantsResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     priceVariants: [createGamePriceVariantFake()]
 }, overrides);
@@ -259,20 +264,20 @@ export const createGameOrderFake = (overrides?: Partial<GameOrder>): GameOrder =
 }, overrides);
 
 export const createCreateGameOrderResponseFake = (overrides?: Partial<CreateGameOrderResponse>): CreateGameOrderResponse => deepMerge<CreateGameOrderResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     order: createGameOrderFake(),
     transaction: createTransactionFake()
 }, overrides);
 
 export const createGameOrdersResponseFake = (overrides?: Partial<GameOrdersResponse>): GameOrdersResponse => deepMerge<GameOrdersResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     orders: [createGameOrderFake()]
 }, overrides);
 
 export const createGameOrderResponseFake = (overrides?: Partial<GameOrderResponse>): GameOrderResponse => deepMerge<GameOrderResponse>({
-    success: faker.datatype.boolean(),
+    success: true,
     reason: faker.lorem.word(),
     order: createGameOrderFake()
 }, overrides);

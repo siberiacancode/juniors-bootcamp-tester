@@ -1,10 +1,13 @@
 import { useMask } from '@siberiacancode/reactuse';
 
+import type { GetProfileResponse } from '@/generated/api';
+
 import { useGetUsersProfileSuspenseQuery } from '@/generated/api';
 
 export const useProfileInfo = () => {
   const getUsersProfileSuspenseQuery = useGetUsersProfileSuspenseQuery();
-  const user = getUsersProfileSuspenseQuery.data.data.user;
+  const getUsersProfileData = getUsersProfileSuspenseQuery.data.data as GetProfileResponse;
+  const user = getUsersProfileData.user;
 
   const phoneMask = useMask('+9 999 999 99 99', {
     showMask: 'never',

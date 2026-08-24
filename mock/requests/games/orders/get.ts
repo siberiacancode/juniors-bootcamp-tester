@@ -13,27 +13,25 @@ export const getGamesOrders = [
         [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777772')
       }
     },
-    handler: () => ({
+    response: {
       success: true,
       orders: []
-    })
+    }
   }),
   rest.get<{
     response: GameOrdersResponse;
   }>('/games/orders', {
+    handler: () => ({
+      success: true,
+      orders: db.getOrders()
+    }),
     match: {
       cookies: {
         [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)!.phone))
       }
-    },
-    handler: () => ({
-      success: true,
-      orders: db.getOrders()
-    })
+    }
   }),
-  rest.get<{
-    response: GameOrdersResponse;
-  }>(
+  rest.get(
     '/games/orders',
     {
       success: false,

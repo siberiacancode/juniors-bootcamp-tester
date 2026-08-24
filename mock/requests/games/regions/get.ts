@@ -32,10 +32,7 @@ export const getGamesRegions = [
       };
     }
   }),
-  rest.get<{
-    query: GamesControllerGetGameRegionsData['query'];
-    response: GameRegionsResponse;
-  }>(
+  rest.get(
     '/games/regions',
     {
       success: false,

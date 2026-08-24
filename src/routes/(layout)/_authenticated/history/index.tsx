@@ -1,6 +1,8 @@
 import { Button, Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
+import type { GameOrdersResponse } from '@/generated/api';
+
 import {
   OrderCard,
   OrderCardBadge,
@@ -27,7 +29,8 @@ import { HistoryLoading } from './-loading';
 
 function HistoryPage() {
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
-  const orders = getGamesOrdersSuspenseQuery.data.data.orders;
+  const getGamesOrdersData = getGamesOrdersSuspenseQuery.data.data as GameOrdersResponse;
+  const orders = getGamesOrdersData.orders;
 
   return (
     <main className='mb-110 flex w-full max-w-314 flex-col gap-6 sm:mb-0 sm:pt-14'>
@@ -92,7 +95,7 @@ function HistoryPage() {
 }
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
-  loader: () => queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
+  loader: () => queryClient.query(getGamesOrdersSuspenseQueryOptions()),
   component: HistoryPage,
   pendingComponent: HistoryLoading
 });

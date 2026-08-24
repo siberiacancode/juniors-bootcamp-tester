@@ -22,15 +22,12 @@ export const getTransactionById = [
       transaction: db.getTransaction(request.params.id)!
     })
   }),
-  rest.get<{
-    response: GetTransactionResponse;
-    params: TransactionsControllerGetTransactionData['path'];
-  }>(
+  rest.get(
     '/transactions/:id',
     {
       success: false,
       reason: 'Транзакция не найдена'
-    } as GetTransactionResponse,
+    },
     { status: 404 }
   )
 ];

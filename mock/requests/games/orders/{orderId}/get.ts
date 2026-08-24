@@ -23,10 +23,7 @@ export const getGamesOrderByOrderId = [
       order: db.getOrderByPaidToken(String(request.query!.token))!
     })
   }),
-  rest.get<{
-    response: GameOrderResponse;
-    params: GamesControllerGetGameOrderData['path'];
-  }>(
+  rest.get(
     '/games/orders/:orderId',
     {
       match: {
@@ -55,10 +52,7 @@ export const getGamesOrderByOrderId = [
       order: db.getPaidOrder(request.params.orderId)!
     })
   }),
-  rest.get<{
-    response: GameOrderResponse;
-    params: GamesControllerGetGameOrderData['path'];
-  }>(
+  rest.get(
     '/games/orders/:orderId',
     {
       success: false,

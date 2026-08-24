@@ -2,6 +2,8 @@ import { Button, IconButton } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 
+import type { GetProfileResponse } from '@/generated/api';
+
 import { appOverlaysStore } from '@/app/components/overlays';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useGetUsersProfileQuery } from '@/generated/api';
@@ -11,7 +13,8 @@ export const Header = () => {
   const usersProfileResponse = useGetUsersProfileQuery({
     params: { enabled: false }
   });
-  const user = usersProfileResponse.data?.data.user;
+  const usersProfileData = usersProfileResponse.data?.data as GetProfileResponse;
+  const user = usersProfileData.user;
 
   return (
     <header className='hidden h-16 items-center justify-between px-3 sm:flex'>

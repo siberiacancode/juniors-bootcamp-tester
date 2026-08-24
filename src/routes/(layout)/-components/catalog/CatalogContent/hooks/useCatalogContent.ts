@@ -21,11 +21,17 @@ export const useCatalogContent = () => {
         }
       }),
     initialPageParam: 1,
-    getNextPageParam: ({ data }) =>
-      data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null
+    getNextPageParam: ({ data }) => {
+      if (!data.success) return null;
+      return data.meta.page < data.meta.totalPages ? data.meta.page + 1 : null;
+    }
   });
 
-  const games = getGamesInfoQuery.data?.pages.flatMap((group) => group.data.games) ?? [];
+  const games =
+    getGamesInfoQuery.data?.pages.flatMap((group) => {
+      if (!group.data.success) return [];
+      return group.data.games;
+    }) ?? [];
 
   return {
     state: {

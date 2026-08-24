@@ -60,20 +60,23 @@ export const useGamePage = () => {
     }
   });
 
-  const game = getGameInfoBySlugQuery.data?.data.game;
+  const getGameInfoBySlugData = getGameInfoBySlugQuery.data?.data;
+  const game = getGameInfoBySlugData?.success ? getGameInfoBySlugData.game : undefined;
   const postGamesOrderMutation = usePostGamesOrderMutation();
   const getUsersProfileQuery = useGetUsersProfileQuery({
     params: {
       enabled: false
     }
   });
-  const user = getUsersProfileQuery.data?.data.user;
+  const getUsersProfileData = getUsersProfileQuery.data?.data;
+  const user = getUsersProfileData?.success ? getUsersProfileData.user : undefined;
   const getCardsCardsQuery = useGetCardsCardsQuery({
     params: {
       enabled: !!user
     }
   });
-  const cards = getCardsCardsQuery.data?.data.cards;
+  const getCardsCardsData = getCardsCardsQuery.data?.data;
+  const cards = getCardsCardsData?.cards;
   const savedCards = useMemo(() => (cards ?? []).map(toSavedPaymentCard), [cards]);
   const [defaultDeliveryType] = game?.deliveryTypes ?? [];
 
@@ -95,7 +98,8 @@ export const useGamePage = () => {
     }
   });
 
-  const regions = getGamesRegionsQuery.data?.data.regions ?? [];
+  const getGamesRegionsData = getGamesRegionsQuery.data?.data;
+  const regions = getGamesRegionsData?.success ? getGamesRegionsData.regions : [];
   const [defaultRegion] = regions;
   const selectedRegion =
     search.region && regions.includes(search.region) ? search.region : defaultRegion;
@@ -118,7 +122,10 @@ export const useGamePage = () => {
     }
   });
 
-  const priceVariants = getGamesPriceVariantsQuery.data?.data.priceVariants ?? [];
+  const getGamesPriceVariantsData = getGamesPriceVariantsQuery.data?.data;
+  const priceVariants = getGamesPriceVariantsData?.success
+    ? getGamesPriceVariantsData.priceVariants
+    : [];
   const [defaultPriceVariant] = priceVariants;
   const selectedPriceVariant =
     priceVariants.find((priceVariant) => priceVariant.edition === search.edition) ??
