@@ -4,7 +4,11 @@ export const profileDesign: TestCase[] = [
   {
     name: 'Профиль. Дизайн. Без ФИО. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.profileWithoutFullName,
+      preconditions.desktop
+    ],
     steps: [
       {
         action: 'Проверить дизайн страницы',
@@ -17,12 +21,50 @@ export const profileDesign: TestCase[] = [
   {
     name: 'Профиль. Дизайн. Есть ФИО. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.profileWithFullName,
+      preconditions.desktop
+    ],
     steps: [
       {
         action: 'Проверить дизайн страницы',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003784-1775&t=C3LWJeVCld438rNs-0'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Профиль. Дизайн. Без ФИО. Мобилка',
+    status: statuses.actual,
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.profileWithoutFullName,
+      preconditions.mobile
+    ],
+    steps: [
+      {
+        action: 'Проверить дизайн страницы',
+        expected: [
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-6961&t=C3LWJeVCld438rNs-0'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Профиль. Дизайн. Есть ФИО. Мобилка',
+    status: statuses.actual,
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.profileWithFullName,
+      preconditions.mobile
+    ],
+    steps: [
+      {
+        action: 'Проверить дизайн страницы',
+        expected: [
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-6906&t=C3LWJeVCld438rNs-0'
         ]
       }
     ]

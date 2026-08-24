@@ -39,6 +39,20 @@ For design cases, use a user-provided or previously confirmed design link. If no
 - Put reusable system block checks in the reusable block folder.
 - Use project base path `/tester` for routes and links.
 
+## API Request Paths
+
+- Write request paths relative to the API client's configured `baseURL`. Strip the `baseURL` from request checks: use `POST /auth/sign-in`, not `POST /api/tester/auth/sign-in` when the client `baseURL` is `/api/tester`.
+- Apply this only to API request and response references. Preserve the project base path `/tester` in browser routes, redirects, and links.
+- Confirm the current `baseURL` in the API instance before normalizing existing or new cases; do not infer it from a deployed URL.
+
+## Modals and Popups
+
+- Treat a modal, drawer, or popup used by multiple features as a reusable system block. Put its shared design cases in `test-cases-ts/Системное/<Название блока>.ts`; keep a feature-specific window in that feature's folder.
+- Keep feature-specific behavior in the feature workflow file: opening, cancellation, confirmation, requests, redirects, storage changes, and other side effects.
+- When a confirmed design covers the window's composition, use one design step with one expected result linking to that design. Do not reproduce the design as a line-by-line list of visible elements unless an element has independent functional or accessibility behavior to verify.
+- Create separate desktop and mobile design cases when the window changes presentation or component type between viewports, such as `Dialog` on desktop and `Drawer` on mobile.
+- Never invent a missing design link. Ask for it by default; if the user explicitly requests a placeholder, use an obvious placeholder and `statuses.needRework` until the link is supplied.
+
 ## Writing Style
 
 - Match interface text exactly for pages, blocks, buttons, inputs, errors, links, sections, and steps.
