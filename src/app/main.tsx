@@ -13,7 +13,7 @@ import './styles/globals.css';
 const AppLoader = () => (
   <Provider queryClient={queryClient}>
     <div className='flex min-h-dvh items-center justify-center bg-background'>
-      <Spinner className='size-10 text-accent-primary' />
+      <Spinner className='size-10 text-accent-secondary' />
     </div>
   </Provider>
 );

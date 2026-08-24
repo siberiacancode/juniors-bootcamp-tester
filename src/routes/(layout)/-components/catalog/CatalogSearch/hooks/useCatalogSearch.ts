@@ -53,7 +53,7 @@ export const useCatalogSearch = () => {
   const catalogGamesData = getGamesInfoInfiniteQuery.data?.pages?.[0]
     ?.data as GamesPaginatedResponse;
   const searchedGamesData = getGamesSearchQuery.data?.data as GameSearchResponse;
-  const catalogGames = catalogGamesData.games;
+  const catalogGames = catalogGamesData?.games ?? [];
   const searchedGames = searchedGamesData?.games ?? [];
   const isSearching = !!normalizedDebouncedSearchValue;
   const isLoading = isSearching

@@ -24,6 +24,6 @@
     "erasableSyntaxOnly": true,
     "skipLibCheck": true
   },
-  "include": ["src", "generated"]
-  // "include": ["src", "generated", "mock"]
+  // "include": ["src", "generated"]
+  "include": ["src", "generated", "mock"]
 }
