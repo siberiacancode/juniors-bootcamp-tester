@@ -1,11 +1,16 @@
+import {
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Typography
+} from '@siberiacancode/uikit';
 import { SearchIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Switch } from '@/components/ui/switch';
-import { Typography } from '@/components/ui/typography';
-import { intl, IntlText } from '@/lib';
+import { GameFilter } from '@/generated/api';
+import { intl, IntlText } from '@/utils/lib';
 
 import { useCatalogFiltersDesktop } from './hooks';
 
@@ -20,7 +25,7 @@ export const CatalogFiltersDesktop = () => {
             <IntlText path='page.catalog.filters.discount' />
           </Typography>
           <Switch
-            checked={state.searchParams.filter.includes('discount')}
+            checked={state.searchParams.filter.includes(GameFilter.DISCOUNT)}
             onCheckedChange={(checked) => functions.onDiscountChange(!!checked)}
           />
         </label>
@@ -30,7 +35,7 @@ export const CatalogFiltersDesktop = () => {
             <IntlText path='page.catalog.filters.dlc' />
           </Typography>
           <Switch
-            checked={state.searchParams.filter.includes('dlc')}
+            checked={state.searchParams.filter.includes(GameFilter.DLC)}
             onCheckedChange={(checked) => functions.onDlcChange(!!checked)}
           />
         </label>
@@ -42,7 +47,7 @@ export const CatalogFiltersDesktop = () => {
         </Typography>
 
         <InputGroup>
-          <InputGroupAddon align='start'>
+          <InputGroupAddon align='inline-start'>
             <SearchIcon className='size-4 text-input' />
           </InputGroupAddon>
           <InputGroupInput
@@ -75,7 +80,7 @@ export const CatalogFiltersDesktop = () => {
 
         {state.showedAllGenres && (
           <Button size='sm' variant='ghost' onClick={functions.onMoreGenresHide}>
-            <IntlText path='page.catalog.filters.hide' />
+            <IntlText path='button.hide' />
           </Button>
         )}
 
@@ -86,7 +91,7 @@ export const CatalogFiltersDesktop = () => {
         )}
 
         <Button size='lg' variant='secondary' onClick={functions.onFiltersReset}>
-          <IntlText path='page.catalog.filters.reset' />
+          <IntlText path='button.reset' />
         </Button>
       </div>
     </div>

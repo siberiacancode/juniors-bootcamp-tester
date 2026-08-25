@@ -1,17 +1,21 @@
 import type { QueryClient } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
 
+import { ThemeProvider } from '@siberiacancode/uikit/theme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { IntlProvider } from 'react-intl';
 
-import { LOCALE, messages } from '@/lib/intl';
+import { LOCALE, messages } from '@/utils/lib/intl';
 
 interface ProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   queryClient: QueryClient;
 }
 
 export const Provider = ({ queryClient, children }: ProviderProps) => (
-  <IntlProvider defaultLocale={LOCALE} locale={LOCALE} messages={messages}>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  </IntlProvider>
+  <ThemeProvider>
+    <IntlProvider defaultLocale={LOCALE} locale={LOCALE} messages={messages}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </IntlProvider>
+  </ThemeProvider>
 );

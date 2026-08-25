@@ -1,11 +1,12 @@
-import { MascotWaveLargeIcon } from '@/components/icons';
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib';
-import { cn } from '@/lib/utils';
+import type { ComponentProps } from 'react';
 
-interface CatalogSaleBannerProps {
-  className?: string;
-}
+import { Typography } from '@siberiacancode/uikit';
+
+import { MascotWaveLargeIcon } from '@/components/icons';
+import { IntlText } from '@/utils/lib';
+import { cn } from '@/utils/lib/utils';
+
+export type CatalogSaleBannerProps = ComponentProps<'div'>;
 
 export const CatalogSaleBanner = ({ className }: CatalogSaleBannerProps) => (
   <div

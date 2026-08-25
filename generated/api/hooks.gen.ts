@@ -4,13 +4,15 @@ import type { UseSuspenseQueryOptions, UseQueryOptions, UseMutationOptions, Defa
 
 import { useQuery, useMutation, queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-import { postAuthSignIn, postAuthSignOut, getUsersProfile, patchUsersProfile, postOtpsOtp, getTransactionById, postTransactionsPay, postTransactionByIdPayQr, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesPriceVariants, postGamesOrder, getGamesOrders, getGamesOrdersPaid, getGamesOrderByOrderId } from "./requests.gen";
+import type { AuthControllerSignInError, AuthControllerSignOutError, UsersControllerGetProfileError, UsersControllerUpdateProfileError, OtpsControllerCreateOtpError, TransactionsControllerGetTransactionError, TransactionsControllerPayTransactionError, TransactionsControllerPayTransactionByQrError, GamesControllerGetGamesError, GamesControllerSearchGamesError, GamesControllerGetGameError, GamesControllerGetGameRegionsError, GamesControllerGetPriceVariantsError, GamesControllerCreateGameOrderError, GamesControllerGetGameOrdersError, GamesControllerGetGamePaidOrderError, GamesControllerGetGameOrderError } from "./types.gen";
+
+import { postAuthSignIn, postAuthSignOut, getUsersProfile, patchUsersProfile, postOtpsOtp, getCardsCards, deleteCardsCardById, getTransactionById, postTransactionsPay, postTransactionByIdPayQr, getGamesInfo, getGamesSearch, getGamesInfoBySlug, getGamesRegions, getGamesPriceVariants, postGamesOrder, getGamesOrders, getGamesOrdersPaid, getGamesOrderByOrderId } from "./requests.gen";
 
 type PostAuthSignInHookData = Awaited<ReturnType<typeof postAuthSignIn>>;
 
 export const postAuthSignInQueryKey = "postAuthSignInQueryKey";
 
-export const postAuthSignInQueryOptions = <TData = PostAuthSignInHookData, TError = DefaultError>(settings: {
+export const postAuthSignInQueryOptions = <TData = PostAuthSignInHookData, TError = AuthControllerSignInError>(settings: {
     params?: Omit<UseQueryOptions<PostAuthSignInHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postAuthSignIn>[0]>;
 }) => queryOptions({
@@ -19,13 +21,13 @@ export const postAuthSignInQueryOptions = <TData = PostAuthSignInHookData, TErro
     ...settings.params
 });
 
-export const usePostAuthSignInQuery = <TData = PostAuthSignInHookData, TError = DefaultError>(...args: Parameters<typeof postAuthSignInQueryOptions<TData, TError>>) => useQuery(postAuthSignInQueryOptions<TData, TError>(...args));
+export const usePostAuthSignInQuery = <TData = PostAuthSignInHookData, TError = AuthControllerSignInError>(...args: Parameters<typeof postAuthSignInQueryOptions<TData, TError>>) => useQuery(postAuthSignInQueryOptions<TData, TError>(...args));
 
 export const postAuthSignInMutationKey = "postAuthSignInMutationKey";
 
 type PostAuthSignInMutationVariables = Parameters<typeof postAuthSignIn>[0];
 
-export const usePostAuthSignInMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostAuthSignInMutation = <TError = AuthControllerSignInError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostAuthSignInHookData, TError, PostAuthSignInMutationVariables, TContext>;
     request?: NonNullable<PostAuthSignInMutationVariables>;
 }) => useMutation({
@@ -36,7 +38,7 @@ export const usePostAuthSignInMutation = <TError = DefaultError, TContext = unkn
 
 export const postAuthSignInSuspenseQueryKey = "postAuthSignInQueryKey";
 
-export const postAuthSignInSuspenseQueryOptions = <TData = PostAuthSignInHookData, TError = DefaultError>(settings: {
+export const postAuthSignInSuspenseQueryOptions = <TData = PostAuthSignInHookData, TError = AuthControllerSignInError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PostAuthSignInHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postAuthSignIn>[0]>;
 }) => queryOptions({
@@ -45,13 +47,13 @@ export const postAuthSignInSuspenseQueryOptions = <TData = PostAuthSignInHookDat
     ...settings.params
 });
 
-export const usePostAuthSignInSuspenseQuery = <TData = PostAuthSignInHookData, TError = DefaultError>(...args: Parameters<typeof postAuthSignInSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postAuthSignInSuspenseQueryOptions<TData, TError>(...args));
+export const usePostAuthSignInSuspenseQuery = <TData = PostAuthSignInHookData, TError = AuthControllerSignInError>(...args: Parameters<typeof postAuthSignInSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postAuthSignInSuspenseQueryOptions<TData, TError>(...args));
 
 type PostAuthSignOutHookData = Awaited<ReturnType<typeof postAuthSignOut>>;
 
 export const postAuthSignOutQueryKey = "postAuthSignOutQueryKey";
 
-export const postAuthSignOutQueryOptions = <TData = PostAuthSignOutHookData, TError = DefaultError>(settings?: {
+export const postAuthSignOutQueryOptions = <TData = PostAuthSignOutHookData, TError = AuthControllerSignOutError>(settings?: {
     params?: Omit<UseQueryOptions<PostAuthSignOutHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof postAuthSignOut>[0]>;
 }) => queryOptions({
@@ -60,13 +62,13 @@ export const postAuthSignOutQueryOptions = <TData = PostAuthSignOutHookData, TEr
     ...settings?.params
 });
 
-export const usePostAuthSignOutQuery = <TData = PostAuthSignOutHookData, TError = DefaultError>(...args: Parameters<typeof postAuthSignOutQueryOptions<TData, TError>>) => useQuery(postAuthSignOutQueryOptions<TData, TError>(...args));
+export const usePostAuthSignOutQuery = <TData = PostAuthSignOutHookData, TError = AuthControllerSignOutError>(...args: Parameters<typeof postAuthSignOutQueryOptions<TData, TError>>) => useQuery(postAuthSignOutQueryOptions<TData, TError>(...args));
 
 export const postAuthSignOutMutationKey = "postAuthSignOutMutationKey";
 
 type PostAuthSignOutMutationVariables = Parameters<typeof postAuthSignOut>[0];
 
-export const usePostAuthSignOutMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostAuthSignOutMutation = <TError = AuthControllerSignOutError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostAuthSignOutHookData, TError, PostAuthSignOutMutationVariables, TContext>;
     request?: NonNullable<PostAuthSignOutMutationVariables>;
 }) => useMutation({
@@ -77,7 +79,7 @@ export const usePostAuthSignOutMutation = <TError = DefaultError, TContext = unk
 
 export const postAuthSignOutSuspenseQueryKey = "postAuthSignOutQueryKey";
 
-export const postAuthSignOutSuspenseQueryOptions = <TData = PostAuthSignOutHookData, TError = DefaultError>(settings?: {
+export const postAuthSignOutSuspenseQueryOptions = <TData = PostAuthSignOutHookData, TError = AuthControllerSignOutError>(settings?: {
     params?: Omit<UseSuspenseQueryOptions<PostAuthSignOutHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof postAuthSignOut>[0]>;
 }) => queryOptions({
@@ -86,13 +88,13 @@ export const postAuthSignOutSuspenseQueryOptions = <TData = PostAuthSignOutHookD
     ...settings?.params
 });
 
-export const usePostAuthSignOutSuspenseQuery = <TData = PostAuthSignOutHookData, TError = DefaultError>(...args: Parameters<typeof postAuthSignOutSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postAuthSignOutSuspenseQueryOptions<TData, TError>(...args));
+export const usePostAuthSignOutSuspenseQuery = <TData = PostAuthSignOutHookData, TError = AuthControllerSignOutError>(...args: Parameters<typeof postAuthSignOutSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postAuthSignOutSuspenseQueryOptions<TData, TError>(...args));
 
 type GetUsersProfileHookData = Awaited<ReturnType<typeof getUsersProfile>>;
 
 export const getUsersProfileQueryKey = "getUsersProfileQueryKey";
 
-export const getUsersProfileQueryOptions = <TData = GetUsersProfileHookData, TError = DefaultError>(settings?: {
+export const getUsersProfileQueryOptions = <TData = GetUsersProfileHookData, TError = UsersControllerGetProfileError>(settings?: {
     params?: Omit<UseQueryOptions<GetUsersProfileHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getUsersProfile>[0]>;
 }) => queryOptions({
@@ -101,13 +103,13 @@ export const getUsersProfileQueryOptions = <TData = GetUsersProfileHookData, TEr
     ...settings?.params
 });
 
-export const useGetUsersProfileQuery = <TData = GetUsersProfileHookData, TError = DefaultError>(...args: Parameters<typeof getUsersProfileQueryOptions<TData, TError>>) => useQuery(getUsersProfileQueryOptions<TData, TError>(...args));
+export const useGetUsersProfileQuery = <TData = GetUsersProfileHookData, TError = UsersControllerGetProfileError>(...args: Parameters<typeof getUsersProfileQueryOptions<TData, TError>>) => useQuery(getUsersProfileQueryOptions<TData, TError>(...args));
 
 export const getUsersProfileMutationKey = "getUsersProfileMutationKey";
 
 type GetUsersProfileMutationVariables = Parameters<typeof getUsersProfile>[0];
 
-export const useGetUsersProfileMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetUsersProfileMutation = <TError = UsersControllerGetProfileError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetUsersProfileHookData, TError, GetUsersProfileMutationVariables, TContext>;
     request?: NonNullable<GetUsersProfileMutationVariables>;
 }) => useMutation({
@@ -118,7 +120,7 @@ export const useGetUsersProfileMutation = <TError = DefaultError, TContext = unk
 
 export const getUsersProfileSuspenseQueryKey = "getUsersProfileQueryKey";
 
-export const getUsersProfileSuspenseQueryOptions = <TData = GetUsersProfileHookData, TError = DefaultError>(settings?: {
+export const getUsersProfileSuspenseQueryOptions = <TData = GetUsersProfileHookData, TError = UsersControllerGetProfileError>(settings?: {
     params?: Omit<UseSuspenseQueryOptions<GetUsersProfileHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getUsersProfile>[0]>;
 }) => queryOptions({
@@ -127,13 +129,13 @@ export const getUsersProfileSuspenseQueryOptions = <TData = GetUsersProfileHookD
     ...settings?.params
 });
 
-export const useGetUsersProfileSuspenseQuery = <TData = GetUsersProfileHookData, TError = DefaultError>(...args: Parameters<typeof getUsersProfileSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getUsersProfileSuspenseQueryOptions<TData, TError>(...args));
+export const useGetUsersProfileSuspenseQuery = <TData = GetUsersProfileHookData, TError = UsersControllerGetProfileError>(...args: Parameters<typeof getUsersProfileSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getUsersProfileSuspenseQueryOptions<TData, TError>(...args));
 
 type PatchUsersProfileHookData = Awaited<ReturnType<typeof patchUsersProfile>>;
 
 export const patchUsersProfileQueryKey = "patchUsersProfileQueryKey";
 
-export const patchUsersProfileQueryOptions = <TData = PatchUsersProfileHookData, TError = DefaultError>(settings: {
+export const patchUsersProfileQueryOptions = <TData = PatchUsersProfileHookData, TError = UsersControllerUpdateProfileError>(settings: {
     params?: Omit<UseQueryOptions<PatchUsersProfileHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof patchUsersProfile>[0]>;
 }) => queryOptions({
@@ -142,13 +144,13 @@ export const patchUsersProfileQueryOptions = <TData = PatchUsersProfileHookData,
     ...settings.params
 });
 
-export const usePatchUsersProfileQuery = <TData = PatchUsersProfileHookData, TError = DefaultError>(...args: Parameters<typeof patchUsersProfileQueryOptions<TData, TError>>) => useQuery(patchUsersProfileQueryOptions<TData, TError>(...args));
+export const usePatchUsersProfileQuery = <TData = PatchUsersProfileHookData, TError = UsersControllerUpdateProfileError>(...args: Parameters<typeof patchUsersProfileQueryOptions<TData, TError>>) => useQuery(patchUsersProfileQueryOptions<TData, TError>(...args));
 
 export const patchUsersProfileMutationKey = "patchUsersProfileMutationKey";
 
 type PatchUsersProfileMutationVariables = Parameters<typeof patchUsersProfile>[0];
 
-export const usePatchUsersProfileMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePatchUsersProfileMutation = <TError = UsersControllerUpdateProfileError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PatchUsersProfileHookData, TError, PatchUsersProfileMutationVariables, TContext>;
     request?: NonNullable<PatchUsersProfileMutationVariables>;
 }) => useMutation({
@@ -159,7 +161,7 @@ export const usePatchUsersProfileMutation = <TError = DefaultError, TContext = u
 
 export const patchUsersProfileSuspenseQueryKey = "patchUsersProfileQueryKey";
 
-export const patchUsersProfileSuspenseQueryOptions = <TData = PatchUsersProfileHookData, TError = DefaultError>(settings: {
+export const patchUsersProfileSuspenseQueryOptions = <TData = PatchUsersProfileHookData, TError = UsersControllerUpdateProfileError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PatchUsersProfileHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof patchUsersProfile>[0]>;
 }) => queryOptions({
@@ -168,13 +170,13 @@ export const patchUsersProfileSuspenseQueryOptions = <TData = PatchUsersProfileH
     ...settings.params
 });
 
-export const usePatchUsersProfileSuspenseQuery = <TData = PatchUsersProfileHookData, TError = DefaultError>(...args: Parameters<typeof patchUsersProfileSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(patchUsersProfileSuspenseQueryOptions<TData, TError>(...args));
+export const usePatchUsersProfileSuspenseQuery = <TData = PatchUsersProfileHookData, TError = UsersControllerUpdateProfileError>(...args: Parameters<typeof patchUsersProfileSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(patchUsersProfileSuspenseQueryOptions<TData, TError>(...args));
 
 type PostOtpsOtpHookData = Awaited<ReturnType<typeof postOtpsOtp>>;
 
 export const postOtpsOtpQueryKey = "postOtpsOtpQueryKey";
 
-export const postOtpsOtpQueryOptions = <TData = PostOtpsOtpHookData, TError = DefaultError>(settings: {
+export const postOtpsOtpQueryOptions = <TData = PostOtpsOtpHookData, TError = OtpsControllerCreateOtpError>(settings: {
     params?: Omit<UseQueryOptions<PostOtpsOtpHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postOtpsOtp>[0]>;
 }) => queryOptions({
@@ -183,13 +185,13 @@ export const postOtpsOtpQueryOptions = <TData = PostOtpsOtpHookData, TError = De
     ...settings.params
 });
 
-export const usePostOtpsOtpQuery = <TData = PostOtpsOtpHookData, TError = DefaultError>(...args: Parameters<typeof postOtpsOtpQueryOptions<TData, TError>>) => useQuery(postOtpsOtpQueryOptions<TData, TError>(...args));
+export const usePostOtpsOtpQuery = <TData = PostOtpsOtpHookData, TError = OtpsControllerCreateOtpError>(...args: Parameters<typeof postOtpsOtpQueryOptions<TData, TError>>) => useQuery(postOtpsOtpQueryOptions<TData, TError>(...args));
 
 export const postOtpsOtpMutationKey = "postOtpsOtpMutationKey";
 
 type PostOtpsOtpMutationVariables = Parameters<typeof postOtpsOtp>[0];
 
-export const usePostOtpsOtpMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostOtpsOtpMutation = <TError = OtpsControllerCreateOtpError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostOtpsOtpHookData, TError, PostOtpsOtpMutationVariables, TContext>;
     request?: NonNullable<PostOtpsOtpMutationVariables>;
 }) => useMutation({
@@ -200,7 +202,7 @@ export const usePostOtpsOtpMutation = <TError = DefaultError, TContext = unknown
 
 export const postOtpsOtpSuspenseQueryKey = "postOtpsOtpQueryKey";
 
-export const postOtpsOtpSuspenseQueryOptions = <TData = PostOtpsOtpHookData, TError = DefaultError>(settings: {
+export const postOtpsOtpSuspenseQueryOptions = <TData = PostOtpsOtpHookData, TError = OtpsControllerCreateOtpError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PostOtpsOtpHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postOtpsOtp>[0]>;
 }) => queryOptions({
@@ -209,13 +211,95 @@ export const postOtpsOtpSuspenseQueryOptions = <TData = PostOtpsOtpHookData, TEr
     ...settings.params
 });
 
-export const usePostOtpsOtpSuspenseQuery = <TData = PostOtpsOtpHookData, TError = DefaultError>(...args: Parameters<typeof postOtpsOtpSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postOtpsOtpSuspenseQueryOptions<TData, TError>(...args));
+export const usePostOtpsOtpSuspenseQuery = <TData = PostOtpsOtpHookData, TError = OtpsControllerCreateOtpError>(...args: Parameters<typeof postOtpsOtpSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postOtpsOtpSuspenseQueryOptions<TData, TError>(...args));
+
+type GetCardsCardsHookData = Awaited<ReturnType<typeof getCardsCards>>;
+
+export const getCardsCardsQueryKey = "getCardsCardsQueryKey";
+
+export const getCardsCardsQueryOptions = <TData = GetCardsCardsHookData, TError = DefaultError>(settings?: {
+    params?: Omit<UseQueryOptions<GetCardsCardsHookData, TError, TData>, "queryKey">;
+    request?: NonNullable<Parameters<typeof getCardsCards>[0]>;
+}) => queryOptions({
+    queryKey: [getCardsCardsQueryKey, ...(!!settings?.request?.path ? [settings?.request?.path] : []), ...(!!settings?.request?.query ? [settings?.request?.query] : []), ...(!!settings?.request?.body ? [settings?.request?.body] : [])],
+    queryFn: async () => getCardsCards({ ...settings?.request }),
+    ...settings?.params
+});
+
+export const useGetCardsCardsQuery = <TData = GetCardsCardsHookData, TError = DefaultError>(...args: Parameters<typeof getCardsCardsQueryOptions<TData, TError>>) => useQuery(getCardsCardsQueryOptions<TData, TError>(...args));
+
+export const getCardsCardsMutationKey = "getCardsCardsMutationKey";
+
+type GetCardsCardsMutationVariables = Parameters<typeof getCardsCards>[0];
+
+export const useGetCardsCardsMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+    params?: UseMutationOptions<GetCardsCardsHookData, TError, GetCardsCardsMutationVariables, TContext>;
+    request?: NonNullable<GetCardsCardsMutationVariables>;
+}) => useMutation({
+    mutationKey: [getCardsCardsMutationKey],
+    mutationFn: async (params) => getCardsCards({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const getCardsCardsSuspenseQueryKey = "getCardsCardsQueryKey";
+
+export const getCardsCardsSuspenseQueryOptions = <TData = GetCardsCardsHookData, TError = DefaultError>(settings?: {
+    params?: Omit<UseSuspenseQueryOptions<GetCardsCardsHookData, TError, TData>, "queryKey">;
+    request?: NonNullable<Parameters<typeof getCardsCards>[0]>;
+}) => queryOptions({
+    queryKey: [getCardsCardsSuspenseQueryKey, ...(!!settings?.request?.path ? [settings?.request?.path] : []), ...(!!settings?.request?.query ? [settings?.request?.query] : []), ...(!!settings?.request?.body ? [settings?.request?.body] : [])],
+    queryFn: async () => getCardsCards({ ...settings?.request }),
+    ...settings?.params
+});
+
+export const useGetCardsCardsSuspenseQuery = <TData = GetCardsCardsHookData, TError = DefaultError>(...args: Parameters<typeof getCardsCardsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getCardsCardsSuspenseQueryOptions<TData, TError>(...args));
+
+type DeleteCardsCardByIdHookData = Awaited<ReturnType<typeof deleteCardsCardById>>;
+
+export const deleteCardsCardByIdQueryKey = "deleteCardsCardByIdQueryKey";
+
+export const deleteCardsCardByIdQueryOptions = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(settings: {
+    params?: Omit<UseQueryOptions<DeleteCardsCardByIdHookData, TError, TData>, "queryKey">;
+    request: NonNullable<Parameters<typeof deleteCardsCardById>[0]>;
+}) => queryOptions({
+    queryKey: [deleteCardsCardByIdQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => deleteCardsCardById({ ...settings.request }),
+    ...settings.params
+});
+
+export const useDeleteCardsCardByIdQuery = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(...args: Parameters<typeof deleteCardsCardByIdQueryOptions<TData, TError>>) => useQuery(deleteCardsCardByIdQueryOptions<TData, TError>(...args));
+
+export const deleteCardsCardByIdMutationKey = "deleteCardsCardByIdMutationKey";
+
+type DeleteCardsCardByIdMutationVariables = Parameters<typeof deleteCardsCardById>[0];
+
+export const useDeleteCardsCardByIdMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+    params?: UseMutationOptions<DeleteCardsCardByIdHookData, TError, DeleteCardsCardByIdMutationVariables, TContext>;
+    request?: NonNullable<DeleteCardsCardByIdMutationVariables>;
+}) => useMutation({
+    mutationKey: [deleteCardsCardByIdMutationKey],
+    mutationFn: async (params) => deleteCardsCardById({ ...settings?.request, ...params }),
+    ...settings?.params
+});
+
+export const deleteCardsCardByIdSuspenseQueryKey = "deleteCardsCardByIdQueryKey";
+
+export const deleteCardsCardByIdSuspenseQueryOptions = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(settings: {
+    params?: Omit<UseSuspenseQueryOptions<DeleteCardsCardByIdHookData, TError, TData>, "queryKey">;
+    request: NonNullable<Parameters<typeof deleteCardsCardById>[0]>;
+}) => queryOptions({
+    queryKey: [deleteCardsCardByIdSuspenseQueryKey, ...(!!settings.request.path ? [settings.request.path] : []), ...(!!settings.request.query ? [settings.request.query] : []), ...(!!settings.request.body ? [settings.request.body] : [])],
+    queryFn: async () => deleteCardsCardById({ ...settings.request }),
+    ...settings.params
+});
+
+export const useDeleteCardsCardByIdSuspenseQuery = <TData = DeleteCardsCardByIdHookData, TError = DefaultError>(...args: Parameters<typeof deleteCardsCardByIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(deleteCardsCardByIdSuspenseQueryOptions<TData, TError>(...args));
 
 type GetTransactionByIdHookData = Awaited<ReturnType<typeof getTransactionById>>;
 
 export const getTransactionByIdQueryKey = "getTransactionByIdQueryKey";
 
-export const getTransactionByIdQueryOptions = <TData = GetTransactionByIdHookData, TError = DefaultError>(settings: {
+export const getTransactionByIdQueryOptions = <TData = GetTransactionByIdHookData, TError = TransactionsControllerGetTransactionError>(settings: {
     params?: Omit<UseQueryOptions<GetTransactionByIdHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getTransactionById>[0]>;
 }) => queryOptions({
@@ -224,13 +308,13 @@ export const getTransactionByIdQueryOptions = <TData = GetTransactionByIdHookDat
     ...settings.params
 });
 
-export const useGetTransactionByIdQuery = <TData = GetTransactionByIdHookData, TError = DefaultError>(...args: Parameters<typeof getTransactionByIdQueryOptions<TData, TError>>) => useQuery(getTransactionByIdQueryOptions<TData, TError>(...args));
+export const useGetTransactionByIdQuery = <TData = GetTransactionByIdHookData, TError = TransactionsControllerGetTransactionError>(...args: Parameters<typeof getTransactionByIdQueryOptions<TData, TError>>) => useQuery(getTransactionByIdQueryOptions<TData, TError>(...args));
 
 export const getTransactionByIdMutationKey = "getTransactionByIdMutationKey";
 
 type GetTransactionByIdMutationVariables = Parameters<typeof getTransactionById>[0];
 
-export const useGetTransactionByIdMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetTransactionByIdMutation = <TError = TransactionsControllerGetTransactionError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetTransactionByIdHookData, TError, GetTransactionByIdMutationVariables, TContext>;
     request?: NonNullable<GetTransactionByIdMutationVariables>;
 }) => useMutation({
@@ -241,7 +325,7 @@ export const useGetTransactionByIdMutation = <TError = DefaultError, TContext = 
 
 export const getTransactionByIdSuspenseQueryKey = "getTransactionByIdQueryKey";
 
-export const getTransactionByIdSuspenseQueryOptions = <TData = GetTransactionByIdHookData, TError = DefaultError>(settings: {
+export const getTransactionByIdSuspenseQueryOptions = <TData = GetTransactionByIdHookData, TError = TransactionsControllerGetTransactionError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetTransactionByIdHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getTransactionById>[0]>;
 }) => queryOptions({
@@ -250,13 +334,13 @@ export const getTransactionByIdSuspenseQueryOptions = <TData = GetTransactionByI
     ...settings.params
 });
 
-export const useGetTransactionByIdSuspenseQuery = <TData = GetTransactionByIdHookData, TError = DefaultError>(...args: Parameters<typeof getTransactionByIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getTransactionByIdSuspenseQueryOptions<TData, TError>(...args));
+export const useGetTransactionByIdSuspenseQuery = <TData = GetTransactionByIdHookData, TError = TransactionsControllerGetTransactionError>(...args: Parameters<typeof getTransactionByIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getTransactionByIdSuspenseQueryOptions<TData, TError>(...args));
 
 type PostTransactionsPayHookData = Awaited<ReturnType<typeof postTransactionsPay>>;
 
 export const postTransactionsPayQueryKey = "postTransactionsPayQueryKey";
 
-export const postTransactionsPayQueryOptions = <TData = PostTransactionsPayHookData, TError = DefaultError>(settings: {
+export const postTransactionsPayQueryOptions = <TData = PostTransactionsPayHookData, TError = TransactionsControllerPayTransactionError>(settings: {
     params?: Omit<UseQueryOptions<PostTransactionsPayHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postTransactionsPay>[0]>;
 }) => queryOptions({
@@ -265,13 +349,13 @@ export const postTransactionsPayQueryOptions = <TData = PostTransactionsPayHookD
     ...settings.params
 });
 
-export const usePostTransactionsPayQuery = <TData = PostTransactionsPayHookData, TError = DefaultError>(...args: Parameters<typeof postTransactionsPayQueryOptions<TData, TError>>) => useQuery(postTransactionsPayQueryOptions<TData, TError>(...args));
+export const usePostTransactionsPayQuery = <TData = PostTransactionsPayHookData, TError = TransactionsControllerPayTransactionError>(...args: Parameters<typeof postTransactionsPayQueryOptions<TData, TError>>) => useQuery(postTransactionsPayQueryOptions<TData, TError>(...args));
 
 export const postTransactionsPayMutationKey = "postTransactionsPayMutationKey";
 
 type PostTransactionsPayMutationVariables = Parameters<typeof postTransactionsPay>[0];
 
-export const usePostTransactionsPayMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostTransactionsPayMutation = <TError = TransactionsControllerPayTransactionError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostTransactionsPayHookData, TError, PostTransactionsPayMutationVariables, TContext>;
     request?: NonNullable<PostTransactionsPayMutationVariables>;
 }) => useMutation({
@@ -282,7 +366,7 @@ export const usePostTransactionsPayMutation = <TError = DefaultError, TContext =
 
 export const postTransactionsPaySuspenseQueryKey = "postTransactionsPayQueryKey";
 
-export const postTransactionsPaySuspenseQueryOptions = <TData = PostTransactionsPayHookData, TError = DefaultError>(settings: {
+export const postTransactionsPaySuspenseQueryOptions = <TData = PostTransactionsPayHookData, TError = TransactionsControllerPayTransactionError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PostTransactionsPayHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postTransactionsPay>[0]>;
 }) => queryOptions({
@@ -291,13 +375,13 @@ export const postTransactionsPaySuspenseQueryOptions = <TData = PostTransactions
     ...settings.params
 });
 
-export const usePostTransactionsPaySuspenseQuery = <TData = PostTransactionsPayHookData, TError = DefaultError>(...args: Parameters<typeof postTransactionsPaySuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postTransactionsPaySuspenseQueryOptions<TData, TError>(...args));
+export const usePostTransactionsPaySuspenseQuery = <TData = PostTransactionsPayHookData, TError = TransactionsControllerPayTransactionError>(...args: Parameters<typeof postTransactionsPaySuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postTransactionsPaySuspenseQueryOptions<TData, TError>(...args));
 
 type PostTransactionByIdPayQrHookData = Awaited<ReturnType<typeof postTransactionByIdPayQr>>;
 
 export const postTransactionByIdPayQrQueryKey = "postTransactionByIdPayQrQueryKey";
 
-export const postTransactionByIdPayQrQueryOptions = <TData = PostTransactionByIdPayQrHookData, TError = DefaultError>(settings: {
+export const postTransactionByIdPayQrQueryOptions = <TData = PostTransactionByIdPayQrHookData, TError = TransactionsControllerPayTransactionByQrError>(settings: {
     params?: Omit<UseQueryOptions<PostTransactionByIdPayQrHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postTransactionByIdPayQr>[0]>;
 }) => queryOptions({
@@ -306,13 +390,13 @@ export const postTransactionByIdPayQrQueryOptions = <TData = PostTransactionById
     ...settings.params
 });
 
-export const usePostTransactionByIdPayQrQuery = <TData = PostTransactionByIdPayQrHookData, TError = DefaultError>(...args: Parameters<typeof postTransactionByIdPayQrQueryOptions<TData, TError>>) => useQuery(postTransactionByIdPayQrQueryOptions<TData, TError>(...args));
+export const usePostTransactionByIdPayQrQuery = <TData = PostTransactionByIdPayQrHookData, TError = TransactionsControllerPayTransactionByQrError>(...args: Parameters<typeof postTransactionByIdPayQrQueryOptions<TData, TError>>) => useQuery(postTransactionByIdPayQrQueryOptions<TData, TError>(...args));
 
 export const postTransactionByIdPayQrMutationKey = "postTransactionByIdPayQrMutationKey";
 
 type PostTransactionByIdPayQrMutationVariables = Parameters<typeof postTransactionByIdPayQr>[0];
 
-export const usePostTransactionByIdPayQrMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostTransactionByIdPayQrMutation = <TError = TransactionsControllerPayTransactionByQrError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostTransactionByIdPayQrHookData, TError, PostTransactionByIdPayQrMutationVariables, TContext>;
     request?: NonNullable<PostTransactionByIdPayQrMutationVariables>;
 }) => useMutation({
@@ -323,7 +407,7 @@ export const usePostTransactionByIdPayQrMutation = <TError = DefaultError, TCont
 
 export const postTransactionByIdPayQrSuspenseQueryKey = "postTransactionByIdPayQrQueryKey";
 
-export const postTransactionByIdPayQrSuspenseQueryOptions = <TData = PostTransactionByIdPayQrHookData, TError = DefaultError>(settings: {
+export const postTransactionByIdPayQrSuspenseQueryOptions = <TData = PostTransactionByIdPayQrHookData, TError = TransactionsControllerPayTransactionByQrError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PostTransactionByIdPayQrHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postTransactionByIdPayQr>[0]>;
 }) => queryOptions({
@@ -332,13 +416,13 @@ export const postTransactionByIdPayQrSuspenseQueryOptions = <TData = PostTransac
     ...settings.params
 });
 
-export const usePostTransactionByIdPayQrSuspenseQuery = <TData = PostTransactionByIdPayQrHookData, TError = DefaultError>(...args: Parameters<typeof postTransactionByIdPayQrSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postTransactionByIdPayQrSuspenseQueryOptions<TData, TError>(...args));
+export const usePostTransactionByIdPayQrSuspenseQuery = <TData = PostTransactionByIdPayQrHookData, TError = TransactionsControllerPayTransactionByQrError>(...args: Parameters<typeof postTransactionByIdPayQrSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postTransactionByIdPayQrSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesInfoHookData = Awaited<ReturnType<typeof getGamesInfo>>;
 
 export const getGamesInfoQueryKey = "getGamesInfoQueryKey";
 
-export const getGamesInfoQueryOptions = <TData = GetGamesInfoHookData, TError = DefaultError>(settings?: {
+export const getGamesInfoQueryOptions = <TData = GetGamesInfoHookData, TError = GamesControllerGetGamesError>(settings?: {
     params?: Omit<UseQueryOptions<GetGamesInfoHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getGamesInfo>[0]>;
 }) => queryOptions({
@@ -347,13 +431,13 @@ export const getGamesInfoQueryOptions = <TData = GetGamesInfoHookData, TError = 
     ...settings?.params
 });
 
-export const useGetGamesInfoQuery = <TData = GetGamesInfoHookData, TError = DefaultError>(...args: Parameters<typeof getGamesInfoQueryOptions<TData, TError>>) => useQuery(getGamesInfoQueryOptions<TData, TError>(...args));
+export const useGetGamesInfoQuery = <TData = GetGamesInfoHookData, TError = GamesControllerGetGamesError>(...args: Parameters<typeof getGamesInfoQueryOptions<TData, TError>>) => useQuery(getGamesInfoQueryOptions<TData, TError>(...args));
 
 export const getGamesInfoMutationKey = "getGamesInfoMutationKey";
 
 type GetGamesInfoMutationVariables = Parameters<typeof getGamesInfo>[0];
 
-export const useGetGamesInfoMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesInfoMutation = <TError = GamesControllerGetGamesError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesInfoHookData, TError, GetGamesInfoMutationVariables, TContext>;
     request?: NonNullable<GetGamesInfoMutationVariables>;
 }) => useMutation({
@@ -364,7 +448,7 @@ export const useGetGamesInfoMutation = <TError = DefaultError, TContext = unknow
 
 export const getGamesInfoSuspenseQueryKey = "getGamesInfoQueryKey";
 
-export const getGamesInfoSuspenseQueryOptions = <TData = GetGamesInfoHookData, TError = DefaultError>(settings?: {
+export const getGamesInfoSuspenseQueryOptions = <TData = GetGamesInfoHookData, TError = GamesControllerGetGamesError>(settings?: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesInfoHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getGamesInfo>[0]>;
 }) => queryOptions({
@@ -373,13 +457,13 @@ export const getGamesInfoSuspenseQueryOptions = <TData = GetGamesInfoHookData, T
     ...settings?.params
 });
 
-export const useGetGamesInfoSuspenseQuery = <TData = GetGamesInfoHookData, TError = DefaultError>(...args: Parameters<typeof getGamesInfoSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesInfoSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesInfoSuspenseQuery = <TData = GetGamesInfoHookData, TError = GamesControllerGetGamesError>(...args: Parameters<typeof getGamesInfoSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesInfoSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesSearchHookData = Awaited<ReturnType<typeof getGamesSearch>>;
 
 export const getGamesSearchQueryKey = "getGamesSearchQueryKey";
 
-export const getGamesSearchQueryOptions = <TData = GetGamesSearchHookData, TError = DefaultError>(settings: {
+export const getGamesSearchQueryOptions = <TData = GetGamesSearchHookData, TError = GamesControllerSearchGamesError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesSearchHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesSearch>[0]>;
 }) => queryOptions({
@@ -388,13 +472,13 @@ export const getGamesSearchQueryOptions = <TData = GetGamesSearchHookData, TErro
     ...settings.params
 });
 
-export const useGetGamesSearchQuery = <TData = GetGamesSearchHookData, TError = DefaultError>(...args: Parameters<typeof getGamesSearchQueryOptions<TData, TError>>) => useQuery(getGamesSearchQueryOptions<TData, TError>(...args));
+export const useGetGamesSearchQuery = <TData = GetGamesSearchHookData, TError = GamesControllerSearchGamesError>(...args: Parameters<typeof getGamesSearchQueryOptions<TData, TError>>) => useQuery(getGamesSearchQueryOptions<TData, TError>(...args));
 
 export const getGamesSearchMutationKey = "getGamesSearchMutationKey";
 
 type GetGamesSearchMutationVariables = Parameters<typeof getGamesSearch>[0];
 
-export const useGetGamesSearchMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesSearchMutation = <TError = GamesControllerSearchGamesError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesSearchHookData, TError, GetGamesSearchMutationVariables, TContext>;
     request?: NonNullable<GetGamesSearchMutationVariables>;
 }) => useMutation({
@@ -405,7 +489,7 @@ export const useGetGamesSearchMutation = <TError = DefaultError, TContext = unkn
 
 export const getGamesSearchSuspenseQueryKey = "getGamesSearchQueryKey";
 
-export const getGamesSearchSuspenseQueryOptions = <TData = GetGamesSearchHookData, TError = DefaultError>(settings: {
+export const getGamesSearchSuspenseQueryOptions = <TData = GetGamesSearchHookData, TError = GamesControllerSearchGamesError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesSearchHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesSearch>[0]>;
 }) => queryOptions({
@@ -414,13 +498,13 @@ export const getGamesSearchSuspenseQueryOptions = <TData = GetGamesSearchHookDat
     ...settings.params
 });
 
-export const useGetGamesSearchSuspenseQuery = <TData = GetGamesSearchHookData, TError = DefaultError>(...args: Parameters<typeof getGamesSearchSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesSearchSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesSearchSuspenseQuery = <TData = GetGamesSearchHookData, TError = GamesControllerSearchGamesError>(...args: Parameters<typeof getGamesSearchSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesSearchSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesInfoBySlugHookData = Awaited<ReturnType<typeof getGamesInfoBySlug>>;
 
 export const getGamesInfoBySlugQueryKey = "getGamesInfoBySlugQueryKey";
 
-export const getGamesInfoBySlugQueryOptions = <TData = GetGamesInfoBySlugHookData, TError = DefaultError>(settings: {
+export const getGamesInfoBySlugQueryOptions = <TData = GetGamesInfoBySlugHookData, TError = GamesControllerGetGameError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesInfoBySlugHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesInfoBySlug>[0]>;
 }) => queryOptions({
@@ -429,13 +513,13 @@ export const getGamesInfoBySlugQueryOptions = <TData = GetGamesInfoBySlugHookDat
     ...settings.params
 });
 
-export const useGetGamesInfoBySlugQuery = <TData = GetGamesInfoBySlugHookData, TError = DefaultError>(...args: Parameters<typeof getGamesInfoBySlugQueryOptions<TData, TError>>) => useQuery(getGamesInfoBySlugQueryOptions<TData, TError>(...args));
+export const useGetGamesInfoBySlugQuery = <TData = GetGamesInfoBySlugHookData, TError = GamesControllerGetGameError>(...args: Parameters<typeof getGamesInfoBySlugQueryOptions<TData, TError>>) => useQuery(getGamesInfoBySlugQueryOptions<TData, TError>(...args));
 
 export const getGamesInfoBySlugMutationKey = "getGamesInfoBySlugMutationKey";
 
 type GetGamesInfoBySlugMutationVariables = Parameters<typeof getGamesInfoBySlug>[0];
 
-export const useGetGamesInfoBySlugMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesInfoBySlugMutation = <TError = GamesControllerGetGameError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesInfoBySlugHookData, TError, GetGamesInfoBySlugMutationVariables, TContext>;
     request?: NonNullable<GetGamesInfoBySlugMutationVariables>;
 }) => useMutation({
@@ -446,7 +530,7 @@ export const useGetGamesInfoBySlugMutation = <TError = DefaultError, TContext = 
 
 export const getGamesInfoBySlugSuspenseQueryKey = "getGamesInfoBySlugQueryKey";
 
-export const getGamesInfoBySlugSuspenseQueryOptions = <TData = GetGamesInfoBySlugHookData, TError = DefaultError>(settings: {
+export const getGamesInfoBySlugSuspenseQueryOptions = <TData = GetGamesInfoBySlugHookData, TError = GamesControllerGetGameError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesInfoBySlugHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesInfoBySlug>[0]>;
 }) => queryOptions({
@@ -455,13 +539,13 @@ export const getGamesInfoBySlugSuspenseQueryOptions = <TData = GetGamesInfoBySlu
     ...settings.params
 });
 
-export const useGetGamesInfoBySlugSuspenseQuery = <TData = GetGamesInfoBySlugHookData, TError = DefaultError>(...args: Parameters<typeof getGamesInfoBySlugSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesInfoBySlugSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesInfoBySlugSuspenseQuery = <TData = GetGamesInfoBySlugHookData, TError = GamesControllerGetGameError>(...args: Parameters<typeof getGamesInfoBySlugSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesInfoBySlugSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesRegionsHookData = Awaited<ReturnType<typeof getGamesRegions>>;
 
 export const getGamesRegionsQueryKey = "getGamesRegionsQueryKey";
 
-export const getGamesRegionsQueryOptions = <TData = GetGamesRegionsHookData, TError = DefaultError>(settings: {
+export const getGamesRegionsQueryOptions = <TData = GetGamesRegionsHookData, TError = GamesControllerGetGameRegionsError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesRegionsHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesRegions>[0]>;
 }) => queryOptions({
@@ -470,13 +554,13 @@ export const getGamesRegionsQueryOptions = <TData = GetGamesRegionsHookData, TEr
     ...settings.params
 });
 
-export const useGetGamesRegionsQuery = <TData = GetGamesRegionsHookData, TError = DefaultError>(...args: Parameters<typeof getGamesRegionsQueryOptions<TData, TError>>) => useQuery(getGamesRegionsQueryOptions<TData, TError>(...args));
+export const useGetGamesRegionsQuery = <TData = GetGamesRegionsHookData, TError = GamesControllerGetGameRegionsError>(...args: Parameters<typeof getGamesRegionsQueryOptions<TData, TError>>) => useQuery(getGamesRegionsQueryOptions<TData, TError>(...args));
 
 export const getGamesRegionsMutationKey = "getGamesRegionsMutationKey";
 
 type GetGamesRegionsMutationVariables = Parameters<typeof getGamesRegions>[0];
 
-export const useGetGamesRegionsMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesRegionsMutation = <TError = GamesControllerGetGameRegionsError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesRegionsHookData, TError, GetGamesRegionsMutationVariables, TContext>;
     request?: NonNullable<GetGamesRegionsMutationVariables>;
 }) => useMutation({
@@ -487,7 +571,7 @@ export const useGetGamesRegionsMutation = <TError = DefaultError, TContext = unk
 
 export const getGamesRegionsSuspenseQueryKey = "getGamesRegionsQueryKey";
 
-export const getGamesRegionsSuspenseQueryOptions = <TData = GetGamesRegionsHookData, TError = DefaultError>(settings: {
+export const getGamesRegionsSuspenseQueryOptions = <TData = GetGamesRegionsHookData, TError = GamesControllerGetGameRegionsError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesRegionsHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesRegions>[0]>;
 }) => queryOptions({
@@ -496,13 +580,13 @@ export const getGamesRegionsSuspenseQueryOptions = <TData = GetGamesRegionsHookD
     ...settings.params
 });
 
-export const useGetGamesRegionsSuspenseQuery = <TData = GetGamesRegionsHookData, TError = DefaultError>(...args: Parameters<typeof getGamesRegionsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesRegionsSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesRegionsSuspenseQuery = <TData = GetGamesRegionsHookData, TError = GamesControllerGetGameRegionsError>(...args: Parameters<typeof getGamesRegionsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesRegionsSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesPriceVariantsHookData = Awaited<ReturnType<typeof getGamesPriceVariants>>;
 
 export const getGamesPriceVariantsQueryKey = "getGamesPriceVariantsQueryKey";
 
-export const getGamesPriceVariantsQueryOptions = <TData = GetGamesPriceVariantsHookData, TError = DefaultError>(settings: {
+export const getGamesPriceVariantsQueryOptions = <TData = GetGamesPriceVariantsHookData, TError = GamesControllerGetPriceVariantsError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesPriceVariantsHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesPriceVariants>[0]>;
 }) => queryOptions({
@@ -511,13 +595,13 @@ export const getGamesPriceVariantsQueryOptions = <TData = GetGamesPriceVariantsH
     ...settings.params
 });
 
-export const useGetGamesPriceVariantsQuery = <TData = GetGamesPriceVariantsHookData, TError = DefaultError>(...args: Parameters<typeof getGamesPriceVariantsQueryOptions<TData, TError>>) => useQuery(getGamesPriceVariantsQueryOptions<TData, TError>(...args));
+export const useGetGamesPriceVariantsQuery = <TData = GetGamesPriceVariantsHookData, TError = GamesControllerGetPriceVariantsError>(...args: Parameters<typeof getGamesPriceVariantsQueryOptions<TData, TError>>) => useQuery(getGamesPriceVariantsQueryOptions<TData, TError>(...args));
 
 export const getGamesPriceVariantsMutationKey = "getGamesPriceVariantsMutationKey";
 
 type GetGamesPriceVariantsMutationVariables = Parameters<typeof getGamesPriceVariants>[0];
 
-export const useGetGamesPriceVariantsMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesPriceVariantsMutation = <TError = GamesControllerGetPriceVariantsError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesPriceVariantsHookData, TError, GetGamesPriceVariantsMutationVariables, TContext>;
     request?: NonNullable<GetGamesPriceVariantsMutationVariables>;
 }) => useMutation({
@@ -528,7 +612,7 @@ export const useGetGamesPriceVariantsMutation = <TError = DefaultError, TContext
 
 export const getGamesPriceVariantsSuspenseQueryKey = "getGamesPriceVariantsQueryKey";
 
-export const getGamesPriceVariantsSuspenseQueryOptions = <TData = GetGamesPriceVariantsHookData, TError = DefaultError>(settings: {
+export const getGamesPriceVariantsSuspenseQueryOptions = <TData = GetGamesPriceVariantsHookData, TError = GamesControllerGetPriceVariantsError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesPriceVariantsHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesPriceVariants>[0]>;
 }) => queryOptions({
@@ -537,13 +621,13 @@ export const getGamesPriceVariantsSuspenseQueryOptions = <TData = GetGamesPriceV
     ...settings.params
 });
 
-export const useGetGamesPriceVariantsSuspenseQuery = <TData = GetGamesPriceVariantsHookData, TError = DefaultError>(...args: Parameters<typeof getGamesPriceVariantsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesPriceVariantsSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesPriceVariantsSuspenseQuery = <TData = GetGamesPriceVariantsHookData, TError = GamesControllerGetPriceVariantsError>(...args: Parameters<typeof getGamesPriceVariantsSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesPriceVariantsSuspenseQueryOptions<TData, TError>(...args));
 
 type PostGamesOrderHookData = Awaited<ReturnType<typeof postGamesOrder>>;
 
 export const postGamesOrderQueryKey = "postGamesOrderQueryKey";
 
-export const postGamesOrderQueryOptions = <TData = PostGamesOrderHookData, TError = DefaultError>(settings: {
+export const postGamesOrderQueryOptions = <TData = PostGamesOrderHookData, TError = GamesControllerCreateGameOrderError>(settings: {
     params?: Omit<UseQueryOptions<PostGamesOrderHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postGamesOrder>[0]>;
 }) => queryOptions({
@@ -552,13 +636,13 @@ export const postGamesOrderQueryOptions = <TData = PostGamesOrderHookData, TErro
     ...settings.params
 });
 
-export const usePostGamesOrderQuery = <TData = PostGamesOrderHookData, TError = DefaultError>(...args: Parameters<typeof postGamesOrderQueryOptions<TData, TError>>) => useQuery(postGamesOrderQueryOptions<TData, TError>(...args));
+export const usePostGamesOrderQuery = <TData = PostGamesOrderHookData, TError = GamesControllerCreateGameOrderError>(...args: Parameters<typeof postGamesOrderQueryOptions<TData, TError>>) => useQuery(postGamesOrderQueryOptions<TData, TError>(...args));
 
 export const postGamesOrderMutationKey = "postGamesOrderMutationKey";
 
 type PostGamesOrderMutationVariables = Parameters<typeof postGamesOrder>[0];
 
-export const usePostGamesOrderMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const usePostGamesOrderMutation = <TError = GamesControllerCreateGameOrderError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<PostGamesOrderHookData, TError, PostGamesOrderMutationVariables, TContext>;
     request?: NonNullable<PostGamesOrderMutationVariables>;
 }) => useMutation({
@@ -569,7 +653,7 @@ export const usePostGamesOrderMutation = <TError = DefaultError, TContext = unkn
 
 export const postGamesOrderSuspenseQueryKey = "postGamesOrderQueryKey";
 
-export const postGamesOrderSuspenseQueryOptions = <TData = PostGamesOrderHookData, TError = DefaultError>(settings: {
+export const postGamesOrderSuspenseQueryOptions = <TData = PostGamesOrderHookData, TError = GamesControllerCreateGameOrderError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<PostGamesOrderHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof postGamesOrder>[0]>;
 }) => queryOptions({
@@ -578,13 +662,13 @@ export const postGamesOrderSuspenseQueryOptions = <TData = PostGamesOrderHookDat
     ...settings.params
 });
 
-export const usePostGamesOrderSuspenseQuery = <TData = PostGamesOrderHookData, TError = DefaultError>(...args: Parameters<typeof postGamesOrderSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postGamesOrderSuspenseQueryOptions<TData, TError>(...args));
+export const usePostGamesOrderSuspenseQuery = <TData = PostGamesOrderHookData, TError = GamesControllerCreateGameOrderError>(...args: Parameters<typeof postGamesOrderSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(postGamesOrderSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesOrdersHookData = Awaited<ReturnType<typeof getGamesOrders>>;
 
 export const getGamesOrdersQueryKey = "getGamesOrdersQueryKey";
 
-export const getGamesOrdersQueryOptions = <TData = GetGamesOrdersHookData, TError = DefaultError>(settings?: {
+export const getGamesOrdersQueryOptions = <TData = GetGamesOrdersHookData, TError = GamesControllerGetGameOrdersError>(settings?: {
     params?: Omit<UseQueryOptions<GetGamesOrdersHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getGamesOrders>[0]>;
 }) => queryOptions({
@@ -593,13 +677,13 @@ export const getGamesOrdersQueryOptions = <TData = GetGamesOrdersHookData, TErro
     ...settings?.params
 });
 
-export const useGetGamesOrdersQuery = <TData = GetGamesOrdersHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrdersQueryOptions<TData, TError>>) => useQuery(getGamesOrdersQueryOptions<TData, TError>(...args));
+export const useGetGamesOrdersQuery = <TData = GetGamesOrdersHookData, TError = GamesControllerGetGameOrdersError>(...args: Parameters<typeof getGamesOrdersQueryOptions<TData, TError>>) => useQuery(getGamesOrdersQueryOptions<TData, TError>(...args));
 
 export const getGamesOrdersMutationKey = "getGamesOrdersMutationKey";
 
 type GetGamesOrdersMutationVariables = Parameters<typeof getGamesOrders>[0];
 
-export const useGetGamesOrdersMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesOrdersMutation = <TError = GamesControllerGetGameOrdersError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesOrdersHookData, TError, GetGamesOrdersMutationVariables, TContext>;
     request?: NonNullable<GetGamesOrdersMutationVariables>;
 }) => useMutation({
@@ -610,7 +694,7 @@ export const useGetGamesOrdersMutation = <TError = DefaultError, TContext = unkn
 
 export const getGamesOrdersSuspenseQueryKey = "getGamesOrdersQueryKey";
 
-export const getGamesOrdersSuspenseQueryOptions = <TData = GetGamesOrdersHookData, TError = DefaultError>(settings?: {
+export const getGamesOrdersSuspenseQueryOptions = <TData = GetGamesOrdersHookData, TError = GamesControllerGetGameOrdersError>(settings?: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesOrdersHookData, TError, TData>, "queryKey">;
     request?: NonNullable<Parameters<typeof getGamesOrders>[0]>;
 }) => queryOptions({
@@ -619,13 +703,13 @@ export const getGamesOrdersSuspenseQueryOptions = <TData = GetGamesOrdersHookDat
     ...settings?.params
 });
 
-export const useGetGamesOrdersSuspenseQuery = <TData = GetGamesOrdersHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrdersSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrdersSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesOrdersSuspenseQuery = <TData = GetGamesOrdersHookData, TError = GamesControllerGetGameOrdersError>(...args: Parameters<typeof getGamesOrdersSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrdersSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesOrdersPaidHookData = Awaited<ReturnType<typeof getGamesOrdersPaid>>;
 
 export const getGamesOrdersPaidQueryKey = "getGamesOrdersPaidQueryKey";
 
-export const getGamesOrdersPaidQueryOptions = <TData = GetGamesOrdersPaidHookData, TError = DefaultError>(settings: {
+export const getGamesOrdersPaidQueryOptions = <TData = GetGamesOrdersPaidHookData, TError = GamesControllerGetGamePaidOrderError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesOrdersPaidHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesOrdersPaid>[0]>;
 }) => queryOptions({
@@ -634,13 +718,13 @@ export const getGamesOrdersPaidQueryOptions = <TData = GetGamesOrdersPaidHookDat
     ...settings.params
 });
 
-export const useGetGamesOrdersPaidQuery = <TData = GetGamesOrdersPaidHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrdersPaidQueryOptions<TData, TError>>) => useQuery(getGamesOrdersPaidQueryOptions<TData, TError>(...args));
+export const useGetGamesOrdersPaidQuery = <TData = GetGamesOrdersPaidHookData, TError = GamesControllerGetGamePaidOrderError>(...args: Parameters<typeof getGamesOrdersPaidQueryOptions<TData, TError>>) => useQuery(getGamesOrdersPaidQueryOptions<TData, TError>(...args));
 
 export const getGamesOrdersPaidMutationKey = "getGamesOrdersPaidMutationKey";
 
 type GetGamesOrdersPaidMutationVariables = Parameters<typeof getGamesOrdersPaid>[0];
 
-export const useGetGamesOrdersPaidMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesOrdersPaidMutation = <TError = GamesControllerGetGamePaidOrderError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesOrdersPaidHookData, TError, GetGamesOrdersPaidMutationVariables, TContext>;
     request?: NonNullable<GetGamesOrdersPaidMutationVariables>;
 }) => useMutation({
@@ -651,7 +735,7 @@ export const useGetGamesOrdersPaidMutation = <TError = DefaultError, TContext = 
 
 export const getGamesOrdersPaidSuspenseQueryKey = "getGamesOrdersPaidQueryKey";
 
-export const getGamesOrdersPaidSuspenseQueryOptions = <TData = GetGamesOrdersPaidHookData, TError = DefaultError>(settings: {
+export const getGamesOrdersPaidSuspenseQueryOptions = <TData = GetGamesOrdersPaidHookData, TError = GamesControllerGetGamePaidOrderError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesOrdersPaidHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesOrdersPaid>[0]>;
 }) => queryOptions({
@@ -660,13 +744,13 @@ export const getGamesOrdersPaidSuspenseQueryOptions = <TData = GetGamesOrdersPai
     ...settings.params
 });
 
-export const useGetGamesOrdersPaidSuspenseQuery = <TData = GetGamesOrdersPaidHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrdersPaidSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrdersPaidSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesOrdersPaidSuspenseQuery = <TData = GetGamesOrdersPaidHookData, TError = GamesControllerGetGamePaidOrderError>(...args: Parameters<typeof getGamesOrdersPaidSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrdersPaidSuspenseQueryOptions<TData, TError>(...args));
 
 type GetGamesOrderByOrderIdHookData = Awaited<ReturnType<typeof getGamesOrderByOrderId>>;
 
 export const getGamesOrderByOrderIdQueryKey = "getGamesOrderByOrderIdQueryKey";
 
-export const getGamesOrderByOrderIdQueryOptions = <TData = GetGamesOrderByOrderIdHookData, TError = DefaultError>(settings: {
+export const getGamesOrderByOrderIdQueryOptions = <TData = GetGamesOrderByOrderIdHookData, TError = GamesControllerGetGameOrderError>(settings: {
     params?: Omit<UseQueryOptions<GetGamesOrderByOrderIdHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesOrderByOrderId>[0]>;
 }) => queryOptions({
@@ -675,13 +759,13 @@ export const getGamesOrderByOrderIdQueryOptions = <TData = GetGamesOrderByOrderI
     ...settings.params
 });
 
-export const useGetGamesOrderByOrderIdQuery = <TData = GetGamesOrderByOrderIdHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrderByOrderIdQueryOptions<TData, TError>>) => useQuery(getGamesOrderByOrderIdQueryOptions<TData, TError>(...args));
+export const useGetGamesOrderByOrderIdQuery = <TData = GetGamesOrderByOrderIdHookData, TError = GamesControllerGetGameOrderError>(...args: Parameters<typeof getGamesOrderByOrderIdQueryOptions<TData, TError>>) => useQuery(getGamesOrderByOrderIdQueryOptions<TData, TError>(...args));
 
 export const getGamesOrderByOrderIdMutationKey = "getGamesOrderByOrderIdMutationKey";
 
 type GetGamesOrderByOrderIdMutationVariables = Parameters<typeof getGamesOrderByOrderId>[0];
 
-export const useGetGamesOrderByOrderIdMutation = <TError = DefaultError, TContext = unknown>(settings?: {
+export const useGetGamesOrderByOrderIdMutation = <TError = GamesControllerGetGameOrderError, TContext = unknown>(settings?: {
     params?: UseMutationOptions<GetGamesOrderByOrderIdHookData, TError, GetGamesOrderByOrderIdMutationVariables, TContext>;
     request?: NonNullable<GetGamesOrderByOrderIdMutationVariables>;
 }) => useMutation({
@@ -692,7 +776,7 @@ export const useGetGamesOrderByOrderIdMutation = <TError = DefaultError, TContex
 
 export const getGamesOrderByOrderIdSuspenseQueryKey = "getGamesOrderByOrderIdQueryKey";
 
-export const getGamesOrderByOrderIdSuspenseQueryOptions = <TData = GetGamesOrderByOrderIdHookData, TError = DefaultError>(settings: {
+export const getGamesOrderByOrderIdSuspenseQueryOptions = <TData = GetGamesOrderByOrderIdHookData, TError = GamesControllerGetGameOrderError>(settings: {
     params?: Omit<UseSuspenseQueryOptions<GetGamesOrderByOrderIdHookData, TError, TData>, "queryKey">;
     request: NonNullable<Parameters<typeof getGamesOrderByOrderId>[0]>;
 }) => queryOptions({
@@ -701,4 +785,4 @@ export const getGamesOrderByOrderIdSuspenseQueryOptions = <TData = GetGamesOrder
     ...settings.params
 });
 
-export const useGetGamesOrderByOrderIdSuspenseQuery = <TData = GetGamesOrderByOrderIdHookData, TError = DefaultError>(...args: Parameters<typeof getGamesOrderByOrderIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrderByOrderIdSuspenseQueryOptions<TData, TError>(...args));
+export const useGetGamesOrderByOrderIdSuspenseQuery = <TData = GetGamesOrderByOrderIdHookData, TError = GamesControllerGetGameOrderError>(...args: Parameters<typeof getGamesOrderByOrderIdSuspenseQueryOptions<TData, TError>>) => useSuspenseQuery(getGamesOrderByOrderIdSuspenseQueryOptions<TData, TError>(...args));

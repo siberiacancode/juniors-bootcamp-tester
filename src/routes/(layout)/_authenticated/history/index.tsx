@@ -1,6 +1,8 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link } from '@tanstack/react-router';
 
-import { Button } from '@/components/ui/button';
+import type { GameOrdersResponse } from '@/generated/api';
+
 import {
   OrderCard,
   OrderCardBadge,
@@ -14,27 +16,21 @@ import {
   OrderCardThumbnail,
   OrderCardTitle
 } from '@/components/ui/order-card';
-import { Typography } from '@/components/ui/typography';
 import {
   getGamesOrdersSuspenseQueryOptions,
   useGetGamesOrdersSuspenseQuery
 } from '@/generated/api';
-import { getAsset } from '@/helpers/utils';
-import { queryClient } from '@/lib';
-import { IntlText } from '@/lib/intl';
 import { HistoryEmptyState } from '@/routes/-components';
+import { getAsset } from '@/utils/helpers';
+import { queryClient } from '@/utils/lib';
+import { IntlText } from '@/utils/lib/intl';
 
 import { HistoryLoading } from './-loading';
 
-export const Route = createFileRoute('/(layout)/_authenticated/history/')({
-  loader: () => queryClient.ensureQueryData(getGamesOrdersSuspenseQueryOptions()),
-  component: HistoryPage,
-  pendingComponent: HistoryLoading
-});
-
 function HistoryPage() {
   const getGamesOrdersSuspenseQuery = useGetGamesOrdersSuspenseQuery();
-  const orders = getGamesOrdersSuspenseQuery.data.data.orders;
+  const getGamesOrdersData = getGamesOrdersSuspenseQuery.data.data as GameOrdersResponse;
+  const orders = getGamesOrdersData.orders;
 
   return (
     <main className='mb-110 flex w-full max-w-314 flex-col gap-6 sm:mb-0 sm:pt-14'>
@@ -87,7 +83,7 @@ function HistoryPage() {
 
               <Button asChild className='w-full' size='lg'>
                 <Link params={{ orderId: order._id }} to='/history/$orderId'>
-                  <IntlText path='button.goToOrder' />
+                  <IntlText path='button.moreDetails' />
                 </Link>
               </Button>
             </OrderCard>
@@ -97,3 +93,9 @@ function HistoryPage() {
     </main>
   );
 }
+
+export const Route = createFileRoute('/(layout)/_authenticated/history/')({
+  loader: () => queryClient.query(getGamesOrdersSuspenseQueryOptions()),
+  component: HistoryPage,
+  pendingComponent: HistoryLoading
+});

@@ -1,10 +1,10 @@
 import type { ComponentProps } from 'react';
 
+import { typographyVariants } from '@siberiacancode/uikit';
 import { Slot } from 'radix-ui';
 
 import { badgeVariants } from '@/components/ui/badge';
-import { typographyVariants } from '@/components/ui/typography';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 const OrderCard = ({
   className,

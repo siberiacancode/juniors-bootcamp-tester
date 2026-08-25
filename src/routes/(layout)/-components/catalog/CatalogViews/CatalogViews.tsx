@@ -1,6 +1,9 @@
-import { ChipGroup, ChipGroupItem } from '@/components/ui/chip-group';
-import { IntlText } from '@/lib/intl';
-import { cn } from '@/lib/utils';
+import { ChipGroup, ChipGroupItem } from '@siberiacancode/uikit';
+
+import { IntlText } from '@/utils/lib/intl';
+import { cn } from '@/utils/lib/utils';
+
+import type { CatalogView } from './hooks';
 
 import { useCatalogViews } from './hooks';
 
@@ -12,7 +15,7 @@ export const CatalogViews = () => {
       className='max-w-full scrollbar-none justify-start gap-2 overflow-x-auto overflow-y-hidden bg-transparent p-0 [&::-webkit-scrollbar]:hidden'
       type='single'
       value={state.selectedView}
-      onValueChange={functions.onViewChange}
+      onValueChange={(value) => functions.onViewChange(value as CatalogView)}
     >
       {state.views.map((view) => (
         <ChipGroupItem
