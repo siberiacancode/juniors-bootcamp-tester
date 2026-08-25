@@ -11,7 +11,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-7130&t=C3LWJeVCld438rNs-0'
         ]
@@ -28,7 +28,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003784-1775&t=C3LWJeVCld438rNs-0'
         ]
@@ -45,7 +45,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-6961&t=C3LWJeVCld438rNs-0'
         ]
@@ -62,7 +62,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-6906&t=C3LWJeVCld438rNs-0'
         ]

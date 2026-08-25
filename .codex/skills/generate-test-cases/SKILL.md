@@ -53,6 +53,12 @@ For design cases, use a user-provided or previously confirmed design link. If no
 - Create separate desktop and mobile design cases when the window changes presentation or component type between viewports, such as `Dialog` on desktop and `Drawer` on mobile.
 - Never invent a missing design link. Ask for it by default; if the user explicitly requests a placeholder, use an obvious placeholder and `statuses.needRework` until the link is supplied.
 
+## System State Screens
+
+- Cover the static composition of reusable system state screens, such as 404, root error, or maintenance, with one design case instead of a line-by-line display case for their illustration, title, description, and controls.
+- Keep independently testable behavior in separate functional cases, including navigation, retry, requests, redirects, and other side effects.
+- Split system screen design cases by viewport only when desktop and mobile have materially different designs or layouts.
+
 ## Writing Style
 
 - Match interface text exactly for pages, blocks, buttons, inputs, errors, links, sections, and steps.

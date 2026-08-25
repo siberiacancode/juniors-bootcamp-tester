@@ -16,7 +16,7 @@ export const profileOrderHistory: TestCase[] = [
           'Способ получения соответствует локализованному значению deliveryType',
           'Почта соответствует значению person.email',
           'Способ оплаты отображается как "Платёжный сервис"',
-          'Отображается кнопка "Перейти на заказ"'
+          'Отображается кнопка "Подробнее"'
         ]
       }
     ]
@@ -27,7 +27,7 @@ export const profileOrderHistory: TestCase[] = [
     preconditions: [preconditions.authorizedUser, preconditions.profileWithOrders],
     steps: [
       {
-        action: 'Нажать кнопку "Перейти на заказ" на карточке покупки',
+        action: 'Нажать кнопку "Подробнее" на карточке покупки',
         expected: [
           'Открылась страница "/tester/history/{_id}", где _id соответствует выбранному заказу'
         ]
@@ -51,17 +51,6 @@ export const profileOrderHistory: TestCase[] = [
       {
         action: 'Нажать кнопку "Вернуться в каталог игр"',
         expected: ['Открылась страница "/tester/"']
-      }
-    ]
-  },
-  {
-    name: 'Профиль. История покупок. Заголовок. Мобилка',
-    status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.mobile],
-    steps: [
-      {
-        action: 'Открыть страницу "/tester/profile" и проверить блок истории покупок',
-        expected: ['Над блоком отображается заголовок "История покупок"']
       }
     ]
   }

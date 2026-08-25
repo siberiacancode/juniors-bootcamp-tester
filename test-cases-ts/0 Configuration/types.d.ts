@@ -12,6 +12,8 @@ type Precondition =
   | 'profileWithoutEmail'
   | 'profileWithoutFullName'
   | 'profileWithoutOrders'
+  | 'profileWithoutSavedCards'
+  | 'profileWithSavedCards'
   | 'unauthorizedUser';
 
 interface TestCase {
