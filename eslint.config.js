@@ -13,6 +13,17 @@ export default eslint(
     ignores: ['generated']
   },
   {
+    name: 'juniors-bootcamp-tester/tailwind',
+    rules: {
+      'siberiacancode-tailwind/no-unknown-classes': [
+        'error',
+        {
+          ignore: ['^no-scroll$']
+        }
+      ]
+    }
+  },
+  {
     name: 'juniors-bootcamp-tester/router',
     files: ['src/routes/**/*.tsx'],
     ignores: ['src/routes/**/-*/**'],

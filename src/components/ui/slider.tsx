@@ -1,7 +1,7 @@
 import { Slider as SliderPrimitive } from 'radix-ui';
 import { useMemo } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/lib/utils';
 
 const Slider = ({
   className,

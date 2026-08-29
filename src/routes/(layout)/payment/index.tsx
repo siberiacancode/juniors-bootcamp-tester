@@ -1,8 +1,10 @@
+import { Button, Typography } from '@siberiacancode/uikit';
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { CheckIcon } from 'lucide-react';
 import z from 'zod';
 
-import { Button } from '@/components/ui/button';
+import type { GameOrderResponse } from '@/generated/api';
+
 import {
   OrderCard,
   OrderCardBadge,
@@ -16,14 +18,13 @@ import {
   OrderCardThumbnail,
   OrderCardTitle
 } from '@/components/ui/order-card';
-import { Typography } from '@/components/ui/typography';
 import {
   getGamesOrdersPaidSuspenseQueryOptions,
   useGetGamesOrdersPaidSuspenseQuery
 } from '@/generated/api';
-import { formatMoney, getAsset } from '@/helpers/utils';
-import { queryClient } from '@/lib';
-import { IntlText } from '@/lib/intl';
+import { formatMoney, getAsset } from '@/utils/helpers';
+import { queryClient } from '@/utils/lib';
+import { IntlText } from '@/utils/lib/intl';
 
 const paymentSearchSchema = z.object({
   token: z.coerce.string().min(1),
@@ -33,7 +34,7 @@ const paymentSearchSchema = z.object({
 export const Route = createFileRoute('/(layout)/payment/')({
   beforeLoad: ({ location }) => {
     const paymentSearchResult = paymentSearchSchema.safeParse(location.search);
-    if (!paymentSearchResult.success) {
+    if (!paymentSearchResult.success || paymentSearchResult.data.status === 'fail') {
       throw redirect({
         to: '/'
       });
@@ -45,7 +46,7 @@ export const Route = createFileRoute('/(layout)/payment/')({
     token: search.token
   }),
   loader: async ({ deps }) => {
-    const getGamesPaidOrderResponse = await queryClient.ensureQueryData(
+    const getGamesPaidOrderResponse = await queryClient.query(
       getGamesOrdersPaidSuspenseQueryOptions({
         request: {
           query: {
@@ -80,7 +81,8 @@ function PaymentResultPage({ token }: { token: string }) {
       }
     }
   });
-  const order = getGamesPaidOrderSuspenseQuery.data.data.order;
+  const getGamesPaidOrderData = getGamesPaidOrderSuspenseQuery.data.data as GameOrderResponse;
+  const order = getGamesPaidOrderData.order;
 
   return (
     <section className='flex w-full flex-col gap-6 px-0 pt-6 pb-28 sm:max-w-162 sm:pt-14 sm:pb-10'>

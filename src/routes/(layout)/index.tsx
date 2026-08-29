@@ -1,7 +1,7 @@
+import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute, stripSearchParams } from '@tanstack/react-router';
 
-import { Typography } from '@/components/ui/typography';
-import { IntlText } from '@/lib/intl';
+import { IntlText } from '@/utils/lib/intl';
 
 import { CatalogSearch } from './-components';
 import { CatalogContent, CatalogSaleBanner, CatalogViews } from './-components/catalog';

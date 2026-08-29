@@ -3,41 +3,55 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
+@import '@siberiacancode/uikit/styles/base.css';
+
+@layer theme, base, components, utilities;
+
+@import '@siberiacancode/uikit/styles/typography.css' layer(components);
+@import '@siberiacancode/uikit/styles/button.css' layer(components);
+@import '@siberiacancode/uikit/styles/icon-button.css' layer(components);
+@import '@siberiacancode/uikit/styles/input.css' layer(components);
+@import '@siberiacancode/uikit/styles/input-group.css' layer(components);
+@import '@siberiacancode/uikit/styles/field.css' layer(components);
+@import '@siberiacancode/uikit/styles/label.css' layer(components);
+@import '@siberiacancode/uikit/styles/separator.css' layer(components);
+@import '@siberiacancode/uikit/styles/chip.css' layer(components);
+@import '@siberiacancode/uikit/styles/chip-group.css' layer(components);
+@import '@siberiacancode/uikit/styles/new-payment-card.css' layer(components);
+@import '@siberiacancode/uikit/styles/saved-payment-card.css' layer(components);
+@import '@siberiacancode/uikit/styles/theme-switcher.css' layer(components);
+
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
   --text-*: initial;
   --radius-*: initial;
 
-  /* Base */
+  --font-nunito: 'Nunito', sans-serif;
+  --font-pixelify-sans: 'Pixelify Sans', sans-serif;
+
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
 
-  /* Primary */
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
   --color-primary-fg: var(--color-primary-fg);
 
-  /* Secondary */
   --color-secondary: var(--color-secondary);
   --color-secondary-hover: var(--color-secondary-hover);
   --color-secondary-fg: var(--color-secondary-fg);
 
-  /* Muted */
   --color-muted: var(--color-muted);
   --color-muted-fg: var(--color-muted-fg);
 
-  /* Surface */
   --color-surface: var(--color-surface);
   --color-surface-fg: var(--color-surface-fg);
 
-  /* Borders & UI */
   --color-border-hard: var(--color-border-hard);
   --color-border-soft: var(--color-border-soft);
   --color-input: var(--color-input);
   --color-ring: var(--color-ring);
 
-  /* Accent */
   --color-accent-primary: var(--color-accent-primary);
   --color-accent-primary-hover: var(--color-accent-primary-hover);
   --color-accent-primary-fg: var(--color-accent-primary-fg);
@@ -54,12 +68,10 @@
   --color-accent-quaternary-hover: var(--color-accent-quaternary-hover);
   --color-accent-quaternary-fg: var(--color-accent-quaternary-fg);
 
-  /* Action */
   --color-action-primary: var(--color-action-primary);
   --color-action-primary-hover: var(--color-action-primary-hover);
   --color-action-primary-fg: var(--color-action-primary-fg);
 
-  /* Status */
   --color-danger: var(--color-danger);
 
   --shadow-elevated: 0px 11px 45.6px 0px rgb(0 0 0 / 0.05);
@@ -75,41 +87,31 @@
   --radius-20: 1.25rem;
   --radius-24: 1.5rem;
   --radius-full: calc(infinity * 1px);
-
-  --font-nunito: var(--font-nunito);
-  --font-pixelify-sans: var(--font-pixelify-sans);
 }
 
 :root {
-  /* Base */
   --color-background: var(--color-neutral-50);
   --color-foreground: var(--color-neutral-900);
 
-  /* Primary */
   --color-primary: var(--color-neutral-900);
   --color-primary-hover: var(--color-neutral-800);
   --color-primary-fg: var(--color-neutral-50);
 
-  /* Secondary */
   --color-secondary: var(--color-neutral-100);
   --color-secondary-hover: var(--color-neutral-200);
   --color-secondary-fg: var(--color-neutral-900);
 
-  /* Muted */
   --color-muted: var(--color-neutral-200);
   --color-muted-fg: var(--color-neutral-400);
 
-  /* Surface */
   --color-surface: var(--color-neutral-700);
   --color-surface-fg: var(--color-neutral-100);
 
-  /* Borders & UI */
   --color-border-hard: var(--color-neutral-900);
   --color-border-soft: var(--color-neutral-700);
   --color-input: var(--color-neutral-300);
   --color-ring: var(--color-neutral-300);
 
-  /* Accent */
   --color-accent-primary: var(--color-yellow-300);
   --color-accent-primary-hover: var(--color-yellow-400);
   --color-accent-primary-fg: var(--color-neutral-900);
@@ -126,7 +128,6 @@
   --color-accent-quaternary-hover: var(--color-pink-700);
   --color-accent-quaternary-fg: var(--color-neutral-50);
 
-  /* Brand */
   --color-brand-vercel: var(--color-black);
   --color-brand-vercel-fg: var(--color-white);
 
@@ -134,50 +135,36 @@
   --color-brand-reactuse-hover: var(--color-sky-500);
   --color-brand-reactuse-fg: var(--color-sky-50);
 
-  /* Action */
   --color-action-primary: var(--color-primary);
   --color-action-primary-hover: var(--color-primary-hover);
   --color-action-primary-fg: var(--color-primary-fg);
 
-  /* Status */
   --color-danger: var(--color-red-500);
-
-  --font-nunito: 'Nunito', sans-serif;
-  --font-pixelify-sans: 'Pixelify Sans', sans-serif;
-
-  --default-font-family: var(--font-nunito);
 }
 
 .dark {
-  /* Base - инверсия фона и текста */
   --color-background: var(--color-neutral-900);
   --color-foreground: var(--color-neutral-50);
 
-  /* Primary - светлая кнопка на тёмном фоне */
   --color-primary: var(--color-neutral-100);
   --color-primary-hover: var(--color-neutral-200);
   --color-primary-fg: var(--color-neutral-900);
 
-  /* Secondary */
   --color-secondary: var(--color-neutral-800);
   --color-secondary-hover: var(--color-neutral-700);
   --color-secondary-fg: var(--color-neutral-200);
 
-  /* Muted */
   --color-muted: var(--color-neutral-800);
   --color-muted-fg: var(--color-neutral-300);
 
-  /* Surface - более светлая поверхность */
   --color-surface: var(--color-neutral-800);
   --color-surface-fg: var(--color-neutral-200);
 
-  /* Borders & UI - более мягкие границы */
   --color-border-hard: var(--color-neutral-300);
   --color-border-soft: var(--color-neutral-500);
   --color-input: var(--color-neutral-500);
   --color-ring: var(--color-neutral-400);
 
-  /* Accent - чуть светлее для контраста на тёмном */
   --color-accent-primary: var(--color-yellow-400);
   --color-accent-primary-hover: var(--color-yellow-500);
   --color-accent-primary-fg: var(--color-neutral-900);
@@ -194,11 +181,9 @@
   --color-accent-quaternary-hover: var(--color-pink-600);
   --color-accent-quaternary-fg: var(--color-neutral-50);
 
-  /* Brand */
   --color-brand-vercel: var(--color-white);
   --color-brand-vercel-fg: var(--color-black);
 
-  /* Status - ярче для видимости */
   --color-danger: var(--color-red-400);
 }
 
@@ -215,4 +200,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.no-scroll {
+  scrollbar-width: none;
+}
+
+.no-scroll::-webkit-scrollbar {
+  display: none;
 }

@@ -1,28 +1,29 @@
 import { getRouteApi } from '@tanstack/react-router';
 
-import { ALL_CATALOG_VIEWS } from '@/routes/(layout)/-constants';
+import { GameView } from '@/generated/api';
 
 const catalogRoute = getRouteApi('/(layout)/');
+const CATALOG_ALL_VIEW = 'all';
+
+export type CatalogView = GameView | typeof CATALOG_ALL_VIEW;
 
 export const useCatalogViews = () => {
   const searchParams = catalogRoute.useSearch();
   const navigate = catalogRoute.useNavigate();
 
-  const onViewChange = (view: '' | (typeof ALL_CATALOG_VIEWS)[number]) => {
-    if (view === '') return;
-
+  const onViewChange = (view: CatalogView) => {
     navigate({
       search: (currentSearch) => ({
         ...currentSearch,
-        view: view === 'all' ? undefined : view
+        view: view === CATALOG_ALL_VIEW ? undefined : view
       })
     });
   };
 
   return {
     state: {
-      selectedView: searchParams.view ?? 'all',
-      views: ALL_CATALOG_VIEWS
+      selectedView: searchParams.view ?? CATALOG_ALL_VIEW,
+      views: [CATALOG_ALL_VIEW, GameView.NEW, GameView.POPULAR] as const
     },
     functions: {
       onViewChange

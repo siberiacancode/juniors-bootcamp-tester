@@ -1,9 +1,13 @@
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput
+} from '@siberiacancode/uikit';
 import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
-
-import { InputGroup, InputGroupAddon, InputGroupIconButton, InputGroupInput } from './input-group';
+import { cn } from '@/utils/lib/utils';
 
 const Combobox = ComboboxPrimitive.Root;
 
@@ -28,9 +32,9 @@ const ComboboxClear = ({ className, ...props }: ComboboxPrimitive.Clear.Props) =
     data-slot='combobox-clear'
     {...props}
     render={
-      <InputGroupIconButton>
+      <InputGroupButton>
         <XIcon className='pointer-events-none' />
-      </InputGroupIconButton>
+      </InputGroupButton>
     }
   />
 );
@@ -49,21 +53,21 @@ const ComboboxInput = ({
   inputGroupRef?: React.Ref<HTMLDivElement>;
 }) => (
   <InputGroup ref={inputGroupRef} className={cn('w-auto', className)}>
+    {children}
     <ComboboxPrimitive.Input render={<InputGroupInput disabled={disabled} />} {...props} />
-    <InputGroupAddon align='end'>
+    <InputGroupAddon align='inline-end'>
       {showTrigger && (
-        <InputGroupIconButton
+        <InputGroupButton
           asChild
           className='group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent'
           data-slot='input-group-button'
           disabled={disabled}
         >
           <ComboboxTrigger />
-        </InputGroupIconButton>
+        </InputGroupButton>
       )}
       {showClear && <ComboboxClear disabled={disabled} />}
     </InputGroupAddon>
-    {children}
   </InputGroup>
 );
 

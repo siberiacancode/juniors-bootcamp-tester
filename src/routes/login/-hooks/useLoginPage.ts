@@ -6,11 +6,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
+  getCardsCardsQueryOptions,
   getUsersProfileQueryOptions,
   usePostAuthSignInMutation,
   usePostOtpsOtpMutation
 } from '@/generated/api';
-import { LOCAL_STORAGE_KEYS } from '@/helpers/constants';
 
 import type { LoginFormValues } from '../-constants';
 
@@ -47,10 +47,10 @@ export const useLoginPage = () => {
     if (!loginOtpResponse.data.success) {
       return false;
     }
-
+    const { data } = loginOtpResponse;
     setSubmittedPhones((currentPhones) => ({
       ...currentPhones,
-      [phone]: Date.now() + loginOtpResponse.data.retryDelay
+      [phone]: Date.now() + data.retryDelay
     }));
 
     return true;
@@ -76,16 +76,33 @@ export const useLoginPage = () => {
     if (!authSignInResponse.data.success) {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
-    localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN, authSignInResponse.data.token);
 
-    await queryClient.ensureQueryData(
+    const getUsersProfileResponse = await queryClient.query(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
         }
       })
     );
-    await navigate({ to: search.redirect ?? '/', replace: true });
+
+    if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
+      await queryClient.query(
+        getCardsCardsQueryOptions({
+          params: {
+            gcTime: Infinity
+          }
+        })
+      );
+    }
+
+    const redirectPath = search.redirect
+      ?.replace(window.location.origin, '')
+      .replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '');
+
+    await navigate({
+      to: redirectPath || '/',
+      replace: true
+    });
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {

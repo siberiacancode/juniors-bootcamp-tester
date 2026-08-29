@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 AGENTS.md
 .zed
+
+.stryker-tmp
+reports/*

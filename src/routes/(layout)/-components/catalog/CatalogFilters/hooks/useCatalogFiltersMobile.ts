@@ -3,10 +3,8 @@ import { getRouteApi } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { GameFilter, GameGenre } from '@/generated/api';
-
-import { GENRES } from '@/helpers/constants';
-import { intl } from '@/lib';
+import { GameFilter, GameGenre } from '@/generated/api';
+import { intl } from '@/utils/lib';
 
 interface CatalogFiltersMobileFormValues {
   genre: GameGenre[];
@@ -24,15 +22,15 @@ export const useCatalogFiltersMobile = () => {
   const form = useForm<CatalogFiltersMobileFormValues>({
     values: {
       genre: searchParams.genre,
-      showedDlc: searchParams.filter.includes('dlc'),
-      showedDiscount: searchParams.filter.includes('discount')
+      showedDlc: searchParams.filter.includes(GameFilter.DLC),
+      showedDiscount: searchParams.filter.includes(GameFilter.DISCOUNT)
     }
   });
 
   const filteredGenres = useMemo(() => {
     const normalizedQuery = genreQuery.trim().toLowerCase();
 
-    return GENRES.filter((genre) =>
+    return Object.values(GameGenre).filter((genre) =>
       intl
         .formatMessage({
           id: `genre.${genre}`
@@ -74,8 +72,8 @@ export const useCatalogFiltersMobile = () => {
 
   const onFiltersApply = form.handleSubmit((values) => {
     const filter: GameFilter[] = [
-      ...(values.showedDlc ? ['dlc' as const] : []),
-      ...(values.showedDiscount ? ['discount' as const] : [])
+      ...(values.showedDlc ? [GameFilter.DLC] : []),
+      ...(values.showedDiscount ? [GameFilter.DISCOUNT] : [])
     ];
 
     navigate({

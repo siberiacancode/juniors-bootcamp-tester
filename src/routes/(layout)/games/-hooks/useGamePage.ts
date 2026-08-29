@@ -2,17 +2,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask, useMediaQuery } from '@siberiacancode/reactuse';
 import { keepPreviousData } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { CreateGameOrderDto, GameDeliveryType, GameRegion } from '@/generated/api';
+import type { Card, CreateGameOrderDto } from '@/generated/api';
 
 import {
+  GameDeliveryType,
+  GameRegion,
+  TransactionPayMethod,
+  useGetCardsCardsQuery,
   useGetGamesInfoBySlugQuery,
   useGetGamesPriceVariantsQuery,
   useGetGamesRegionsQuery,
+  useGetUsersProfileQuery,
   usePostGamesOrderMutation
 } from '@/generated/api';
-import { getPaymentServiceUrl } from '@/helpers/utils';
+import { getPaymentServiceUrl } from '@/utils/helpers';
 
 import type { GameCheckoutFormValues } from '../-constants';
 
@@ -20,6 +26,24 @@ import { gameCheckoutFormSchema } from '../-constants';
 import { getRequirementSections, productMetaItems } from '../-helpers';
 
 const gameRoute = getRouteApi('/(layout)/games/$slug');
+
+interface SavedPaymentCard {
+  id: string;
+  panmask: string;
+  panSuffix: string;
+}
+
+const getPanSuffix = (panMasked: string) => {
+  const digits = panMasked.replace(/\D/g, '');
+
+  return digits.slice(-4) || panMasked.slice(-4);
+};
+
+const toSavedPaymentCard = (card: Card): SavedPaymentCard => ({
+  id: card._id,
+  panmask: card.panMasked,
+  panSuffix: getPanSuffix(card.panMasked)
+});
 
 export const useGamePage = () => {
   const params = gameRoute.useParams();
@@ -36,10 +60,24 @@ export const useGamePage = () => {
     }
   });
 
-  console.log('@', getGameInfoBySlugQuery);
-
-  const game = getGameInfoBySlugQuery.data?.data.game;
+  const getGameInfoBySlugData = getGameInfoBySlugQuery.data?.data;
+  const game = getGameInfoBySlugData?.success ? getGameInfoBySlugData.game : undefined;
   const postGamesOrderMutation = usePostGamesOrderMutation();
+  const getUsersProfileQuery = useGetUsersProfileQuery({
+    params: {
+      enabled: false
+    }
+  });
+  const getUsersProfileData = getUsersProfileQuery.data?.data;
+  const user = getUsersProfileData?.success ? getUsersProfileData.user : undefined;
+  const getCardsCardsQuery = useGetCardsCardsQuery({
+    params: {
+      enabled: !!user
+    }
+  });
+  const getCardsCardsData = getCardsCardsQuery.data?.data;
+  const cards = getCardsCardsData?.cards;
+  const savedCards = useMemo(() => (cards ?? []).map(toSavedPaymentCard), [cards]);
   const [defaultDeliveryType] = game?.deliveryTypes ?? [];
 
   const selectedDeliveryType =
@@ -51,7 +89,7 @@ export const useGamePage = () => {
     request: {
       query: {
         slug: game?.slug ?? '',
-        deliveryType: selectedDeliveryType ?? 'steam_key'
+        deliveryType: selectedDeliveryType ?? GameDeliveryType.STEAM_KEY
       }
     },
     params: {
@@ -60,7 +98,8 @@ export const useGamePage = () => {
     }
   });
 
-  const regions = getGamesRegionsQuery.data?.data.regions ?? [];
+  const getGamesRegionsData = getGamesRegionsQuery.data?.data;
+  const regions = getGamesRegionsData?.success ? getGamesRegionsData.regions : [];
   const [defaultRegion] = regions;
   const selectedRegion =
     search.region && regions.includes(search.region) ? search.region : defaultRegion;
@@ -69,39 +108,54 @@ export const useGamePage = () => {
     request: {
       query: {
         slug: game?.slug ?? '',
-        deliveryType: selectedDeliveryType ?? 'steam_key',
-        region: selectedRegion ?? 'ru'
+        deliveryType: selectedDeliveryType ?? GameDeliveryType.STEAM_KEY,
+        region: selectedRegion ?? GameRegion.RU
       }
     },
     params: {
-      enabled: !!game && !!selectedDeliveryType && !!selectedRegion,
+      enabled:
+        !!game &&
+        !!selectedDeliveryType &&
+        !!selectedRegion &&
+        !getGamesRegionsQuery.isPlaceholderData,
       placeholderData: keepPreviousData
     }
   });
 
-  const priceVariants = getGamesPriceVariantsQuery.data?.data.priceVariants ?? [];
+  const getGamesPriceVariantsData = getGamesPriceVariantsQuery.data?.data;
+  const priceVariants = getGamesPriceVariantsData?.success
+    ? getGamesPriceVariantsData.priceVariants
+    : [];
   const [defaultPriceVariant] = priceVariants;
   const selectedPriceVariant =
     priceVariants.find((priceVariant) => priceVariant.edition === search.edition) ??
     defaultPriceVariant;
 
-  const isSelectionLoading =
+  const isSelectionPending =
     getGamesRegionsQuery.isFetching || getGamesPriceVariantsQuery.isFetching;
-  // Данные выбора готовы к чтению (region/priceVariant существуют).
-  // Пока идёт рефетч после смены deliveryType/region/edition — показываем
-  // частичные скелетоны в блоках selection/checkout вместо чтения .price/.edition.
-  const isSelectionReady = !!selectedRegion && !!selectedPriceVariant;
 
   const gameCheckoutForm = useForm<GameCheckoutFormValues>({
     defaultValues: {
-      email: '',
+      email: user?.email ?? '',
       inviteLink: '',
-      paymentMethod: 'card',
-      phone: ''
+      paymentMethod: TransactionPayMethod.NEW_CARD,
+      savedCardId: '',
+      phone: user?.phone ?? ''
     },
     mode: 'onSubmit',
     resolver: zodResolver(gameCheckoutFormSchema)
   });
+  const selectedPaymentMethod = gameCheckoutForm.watch('paymentMethod');
+  const selectedSavedCardId = gameCheckoutForm.watch('savedCardId');
+  const selectedSavedCard = savedCards.find((card) => card.id === selectedSavedCardId);
+
+  useEffect(() => {
+    if (selectedPaymentMethod !== TransactionPayMethod.SAVED_CARD) return;
+    if (selectedSavedCard) return;
+
+    gameCheckoutForm.setValue('paymentMethod', TransactionPayMethod.NEW_CARD);
+    gameCheckoutForm.setValue('savedCardId', '');
+  }, [gameCheckoutForm, selectedPaymentMethod, selectedSavedCard]);
 
   const onSubmit = gameCheckoutForm.handleSubmit(async (values) => {
     gameCheckoutForm.clearErrors('root');
@@ -145,31 +199,55 @@ export const useGamePage = () => {
       return;
     }
 
+    const savedCard =
+      values.paymentMethod === TransactionPayMethod.SAVED_CARD
+        ? savedCards.find((card) => card.id === values.savedCardId)
+        : undefined;
+    const paymentMethod =
+      values.paymentMethod === TransactionPayMethod.SAVED_CARD
+        ? (savedCard && TransactionPayMethod.SAVED_CARD) || TransactionPayMethod.NEW_CARD
+        : values.paymentMethod;
+
     window.location.assign(
       getPaymentServiceUrl({
         backUrl: new URL(
           `${import.meta.env.BASE_URL.replace(/\/$/, '')}/payment`,
           window.location.origin
         ).toString(),
+        cardId: savedCard?.id,
+        panmask: savedCard?.panmask,
         transactionId,
-        type: values.paymentMethod
+        type: paymentMethod
       })
     );
   });
 
   const phoneMask = useMask('+7 999 999 99 99', {
+    initialValue: user?.phone,
     showMask: 'never',
     onChangeRaw: (rawValue) => gameCheckoutForm.setValue('phone', `7${rawValue}`)
   });
+
+  useEffect(() => {
+    if (!user) return;
+
+    if (user.email && gameCheckoutForm.getValues('email') !== user.email) {
+      gameCheckoutForm.setValue('email', user.email);
+    }
+    if (gameCheckoutForm.getValues('phone') !== user.phone) {
+      gameCheckoutForm.setValue('phone', user.phone);
+    }
+    if (phoneMask.getValue() !== user.phone) {
+      phoneMask.setValue(user.phone);
+    }
+  }, [gameCheckoutForm, phoneMask, user]);
 
   const onDeliveryTypeChange = (deliveryType: GameDeliveryType) => {
     navigate({
       resetScroll: false,
       search: (search) => ({
         ...search,
-        deliveryType,
-        region: undefined,
-        edition: undefined
+        deliveryType
       })
     });
   };
@@ -179,8 +257,7 @@ export const useGamePage = () => {
       resetScroll: false,
       search: (search) => ({
         ...search,
-        region,
-        edition: undefined
+        region
       })
     });
   };
@@ -195,29 +272,55 @@ export const useGamePage = () => {
     });
   };
 
+  const onPaymentMethodChange = (paymentMethod: TransactionPayMethod) => {
+    gameCheckoutForm.setValue('paymentMethod', paymentMethod);
+
+    if (paymentMethod !== TransactionPayMethod.SAVED_CARD) {
+      gameCheckoutForm.setValue('savedCardId', '');
+    }
+  };
+
+  const onSavedCardChange = (cardId?: string) => {
+    gameCheckoutForm.setValue(
+      'paymentMethod',
+      cardId ? TransactionPayMethod.SAVED_CARD : TransactionPayMethod.NEW_CARD
+    );
+    gameCheckoutForm.setValue('savedCardId', cardId ?? '');
+  };
+
+  const onDismissError = () => {
+    gameCheckoutForm.clearErrors('root');
+  };
+
   return {
     state: {
       game: game!,
-      // Описание игры вынесено из JSX в state согласно конвенции страниц.
       metaItems: game ? productMetaItems(game) : [],
       requirementSections: game ? getRequirementSections(game) : [],
       editions: priceVariants.map((variant) => variant.edition),
+      isAuthorized: !!user,
       isDesktop,
-      isInviteLinkAvailable: selectedDeliveryType === 'steam_gift',
+      isFree: selectedPriceVariant?.price === 0,
+      isInviteLinkAvailable: selectedDeliveryType === GameDeliveryType.STEAM_GIFT,
       isPaymentStarting:
         postGamesOrderMutation.isPending || gameCheckoutForm.formState.isSubmitting,
-      isSelectionLoading,
-      isSelectionReady,
+      isSelectionPending,
       regions,
+      savedCards,
       selectedDeliveryType: selectedDeliveryType!,
+      selectedPaymentMethod,
       selectedPriceVariant: selectedPriceVariant!,
-      selectedRegion: selectedRegion!
+      selectedRegion: selectedRegion!,
+      selectedSavedCard
     },
     functions: {
       onSubmit,
       onDeliveryTypeChange,
+      onDismissError,
       onEditionChange,
-      onRegionChange
+      onPaymentMethodChange,
+      onRegionChange,
+      onSavedCardChange
     },
     features: {
       phoneMask
