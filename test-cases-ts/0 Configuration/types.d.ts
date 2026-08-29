@@ -3,8 +3,13 @@ type Status = 'actual' | 'needRework';
 type Precondition =
   | 'authorizedUser'
   | 'desktop'
+  | 'historyDetailsPage'
+  | 'historyPage'
+  | 'loginPage'
   | 'loginPage'
   | 'loginPageOtpStep'
+  | 'loginPageOtpStep'
+  | 'mobile'
   | 'mobile'
   | 'profileWithEmail'
   | 'profileWithFullName'

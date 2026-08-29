@@ -6,6 +6,8 @@ export const preconditions: Record<Precondition, string[]> = {
   ],
   unauthorizedUser: ['Пользователь неавторизован'],
   desktop: ['Установить десктопную ширину экрана'],
+  historyDetailsPage: ['Открыта страница "Подробности покупки"'],
+  historyPage: ['Открыта страница "История покупок"'],
   mobile: ['Включить адаптивный мобильный режим'],
   loginPage: ['Открыта страница "Авторизация"'],
   loginPageOtpStep: [
