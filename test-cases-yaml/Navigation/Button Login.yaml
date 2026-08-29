@@ -1,0 +1,14 @@
+test-cases:
+  - name: Навигация. Кнопка "Войти". Неавторизован. Десктоп
+    status: actual
+    preconditions:
+      - unauthorized-user
+      - desktop
+    test_case:
+      steps:
+        - action: Проверить ссылку в кнопке
+          expected:
+            - Ссылка href="/tester/login"
+        - action: Кликнуть на кнопку
+          expected:
+            - Запросилась и открылась страница https://juniorsbootcamp.ru/tester/login

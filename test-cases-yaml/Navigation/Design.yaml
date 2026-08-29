@@ -1,0 +1,32 @@
+test-cases:
+  - name: Навигация. Дизайн. Неавторизован. Десктоп
+    status: actual
+    preconditions:
+      - unauthorized-user
+      - desktop
+    test_case:
+      steps:
+        - action: Проверить соответствие блока “Навигация” дизайну
+          expected:
+            - Блок соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005051-6460&t=ePGuPhBMrDYUahWS-0
+
+  - name: Навигация. Дизайн. Авторизован. Десктоп
+    status: actual
+    preconditions:
+      - authorized-user
+      - desktop
+    test_case:
+      steps:
+        - action: Проверить соответствие блока “Навигация” дизайну
+          expected:
+            - Блок соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-7216&t=ytybvzHI5LjD5aaJ-0
+
+  - name: Навигация. Дизайн. Мобила
+    status: actual
+    preconditions:
+      - mobile
+    test_case:
+      steps:
+        - action: Проверить соответствие блока “Навигация” дизайну
+          expected:
+            - Блок соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005955-4561&t=ePGuPhBMrDYUahWS-0
