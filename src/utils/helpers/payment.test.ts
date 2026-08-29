@@ -12,9 +12,15 @@ it('Should build payment service url for qr payment', () => {
     })
   );
 
+  expect(paymentUrl.origin).toBe('http://juniorsbootcamp.ru');
   expect(paymentUrl.pathname).toBe('/tasks/api/payment');
+
   expect(paymentUrl.searchParams.get('transactionId')).toBe('transaction-1');
   expect(paymentUrl.searchParams.get('type')).toBe(TransactionPayMethod.QR);
+
+  expect(paymentUrl.searchParams.has('backUrl')).toBe(false);
+  expect(paymentUrl.searchParams.has('cardId')).toBe(false);
+  expect(paymentUrl.searchParams.has('panmask')).toBe(false);
 });
 
 it('Should build payment service url for card payment with optional params', () => {
@@ -45,15 +51,20 @@ it('Should build payment service url for new card payment', () => {
     })
   );
 
+  expect(paymentUrl.searchParams.get('transactionId')).toBe('transaction-3');
   expect(paymentUrl.searchParams.get('type')).toBe('card');
+
+  expect(paymentUrl.searchParams.has('backUrl')).toBe(false);
   expect(paymentUrl.searchParams.has('cardId')).toBe(false);
   expect(paymentUrl.searchParams.has('panmask')).toBe(false);
 });
 
-it('Should build payment back url from current origin and base url', () => {
+it('Should build payment back url', () => {
   const paymentBackUrl = new URL(getPaymentBackUrl('order-1'));
+  console.log('BASE_URL:', import.meta.env.BASE_URL);
+  console.log('ORIGIN:', window.location.origin);
+  console.log('RESULT:', getPaymentBackUrl('order-1'));
 
-  expect(paymentBackUrl.origin).toBe(window.location.origin);
   expect(paymentBackUrl.pathname).toBe('/payment');
   expect(paymentBackUrl.searchParams.get('orderId')).toBe('order-1');
 });

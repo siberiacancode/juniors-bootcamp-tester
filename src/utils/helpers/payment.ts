@@ -1,11 +1,17 @@
 import { TransactionPayMethod } from '@/generated/api';
 
-const PAYMENT_URL = import.meta.env.VITE_PAYMENT_URL || 'http://localhost:3000/tasks/api/payment';
-
 type PaymentServiceMethod =
   | typeof TransactionPayMethod.NEW_CARD
   | typeof TransactionPayMethod.QR
   | typeof TransactionPayMethod.SAVED_CARD;
+
+export interface GetPaymentServiceUrlParams {
+  backUrl?: string;
+  cardId?: string;
+  panmask?: string;
+  transactionId: string;
+  type: PaymentServiceMethod;
+}
 
 export const getPaymentServiceUrl = ({
   backUrl,
@@ -13,14 +19,8 @@ export const getPaymentServiceUrl = ({
   panmask,
   transactionId,
   type
-}: {
-  backUrl?: string;
-  cardId?: string;
-  panmask?: string;
-  transactionId: string;
-  type: PaymentServiceMethod;
-}) => {
-  const paymentUrl = new URL(PAYMENT_URL);
+}: GetPaymentServiceUrlParams) => {
+  const paymentUrl = new URL(import.meta.env.VITE_PAYMENT_URL);
   const paymentServiceType = type === TransactionPayMethod.QR ? type : 'card';
 
   paymentUrl.searchParams.set('transactionId', transactionId);
@@ -32,8 +32,8 @@ export const getPaymentServiceUrl = ({
   return paymentUrl.toString();
 };
 
-export const getPaymentBackUrl = (orderId: string) => {
-  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-  return new URL(`${basePath}/payment?orderId=${orderId}`, window.location.origin).toString();
-};
+export const getPaymentBackUrl = (orderId: string) =>
+  new URL(
+    `${import.meta.env.BASE_URL}payment?orderId=${orderId}`,
+    window.location.origin
+  ).toString();
