@@ -46,7 +46,7 @@ export const Route = createFileRoute('/(layout)/payment/')({
     token: search.token
   }),
   loader: async ({ deps }) => {
-    const getGamesPaidOrderResponse = await queryClient.query(
+    const getGamesPaidOrderResponse = await queryClient.fetchQuery(
       getGamesOrdersPaidSuspenseQueryOptions({
         request: {
           query: {

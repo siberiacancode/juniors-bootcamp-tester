@@ -20,6 +20,7 @@ export const Countdown = ({ retryAt, onRetry, loading = false }: CountdownProps)
       <Button
         className='w-full'
         data-testid={TESTIDS.CLICKABLE.BUTTON.RETRY}
+        disabled={loading}
         size='lg'
         type='button'
         variant='secondary'

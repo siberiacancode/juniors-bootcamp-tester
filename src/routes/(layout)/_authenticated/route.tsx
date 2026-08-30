@@ -5,9 +5,10 @@ import { queryClient } from '@/utils/lib';
 
 export const Route = createFileRoute('/(layout)/_authenticated')({
   beforeLoad: async () => {
-    const getUsersProfileResponse = await queryClient.query(
+    const getUsersProfileResponse = await queryClient.ensureQueryData(
       getUsersProfileQueryOptions({
         params: {
+          staleTime: 0,
           gcTime: Infinity
         }
       })

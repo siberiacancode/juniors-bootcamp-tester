@@ -2,10 +2,10 @@ import { expect, test } from '@playwright/experimental-ct-react';
 
 import { TESTIDS } from '@/generated/tests/ids.gen';
 
-import { annotation, testCase } from '../../utils/helpers';
-import { CASE_IDS } from './(helpers)';
-import { PHONE_STEP_FILE } from './(helpers)/constants';
-import { LoginPageWrapper } from './(wrappers)';
+import { CASE_IDS } from '../(helpers)';
+import { PHONE_STEP_FILE } from '../(helpers)/constants';
+import { LoginPageWrapper } from '../(wrappers)';
+import { annotation, testCase } from '../../../utils/helpers';
 
 const setupTest: ComponentSetupTest<{ caseId: string }> = async ({ page, mount }, { caseId }) => {
   await testCase(page, caseId);

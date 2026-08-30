@@ -1,4 +1,4 @@
-import { preconditions, statuses, testCase } from '../0 Configuration';
+import { preconditions, statuses, testCase } from '../(utils)';
 
 testCase([
   {

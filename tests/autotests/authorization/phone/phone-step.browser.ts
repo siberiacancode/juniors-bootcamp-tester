@@ -3,10 +3,10 @@ import { snapshot, waitRequest, waitResponse } from '@siberiacancode/playwright'
 
 import { TESTIDS } from '@/generated/tests/ids.gen';
 
-import { HTTP_CODES } from '../../utils/constants';
-import { annotation, testCase } from '../../utils/helpers';
-import { CASE_IDS } from './(helpers)';
-import { PHONE_STEP_FILE, VALID_PHONE, VALID_PHONE_INPUT } from './(helpers)/constants';
+import { CASE_IDS } from '../(helpers)';
+import { PHONE_STEP_FILE, VALID_PHONE, VALID_PHONE_INPUT } from '../(helpers)/constants';
+import { HTTP_CODES } from '../../../utils/constants';
+import { annotation, testCase } from '../../../utils/helpers';
 
 const setupTest: BrowserSetupTest<{ caseId: string }> = async (page, { caseId }) => {
   await testCase(page, caseId);

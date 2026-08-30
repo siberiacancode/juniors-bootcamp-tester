@@ -3,18 +3,18 @@ import { waitRequest, waitResponse } from '@siberiacancode/playwright';
 
 import { TESTIDS } from '@/generated/tests/ids.gen';
 
-import { HTTP_CODES } from '../../utils/constants';
-import { annotation, testCase } from '../../utils/helpers';
-import { CASE_IDS } from './(helpers)';
+import { CASE_IDS } from '../(helpers)';
 import {
   INVALID_OTP,
   OTP_STEP_FILE,
   VALID_PHONE,
   VALID_PHONE_FORMATTED,
   VALID_PHONE_INPUT
-} from './(helpers)/constants';
-import { CASE_ID as SIGN_IN_INVALID_CODE_CASE_ID } from './(mocks)/sign-in-invalid-code/constants';
-import { LoginPageWrapper } from './(wrappers)';
+} from '../(helpers)/constants';
+import { CASE_ID as SIGN_IN_INVALID_CODE_CASE_ID } from '../(mocks)/sign-in-invalid-code/constants';
+import { LoginPageWrapper } from '../(wrappers)';
+import { HTTP_CODES } from '../../../utils/constants';
+import { annotation, testCase } from '../../../utils/helpers';
 
 const setupTest: ComponentSetupTest<{
   caseId: string;

@@ -2,11 +2,6 @@ import { Typography } from '@siberiacancode/uikit';
 import { createFileRoute } from '@tanstack/react-router';
 import { Suspense } from 'react';
 
-import {
-  getCardsCardsSuspenseQueryOptions,
-  getGamesOrdersSuspenseQueryOptions,
-  getUsersProfileQueryOptions
-} from '@/generated/api';
 import { IntlText } from '@/utils/lib/intl';
 
 import {
@@ -35,11 +30,5 @@ const ProfilePage = () => (
 );
 
 export const Route = createFileRoute('/(layout)/_authenticated/profile/')({
-  loader: ({ context }) =>
-    Promise.all([
-      context.queryClient.query(getGamesOrdersSuspenseQueryOptions()),
-      context.queryClient.query(getUsersProfileQueryOptions()),
-      context.queryClient.query(getCardsCardsSuspenseQueryOptions())
-    ]),
   component: ProfilePage
 });

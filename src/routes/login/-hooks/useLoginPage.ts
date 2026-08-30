@@ -77,7 +77,7 @@ export const useLoginPage = () => {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
 
-    const getUsersProfileResponse = await queryClient.query(
+    const getUsersProfileResponse = await queryClient.fetchQuery(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
@@ -86,7 +86,7 @@ export const useLoginPage = () => {
     );
 
     if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
-      await queryClient.query(
+      await queryClient.fetchQuery(
         getCardsCardsQueryOptions({
           params: {
             gcTime: Infinity
@@ -137,6 +137,7 @@ export const useLoginPage = () => {
 
     loginForm.resetField('otp');
     loginForm.clearErrors('otp');
+    otpMask.reset();
   };
 
   const submittedPhone = submittedPhones[phone];

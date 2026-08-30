@@ -23,7 +23,7 @@ const init = async () => {
 
   root.render(<AppLoader />);
 
-  const getUsersProfileResponse = await queryClient.query(
+  const getUsersProfileResponse = await queryClient.fetchQuery(
     getUsersProfileQueryOptions({
       params: {
         gcTime: Infinity
@@ -32,7 +32,7 @@ const init = async () => {
   );
 
   if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
-    await queryClient.query(
+    await queryClient.fetchQuery(
       getCardsCardsQueryOptions({
         params: {
           gcTime: Infinity

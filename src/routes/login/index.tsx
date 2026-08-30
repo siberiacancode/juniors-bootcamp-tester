@@ -165,7 +165,7 @@ export const LoginPage = () => {
             </Button>
             {state.isCodeStep && state.submittedPhone && (
               <Countdown
-                loading={state.isRetrying}
+                loading={state.isLoading}
                 retryAt={state.submittedPhone}
                 onRetry={functions.onRetry}
               />
