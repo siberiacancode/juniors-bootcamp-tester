@@ -64,6 +64,34 @@ testCase([
     ]
   },
   {
+    name: 'Авторизация. Проверочный код. Маска',
+    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    status: statuses.actual,
+    steps: [
+      {
+        action: 'Вставить в поле "Проверочный код" значение 1234567',
+        expected: [
+          'В поле "Проверочный код" отображается значение 123456',
+          'Седьмая цифра не вставлена'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Авторизация. Проверочный код. Легал',
+    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    status: statuses.actual,
+    steps: [
+      {
+        action: 'Проверить legal-текст под кнопкой "Отправить код повторно"',
+        expected: [
+          'Legal-текст отображается',
+          'Legal-текст содержит ссылку с href="https://juniorsbootcamp.ru/api/otps"'
+        ]
+      }
+    ]
+  },
+  {
     name: 'Авторизация. Проверочный код. Назад (телефон)',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,

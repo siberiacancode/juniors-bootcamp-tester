@@ -1,6 +1,8 @@
 import { otpBackPhoneCase } from './otp-back-phone';
 import { otpBackResetCase } from './otp-back-reset';
 import { otpDesignCase } from './otp-design';
+import { otpLegalCase } from './otp-legal';
+import { otpMaskCase } from './otp-mask';
 import { otpRedirectCase } from './otp-redirect';
 import { otpRetryCase } from './otp-retry';
 import { otpSignInSuccessCase } from './otp-sign-in-success';
@@ -14,6 +16,8 @@ export const authorizationMocks = [
   otpBackResetCase,
   otpBackPhoneCase,
   otpDesignCase,
+  otpLegalCase,
+  otpMaskCase,
   otpRedirectCase,
   otpRetryCase,
   otpSignInSuccessCase,

@@ -5,7 +5,6 @@ CLICKABLE:
     - RETRY
   LINK:
     - HOME
-    - OTP_CODES
 CHANGEABLE:
   INPUT:
     - PHONE
@@ -13,4 +12,5 @@ CHANGEABLE:
 STATIC:
   PAGE:
     LOGIN:
+      - LEGAL
       - SELF_ID

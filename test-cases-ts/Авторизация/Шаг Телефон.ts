@@ -67,6 +67,21 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    name: 'Авторизация. Телефон. Вставка номера',
+    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    status: statuses.actual,
+    steps: [
+      {
+        action: 'Вставить в поле "Телефон" значение 89998887766',
+        expected: ['Содержимое поля отображено в соответствии с маской: +7 999 888 77 66']
+      },
+      {
+        action: 'Очистить поле "Телефон" и вставить значение 79998887766',
+        expected: ['Содержимое поля отображено в соответствии с маской: +7 999 888 77 66']
+      }
+    ]
+  },
+  {
     name: 'Авторизация. Телефон. Продолжить. Успех',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,

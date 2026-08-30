@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..1000&family=Pixelify+Sans:wght@400..700&display=swap');
-
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
@@ -8,6 +6,7 @@
 
 @layer theme, base, components, utilities;
 
+@import '@siberiacancode/uikit/styles/avatar.css' layer(components);
 @import '@siberiacancode/uikit/styles/typography.css' layer(components);
 @import '@siberiacancode/uikit/styles/button.css' layer(components);
 @import '@siberiacancode/uikit/styles/icon-button.css' layer(components);
@@ -28,8 +27,9 @@
   --text-*: initial;
   --radius-*: initial;
 
-  --font-nunito: 'Nunito', sans-serif;
-  --font-pixelify-sans: 'Pixelify Sans', sans-serif;
+  --font-sans: 'Nunito Variable', system-ui, sans-serif;
+  --font-nunito: var(--font-sans);
+  --font-pixelify-sans: 'Pixelify Sans Variable', sans-serif;
 
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);

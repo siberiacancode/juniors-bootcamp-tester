@@ -1,8 +1,7 @@
-import { Button, Typography } from '@siberiacancode/uikit';
+import { Avatar, AvatarFallback, Button, Typography } from '@siberiacancode/uikit';
 
 import { appOverlaysStore } from '@/app/components/overlays';
 import { MascotFrontIcon } from '@/components/icons';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { IntlText } from '@/utils/lib/intl';
 
 import { useProfileInfo } from './hooks';
@@ -13,7 +12,7 @@ export const ProfileInfo = () => {
   return (
     <section className='mx-auto flex w-full max-w-[328px] flex-col gap-4 lg:mx-0 lg:max-w-[374px]'>
       <div className='flex w-full flex-col items-center gap-4 lg:flex-row'>
-        <Avatar className='size-[86px] bg-secondary' size='xl'>
+        <Avatar className='size-[86px] bg-secondary'>
           <AvatarFallback className='bg-secondary text-[32px]/[40px] font-medium text-foreground'>
             {/* 🐛 bug */}
             {/* Safari does not show profile fallback avatar content */}

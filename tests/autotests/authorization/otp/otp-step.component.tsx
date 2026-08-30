@@ -94,6 +94,31 @@ test.describe('Авторизация. Проверочный код', () => {
   );
 
   test(
+    'Маска',
+    annotation(OTP_STEP_FILE, 'Авторизация. Проверочный код. Маска'),
+    async ({ page, mount }) => {
+      await setupTest({ page, mount }, { caseId: CASE_IDS.OTP_MASK, step: 'otp' });
+
+      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP).fill('1234567');
+
+      await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP)).toHaveValue('123456');
+    }
+  );
+
+  test(
+    'Легал',
+    annotation(OTP_STEP_FILE, 'Авторизация. Проверочный код. Легал'),
+    async ({ page, mount }) => {
+      await setupTest({ page, mount }, { caseId: CASE_IDS.OTP_LEGAL, step: 'otp' });
+
+      const legalText = page.getByTestId(TESTIDS.STATIC.PAGE.LOGIN.LEGAL);
+      const legalLink = legalText.getByRole('link');
+
+      await expect(legalLink).toHaveAttribute('href', 'https://juniorsbootcamp.ru/api/otps');
+    }
+  );
+
+  test(
     'Войти. Неправильный отп код',
     annotation(OTP_STEP_FILE, 'Авторизация. Проверочный код. Войти. Неправильный отп код'),
     async ({ page, mount }) => {

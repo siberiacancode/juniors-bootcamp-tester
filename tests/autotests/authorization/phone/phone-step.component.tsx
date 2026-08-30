@@ -68,4 +68,28 @@ test.describe('Авторизация. Телефон', () => {
       );
     }
   );
+
+  test(
+    'Вставка номера',
+    annotation(PHONE_STEP_FILE, 'Авторизация. Телефон. Вставка номера'),
+    async ({ page, mount }) => {
+      await setupTest({ page, mount }, { caseId: CASE_IDS.PHONE_MASK_PASTE_PREFIX });
+
+      const phoneInput = page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE);
+
+      await test.step('Удаляет 8 в начале вставленного номера', async () => {
+        await phoneInput.fill('89998887766');
+
+        await expect(phoneInput).toHaveValue('+7 999 888 77 66');
+      });
+
+      await phoneInput.clear();
+
+      await test.step('Удаляет 7 в начале вставленного номера', async () => {
+        await phoneInput.fill('79998887766');
+
+        await expect(phoneInput).toHaveValue('+7 999 888 77 66');
+      });
+    }
+  );
 });
