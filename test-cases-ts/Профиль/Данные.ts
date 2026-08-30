@@ -2,7 +2,7 @@ import { preconditions, statuses } from '../0 Configuration';
 
 export const profileData: TestCase[] = [
   {
-    name: 'Профиль. Данные пользователя. Соответствие ответу API',
+    name: 'Профиль. Данные пользователя',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -16,7 +16,8 @@ export const profileData: TestCase[] = [
         expected: [
           'ФИО соответствует значениям lastname, firstname и middlename, объединённым через пробел',
           'Email соответствует значению email',
-          'Номер телефона содержит цифры из значения phone и отображается по маске "+X XXX XXX XX XX"'
+          'Номер телефона содержит цифры из значения phone и отображается по маске "+X XXX XXX XX XX"',
+          'В аватаре отображается первая буква значения lastname в верхнем регистре'
         ]
       }
     ]

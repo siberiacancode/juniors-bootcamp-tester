@@ -2,7 +2,7 @@ import { preconditions, statuses } from '../0 Configuration';
 
 export const profileDesign: TestCase[] = [
   {
-    name: 'Профиль. Дизайн. Без ФИО. Десктоп',
+    name: 'Профиль. Дизайн. ФИО не заполнено. Десктоп',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -11,7 +11,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile"',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-7130&t=C3LWJeVCld438rNs-0'
         ]
@@ -19,7 +19,7 @@ export const profileDesign: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. Дизайн. Есть ФИО. Десктоп',
+    name: 'Профиль. Дизайн. ФИО заполнено. Десктоп',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -28,7 +28,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile"',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003784-1775&t=C3LWJeVCld438rNs-0'
         ]
@@ -36,7 +36,7 @@ export const profileDesign: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. Дизайн. Без ФИО. Мобилка',
+    name: 'Профиль. Дизайн. ФИО не заполнено. Мобилка',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -45,7 +45,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile"',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-6961&t=C3LWJeVCld438rNs-0'
         ]
@@ -53,7 +53,7 @@ export const profileDesign: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. Дизайн. Есть ФИО. Мобилка',
+    name: 'Профиль. Дизайн. ФИО заполнено. Мобилка',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -62,7 +62,7 @@ export const profileDesign: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Открыть страницу "/tester/profile" и проверить дизайн страницы',
+        action: 'Открыть страницу "/tester/profile"',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003330-6906&t=C3LWJeVCld438rNs-0'
         ]

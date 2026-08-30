@@ -2,21 +2,50 @@ import { preconditions, statuses } from '../0 Configuration';
 
 export const profileOrderHistory: TestCase[] = [
   {
-    name: 'Профиль. История покупок. Отображение заказов',
+    name: 'Профиль. История покупок. Дизайн. Десктоп',
+    status: statuses.actual,
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.profileWithOrders,
+      preconditions.desktop
+    ],
+    steps: [
+      {
+        action: 'Открыть страницу "/tester/profile"',
+        expected: [
+          'Блок истории покупок соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003784-1576&t=C3LWJeVCld438rNs-0'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Профиль. История покупок. Список карточек',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.profileWithOrders],
     steps: [
       {
         action: 'Открыть страницу "/tester/profile" и проверить список покупок',
         expected: [
-          'Список покупок соответствует массиву orders из ответа GET /games/orders',
-          'На каждой карточке отображаются gameName и edition',
+          'Количество карточек покупок соответствует количеству элементов в массиве orders из ответа GET /games/orders',
+          'Порядок карточек покупок соответствует порядку элементов в массиве orders'
+        ]
+      }
+    ]
+  },
+  {
+    name: 'Профиль. История покупок. Карточка покупки. Данные',
+    status: statuses.actual,
+    preconditions: [preconditions.authorizedUser, preconditions.profileWithOrders],
+    steps: [
+      {
+        action: 'Открыть страницу "/tester/profile" и проверить данные карточки покупки',
+        expected: [
           'Обложка имеет src="/api{gameImage}" и alt, равный gameName',
+          'Название игры соответствует значению gameName',
+          'Издание игры соответствует значению edition',
           'Регион соответствует локализованному значению region',
           'Способ получения соответствует локализованному значению deliveryType',
-          'Почта соответствует значению person.email',
-          'Способ оплаты отображается как "Платёжный сервис"',
-          'Отображается кнопка "Подробнее"'
+          'Почта соответствует значению person.email'
         ]
       }
     ]
@@ -27,7 +56,8 @@ export const profileOrderHistory: TestCase[] = [
     preconditions: [preconditions.authorizedUser, preconditions.profileWithOrders],
     steps: [
       {
-        action: 'Нажать кнопку "Подробнее" на карточке покупки',
+        action:
+          'Открыть страницу "/tester/profile" и нажать кнопку "Подробнее" на карточке покупки',
         expected: [
           'Открылась страница "/tester/history/{_id}", где _id соответствует выбранному заказу'
         ]
@@ -35,21 +65,13 @@ export const profileOrderHistory: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. История покупок. Пустое состояние',
+    name: 'Профиль. История покупок. Пустой список. Переход в каталог',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.profileWithoutOrders],
     steps: [
       {
-        action: 'Открыть страницу "/tester/profile" и проверить блок истории покупок',
-        expected: [
-          'Отображается иконка InboxIcon',
-          'Отображается заголовок "Здесь пока пусто"',
-          'Отображается описание "Соверши любую покупку, чтобы она отобразилась тут"',
-          'Отображается кнопка "Вернуться в каталог игр"'
-        ]
-      },
-      {
-        action: 'Нажать кнопку "Вернуться в каталог игр"',
+        action:
+          'Открыть страницу "/tester/profile" и нажать кнопку "Вернуться в каталог игр" в блоке пустого списка',
         expected: ['Открылась страница "/tester/"']
       }
     ]
