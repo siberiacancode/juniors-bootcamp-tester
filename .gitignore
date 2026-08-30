@@ -25,10 +25,14 @@ dist-ssr
 AGENTS.md
 .zed
 
-.stryker-tmp
-reports/*
-tests/results
-tests/playwright/.cache
-tests/playwright/ct-cache
-tests/playwright-results
-tests/playwright-cache
+# Test and generated artifacts
+.stryker-tmp/
+reports/
+tests/results/
+tests/playwright/.cache/
+tests/playwright/ct-cache/
+tests/(wrapper)/ct-cache/
+tests/playwright-results/
+tests/playwright-cache/
+generated/tests/playwright-results/
+tests/generated/tests/playwright-results/

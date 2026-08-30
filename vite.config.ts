@@ -16,7 +16,8 @@ export default defineConfig(({ mode }) => {
       devtools(),
       testids({
         input: './tests/ids.yaml',
-        output: 'generated/tests/ids.gen.ts'
+        output: 'generated/tests/ids.gen.ts',
+        strip: mode !== 'mock'
       }),
       tanstackRouter({
         target: 'react',

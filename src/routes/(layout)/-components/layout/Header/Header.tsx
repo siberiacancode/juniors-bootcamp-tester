@@ -5,6 +5,7 @@ import { HistoryIcon, LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
 import type { GetProfileResponse } from '@/generated/api';
 
 import { appOverlaysStore } from '@/app/components/overlays';
+import { LogoIcon } from '@/components/icons';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useGetUsersProfileQuery } from '@/generated/api';
 import { IntlText } from '@/utils/lib/intl';
@@ -18,8 +19,12 @@ export const Header = () => {
 
   return (
     <header className='hidden h-16 items-center justify-between px-3 sm:flex'>
-      <Link className='text-[16px]/6 font-extrabold tracking-wide' to='/'>
-        <span className='text-[22px]'>🎮</span> GAMES
+      <Link
+        className='inline-flex items-center gap-1 text-[16px]/6 font-extrabold tracking-wide'
+        to='/'
+      >
+        <LogoIcon aria-hidden='true' className='h-[19px] w-6 shrink-0' />
+        GAMES
       </Link>
       <TooltipProvider delayDuration={300}>
         <div className='flex items-center gap-6'>

@@ -4,7 +4,7 @@ import { ThemeSwitcher, ThemeSwitcherItem, Typography } from '@siberiacancode/ui
 import { useTheme } from '@siberiacancode/uikit/theme';
 import { Link } from '@tanstack/react-router';
 
-import { GithubIcon } from '@/components/icons';
+import { GithubIcon, LogoIcon } from '@/components/icons';
 import { LINKS } from '@/utils/constants';
 import { IntlText } from '@/utils/lib/intl';
 
@@ -19,8 +19,13 @@ export const Footer = () => {
         <div className='flex flex-col gap-4 lg:order-0 lg:flex-1'>
           <Link to='/'>
             <div className='flex flex-col'>
-              <Typography as='span' className='font-extrabold' variant='body-sm'>
-                <span className='text-[22px]'>🎮</span>GAMES
+              <Typography
+                as='span'
+                className='inline-flex items-center gap-0 font-extrabold'
+                variant='body-sm'
+              >
+                <LogoIcon aria-hidden='true' className='h-[19px] w-6 shrink-0' />
+                GAMES
               </Typography>
               <Typography as='span' variant='body-sm'>
                 <IntlText path='navigation.gameStore' />
