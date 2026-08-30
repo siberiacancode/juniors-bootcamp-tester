@@ -5,8 +5,26 @@
 export const TESTIDS = {
   "CLICKABLE": {
     "BUTTON": {
-      "NEXT": "clickable-button-next",
-      "TEST": "clickable-button-test"
+      "BACK": "clickable-button-back",
+      "SUBMIT": "clickable-button-submit",
+      "RETRY": "clickable-button-retry"
+    },
+    "LINK": {
+      "HOME": "clickable-link-home",
+      "OTP_CODES": "clickable-link-otp_codes"
+    }
+  },
+  "CHANGEABLE": {
+    "INPUT": {
+      "PHONE": "changeable-input-phone",
+      "OTP": "changeable-input-otp"
+    }
+  },
+  "STATIC": {
+    "PAGE": {
+      "LOGIN": {
+        "SELF_ID": "static-page-login-self_id"
+      }
     }
   }
 } as const;

@@ -33,7 +33,7 @@ export const footer: TestCase[] = [
     preconditions: [],
     steps: [
       {
-        action: 'Кликнуть на логотип "🎮GAMES"',
+        action: 'Кликнуть на логотип "GAMES"',
         expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
       }
     ]

@@ -1,4 +1,16 @@
 CLICKABLE:
   BUTTON:
-    - NEXT
-    - TEST
+    - BACK
+    - SUBMIT
+    - RETRY
+  LINK:
+    - HOME
+    - OTP_CODES
+CHANGEABLE:
+  INPUT:
+    - PHONE
+    - OTP
+STATIC:
+  PAGE:
+    LOGIN:
+      - SELF_ID
