@@ -27,3 +27,8 @@ AGENTS.md
 
 .stryker-tmp
 reports/*
+tests/results
+tests/playwright/.cache
+tests/playwright/ct-cache
+tests/playwright-results
+tests/playwright-cache

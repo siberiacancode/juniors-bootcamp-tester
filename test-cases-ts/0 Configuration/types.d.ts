@@ -6,8 +6,19 @@ type Precondition =
   | 'historyDetailsPage'
   | 'historyPage'
   | 'loginPage'
+  | 'loginPage'
+  | 'loginPageOtpStep'
   | 'loginPageOtpStep'
   | 'mobile'
+  | 'mobile'
+  | 'profileWithEmail'
+  | 'profileWithFullName'
+  | 'profileWithOrders'
+  | 'profileWithoutEmail'
+  | 'profileWithoutFullName'
+  | 'profileWithoutOrders'
+  | 'profileWithoutSavedCards'
+  | 'profileWithSavedCards'
   | 'unauthorizedUser';
 
 interface TestCase {
