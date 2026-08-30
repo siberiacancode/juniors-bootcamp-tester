@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import process from 'node:process';
 
 export default defineConfig({
-  testDir: './cases',
+  testDir: './autotests',
   testMatch: ['**/?(*.)browser.[jt]s?(x)'],
   outputDir: '../generated/tests/playwright-results/browser',
   snapshotPathTemplate:
@@ -10,7 +10,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
-  timeout: 30_000,
+  timeout: 10_000,
   expect: {
     timeout: 10_000,
     toHaveScreenshot: { maxDiffPixelRatio: 0, threshold: 0.1 }

@@ -44,6 +44,28 @@ test.describe('Авторизация. Телефон', () => {
         await expect(phoneError).toBeHidden();
         await expect(phoneField).toHaveAttribute('data-invalid', 'false');
       });
+
+      await test.step('Показывает ошибку неполного номера', async () => {
+        await phoneInput.fill('777');
+        await page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT).click();
+
+        await expect(phoneError).toHaveText('Заполните поле полностью');
+        await expect(phoneField).toHaveAttribute('data-invalid', 'true');
+      });
+    }
+  );
+
+  test(
+    'Маска',
+    annotation(PHONE_STEP_FILE, 'Авторизация. Телефон. Маска'),
+    async ({ page, mount }) => {
+      await setupTest({ page, mount }, { caseId: CASE_IDS.PHONE_MASK });
+
+      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE).fill('9998887766');
+
+      await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE)).toHaveValue(
+        '+7 999 888 77 66'
+      );
     }
   );
 });

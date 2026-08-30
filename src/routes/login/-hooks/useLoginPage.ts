@@ -107,6 +107,11 @@ export const useLoginPage = () => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
+    sanitize: (rawValue) => {
+      const digits = rawValue.replace(/\D/g, '');
+      if (digits.length > 10) return digits.replace(/^[78]/, '');
+      return digits;
+    },
     onChangeRaw: (rawValue) => {
       loginForm.setValue('phone', `7${rawValue}`);
       loginForm.clearErrors('phone');

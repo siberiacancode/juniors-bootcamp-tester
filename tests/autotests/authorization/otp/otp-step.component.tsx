@@ -4,13 +4,7 @@ import { waitRequest, waitResponse } from '@siberiacancode/playwright';
 import { TESTIDS } from '@/generated/tests/ids.gen';
 
 import { CASE_IDS } from '../(helpers)';
-import {
-  INVALID_OTP,
-  OTP_STEP_FILE,
-  VALID_PHONE,
-  VALID_PHONE_FORMATTED,
-  VALID_PHONE_INPUT
-} from '../(helpers)/constants';
+import { OTP_STEP_FILE, VALID_OTP, VALID_PHONE } from '../(helpers)/constants';
 import { CASE_ID as SIGN_IN_INVALID_CODE_CASE_ID } from '../(mocks)/sign-in-invalid-code/constants';
 import { LoginPageWrapper } from '../(wrappers)';
 import { HTTP_CODES } from '../../../utils/constants';
@@ -35,7 +29,7 @@ const setupTest: ComponentSetupTest<{
 
   if (step === 'phone') return;
 
-  await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE).fill(VALID_PHONE_INPUT);
+  await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE).fill(VALID_PHONE);
 
   await Promise.all([
     waitResponse(page, {
@@ -73,6 +67,14 @@ test.describe('Авторизация. Проверочный код', () => {
         await expect(otpError).toBeHidden();
         await expect(otpField).toHaveAttribute('data-invalid', 'false');
       });
+
+      await test.step('Показывает ошибку неполного кода', async () => {
+        await otpInput.fill('123');
+        await page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT).click();
+
+        await expect(otpError).toHaveText('Заполните поле полностью');
+        await expect(otpField).toHaveAttribute('data-invalid', 'true');
+      });
     }
   );
 
@@ -84,8 +86,9 @@ test.describe('Авторизация. Проверочный код', () => {
 
       await page.getByTestId(TESTIDS.CLICKABLE.BUTTON.BACK).click();
 
+      await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE)).toBeVisible();
       await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE)).toHaveValue(
-        VALID_PHONE_FORMATTED
+        '+7 777 777 77 71'
       );
     }
   );
@@ -96,7 +99,7 @@ test.describe('Авторизация. Проверочный код', () => {
     async ({ page, mount }) => {
       await setupTest({ page, mount }, { caseId: SIGN_IN_INVALID_CODE_CASE_ID, step: 'otp' });
 
-      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP).fill(INVALID_OTP);
+      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP).fill('111111');
 
       await Promise.all([
         waitRequest(page, {
@@ -104,7 +107,7 @@ test.describe('Авторизация. Проверочный код', () => {
           method: 'POST',
           body: {
             phone: VALID_PHONE,
-            code: Number(INVALID_OTP)
+            code: 111111
           }
         }),
         waitResponse(page, {
@@ -148,6 +151,7 @@ test.describe('Авторизация. Проверочный код', () => {
       await test.step('Активирует повторную отправку после окончания таймера', async () => {
         await page.clock.fastForward(27_000);
 
+        await expect(retryButton).toHaveText('Отправить код повторно');
         await expect(retryButton).toBeEnabled();
       });
     }
@@ -162,6 +166,7 @@ test.describe('Авторизация. Проверочный код', () => {
       await page.clock.fastForward(30_000);
 
       const retryButton = page.getByTestId(TESTIDS.CLICKABLE.BUTTON.RETRY);
+      const submitButton = page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT);
 
       await Promise.all([
         waitRequest(page, {
@@ -175,11 +180,36 @@ test.describe('Авторизация. Проверочный код', () => {
           status: HTTP_CODES.OK,
           body: { success: true }
         }),
+        expect(submitButton).toBeDisabled(),
+        expect(retryButton).toBeDisabled(),
         retryButton.click()
       ]);
 
       await expect(retryButton).toContainText('30');
       await expect(retryButton).toBeDisabled();
+    }
+  );
+
+  test(
+    'Назад. Сброс OTP',
+    annotation(OTP_STEP_FILE, 'Авторизация. Проверочный код. Назад. Сброс OTP'),
+    async ({ page, mount }) => {
+      await setupTest({ page, mount }, { caseId: CASE_IDS.OTP_BACK_RESET, step: 'otp' });
+
+      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP).fill(VALID_OTP);
+      await page.getByTestId(TESTIDS.CLICKABLE.BUTTON.BACK).click();
+
+      await Promise.all([
+        waitResponse(page, {
+          path: '/api/tester/otps/otp',
+          method: 'POST',
+          status: HTTP_CODES.OK,
+          body: { success: true }
+        }),
+        page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT).click()
+      ]);
+
+      await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP)).toHaveValue('');
     }
   );
 });

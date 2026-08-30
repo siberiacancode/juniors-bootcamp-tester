@@ -4,7 +4,7 @@ import { snapshot, waitRequest, waitResponse } from '@siberiacancode/playwright'
 import { TESTIDS } from '@/generated/tests/ids.gen';
 
 import { CASE_IDS } from '../(helpers)';
-import { PHONE_STEP_FILE, VALID_PHONE, VALID_PHONE_INPUT } from '../(helpers)/constants';
+import { PHONE_STEP_FILE, VALID_PHONE } from '../(helpers)/constants';
 import { HTTP_CODES } from '../../../utils/constants';
 import { annotation, testCase } from '../../../utils/helpers';
 
@@ -28,7 +28,9 @@ test.describe('Авторизация. Телефон', () => {
     async ({ page }) => {
       await setupTest(page, { caseId: CASE_IDS.PHONE_SUBMIT_SUCCESS });
 
-      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE).fill(VALID_PHONE_INPUT);
+      await page.getByTestId(TESTIDS.CHANGEABLE.INPUT.PHONE).fill(VALID_PHONE);
+
+      const submitButton = page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT);
 
       await Promise.all([
         waitRequest(page, {
@@ -42,8 +44,11 @@ test.describe('Авторизация. Телефон', () => {
           status: HTTP_CODES.OK,
           body: { success: true }
         }),
-        page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT).click()
+        expect(submitButton).toBeDisabled(),
+        submitButton.click()
       ]);
+
+      await expect(page.getByTestId(TESTIDS.CHANGEABLE.INPUT.OTP)).toBeVisible();
     }
   );
 
