@@ -10,8 +10,7 @@ export const TESTIDS = {
       "RETRY": "clickable-button-retry"
     },
     "LINK": {
-      "HOME": "clickable-link-home",
-      "OTP_CODES": "clickable-link-otp_codes"
+      "HOME": "clickable-link-home"
     }
   },
   "CHANGEABLE": {
@@ -23,6 +22,7 @@ export const TESTIDS = {
   "STATIC": {
     "PAGE": {
       "LOGIN": {
+        "LEGAL": "static-page-login-legal",
         "SELF_ID": "static-page-login-self_id"
       }
     }

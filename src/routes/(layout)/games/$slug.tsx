@@ -101,7 +101,7 @@ const gameProductSearchSchema = z.object({
 export const Route = createFileRoute('/(layout)/games/$slug')({
   loader: async ({ context, location, params }) => {
     const search = gameProductSearchSchema.parse(location.search);
-    const getGameInfoBySlugResponse = await context.queryClient.query(
+    const getGameInfoBySlugResponse = await context.queryClient.fetchQuery(
       getGamesInfoBySlugQueryOptions({
         params: {
           gcTime: Infinity,
@@ -128,7 +128,7 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 
     if (!deliveryType) throw notFound();
 
-    const getGamesRegionsResponse = await context.queryClient.query(
+    const getGamesRegionsResponse = await context.queryClient.fetchQuery(
       getGamesRegionsQueryOptions({
         params: {
           gcTime: Infinity,
@@ -151,7 +151,7 @@ export const Route = createFileRoute('/(layout)/games/$slug')({
 
     if (!region) throw notFound();
 
-    await context.queryClient.query(
+    await context.queryClient.fetchQuery(
       getGamesPriceVariantsQueryOptions({
         params: {
           gcTime: Infinity,

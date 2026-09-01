@@ -77,7 +77,7 @@ export const useLoginPage = () => {
       return loginForm.setError('otp', { message: authSignInResponse.data.reason });
     }
 
-    const getUsersProfileResponse = await queryClient.query(
+    const getUsersProfileResponse = await queryClient.fetchQuery(
       getUsersProfileQueryOptions({
         params: {
           gcTime: Infinity
@@ -86,7 +86,7 @@ export const useLoginPage = () => {
     );
 
     if (getUsersProfileResponse.data.success && getUsersProfileResponse.data.user) {
-      await queryClient.query(
+      await queryClient.fetchQuery(
         getCardsCardsQueryOptions({
           params: {
             gcTime: Infinity
@@ -107,6 +107,11 @@ export const useLoginPage = () => {
 
   const phoneMask = useMask('+7 999 999 99 99', {
     showMask: 'never',
+    sanitize: (rawValue) => {
+      const digits = rawValue.replace(/\D/g, '');
+      if (digits.length > 10) return digits.replace(/^[78]/, '');
+      return digits;
+    },
     onChangeRaw: (rawValue) => {
       loginForm.setValue('phone', `7${rawValue}`);
       loginForm.clearErrors('phone');
@@ -137,6 +142,7 @@ export const useLoginPage = () => {
 
     loginForm.resetField('otp');
     loginForm.clearErrors('otp');
+    otpMask.reset();
   };
 
   const submittedPhone = submittedPhones[phone];

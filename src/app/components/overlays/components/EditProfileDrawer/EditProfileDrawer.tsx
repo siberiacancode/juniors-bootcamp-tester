@@ -1,4 +1,12 @@
-import { Button, IconButton, Input, Typography } from '@siberiacancode/uikit';
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  IconButton,
+  Input,
+  Typography
+} from '@siberiacancode/uikit';
 import { Loader2Icon, XIcon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 
@@ -9,7 +17,6 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { intl, IntlText } from '@/utils/lib/intl';
 import { cn } from '@/utils/lib/utils';
 

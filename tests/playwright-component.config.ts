@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import process from 'node:process';
 
 export default defineConfig({
-  testDir: './cases',
+  testDir: './autotests',
   testMatch: ['**/?(*.)component.[jt]s?(x)'],
   outputDir: '../generated/tests/playwright-results/component',
   snapshotPathTemplate:
@@ -12,7 +12,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
-  timeout: 30_000,
+  timeout: 10_000,
   expect: {
     timeout: 10_000,
     toHaveScreenshot: { maxDiffPixelRatio: 0, threshold: 0.1 }

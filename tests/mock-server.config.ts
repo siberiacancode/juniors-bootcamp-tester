@@ -8,6 +8,11 @@ export default mock(
     staticPath: {
       path: '/mock/static',
       prefix: '/api'
+    },
+    interceptors: {
+      request: async ({ setDelay }) => {
+        await setDelay(250);
+      }
     }
   },
   ...requests,

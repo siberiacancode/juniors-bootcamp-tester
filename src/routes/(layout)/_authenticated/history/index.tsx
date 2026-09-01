@@ -95,7 +95,7 @@ function HistoryPage() {
 }
 
 export const Route = createFileRoute('/(layout)/_authenticated/history/')({
-  loader: () => queryClient.query(getGamesOrdersSuspenseQueryOptions()),
+  loader: () => queryClient.fetchQuery(getGamesOrdersSuspenseQueryOptions()),
   component: HistoryPage,
   pendingComponent: HistoryLoading
 });

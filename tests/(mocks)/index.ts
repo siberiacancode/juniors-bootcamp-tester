@@ -1,3 +1,3 @@
-import { authorizationMocks } from '../cases/authorization/(mocks)';
+import { authorizationMocks } from '../autotests/authorization/(mocks)';
 
 export default [...authorizationMocks];

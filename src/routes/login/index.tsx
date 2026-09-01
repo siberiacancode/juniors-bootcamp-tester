@@ -1,6 +1,14 @@
 import type { ApicraftFetchesResponse } from '@siberiacancode/apicraft';
 
-import { Button, IconButton, Input, Typography } from '@siberiacancode/uikit';
+import {
+  Button,
+  Field,
+  FieldError,
+  FieldLabel,
+  IconButton,
+  Input,
+  Typography
+} from '@siberiacancode/uikit';
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { ChevronLeftIcon, Loader2Icon } from 'lucide-react';
 import { Controller } from 'react-hook-form';
@@ -9,7 +17,6 @@ import { z } from 'zod';
 import type { GetProfileResponse } from '@/generated/api';
 
 import { LogoIcon } from '@/components/icons';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { getUsersProfileQueryKey } from '@/generated/api';
 import { TESTIDS } from '@/generated/tests/ids.gen';
 import { LINKS } from '@/utils/constants';
@@ -165,7 +172,7 @@ export const LoginPage = () => {
             </Button>
             {state.isCodeStep && state.submittedPhone && (
               <Countdown
-                loading={state.isRetrying}
+                loading={state.isLoading}
                 retryAt={state.submittedPhone}
                 onRetry={functions.onRetry}
               />
@@ -174,6 +181,7 @@ export const LoginPage = () => {
               <Typography
                 as='p'
                 className='w-full text-left tracking-[0.005em] text-[#969696]'
+                data-testid={TESTIDS.STATIC.PAGE.LOGIN.LEGAL}
                 variant='caption'
               >
                 <IntlText
@@ -181,7 +189,6 @@ export const LoginPage = () => {
                     otpCodesLink: (chunks) => (
                       <a
                         className='underline decoration-[5%] underline-offset-[16%]'
-                        data-testid={TESTIDS.CLICKABLE.LINK.OTP_CODES}
                         href={LINKS.OTP_CODES}
                         rel='noreferrer'
                         target='_blank'

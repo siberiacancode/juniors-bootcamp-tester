@@ -9,4 +9,4 @@ publicHoistPattern:
 minimumReleaseAgeExclude:
   - '@siberiacancode/reactuse'
   - '@siberiacancode/uikit'
-  - '@siberiacancode/playwright@1.0.0'
+  - '@siberiacancode/playwright'

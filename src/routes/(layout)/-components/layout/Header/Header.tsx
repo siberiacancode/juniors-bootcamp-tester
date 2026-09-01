@@ -15,7 +15,7 @@ export const Header = () => {
     params: { enabled: false }
   });
   const usersProfileData = usersProfileResponse.data?.data as GetProfileResponse;
-  const user = usersProfileData.user;
+  const user = usersProfileData?.user;
 
   return (
     <header className='hidden h-16 items-center justify-between px-3 sm:flex'>
