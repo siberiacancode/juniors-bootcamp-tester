@@ -8,6 +8,8 @@ Use the narrowest reusable scope for test case preconditions.
 
 ## Workflow
 
+- Add reusable preconditions only when several cases share the same preliminary setup, such as an opened page, authenticated state, viewport, or repeated navigation path.
+- Do not create reusable precondition constants for truly one-off setup used by a single case. Put those setup details in the case action.
 - Keep `test-cases-ts/0 Configuration/preconditions.ts` only for preconditions reused across several case folders.
 - Keep the global `Precondition` type in `test-cases-ts/0 Configuration/types.d.ts` aligned only with global preconditions.
 - If a precondition is reused only inside one case file, define a local constant in that file typed as `Record<string, string[]>`.
