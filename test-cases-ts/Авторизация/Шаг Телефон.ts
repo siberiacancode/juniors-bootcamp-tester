@@ -80,7 +80,7 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Вставка номера',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.actual,
     steps: [
       {
