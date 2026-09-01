@@ -1,9 +1,17 @@
 import { preconditions, statuses } from '../0 Configuration';
 
+const authStepPreconditions: Record<string, string[]> = {
+  loginPage: ['Открыта страница "Авторизация"']
+};
+
 export const stepPhone: TestCase[] = [
   {
     name: 'Авторизация. Телефон. Дизайн. Десктоп',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage, preconditions.desktop],
+    preconditions: [
+      preconditions.unauthorizedUser,
+      authStepPreconditions.loginPage,
+      preconditions.desktop
+    ],
     status: statuses.actual,
     steps: [
       {
@@ -16,7 +24,11 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Дизайн. Мобилка',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage, preconditions.mobile],
+    preconditions: [
+      preconditions.unauthorizedUser,
+      authStepPreconditions.loginPage,
+      preconditions.mobile
+    ],
     status: statuses.actual,
     steps: [
       {
@@ -29,7 +41,7 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Валидация',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.actual,
     steps: [
       {
@@ -57,7 +69,7 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Маска',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.actual,
     steps: [
       {
@@ -68,14 +80,14 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Продолжить. Успех',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.actual,
     steps: [
       {
         action: 'Ввести валидный номер телефона в поле “Телефон” и нажать кнопку “Продолжить”',
         expected: [
-          'Отправлен запрос /api/tester/otps/otp с параметром phone === указанному в поле “Телефон”',
-          'Во время ожидания запроса /api/tester/otps/otp кнопка "Продолжить" находится в состоянии loading',
+          'Отправлен запрос /otps/otp с параметром phone === указанному в поле “Телефон”',
+          'Во время ожидания запроса /otps/otp кнопка "Продолжить" находится в состоянии loading',
           'Осуществлен переход на шаг “Проверочный код”'
         ]
       }
@@ -83,13 +95,13 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Продолжить. Ошибка (какая и как воспроизвести?)',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.needRework,
     steps: [
       {
         action: 'Ввести (какой?) номер телефона в поле “Телефон” и нажать кнопку “Продолжить”',
         expected: [
-          'Отправлен запрос /api/tester/otps/otp с параметром phone === указанному в поле “Телефон”',
+          'Отправлен запрос /otps/otp с параметром phone === указанному в поле “Телефон”',
           'Полученная ошибка отображена с тосте'
         ]
       }
@@ -97,7 +109,7 @@ export const stepPhone: TestCase[] = [
   },
   {
     name: 'Авторизация. Телефон. Назад',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+    preconditions: [preconditions.unauthorizedUser, authStepPreconditions.loginPage],
     status: statuses.actual,
     steps: [
       {

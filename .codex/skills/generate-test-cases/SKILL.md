@@ -13,6 +13,7 @@ Before asking the user, inspect the nearest confirmed project sources:
 - `test-cases-ts/0 Configuration/types.d.ts`;
 - `test-cases-ts/0 Configuration/statuses.ts`;
 - `test-cases-ts/0 Configuration/preconditions.ts`;
+- `rules/preconditions.md` before writing or reorganizing preconditions;
 - relevant `src` code: routes, components, labels, validation, API calls, redirects, permissions, links, and UI states.
 
 Use only behavior confirmed by the project or the user. Ask before writing cases when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous.
@@ -26,7 +27,7 @@ For design cases, use a user-provided or previously confirmed design link. If no
 3. Choose the target folder by interface structure: root page or reusable major system block.
 4. Choose the target file by the main semantic element, for example `Шаг Телефон`, `Шаг Проверочный код`, `Хэдер`, or `Футер`.
 5. Write atomic cases: one element, scenario, or functionality per case.
-6. Reuse precise existing preconditions. If a new precondition is required, update both `types.d.ts` and `preconditions.ts`.
+6. Reuse precise existing preconditions and follow `rules/preconditions.md` when adding or moving them.
 7. Use existing statuses only, unless the user explicitly confirms a new status.
 8. Preserve unrelated cases and configuration. Change existing cases only when requested or confirmed by the user.
 
@@ -36,7 +37,7 @@ For design cases, use a user-provided or previously confirmed design link. If no
 - Each file exports one `TestCase[]` array.
 - Keep setup in `preconditions`; keep steps focused on the checked behavior.
 - Add reusable preconditions only when several cases share the same preliminary setup, such as an opened page, authenticated state, viewport, or repeated navigation path.
-- Do not add preconditions for one-off data states or mocks, such as empty list, missing order, with key, or without key. Put those setup details in the case action.
+- Do not create reusable precondition constants for truly one-off setup used by a single case. Put those setup details in the case action.
 - Prefer narrow checks over broad end-to-end flows.
 - Do not duplicate coverage already owned by another folder/file. Navigation checks belong to layout/navigation files; page files cover behavior inside the target page.
 - Do not duplicate reusable setup or shared block checks across page files.
@@ -78,9 +79,10 @@ For design cases, use a user-provided or previously confirmed design link. If no
 
 When producing cases, provide project-compatible TypeScript:
 
-- import `preconditions` and `statuses` from the correct relative `0 Configuration` path;
+- import `statuses` from the correct relative `0 Configuration` path;
+- import or define preconditions according to `rules/preconditions.md`;
 - use `statuses.actual` or another confirmed existing status;
-- use values from `preconditions`;
+- use values from the appropriate preconditions constant;
 - write `steps` as `{ action, expected }`;
 - make `expected` an array of concrete expected results.
 

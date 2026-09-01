@@ -1,14 +1,24 @@
 import { preconditions, statuses } from '../0 Configuration';
 
+const purchaseHistoryListPreconditions: Record<string, string[]> = {
+  historyPage: ['Открыта страница "История покупок"'],
+  userWithSeveralPurchases: ['Пользователь с несколькими покупками'],
+  userWithEmptyPurchaseHistory: ['Пользователь с пустой историей покупок']
+};
+
 export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.desktop,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithSeveralPurchases
+    ],
     steps: [
       {
-        action:
-          'Открыть Историю покупок за пользователя с несколькими покупками и проверить соответствие страницы дизайну',
+        action: 'Проверить соответствие страницы дизайну',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003802-5867&t=zlvki7NFGBOA4d1I-0'
         ]
@@ -18,11 +28,15 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.mobile, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.mobile,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithSeveralPurchases
+    ],
     steps: [
       {
-        action:
-          'Открыть Историю покупок за пользователя с несколькими покупками и проверить соответствие страницы дизайну',
+        action: 'Проверить соответствие страницы дизайну',
         expected: [
           'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-7627&t=zlvki7NFGBOA4d1I-0'
         ]
@@ -60,13 +74,17 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Пустой список. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.desktop,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithEmptyPurchaseHistory
+    ],
     steps: [
       {
-        action:
-          'Открыть Историю покупок за пользователя с пустым списком покупок и проверить соответствие пустого состояния дизайну',
+        action: 'Проверить соответствие страницы дизайну',
         expected: [
-          'Пустое состояние соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003802-5766&t=zlvki7NFGBOA4d1I-0'
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003802-5766&t=zlvki7NFGBOA4d1I-0'
         ]
       }
     ]
@@ -74,13 +92,17 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Пустой список. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.mobile, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.mobile,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithEmptyPurchaseHistory
+    ],
     steps: [
       {
-        action:
-          'Открыть Историю покупок за пользователя с пустым списком покупок и проверить соответствие пустого состояния дизайну',
+        action: 'Проверить соответствие страницы дизайну',
         expected: [
-          'Пустое состояние соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-7507&t=zlvki7NFGBOA4d1I-0'
+          'Страница соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40003305-7507&t=zlvki7NFGBOA4d1I-0'
         ]
       }
     ]
@@ -88,11 +110,14 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Пустой список. Кнопка "Вернуться в каталог игр"',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithEmptyPurchaseHistory
+    ],
     steps: [
       {
-        action:
-          'Открыть Историю покупок за пользователя с пустым списком покупок и кликнуть на кнопку "Вернуться в каталог игр"',
+        action: 'Кликнуть на кнопку "Вернуться в каталог игр"',
         expected: ['Открылась страница https://juniorsbootcamp.ru/tester/']
       }
     ]
@@ -100,10 +125,14 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Список карточек',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryListPreconditions.historyPage,
+      purchaseHistoryListPreconditions.userWithSeveralPurchases
+    ],
     steps: [
       {
-        action: 'Открыть Историю покупок за пользователя с несколькими покупками',
+        action: 'Проверить список карточек покупок',
         expected: [
           'Количество карточек покупок соответствует количеству элементов в orders',
           'Порядок карточек покупок соответствует порядку элементов в orders'
@@ -114,7 +143,11 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Карточка покупки. Данные',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryListPreconditions.historyPage,
+      preconditions.userWithAtLeastOnePurchase
+    ],
     steps: [
       {
         action: 'Проверить данные в карточке покупки',
@@ -133,7 +166,11 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Карточка покупки. Кнопка "Перейти на заказ"',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryListPreconditions.historyPage,
+      preconditions.userWithAtLeastOnePurchase
+    ],
     steps: [
       {
         action: 'Кликнуть на кнопку "Перейти на заказ" в карточке покупки',

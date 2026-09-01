@@ -1,11 +1,18 @@
 import { preconditions, statuses } from '../0 Configuration';
 
+const otpStepPreconditions: Record<string, string[]> = {
+  loginPageOtpStep: [
+    'Открыть страницу "Авторизация"',
+    'Ввести валидный номер телефона и нажать "Продолжить"'
+  ]
+};
+
 export const otpStep: TestCase[] = [
   {
     name: 'Авторизация. Проверочный код. Дизайн. Десктоп',
     preconditions: [
       preconditions.unauthorizedUser,
-      preconditions.loginPageOtpStep,
+      otpStepPreconditions.loginPageOtpStep,
       preconditions.desktop
     ],
     status: statuses.actual,
@@ -22,7 +29,7 @@ export const otpStep: TestCase[] = [
     name: 'Авторизация. Проверочный код. Дизайн. Мобилка',
     preconditions: [
       preconditions.unauthorizedUser,
-      preconditions.loginPageOtpStep,
+      otpStepPreconditions.loginPageOtpStep,
       preconditions.mobile
     ],
     status: statuses.actual,
@@ -37,7 +44,7 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Валидация',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
@@ -65,7 +72,7 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Назад (телефон)',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
@@ -79,7 +86,7 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Назад',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
@@ -90,30 +97,30 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Войти. Успех',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
         action:
           'Ввести отп код для введенного телефона из источника https://juniorsbootcamp.ru/api/otps и нажать кнопку "Войти"',
         expected: [
-          'Отправлен запрос /api/tester/auth/sign-in с параметрами: phone === указанному в поле “Телефон” на шаге ввода номера телефона; code === указанному в поле "Проверочный код"',
-          'Во время ожидания запроса /api/tester/auth/sign-in кнопки "Войти" и "Отправить код повторно" находятся в состоянии loading',
+          'Отправлен запрос /auth/sign-in с параметрами: phone === указанному в поле “Телефон” на шаге ввода номера телефона; code === указанному в поле "Проверочный код"',
+          'Во время ожидания запроса /auth/sign-in кнопки "Войти" и "Отправить код повторно" находятся в состоянии loading',
           'Открылась главная страница /tester/',
-          'Отправлен запрос /api/tester/users/profile с параметрами, равными полученному из ответа на запрос /api/tester/auth/sign-in'
+          'Отправлен запрос /users/profile с параметрами, равными полученному из ответа на запрос /auth/sign-in'
         ]
       }
     ]
   },
   {
     name: 'Авторизация. Проверочный код. Войти. Неправльный отп код',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
         action: 'Ввести 111111 в поле "Проверочный код" и нажать кнопку "Войти"',
         expected: [
-          'Отправлен запрос /api/tester/auth/sign-in с параметрами: phone === указанному в поле “Телефон” на шаге ввода номера телефона; code === указанному в поле "Проверочный код"',
+          'Отправлен запрос /auth/sign-in с параметрами: phone === указанному в поле “Телефон” на шаге ввода номера телефона; code === указанному в поле "Проверочный код"',
           'Под полем "Проверочный код" появилась валидационная ошибка "Неправильный отп код"'
         ]
       }
@@ -121,13 +128,13 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Войти. Таймер',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
         action: 'Проверить текст в кнопке таймера под кнопкой "Войти"',
         expected: [
-          'Текст соответствует "Отправить код повторно через X сек", где X соответствует полученному параметру retryDelay из запроса /api/tester/otps/otp, переведенному в секунды',
+          'Текст соответствует "Отправить код повторно через X сек", где X соответствует полученному параметру retryDelay из запроса /otps/otp, переведенному в секунды',
           'Кнопка отображается в состоянии disabled'
         ]
       },
@@ -146,22 +153,22 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Войти. Отправить код повторно',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
         action: 'Подождать окончания таймера и нажать кнопку "Отправить код повторно"',
         expected: [
-          'Отправлен запрос /api/tester/otps/otp с параметром phone === указанному в поле “Телефон” на шаге ввода телефона',
-          'Во время ожидания запроса /api/tester/otps/otp кнопки "Войти" и "Отправить код повторно" находятся в состоянии loading',
-          'Текст кнопки таймера соответствует "Отправить код повторно через X сек", где X соответствует полученному параметру retryDelay из запроса /api/tester/otps/otp, переведенному в секунды'
+          'Отправлен запрос /otps/otp с параметром phone === указанному в поле “Телефон” на шаге ввода телефона',
+          'Во время ожидания запроса /otps/otp кнопки "Войти" и "Отправить код повторно" находятся в состоянии loading',
+          'Текст кнопки таймера соответствует "Отправить код повторно через X сек", где X соответствует полученному параметру retryDelay из запроса /otps/otp, переведенному в секунды'
         ]
       }
     ]
   },
   {
     name: 'Авторизация. Проверочный код. Войти. Redirect в ссылке',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
@@ -173,7 +180,7 @@ export const otpStep: TestCase[] = [
   },
   {
     name: 'Авторизация. Проверочный код. Назад. Сброс OTP',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
+    preconditions: [preconditions.unauthorizedUser, otpStepPreconditions.loginPageOtpStep],
     status: statuses.actual,
     steps: [
       {
