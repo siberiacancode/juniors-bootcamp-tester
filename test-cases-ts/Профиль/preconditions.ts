@@ -8,10 +8,10 @@ type ProfilePrecondition =
   | 'userWithOneSavedCard'
   | 'userWithoutEmail'
   | 'userWithoutFullName'
-  | 'userWithoutPurchases'
+  | 'userWithoutOrders'
   | 'userWithoutSavedCards'
   | 'userWithSavedCards'
-  | 'userWithSeveralPurchases';
+  | 'userWithSeveralOrders';
 
 export const profilePreconditions: Record<ProfilePrecondition, string[]> = {
   deletePaymentCardConfirmationOpened: [
@@ -24,9 +24,9 @@ export const profilePreconditions: Record<ProfilePrecondition, string[]> = {
   userWithFullName: ['Пользователь с заполненным ФИО'],
   userWithOneSavedCard: ['Пользователь с одной сохранённой картой'],
   userWithSavedCards: ['Пользователь с несколькими сохранёнными картами'],
-  userWithSeveralPurchases: ['Пользователь с несколькими покупками'],
+  userWithSeveralOrders: ['Пользователь с несколькими заказами'],
   userWithoutEmail: ['Пользователь без заполненного email'],
   userWithoutFullName: ['Пользователь без заполненного ФИО'],
-  userWithoutPurchases: ['Пользователь без покупок'],
+  userWithoutOrders: ['Пользователь без заказов'],
   userWithoutSavedCards: ['Пользователь без сохранённых карт']
 } as const;

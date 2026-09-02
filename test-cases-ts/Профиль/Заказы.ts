@@ -1,13 +1,13 @@
 import { preconditions, statuses } from '../0 Configuration';
 import { profilePreconditions } from './preconditions';
 
-export const profileOrderHistory: TestCase[] = [
+export const profileOrders: TestCase[] = [
   {
-    name: 'Профиль. История покупок. Дизайн. Десктоп',
+    name: 'Профиль. Заказы. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      profilePreconditions.userWithSeveralPurchases,
+      profilePreconditions.userWithSeveralOrders,
       preconditions.desktop,
       profilePreconditions.profilePageOpened
     ],
@@ -21,35 +21,34 @@ export const profileOrderHistory: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. История покупок. Список карточек',
+    name: 'Профиль. Заказы. Список карточек',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      profilePreconditions.userWithSeveralPurchases,
+      profilePreconditions.userWithSeveralOrders,
       profilePreconditions.profilePageOpened
     ],
     steps: [
       {
-        action: 'Проверить список карточек покупок',
+        action: 'Проверить список карточек заказов',
         expected: [
-          'Количество карточек покупок соответствует количеству элементов в массиве orders из ответа GET /games/orders',
-          'Порядок карточек покупок соответствует порядку элементов в массиве orders'
+          'Количество карточек заказов соответствует количеству элементов в массиве orders из ответа GET /games/orders',
+          'Порядок карточек заказов соответствует порядку элементов в массиве orders'
         ]
       }
     ]
   },
   {
-    name: 'Профиль. История покупок. Карточка покупки. Данные',
+    name: 'Профиль. Заказы. Карточка заказа. Данные',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      profilePreconditions.userWithSeveralPurchases,
+      profilePreconditions.userWithSeveralOrders,
       profilePreconditions.profilePageOpened
     ],
     steps: [
       {
-        action:
-          'Сопоставить данные карточки покупки с элементом orders из ответа GET /games/orders',
+        action: 'Сопоставить данные карточки заказа с элементом orders из ответа GET /games/orders',
         expected: [
           'src обложки равен "/api{gameImage}"',
           'alt обложки соответствует gameName',
@@ -63,28 +62,28 @@ export const profileOrderHistory: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. История покупок. Карточка покупки. Подробнее',
+    name: 'Профиль. Заказы. Карточка заказа. Подробнее',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      profilePreconditions.userWithSeveralPurchases,
+      profilePreconditions.userWithSeveralOrders,
       profilePreconditions.profilePageOpened
     ],
     steps: [
       {
-        action: 'Нажать кнопку "Подробнее" на карточке покупки',
+        action: 'Нажать кнопку "Подробнее" на карточке заказа',
         expected: [
-          'Открылась страница "/tester/history/{orderId}", где orderId равен _id выбранной покупки'
+          'Открылась страница "/tester/history/{orderId}", где orderId равен _id выбранного заказа'
         ]
       }
     ]
   },
   {
-    name: 'Профиль. История покупок. Пустой список. Вернуться в каталог игр',
+    name: 'Профиль. Заказы. Пустой список. Вернуться в каталог игр',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      profilePreconditions.userWithoutPurchases,
+      profilePreconditions.userWithoutOrders,
       profilePreconditions.profilePageOpened
     ],
     steps: [
