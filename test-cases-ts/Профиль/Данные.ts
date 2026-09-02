@@ -1,39 +1,25 @@
 import { preconditions, statuses } from '../0 Configuration';
+import { profilePreconditions } from './preconditions';
 
 export const profileData: TestCase[] = [
   {
-    name: 'Профиль. Личные данные. Отображение',
+    name: 'Профиль. Данные пользователя',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop],
+    preconditions: [
+      preconditions.authorizedUser,
+      profilePreconditions.profilePageOpened,
+      profilePreconditions.userWithFullName,
+      profilePreconditions.userWithEmail
+    ],
     steps: [
       {
-        action: 'Проверить данные в блоке Личных данных',
+        action:
+          'Сопоставить данные в карточке пользователя с объектом user из ответа GET /users/profile',
         expected: [
-          'Данные соответствуют ответу GET /profile:',
-          'email соответствует значению email',
-          'phone соответствует значению phone',
-          'firstname соответствует значению firstname',
-          'lastname соответствует значению lastname',
-          'middlename соответствует значению middlename'
-        ]
-      }
-    ]
-  },
-  {
-    name: 'Профиль. История заказов. Отображение',
-    status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop],
-    steps: [
-      {
-        action: 'Проверить данные в блоке Заказов',
-        expected: [
-          'Список заказов соответствует ответу GET /orders',
-          'gameName — название игры',
-          'edition — издание игры',
-          'gameImage — сокращенная ссылка на обложку',
-          'region — регион активации',
-          'deliveryType — тип доставки',
-          'person.email — почта получателя'
+          'ФИО соответствует значениям lastname, firstname и middlename, объединённым через пробел',
+          'Email соответствует значению email',
+          'Номер телефона содержит цифры из значения phone и отображается по маске "+X XXX XXX XX XX"',
+          'В аватаре отображается первая буква значения lastname в верхнем регистре'
         ]
       }
     ]

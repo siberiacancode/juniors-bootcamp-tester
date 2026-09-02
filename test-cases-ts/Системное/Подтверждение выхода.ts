@@ -1,8 +1,5 @@
 import { preconditions, statuses } from '../0 Configuration';
-
-const logoutConfirmationPreconditions: Record<string, string[]> = {
-  opened: ['Открыто подтверждение выхода']
-};
+import { systemPreconditions } from './preconditions';
 
 export const logoutConfirmation: TestCase[] = [
   {
@@ -11,7 +8,7 @@ export const logoutConfirmation: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.desktop,
-      logoutConfirmationPreconditions.opened
+      systemPreconditions.logoutConfirmationOpened
     ],
     steps: [
       {
@@ -28,7 +25,7 @@ export const logoutConfirmation: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.mobile,
-      logoutConfirmationPreconditions.opened
+      systemPreconditions.logoutConfirmationOpened
     ],
     steps: [
       {
@@ -42,7 +39,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Отмена',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
+    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
     steps: [
       {
         action: 'Нажать кнопку "Отмена"',
@@ -56,7 +53,7 @@ export const logoutConfirmation: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.desktop,
-      logoutConfirmationPreconditions.opened
+      systemPreconditions.logoutConfirmationOpened
     ],
     steps: [
       {
@@ -68,7 +65,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Выйти. Лоадер',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
+    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
     steps: [
       {
         action: 'Замедлить ответ POST /auth/sign-out и нажать кнопку "Выйти"',
@@ -82,7 +79,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Выйти. Успех',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
+    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
     steps: [
       {
         action: 'Нажать кнопку "Выйти"',
@@ -96,7 +93,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Выйти. Ошибка',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
+    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
     steps: [
       {
         action:
