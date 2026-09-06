@@ -13,7 +13,7 @@ const catalogRoute = getRouteApi('/(layout)/');
 
 export const useCatalogSearch = () => {
   const searchParams = catalogRoute.useSearch();
-  const comboboxAnchorRef = useRef<HTMLDivElement>(null);
+  const comboboxAnchorRef = useRef<HTMLLabelElement>(null);
   const blockOpenUntilRef = useRef(0);
 
   const [searchValue, setSearchValue] = useState('');

@@ -50,7 +50,7 @@ const ComboboxInput = ({
 }: ComboboxPrimitive.Input.Props & {
   showTrigger?: boolean;
   showClear?: boolean;
-  inputGroupRef?: React.Ref<HTMLDivElement>;
+  inputGroupRef?: React.Ref<HTMLLabelElement>;
 }) => (
   <InputGroup ref={inputGroupRef} className={cn('w-auto', className)}>
     {children}
