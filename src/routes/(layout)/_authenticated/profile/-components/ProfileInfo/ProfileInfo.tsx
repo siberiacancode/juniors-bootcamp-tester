@@ -19,7 +19,7 @@ export const ProfileInfo = () => {
             {/* <span className='supports-[-webkit-hyphens:none]:hidden'> */}
             <span className='flex size-full items-center justify-center'>
               {!state.displayName ? (
-                <MascotFrontIcon />
+                <MascotFrontIcon className='size-full' />
               ) : (
                 (state.displayName || state.user.email || 'A').trim().charAt(0).toUpperCase()
               )}
