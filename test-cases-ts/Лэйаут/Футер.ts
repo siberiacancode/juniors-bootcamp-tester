@@ -15,7 +15,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
-    name: 'Лэйаут. Футер. Дизайн. Мобила',
+    name: 'Лэйаут. Футер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile],
     steps: [
@@ -34,44 +34,44 @@ export const footer: TestCase[] = [
     steps: [
       {
         action: 'Кликнуть на логотип "GAMES"',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
+        expected: ['Запросилась и открылась страница /']
       }
     ]
   },
   {
-    name: 'Лэйаут. Футер. Ссылка "Весь каталог"',
+    name: 'Лэйаут. Футер. Весь каталог',
     status: statuses.actual,
     preconditions: [],
     steps: [
       {
         action: 'Кликнуть на ссылку "Весь каталог"',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
+        expected: ['Запросилась и открылась страница /']
       }
     ]
   },
   {
-    name: 'Лэйаут. Футер. Ссылка "Новинки"',
+    name: 'Лэйаут. Футер. Новинки',
     status: statuses.actual,
     preconditions: [],
     steps: [
       {
         action: 'Кликнуть на ссылку "Новинки"',
         expected: [
-          'Запросилась и открылась страница https://juniorsbootcamp.ru/tester/?view=new',
+          'Запросилась и открылась страница /?view=new',
           'В каталоге выбран фильтр отображения "Новинки"'
         ]
       }
     ]
   },
   {
-    name: 'Лэйаут. Футер. Ссылка "Популярные"',
+    name: 'Лэйаут. Футер. Популярные',
     status: statuses.actual,
     preconditions: [],
     steps: [
       {
         action: 'Кликнуть на ссылку "Популярные"',
         expected: [
-          'Запросилась и открылась страница https://juniorsbootcamp.ru/tester/?view=popular',
+          'Запросилась и открылась страница /?view=popular',
           'В каталоге выбран фильтр отображения "Популярные"'
         ]
       }
@@ -85,10 +85,10 @@ export const footer: TestCase[] = [
       {
         action: 'Проверить ссылки в секции "Связаться с нами"',
         expected: [
-          'Ссылка "Поддержка клиентов" имеет href="/tester/profile"',
-          'Ссылка "Написать нам на почту" имеет href="/tester/profile"',
-          'Ссылка "По вопросам рекламы" имеет href="/tester/profile"',
-          'Ссылка "Контакты" имеет href="/tester/profile"'
+          'Ссылка "Поддержка клиентов" указывает на страницу "/profile"',
+          'Ссылка "Написать нам на почту" указывает на страницу "/profile"',
+          'Ссылка "По вопросам рекламы" указывает на страницу "/profile"',
+          'Ссылка "Контакты" указывает на страницу "/profile"'
         ]
       }
     ]
@@ -101,13 +101,13 @@ export const footer: TestCase[] = [
       {
         action: 'Кликнуть на любую ссылку в секции "Связаться с нами"',
         expected: [
-          'Запросилась и открылась страница https://juniorsbootcamp.ru/tester/login с queryParam “redirect” === полной ссылке, на которой был совершен клик'
+          'Запросилась и открылась страница /login с queryParam “redirect” === полной ссылке, на которой был совершен клик'
         ]
       }
     ]
   },
   {
-    name: 'Лэйаут. Футер. Ссылка "Ссылка на GitHub"',
+    name: 'Лэйаут. Футер. Ссылка на GitHub',
     status: statuses.actual,
     preconditions: [],
     steps: [

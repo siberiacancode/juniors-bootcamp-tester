@@ -1,5 +1,11 @@
 import { preconditions, statuses } from '../0 Configuration';
 
+const purchaseHistoryDetailsPreconditions: Record<string, string[]> = {
+  historyDetailsPage: ['Открыта страница "Подробности покупки"'],
+  purchaseWithGameKey: ['Покупка с заполненным gameKey'],
+  purchaseWithoutGameKey: ['Покупка без gameKey']
+};
+
 export const purchaseHistoryDetails: TestCase[] = [
   {
     name: 'История покупок. Подробности покупки. Дизайн. Десктоп',
@@ -7,7 +13,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.desktop,
-      preconditions.historyDetailsPage
+      purchaseHistoryDetailsPreconditions.historyDetailsPage
     ],
     steps: [
       {
@@ -24,7 +30,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.mobile,
-      preconditions.historyDetailsPage
+      purchaseHistoryDetailsPreconditions.historyDetailsPage
     ],
     steps: [
       {
@@ -66,10 +72,14 @@ export const purchaseHistoryDetails: TestCase[] = [
   {
     name: 'История покупок. Подробности покупки. Данные. С ключом активации',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyDetailsPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryDetailsPreconditions.historyDetailsPage,
+      purchaseHistoryDetailsPreconditions.purchaseWithGameKey
+    ],
     steps: [
       {
-        action: 'Открыть подробности покупки с заполненным gameKey',
+        action: 'Проверить данные покупки',
         expected: [
           'Обложка игры отображается из gameImage',
           'alt обложки игры соответствует gameName',
@@ -87,10 +97,14 @@ export const purchaseHistoryDetails: TestCase[] = [
   {
     name: 'История покупок. Подробности покупки. Данные. Без ключа активации',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyDetailsPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryDetailsPreconditions.historyDetailsPage,
+      purchaseHistoryDetailsPreconditions.purchaseWithoutGameKey
+    ],
     steps: [
       {
-        action: 'Открыть подробности покупки без gameKey',
+        action: 'Проверить данные покупки',
         expected: [
           'Обложка игры отображается из gameImage',
           'alt обложки игры соответствует gameName',
@@ -109,11 +123,14 @@ export const purchaseHistoryDetails: TestCase[] = [
   {
     name: 'История покупок. Подробности покупки. Кнопка назад',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.historyDetailsPage],
+    preconditions: [
+      preconditions.authorizedUser,
+      purchaseHistoryDetailsPreconditions.historyDetailsPage
+    ],
     steps: [
       {
         action: 'Кликнуть на кнопку назад',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/history']
+        expected: ['Открылась страница /history']
       }
     ]
   },
@@ -123,9 +140,8 @@ export const purchaseHistoryDetails: TestCase[] = [
     preconditions: [preconditions.authorizedUser],
     steps: [
       {
-        action:
-          'Открыть страницу https://juniorsbootcamp.ru/tester/history/{orderId} для несуществующего заказа',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/history']
+        action: 'Открыть страницу /history/{orderId} для несуществующего заказа',
+        expected: ['Открылась страница /history']
       }
     ]
   }
