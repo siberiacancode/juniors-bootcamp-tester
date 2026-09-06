@@ -1,5 +1,8 @@
 import { preconditions, statuses } from '../0 Configuration';
-import { systemPreconditions } from './preconditions';
+
+const logoutConfirmationPreconditions = {
+  opened: ['Нажать кнопку "Выйти" в лэйауте']
+};
 
 export const logoutConfirmation: TestCase[] = [
   {
@@ -8,7 +11,7 @@ export const logoutConfirmation: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.desktop,
-      systemPreconditions.logoutConfirmationOpened
+      logoutConfirmationPreconditions.opened
     ],
     steps: [
       {
@@ -25,7 +28,7 @@ export const logoutConfirmation: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       preconditions.mobile,
-      systemPreconditions.logoutConfirmationOpened
+      logoutConfirmationPreconditions.opened
     ],
     steps: [
       {
@@ -39,7 +42,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Отмена',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
+    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
     steps: [
       {
         action: 'Нажать кнопку "Отмена"',
@@ -48,12 +51,12 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
-    name: 'Системное. Подтверждение выхода. Кнопка закрытия',
+    name: 'Системное. Подтверждение выхода. Кнопка закрытия. Десктоп',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
       preconditions.desktop,
-      systemPreconditions.logoutConfirmationOpened
+      logoutConfirmationPreconditions.opened
     ],
     steps: [
       {
@@ -65,7 +68,7 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Выйти. Лоадер',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
+    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
     steps: [
       {
         action: 'Замедлить ответ POST /auth/sign-out и нажать кнопку "Выйти"',
@@ -79,21 +82,18 @@ export const logoutConfirmation: TestCase[] = [
   {
     name: 'Системное. Подтверждение выхода. Выйти. Успех',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
+    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
     steps: [
       {
         action: 'Нажать кнопку "Выйти"',
-        expected: [
-          'Отправлен запрос POST /auth/sign-out',
-          'Открылась страница https://juniorsbootcamp.ru/tester/'
-        ]
+        expected: ['Отправлен запрос POST /auth/sign-out', 'Открылась страница /']
       }
     ]
   },
   {
     name: 'Системное. Подтверждение выхода. Выйти. Ошибка',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, systemPreconditions.logoutConfirmationOpened],
+    preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
     steps: [
       {
         action:

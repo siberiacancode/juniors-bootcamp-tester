@@ -130,7 +130,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     steps: [
       {
         action: 'Кликнуть на кнопку назад',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/history']
+        expected: ['Открылась страница /history']
       }
     ]
   },
@@ -140,9 +140,8 @@ export const purchaseHistoryDetails: TestCase[] = [
     preconditions: [preconditions.authorizedUser],
     steps: [
       {
-        action:
-          'Открыть страницу https://juniorsbootcamp.ru/tester/history/{orderId} для несуществующего заказа',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/history']
+        action: 'Открыть страницу /history/{orderId} для несуществующего заказа',
+        expected: ['Открылась страница /history']
       }
     ]
   }

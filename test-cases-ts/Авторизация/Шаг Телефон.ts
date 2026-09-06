@@ -129,7 +129,7 @@ export const stepPhone: TestCase[] = [
     steps: [
       {
         action: 'Нажать кнопку "Назад" (стрелка влево в шапке)',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
+        expected: ['Запросилась и открылась страница /']
       }
     ]
   }

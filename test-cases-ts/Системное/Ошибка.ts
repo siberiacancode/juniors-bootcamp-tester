@@ -1,11 +1,17 @@
 import { preconditions, statuses } from '../0 Configuration';
-import { systemPreconditions } from './preconditions';
+
+const errorStatePreconditions = {
+  opened: [
+    'Для существующей игры подменить ответ GET /games/info/{slug} на HTTP 500',
+    'Открыть страницу "/games/{slug}"'
+  ]
+};
 
 export const errorState: TestCase[] = [
   {
     name: 'Системное. Ошибка. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.desktop, systemPreconditions.errorStateOpened],
+    preconditions: [preconditions.desktop, errorStatePreconditions.opened],
     steps: [
       {
         action: 'Проверить соответствие дизайну',
@@ -18,7 +24,7 @@ export const errorState: TestCase[] = [
   {
     name: 'Системное. Ошибка. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.mobile, systemPreconditions.errorStateOpened],
+    preconditions: [preconditions.mobile, errorStatePreconditions.opened],
     steps: [
       {
         action: 'Проверить соответствие дизайну',
@@ -29,27 +35,13 @@ export const errorState: TestCase[] = [
     ]
   },
   {
-    name: 'Системное. Ошибка. HTTP 500',
+    name: 'Системное. Ошибка. Перейти на главную',
     status: statuses.actual,
-    steps: [
-      {
-        action:
-          'Для существующей игры подменить ответ GET /games/info/{slug} на HTTP 500 и открыть страницу "/tester/games/{slug}"',
-        expected: [
-          'Открыта страница системной ошибки',
-          'В адресной строке сохранён адрес "/tester/games/{slug}"'
-        ]
-      }
-    ]
-  },
-  {
-    name: 'Системное. Ошибка. Переход на главную',
-    status: statuses.actual,
-    preconditions: [systemPreconditions.errorStateOpened],
+    preconditions: [errorStatePreconditions.opened],
     steps: [
       {
         action: 'Нажать кнопку "Перейти на главную"',
-        expected: ['Открыта главная страница "/tester/"']
+        expected: ['Открыта главная страница "/"']
       }
     ]
   }

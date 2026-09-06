@@ -10,8 +10,9 @@ Choose folders and files by user-facing interface structure and coverage ownersh
 
 - Choose the target folder by interface structure: root page or reusable major system block.
 - Choose the target file by the main semantic element, for example `Шаг Телефон`, `Шаг Проверочный код`, `Хэдер`, or `Футер`.
-- Do not duplicate coverage already owned by another folder/file. Navigation checks belong to layout/navigation files; page files cover behavior inside the target page.
-- Do not duplicate reusable setup or shared block checks across page files.
+- Avoid duplicating coverage already owned by another folder/file, except for explicitly agreed overlap described below. Navigation checks belong to layout/navigation files; page files cover behavior inside the target page.
+- Do not duplicate reusable setup across page files. A small, explicitly agreed check of a shared element may be repeated on different pages when moving it to a shared location would make coverage less clear, such as checking a return-to-catalog button in each page's empty state.
+- Checking that a parent-page button opens a popup and checking the opened popup's content or behavior are different scenarios. An opened-popup precondition does not duplicate a case that checks opening the popup.
 - Put reusable system block checks in the reusable block folder.
 - Prefer one file per user-facing page block or workflow; do not split files by internal React components.
 - Keep child elements, validation, loading, empty, error, selected, disabled, and similar states in the file of the block or form they belong to.

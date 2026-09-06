@@ -3,7 +3,8 @@ import { preconditions, statuses } from '../0 Configuration';
 const purchaseHistoryListPreconditions: Record<string, string[]> = {
   historyPage: ['Открыта страница "История покупок"'],
   userWithSeveralPurchases: ['Пользователь с несколькими покупками'],
-  userWithEmptyPurchaseHistory: ['Пользователь с пустой историей покупок']
+  userWithEmptyPurchaseHistory: ['Пользователь с пустой историей покупок'],
+  slowMode: ['Замедлить ответ GET /games/orders']
 };
 
 export const purchaseHistoryList: TestCase[] = [
@@ -46,11 +47,14 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Лоадер. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.desktop],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.desktop,
+      purchaseHistoryListPreconditions.slowMode
+    ],
     steps: [
       {
-        action:
-          'Замедлить ответ GET /games/orders и проверить соответствие лоадера страницы "История покупок" дизайну',
+        action: 'Открыть страницу "Список покупок" и проверить соответствие страницы дизайну',
         expected: [
           'Лоадер страницы соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005051-5641&t=zlvki7NFGBOA4d1I-0'
         ]
@@ -60,11 +64,14 @@ export const purchaseHistoryList: TestCase[] = [
   {
     name: 'История покупок. Список покупок. Лоадер. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.authorizedUser, preconditions.mobile],
+    preconditions: [
+      preconditions.authorizedUser,
+      preconditions.mobile,
+      purchaseHistoryListPreconditions.slowMode
+    ],
     steps: [
       {
-        action:
-          'Замедлить ответ GET /games/orders и проверить соответствие лоадера страницы "История покупок" дизайну',
+        action: 'Открыть страницу "Список покупок" и проверить соответствие страницы дизайну',
         expected: [
           'Лоадер страницы соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005051-2732&t=zlvki7NFGBOA4d1I-0'
         ]
@@ -108,7 +115,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
-    name: 'История покупок. Список покупок. Пустой список. Кнопка "Вернуться в каталог игр"',
+    name: 'История покупок. Список покупок. Пустой список. Вернуться в каталог игр',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -118,30 +125,12 @@ export const purchaseHistoryList: TestCase[] = [
     steps: [
       {
         action: 'Кликнуть на кнопку "Вернуться в каталог игр"',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/']
+        expected: ['Открылась страница /']
       }
     ]
   },
   {
-    name: 'История покупок. Список покупок. Список карточек',
-    status: statuses.actual,
-    preconditions: [
-      preconditions.authorizedUser,
-      purchaseHistoryListPreconditions.historyPage,
-      purchaseHistoryListPreconditions.userWithSeveralPurchases
-    ],
-    steps: [
-      {
-        action: 'Проверить список карточек покупок',
-        expected: [
-          'Количество карточек покупок соответствует количеству элементов в orders',
-          'Порядок карточек покупок соответствует порядку элементов в orders'
-        ]
-      }
-    ]
-  },
-  {
-    name: 'История покупок. Список покупок. Карточка покупки. Данные',
+    name: 'История покупок. Список покупок. Данные',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
@@ -150,8 +139,9 @@ export const purchaseHistoryList: TestCase[] = [
     ],
     steps: [
       {
-        action: 'Проверить данные в карточке покупки',
+        action: 'Сопоставить покупки на странице с элементами массива из ответа GET /games/orders',
         expected: [
+          'Количество и порядок карточек покупок соответствует количеству элементов в orders',
           'Обложка игры отображается из gameImage',
           'alt обложки игры соответствует gameName',
           'Название игры соответствует gameName',
@@ -174,7 +164,7 @@ export const purchaseHistoryList: TestCase[] = [
     steps: [
       {
         action: 'Кликнуть на кнопку "Перейти на заказ" в карточке покупки',
-        expected: ['Открылась страница https://juniorsbootcamp.ru/tester/history/{orderId}']
+        expected: ['Открылась страница /history/{orderId}']
       }
     ]
   }

@@ -43,7 +43,7 @@ For design cases, use a user-provided or previously confirmed design link. If no
 
 - Test cases live under `test-cases-ts` and conform to `TestCase`.
 - Each file exports one `TestCase[]` array.
-- Use project base path `/tester` for routes and links.
+- Write internal page URLs without the domain or application base path, for example `/`, `/profile`, or `/history/{orderId}`. Keep external URLs complete. These shortened paths are test-case notation, not requirements for literal DOM `href` values.
 - If the user asks to revise a proposed list, do not edit existing files unless implementation is explicitly requested.
 
 ## Output

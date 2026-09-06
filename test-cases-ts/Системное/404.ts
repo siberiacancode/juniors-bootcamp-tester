@@ -1,11 +1,14 @@
 import { preconditions, statuses } from '../0 Configuration';
-import { systemPreconditions } from './preconditions';
+
+const notFoundPreconditions = {
+  opened: ['Открыть несуществующий адрес внутри приложения, например "/non-existent-page"']
+};
 
 export const notFound: TestCase[] = [
   {
     name: 'Системное. 404. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.desktop, systemPreconditions.notFoundOpened],
+    preconditions: [preconditions.desktop, notFoundPreconditions.opened],
     steps: [
       {
         action: 'Проверить соответствие дизайну',
@@ -18,7 +21,7 @@ export const notFound: TestCase[] = [
   {
     name: 'Системное. 404. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.mobile, systemPreconditions.notFoundOpened],
+    preconditions: [preconditions.mobile, notFoundPreconditions.opened],
     steps: [
       {
         action: 'Проверить соответствие дизайну',
@@ -29,27 +32,13 @@ export const notFound: TestCase[] = [
     ]
   },
   {
-    name: 'Системное. 404. Несуществующий маршрут',
+    name: 'Системное. 404. Перейти на главную',
     status: statuses.actual,
-    steps: [
-      {
-        action:
-          'Открыть несуществующий адрес внутри приложения, например "/tester/non-existent-page"',
-        expected: [
-          'Открыта страница 404',
-          'В адресной строке сохранён запрошенный адрес "/tester/non-existent-page"'
-        ]
-      }
-    ]
-  },
-  {
-    name: 'Системное. 404. Переход на главную',
-    status: statuses.actual,
-    preconditions: [systemPreconditions.notFoundOpened],
+    preconditions: [notFoundPreconditions.opened],
     steps: [
       {
         action: 'Нажать кнопку "Перейти на главную"',
-        expected: ['Открыта главная страница "/tester/"']
+        expected: ['Открыта главная страница "/"']
       }
     ]
   }

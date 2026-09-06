@@ -2,7 +2,7 @@ import { preconditions, statuses } from '../0 Configuration';
 
 export const header: TestCase[] = [
   {
-    name: 'Лэйаут.  Хэдер. Дизайн. Неавторизован. Десктоп',
+    name: 'Лэйаут. Хэдер. Дизайн. Неавторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser, preconditions.desktop],
     steps: [
@@ -15,7 +15,7 @@ export const header: TestCase[] = [
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Дизайн. Авторизован. Десктоп',
+    name: 'Лэйаут. Хэдер. Дизайн. Авторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.desktop],
     steps: [
@@ -28,7 +28,7 @@ export const header: TestCase[] = [
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Дизайн. Мобила',
+    name: 'Лэйаут. Хэдер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile],
     steps: [
@@ -41,70 +41,70 @@ export const header: TestCase[] = [
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "Games"',
+    name: 'Лэйаут. Хэдер. Games',
     status: statuses.actual,
     steps: [
       {
         action: 'Кликнуть на кнопку',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
+        expected: ['Запросилась и открылась страница /']
       }
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "Войти". Неавторизован. Десктоп',
+    name: 'Лэйаут. Хэдер. Войти. Неавторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser, preconditions.desktop],
     steps: [
       {
         action: 'Кликнуть на кнопку',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/login']
+        expected: ['Запросилась и открылась страница /login']
       }
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "История". Авторизован',
+    name: 'Лэйаут. Хэдер. История. Авторизован',
     status: statuses.needRework,
     preconditions: [preconditions.authorizedUser],
     steps: [
       {
         action: 'Кликнуть на кнопку',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/history']
+        expected: ['Запросилась и открылась страница /history']
       }
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "История". Неавторизован',
+    name: 'Лэйаут. Хэдер. История. Неавторизован',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser],
     steps: [
       {
         action: 'Кликнуть на кнопку',
         expected: [
-          'Запросилась и открылась страница https://juniorsbootcamp.ru/tester/login с queryParam “redirect” === полной ссылке, на которой был совершен клик на кнопку'
+          'Запросилась и открылась страница /login с queryParam “redirect” === полной ссылке, на которой был совершен клик на кнопку'
         ]
       }
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "История". Авторизован',
+    name: 'Лэйаут. Хэдер. История. Авторизован',
     status: statuses.needRework,
     preconditions: [preconditions.authorizedUser],
     steps: [
       {
         action: 'Кликнуть на кнопку',
-        expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/history']
+        expected: ['Запросилась и открылась страница /history']
       }
     ]
   },
   {
-    name: 'Лэйаут.  Хэдер. Кнопка "Профиль". Неавторизован',
+    name: 'Лэйаут. Хэдер. Профиль. Неавторизован',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser],
     steps: [
       {
         action: 'Кликнуть на кнопку',
         expected: [
-          'Запросилась и открылась страница https://juniorsbootcamp.ru/tester/login с queryParam “redirect” === полной ссылке, на которой был совершен клик на кнопку'
+          'Запросилась и открылась страница /login с queryParam “redirect” === полной ссылке, на которой был совершен клик на кнопку'
         ]
       }
     ]
