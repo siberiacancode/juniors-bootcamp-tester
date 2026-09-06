@@ -1,6 +1,5 @@
-import { preconditions, statuses } from '../../0 Configuration';
-import { profilePreconditions } from '../preconditions';
-import { cardsPreconditions } from './preconditions';
+import { preconditions, statuses } from '../0 Configuration';
+import { profilePreconditions } from './preconditions';
 
 const cardsTabPreconditions: Record<string, string[]> = {
   slowMode: ['Замедлить ответ на запрос GET /cards/cards']
@@ -15,7 +14,7 @@ export const cardsTab: TestCase[] = [
       preconditions.desktop,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened
+      profilePreconditions.cardsOpened
     ],
     steps: [
       {
@@ -34,7 +33,7 @@ export const cardsTab: TestCase[] = [
       preconditions.mobile,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened
+      profilePreconditions.cardsOpened
     ],
     steps: [
       {
@@ -52,7 +51,7 @@ export const cardsTab: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened
+      profilePreconditions.cardsOpened
     ],
     steps: [
       {
@@ -73,7 +72,7 @@ export const cardsTab: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened
+      profilePreconditions.cardsOpened
     ],
     steps: [
       {
@@ -90,7 +89,7 @@ export const cardsTab: TestCase[] = [
       preconditions.desktop,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardsTabPreconditions.slowMode
     ],
     steps: [
@@ -108,7 +107,7 @@ export const cardsTab: TestCase[] = [
       preconditions.mobile,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardsTabPreconditions.slowMode
     ],
     steps: [

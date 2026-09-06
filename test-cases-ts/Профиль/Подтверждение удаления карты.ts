@@ -1,6 +1,5 @@
-import { preconditions, statuses } from '../../0 Configuration';
-import { profilePreconditions } from '../preconditions';
-import { cardsPreconditions } from './preconditions';
+import { preconditions, statuses } from '../0 Configuration';
+import { profilePreconditions } from './preconditions';
 
 const cardDeleteConfirmationPreconditions: Record<string, string[]> = {
   opened: ['Открыт попап "Подтверждение удаления карты"'],
@@ -16,7 +15,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.desktop,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -36,7 +35,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.mobile,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -53,7 +52,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -71,7 +70,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.desktop,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -88,7 +87,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -108,7 +107,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -131,7 +130,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       profilePreconditions.userWithSavedCards,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [
@@ -148,7 +147,7 @@ export const cardDeleteConfirmation: TestCase[] = [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
       cardDeleteConfirmationPreconditions.userWithOnlyOneSavedCard,
-      cardsPreconditions.opened,
+      profilePreconditions.cardsOpened,
       cardDeleteConfirmationPreconditions.opened
     ],
     steps: [

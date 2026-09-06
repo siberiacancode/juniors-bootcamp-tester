@@ -1,6 +1,5 @@
-import { preconditions, statuses } from '../../0 Configuration';
-import { profilePreconditions } from '../preconditions';
-import { profileInfoPreconditions } from './preconditions';
+import { preconditions, statuses } from '../0 Configuration';
+import { profilePreconditions } from './preconditions';
 
 export const profileInfo: TestCase[] = [
   {
@@ -10,7 +9,7 @@ export const profileInfo: TestCase[] = [
       preconditions.authorizedUser,
       preconditions.desktop,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.emptyProfile
+      profilePreconditions.emptyProfile
     ],
     steps: [
       {
@@ -28,7 +27,7 @@ export const profileInfo: TestCase[] = [
       preconditions.authorizedUser,
       preconditions.mobile,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.emptyProfile
+      profilePreconditions.emptyProfile
     ],
     steps: [
       {
@@ -46,7 +45,7 @@ export const profileInfo: TestCase[] = [
       preconditions.authorizedUser,
       preconditions.desktop,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.fullFilledProfile
+      profilePreconditions.fullFilledProfile
     ],
     steps: [
       {
@@ -64,7 +63,7 @@ export const profileInfo: TestCase[] = [
       preconditions.authorizedUser,
       preconditions.mobile,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.fullFilledProfile
+      profilePreconditions.fullFilledProfile
     ],
     steps: [
       {
@@ -81,7 +80,7 @@ export const profileInfo: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.fullFilledProfile
+      profilePreconditions.fullFilledProfile
     ],
     steps: [
       {
@@ -102,7 +101,7 @@ export const profileInfo: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.emptyProfile
+      profilePreconditions.emptyProfile
     ],
     steps: [
       {

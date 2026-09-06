@@ -1,6 +1,5 @@
-import { preconditions, statuses } from '../../0 Configuration';
-import { profilePreconditions } from '../preconditions';
-import { profileInfoPreconditions } from './preconditions';
+import { preconditions, statuses } from '../0 Configuration';
+import { profilePreconditions } from './preconditions';
 
 const profileEditingPreconditions: Record<string, string[]> = {
   opened: ['Открыт попап "Редактирование данных"']
@@ -49,7 +48,7 @@ export const profileEditing: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.fullFilledProfile,
+      profilePreconditions.fullFilledProfile,
       profileEditingPreconditions.opened
     ],
     steps: [
@@ -68,7 +67,7 @@ export const profileEditing: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.emptyProfile,
+      profilePreconditions.emptyProfile,
       profileEditingPreconditions.opened
     ],
     steps: [
@@ -116,7 +115,7 @@ export const profileEditing: TestCase[] = [
     preconditions: [
       preconditions.authorizedUser,
       profilePreconditions.pageOpened,
-      profileInfoPreconditions.fullFilledProfile,
+      profilePreconditions.fullFilledProfile,
       profileEditingPreconditions.opened
     ],
     steps: [
