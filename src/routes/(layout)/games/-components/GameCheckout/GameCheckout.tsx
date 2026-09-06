@@ -404,7 +404,7 @@ export const GameCheckout = ({
                 {errors.root.message}
               </Typography>
               <button
-                aria-label={intl.formatMessage({ id: 'button.dismiss' })}
+                aria-label='Закрыть ошибку'
                 className='shrink-0 text-muted-fg transition-colors hover:text-foreground'
                 type='button'
                 onClick={onDismissError}

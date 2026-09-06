@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMask, useMediaQuery } from '@siberiacancode/reactuse';
 import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 
 import type { GetProfileResponse } from '@/generated/api';
@@ -11,16 +12,27 @@ import {
   useGetUsersProfileQuery,
   usePatchUsersProfileMutation
 } from '@/generated/api';
+import { PROFILE_NAME_MAX_LENGTH } from '@/utils/constants';
+import { intl } from '@/utils/lib/intl';
 
 import { appOverlaysStore } from '../../../store';
 
 export const profileFormScheme = z.object({
-  lastname: z.string(),
-  firstname: z.string(),
-  middlename: z.string(),
-  // 🐛 bug
-  // email field does not validate format in profile editing
-  // email: z.string()
+  lastname: z
+    .string()
+    .trim()
+    .max(PROFILE_NAME_MAX_LENGTH, 'error.validation.maxLength')
+    .regex(/^\p{L}*$/u, 'error.validation.symbols'),
+  firstname: z
+    .string()
+    .trim()
+    .max(PROFILE_NAME_MAX_LENGTH, 'error.validation.maxLength')
+    .regex(/^\p{L}*$/u, 'error.validation.symbols'),
+  middlename: z
+    .string()
+    .trim()
+    .max(PROFILE_NAME_MAX_LENGTH, 'error.validation.maxLength')
+    .regex(/^\p{L}*$/u, 'error.validation.symbols'),
   email: z.email('error.validation.email')
 });
 
@@ -53,6 +65,10 @@ export const useEditProfileDrawer = () => {
 
     await queryClient.invalidateQueries({
       queryKey: [getUsersProfileQueryKey]
+    });
+
+    toast.success(intl.formatMessage({ id: 'toast.profile.update.success.title' }), {
+      description: intl.formatMessage({ id: 'toast.profile.update.success.description' })
     });
 
     appOverlaysStore.get().close();

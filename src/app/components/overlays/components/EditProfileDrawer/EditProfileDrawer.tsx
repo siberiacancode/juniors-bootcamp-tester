@@ -17,6 +17,7 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer';
+import { PROFILE_NAME_MAX_LENGTH } from '@/utils/constants';
 import { intl, IntlText } from '@/utils/lib/intl';
 import { cn } from '@/utils/lib/utils';
 
@@ -63,7 +64,10 @@ export const EditProfileDrawer = () => {
                   />
                   {fieldState.error?.message && (
                     <FieldError>
-                      <IntlText path={fieldState.error.message as MessagePath} />
+                      <IntlText
+                        path={fieldState.error.message as MessagePath}
+                        values={{ maxLength: PROFILE_NAME_MAX_LENGTH }}
+                      />
                     </FieldError>
                   )}
                 </Field>
@@ -84,7 +88,10 @@ export const EditProfileDrawer = () => {
                   />
                   {fieldState.error?.message && (
                     <FieldError>
-                      <IntlText path={fieldState.error.message as MessagePath} />
+                      <IntlText
+                        path={fieldState.error.message as MessagePath}
+                        values={{ maxLength: PROFILE_NAME_MAX_LENGTH }}
+                      />
                     </FieldError>
                   )}
                 </Field>
@@ -105,7 +112,10 @@ export const EditProfileDrawer = () => {
                   />
                   {fieldState.error?.message && (
                     <FieldError>
-                      <IntlText path={fieldState.error.message as MessagePath} />
+                      <IntlText
+                        path={fieldState.error.message as MessagePath}
+                        values={{ maxLength: PROFILE_NAME_MAX_LENGTH }}
+                      />
                     </FieldError>
                   )}
                 </Field>

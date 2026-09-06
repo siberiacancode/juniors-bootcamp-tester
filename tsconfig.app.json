@@ -25,5 +25,5 @@
     "skipLibCheck": true
   },
   // "include": ["src", "generated"]
-  "include": ["src", "generated", "mock", "tests"]
+  "include": ["src", "generated"]
 }

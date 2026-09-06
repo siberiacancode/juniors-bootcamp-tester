@@ -1,4 +1,4 @@
-{
+﻿{
   "page.catalog.title": "Магазин игр",
   "page.catalog.views.all": "Весь каталог",
   "page.catalog.views.popular": "Популярные",
@@ -108,6 +108,9 @@
   "page.profile.tabs.orders": "Заказы",
   "page.profile.tabs.cards": "Карты",
 
+  "toast.profile.update.success.title": "Данные обновлены",
+  "toast.profile.update.success.description": "Профиль успешно сохранен",
+
   "field.cardNumber.label": "Номер карты*",
   "field.cardExpiry.label": "Срок*",
   "field.cardPin.label": "CVV*",
@@ -133,6 +136,8 @@
   "error.validation.required": "Поле обязательно",
   "error.validation.email": "Введите корректную почту",
   "error.validation.length": "Заполните поле полностью",
+  "error.validation.symbols": "Недопустимые символы",
+  "error.validation.maxLength": "Максимальная длина {maxLength} символов",
   "card.order.success": "Оплата прошла успешно",
   "card.order.steamKeyLabel": "Ваш Steam-ключ для активации",
   "card.order.region": "Регион",
@@ -159,7 +164,6 @@
   "button.cancel": "Отмена",
   "button.delete": "Удалить",
   "button.deletePaymentCard": "Удалить карту",
-  "button.dismiss": "Скрыть",
   "button.getGame": "Получить игру",
   "button.pay": "Оплатить",
   "button.goToMain": "Перейти на главную",
