@@ -7,7 +7,7 @@ import { GameFilter, GameType } from '@/generated/api';
 import { db } from '../../../database';
 
 export const getGamesInfo = rest.get<{
-  query: GamesControllerGetGamesData['query'];
+  queries: GamesControllerGetGamesData['query'];
   response: GamesPaginatedResponse;
 }>('/games/info', ({ request }) => {
   const query = request.query ?? {};

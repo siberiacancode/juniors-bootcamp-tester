@@ -5,7 +5,7 @@ import type { GamesControllerSearchGamesData, GameSearchResponse } from '@/gener
 import { db } from '../../../database';
 
 export const getGamesSearch = rest.get<{
-  query: GamesControllerSearchGamesData['query'];
+  queries: GamesControllerSearchGamesData['query'];
   response: GameSearchResponse;
 }>('/games/search', ({ request }) => {
   const { search = '', limit = 10 } = request.query ?? {};

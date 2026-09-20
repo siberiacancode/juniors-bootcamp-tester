@@ -11,15 +11,15 @@ export const postAuthSignInInvalidCode = rest.post<{
 }>(
   '/auth/sign-in',
   {
+    success: false,
+    reason: 'Неправильный отп код'
+  },
+  {
     match: {
       cookies: {
         [COOKIE_KEYS.TEST_CASE]: CASE_ID
       }
     },
-    response: {
-      success: false,
-      reason: 'Неправильный отп код'
-    }
-  },
-  { status: 400 }
+    status: 400
+  }
 );

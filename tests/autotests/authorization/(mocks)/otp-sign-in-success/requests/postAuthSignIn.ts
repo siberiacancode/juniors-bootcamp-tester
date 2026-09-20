@@ -16,17 +16,9 @@ const AUTHORIZATION_USER: User = {
 export const postAuthSignIn = rest.post<{
   body: SignInDto;
   response: SignInResponse;
-}>('/auth/sign-in', {
-  match: {
-    cookies: {
-      [COOKIE_KEYS.TEST_CASE]: CASE_ID
-    },
-    body: {
-      phone: VALID_PHONE,
-      code: Number(VALID_OTP)
-    }
-  },
-  handler: ({ setCookie }) => {
+}>(
+  '/auth/sign-in',
+  ({ setCookie }) => {
     setCookie('token', AUTHORIZATION_TOKEN, {
       httpOnly: true,
       path: '/',
@@ -38,5 +30,16 @@ export const postAuthSignIn = rest.post<{
       token: AUTHORIZATION_TOKEN,
       user: AUTHORIZATION_USER
     };
+  },
+  {
+    match: {
+      cookies: {
+        [COOKIE_KEYS.TEST_CASE]: CASE_ID
+      },
+      body: {
+        phone: VALID_PHONE,
+        code: Number(VALID_OTP)
+      }
+    }
   }
-});
+);

@@ -1,4 +1,4 @@
-import { mock } from 'mock-config-server';
+import { mock, rest } from 'mock-config-server';
 
 import * as requests from './requests';
 
@@ -9,11 +9,11 @@ export default mock(
       path: '/mock/static',
       prefix: '/api'
     },
-    interceptors: {
-      request: async ({ setDelay }) => {
+    interceptors: [
+      rest.request.all(async ({ setDelay }) => {
         await setDelay(400);
-      }
-    }
+      })
+    ]
   },
   {
     baseUrl: '/api/tester',

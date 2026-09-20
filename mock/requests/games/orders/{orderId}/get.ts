@@ -7,51 +7,57 @@ import { db } from '../../../../database';
 export const getGamesOrderByOrderId = [
   rest.get<{
     response: GameOrderResponse;
-    query: { token?: string };
+    queries: { token?: string };
     params: GamesControllerGetGameOrderData['path'];
-  }>('/games/orders/:orderId', {
-    match: {
-      params: {
-        orderId: 'paid'
-      },
-      queries: {
-        token: fn((token) => db.hasOrderByPaidToken(String(token)))
-      }
-    },
-    handler: ({ request }) => ({
+  }>(
+    '/games/orders/:orderId',
+    ({ request }) => ({
       success: true,
       order: db.getOrderByPaidToken(String(request.query!.token))!
-    })
-  }),
+    }),
+    {
+      match: {
+        params: {
+          orderId: 'paid'
+        },
+        queries: {
+          token: fn((token) => db.hasOrderByPaidToken(String(token)))
+        }
+      }
+    }
+  ),
   rest.get(
     '/games/orders/:orderId',
+    {
+      success: false,
+      reason: 'Оплаченный заказ не найден'
+    },
     {
       match: {
         params: {
           orderId: 'paid'
         }
       },
-      response: {
-        success: false,
-        reason: 'Оплаченный заказ не найден'
-      }
-    },
-    { status: 404 }
+      status: 404
+    }
   ),
   rest.get<{
     response: GameOrderResponse;
     params: GamesControllerGetGameOrderData['path'];
-  }>('/games/orders/:orderId', {
-    match: {
-      params: {
-        orderId: fn((orderId) => Boolean(db.getPaidOrder(String(orderId))))
-      }
-    },
-    handler: ({ request }) => ({
+  }>(
+    '/games/orders/:orderId',
+    ({ request }) => ({
       success: true,
       order: db.getPaidOrder(request.params.orderId)!
-    })
-  }),
+    }),
+    {
+      match: {
+        params: {
+          orderId: fn((orderId) => Boolean(db.getPaidOrder(String(orderId))))
+        }
+      }
+    }
+  ),
   rest.get(
     '/games/orders/:orderId',
     {

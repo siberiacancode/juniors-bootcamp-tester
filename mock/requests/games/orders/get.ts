@@ -7,30 +7,36 @@ import { db } from '../../../database';
 export const getGamesOrders = [
   rest.get<{
     response: GameOrdersResponse;
-  }>('/games/orders', {
-    match: {
-      cookies: {
-        [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777772')
-      }
-    },
-    response: {
+  }>(
+    '/games/orders',
+    {
       success: true,
       orders: []
+    },
+    {
+      match: {
+        cookies: {
+          [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777772')
+        }
+      }
     }
-  }),
+  ),
   rest.get<{
     response: GameOrdersResponse;
-  }>('/games/orders', {
-    handler: () => ({
+  }>(
+    '/games/orders',
+    () => ({
       success: true,
       orders: db.getOrders()
     }),
-    match: {
-      cookies: {
-        [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)!.phone))
+    {
+      match: {
+        cookies: {
+          [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)!.phone))
+        }
       }
     }
-  }),
+  ),
   rest.get(
     '/games/orders',
     {

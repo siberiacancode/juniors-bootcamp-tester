@@ -9,11 +9,11 @@ export default mock(
       path: '/mock/static',
       prefix: '/api'
     },
-    interceptors: {
-      request: async ({ setDelay }) => {
+    interceptors: [
+      rest.request.all(async ({ setDelay }) => {
         await setDelay(250);
-      }
-    }
+      })
+    ]
   },
   ...requests,
   { configs: [rest.get('/health', 'ok')] }

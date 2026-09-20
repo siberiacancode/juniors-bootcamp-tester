@@ -7,36 +7,39 @@ import { db } from '../../../../database';
 export const deleteCardsCardById = [
   rest.delete(
     '/cards/cards/:id',
+    () => ({
+      success: false,
+      reason: 'Не удалось удалить карту'
+    }),
     {
       match: {
         cookies: {
           [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777773')
         }
       },
-      handler: () => ({
-        success: false,
-        reason: 'Не удалось удалить карту'
-      })
-    },
-    { status: 400 }
+      status: 400
+    }
   ),
   rest.delete<{
     response: DeleteCardResponse;
     params: CardsControllerDeleteCardData['path'];
-  }>('/cards/cards/:id', {
-    match: {
-      cookies: {
-        [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
-      }
-    },
-    handler: ({ request }) => {
+  }>(
+    '/cards/cards/:id',
+    ({ request }) => {
       db.deleteCard(request.params.id);
       return {
         success: true,
         id: request.params.id
       };
+    },
+    {
+      match: {
+        cookies: {
+          [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
+        }
+      }
     }
-  }),
+  ),
   rest.delete(
     '/cards/cards/:id',
     {

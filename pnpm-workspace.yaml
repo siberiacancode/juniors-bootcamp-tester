@@ -10,3 +10,4 @@ minimumReleaseAgeExclude:
   - '@siberiacancode/reactuse'
   - '@siberiacancode/uikit'
   - '@siberiacancode/playwright'
+  - 'mock-config-server'

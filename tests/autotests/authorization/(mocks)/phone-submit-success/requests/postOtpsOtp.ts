@@ -12,6 +12,10 @@ export const postOtpsOtp = rest.post<{
 }>(
   '/otps/otp',
   {
+    success: true,
+    retryDelay: 30_000
+  },
+  {
     match: {
       cookies: {
         [COOKIE_KEYS.TEST_CASE]: CASE_ID
@@ -20,10 +24,6 @@ export const postOtpsOtp = rest.post<{
         phone: VALID_PHONE
       }
     },
-    response: {
-      success: true,
-      retryDelay: 30_000
-    }
-  },
-  { delay: 400 }
+    delay: 400
+  }
 );

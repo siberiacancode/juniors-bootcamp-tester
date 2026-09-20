@@ -9,14 +9,9 @@ import { AUTHORIZATION_TOKEN, CASE_ID } from '../constants';
 export const getUsersProfile = [
   rest.get<{
     response: GetProfileResponse;
-  }>('/users/profile', {
-    match: {
-      cookies: {
-        [COOKIE_KEYS.TEST_CASE]: CASE_ID,
-        token: AUTHORIZATION_TOKEN
-      }
-    },
-    response: {
+  }>(
+    '/users/profile',
+    {
       success: true,
       user: {
         _id: 'authorization-user-id',
@@ -24,8 +19,16 @@ export const getUsersProfile = [
         firstname: 'Tester',
         lastname: 'Authorization'
       }
+    },
+    {
+      match: {
+        cookies: {
+          [COOKIE_KEYS.TEST_CASE]: CASE_ID,
+          token: AUTHORIZATION_TOKEN
+        }
+      }
     }
-  }),
+  ),
   rest.get<{
     response: ErrorResponse;
   }>(

@@ -22,7 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-AGENTS.md
 .zed
 
 # Test and generated artifacts

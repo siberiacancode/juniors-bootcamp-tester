@@ -8,17 +8,20 @@ export const getGamesInfoBySlug = [
   rest.get<{
     response: GameResponse;
     params: GamesControllerGetGameData['path'];
-  }>('/games/info/:slug', {
-    match: {
-      params: {
-        slug: fn((slug) => Boolean(db.getGame(String(slug))))
-      }
-    },
-    handler: ({ request }) => ({
+  }>(
+    '/games/info/:slug',
+    ({ request }) => ({
       success: true,
       game: db.getGame(request.params.slug)!.detailed
-    })
-  }),
+    }),
+    {
+      match: {
+        params: {
+          slug: fn((slug) => Boolean(db.getGame(String(slug))))
+        }
+      }
+    }
+  ),
   rest.get(
     '/games/info/:slug',
     {

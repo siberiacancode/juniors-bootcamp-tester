@@ -156,11 +156,9 @@ export const EditProfileDrawer = () => {
               {state.isSubmitting && <Loader2Icon className='animate-spin' />}
               <IntlText path='button.updateData' />
             </Button>
-            {!state.isDesktop && (
-              <Button size='lg' type='button' onClick={functions.onClose}>
-                <IntlText path='button.cancel' />
-              </Button>
-            )}
+            <Button size='lg' type='button' onClick={functions.onClose}>
+              <IntlText path='button.cancel' />
+            </Button>
           </div>
         </form>
       </DrawerContent>

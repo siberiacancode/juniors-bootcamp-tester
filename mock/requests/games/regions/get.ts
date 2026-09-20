@@ -6,15 +6,11 @@ import { db } from '../../../database';
 
 export const getGamesRegions = [
   rest.get<{
-    query: GamesControllerGetGameRegionsData['query'];
+    queries: GamesControllerGetGameRegionsData['query'];
     response: GameRegionsResponse;
-  }>('/games/regions', {
-    match: {
-      queries: {
-        slug: fn((slug) => Boolean(db.getGame(String(slug ?? ''))))
-      }
-    },
-    handler: ({ request }) => {
+  }>(
+    '/games/regions',
+    ({ request }) => {
       const { slug, deliveryType } = request.query ?? {};
       const game = db.getGame(String(slug ?? ''))!;
 
@@ -30,8 +26,15 @@ export const getGamesRegions = [
         success: true,
         regions
       };
+    },
+    {
+      match: {
+        queries: {
+          slug: fn((slug) => Boolean(db.getGame(String(slug ?? ''))))
+        }
+      }
     }
-  }),
+  ),
   rest.get(
     '/games/regions',
     {

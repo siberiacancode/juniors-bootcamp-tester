@@ -9,15 +9,11 @@ import { db } from '../../../database';
 
 export const getGamesPriceVariants = [
   rest.get<{
-    query: GamesControllerGetPriceVariantsData['query'];
+    queries: GamesControllerGetPriceVariantsData['query'];
     response: GamePriceVariantsResponse;
-  }>('/games/price-variants', {
-    match: {
-      queries: {
-        slug: fn((slug) => Boolean(db.getGame(String(slug))))
-      }
-    },
-    handler: ({ request }) => {
+  }>(
+    '/games/price-variants',
+    ({ request }) => {
       const { slug, deliveryType, region } = request.query ?? {};
       const game = db.getGame(String(slug))!;
 
@@ -29,8 +25,15 @@ export const getGamesPriceVariants = [
         success: true,
         priceVariants
       };
+    },
+    {
+      match: {
+        queries: {
+          slug: fn((slug) => Boolean(db.getGame(String(slug))))
+        }
+      }
     }
-  }),
+  ),
   rest.get(
     '/games/price-variants',
     {

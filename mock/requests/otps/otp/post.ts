@@ -9,17 +9,17 @@ export const postOtpsOtp = [
   }>(
     '/otps/otp',
     {
+      success: false,
+      reason: 'Не удалось отправить код'
+    },
+    {
       match: {
         body: {
           phone: '77777777774'
         }
       },
-      response: {
-        success: false,
-        reason: 'Не удалось отправить код'
-      }
-    },
-    { status: 400 }
+      status: 400
+    }
   ),
   rest.post<{
     body: CreateOtpDto;

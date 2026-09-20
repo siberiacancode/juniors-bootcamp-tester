@@ -11,35 +11,38 @@ export const patchUsersProfile = [
   }>(
     '/users/profile',
     {
+      success: false,
+      reason: 'Редактирование профиля недоступно'
+    },
+    {
       match: {
         cookies: {
           [db.tokenName]: fn((token) => db.getUserByToken(token)!.phone === '77777777771')
         }
       },
-      response: {
-        success: false,
-        reason: 'Редактирование профиля недоступно'
-      }
-    },
-    { status: 400 }
+      status: 400
+    }
   ),
   rest.patch<{
     body: UpdateProfileDto;
     response: UpdateProfileResponse;
-  }>('/users/profile', {
-    match: {
-      cookies: {
-        [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
-      }
-    },
-    handler: ({ getCookie, request }) => {
+  }>(
+    '/users/profile',
+    ({ getCookie, request }) => {
       const user = db.getUserByToken(getCookie(db.tokenName))!;
       return {
         success: true,
         user: db.updateProfile(user.phone, request.body)!
       };
+    },
+    {
+      match: {
+        cookies: {
+          [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
+        }
+      }
     }
-  }),
+  ),
   rest.patch(
     '/users/profile',
     {

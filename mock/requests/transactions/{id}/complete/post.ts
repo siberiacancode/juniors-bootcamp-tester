@@ -5,13 +5,9 @@ import type { TransactionsControllerGetTransactionData } from '@/generated/api';
 import { db } from '../../../../database';
 
 export const postTransactionComplete = [
-  rest.post('/transactions/:id/complete', {
-    match: {
-      params: {
-        id: fn((id) => Boolean(db.getTransaction(String(id))))
-      }
-    },
-    handler: ({ request }) => {
+  rest.post(
+    '/transactions/:id/complete',
+    ({ request }) => {
       const { id } = request.params as TransactionsControllerGetTransactionData['path'];
       const result = db.completePaymentByTransaction(id)!;
 
@@ -20,8 +16,15 @@ export const postTransactionComplete = [
         order: result.order,
         token: result.token
       };
+    },
+    {
+      match: {
+        params: {
+          id: fn((id) => Boolean(db.getTransaction(String(id))))
+        }
+      }
     }
-  }),
+  ),
   rest.post(
     '/transactions/:id/complete',
     {

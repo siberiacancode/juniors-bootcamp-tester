@@ -9,17 +9,20 @@ import { CASE_ID } from '../constants';
 export const postOtpsOtp = rest.post<{
   body: CreateOtpDto;
   response: CreateOtpResponse;
-}>('/otps/otp', {
-  match: {
-    cookies: {
-      [COOKIE_KEYS.TEST_CASE]: CASE_ID
-    },
-    body: {
-      phone: VALID_PHONE
-    }
-  },
-  response: {
+}>(
+  '/otps/otp',
+  {
     success: true,
     retryDelay: 30_000
+  },
+  {
+    match: {
+      cookies: {
+        [COOKIE_KEYS.TEST_CASE]: CASE_ID
+      },
+      body: {
+        phone: VALID_PHONE
+      }
+    }
   }
-});
+);

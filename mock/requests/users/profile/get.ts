@@ -7,17 +7,20 @@ import { db } from '../../../database';
 export const getUsersProfile = [
   rest.get<{
     response: GetProfileResponse;
-  }>('/users/profile', {
-    match: {
-      cookies: {
-        [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
-      }
-    },
-    handler: ({ getCookie }) => ({
+  }>(
+    '/users/profile',
+    ({ getCookie }) => ({
       success: true,
       user: db.getUserByToken(getCookie(db.tokenName))!
-    })
-  }),
+    }),
+    {
+      match: {
+        cookies: {
+          [db.tokenName]: fn((token) => Boolean(db.getUserByToken(token)))
+        }
+      }
+    }
+  ),
   rest.get(
     '/users/profile',
     {
