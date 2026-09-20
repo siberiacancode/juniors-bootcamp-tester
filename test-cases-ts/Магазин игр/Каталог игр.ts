@@ -1,8 +1,9 @@
 import { preconditions, statuses } from '../0 Configuration';
+import { storePreconditions } from './preconditions';
 
 const catalogPreconditions: Record<string, string[]> = {
-  pageOpened: ['Открыта страница "/" с непустым каталогом игр'],
-  paginatedPageOpened: ['Открыта первая страница каталога "/" с более чем 12 играми'],
+  nonEmptyCatalog: ['В каталоге есть игры'],
+  paginatedCatalog: ['В каталоге более 12 игр'],
   slowMode: ['Замедлить ответ GET /games/info'],
   emptyList: ['Для открываемого каталога GET /games/info возвращает success = true и games = []']
 };
@@ -11,7 +12,11 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.desktop, catalogPreconditions.paginatedPageOpened],
+    preconditions: [
+      preconditions.desktop,
+      catalogPreconditions.paginatedCatalog,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action: 'Проверить соответствие сетки, карточек игр и кнопки "Показать ещё" дизайну',
@@ -24,7 +29,11 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.mobile, catalogPreconditions.paginatedPageOpened],
+    preconditions: [
+      preconditions.mobile,
+      catalogPreconditions.paginatedCatalog,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action: 'Проверить соответствие сетки, карточек игр и кнопки "Показать ещё" дизайну',
@@ -37,11 +46,15 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Лоадер. Дизайн. Десктоп',
     status: statuses.actual,
-    preconditions: [preconditions.desktop, catalogPreconditions.slowMode],
+    preconditions: [
+      preconditions.desktop,
+      catalogPreconditions.slowMode,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action:
-          'Открыть страницу "/" и проверить соответствие лоадера каталога дизайну до получения ответа GET /games/info',
+          'Проверить соответствие лоадера каталога дизайну до получения ответа GET /games/info',
         expected: [
           'Соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005051-6685&t=vXcbvhyxbU46NDAk-0'
         ]
@@ -51,11 +64,15 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Лоадер. Дизайн. Мобилка',
     status: statuses.actual,
-    preconditions: [preconditions.mobile, catalogPreconditions.slowMode],
+    preconditions: [
+      preconditions.mobile,
+      catalogPreconditions.slowMode,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action:
-          'Открыть страницу "/" и проверить соответствие лоадера каталога дизайну до получения ответа GET /games/info',
+          'Проверить соответствие лоадера каталога дизайну до получения ответа GET /games/info',
         expected: [
           'Соответствует дизайну https://www.figma.com/design/dTtlKirZNUvr9POVt2lcRA/Juniors-Bootcamp-UI-kit?node-id=40005050-2306&t=vXcbvhyxbU46NDAk-0'
         ]
@@ -65,11 +82,15 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Пустой список. Дизайн. Десктоп',
     status: statuses.needRework,
-    preconditions: [preconditions.desktop, catalogPreconditions.emptyList],
+    preconditions: [
+      preconditions.desktop,
+      catalogPreconditions.emptyList,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action:
-          'Открыть страницу "/" и проверить оформление состояния "Ничего не найдено" после получения ответа GET /games/info',
+          'Проверить оформление состояния "Ничего не найдено" после получения ответа GET /games/info',
         expected: ['Соответствует дизайну (макет отсутствует, требуется добавить ссылку)']
       }
     ]
@@ -77,11 +98,15 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Пустой список. Дизайн. Мобилка',
     status: statuses.needRework,
-    preconditions: [preconditions.mobile, catalogPreconditions.emptyList],
+    preconditions: [
+      preconditions.mobile,
+      catalogPreconditions.emptyList,
+      storePreconditions.pageOpened
+    ],
     steps: [
       {
         action:
-          'Открыть страницу "/" и проверить оформление состояния "Ничего не найдено" после получения ответа GET /games/info',
+          'Проверить оформление состояния "Ничего не найдено" после получения ответа GET /games/info',
         expected: ['Соответствует дизайну (макет отсутствует, требуется добавить ссылку)']
       }
     ]
@@ -89,7 +114,7 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Данные',
     status: statuses.actual,
-    preconditions: [catalogPreconditions.pageOpened],
+    preconditions: [catalogPreconditions.nonEmptyCatalog, storePreconditions.pageOpened],
     steps: [
       {
         action:
@@ -165,7 +190,7 @@ export const catalog: TestCase[] = [
   {
     name: 'Магазин игр. Каталог игр. Карточка игры. Переход',
     status: statuses.actual,
-    preconditions: [catalogPreconditions.pageOpened],
+    preconditions: [catalogPreconditions.nonEmptyCatalog, storePreconditions.pageOpened],
     steps: [
       {
         action: 'Нажать на карточку игры',

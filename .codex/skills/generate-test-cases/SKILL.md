@@ -24,9 +24,7 @@ Rule files, relative to this skill:
 - read `rules/case-content.md` when writing or revising `steps`, `action`, `expected`, design checks, data checks, functional checks, or atomicity;
 - read `rules/preconditions.md` before writing, moving, importing, or reorganizing preconditions.
 
-Use only behavior confirmed by the project or the user. Ask before writing cases when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous.
-
-For design cases, use a user-provided or previously confirmed design link. If none is available, ask for it.
+Use only behavior confirmed by the project or the user. For design cases, use a user-provided or previously confirmed design link. Ask before writing cases when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous, unless the user explicitly authorizes an incomplete case with `statuses.needRework`. For such authorized cases, record what needs clarification without inventing missing requirements or design links.
 
 ## Workflow
 
