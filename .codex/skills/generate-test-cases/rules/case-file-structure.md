@@ -18,8 +18,8 @@ Choose folders and files by user-facing interface structure and coverage ownersh
 - Keep child elements, validation, loading, empty, error, selected, disabled, and similar states in the file of the block or form they belong to.
 - For reusable overlays and system blocks, check confirmed close controls as separate atomic cases, such as `Отмена` and `Кнопка закрытия`, accounting for viewport-specific control availability.
 - Put child pages/screens inside the parent feature folder when they are reached only through that feature, such as order details inside purchase history.
-- Create a separate file for a child element only when it is a major reusable block or has enough independent scenarios to justify its own file.
-- Design cases belong in the relevant page/block file by default.
+- Create a separate file for a child element only when it is a major reusable block or has enough independent scenarios to justify its own file. Otherwise, keep its cases in the parent page/block file and identify the child element in the case name.
+- Design cases belong in the relevant page/block file by default. Put overall page layout checks in the page file; checks of individual blocks do not replace this coverage.
 
 ## Output
 
