@@ -5,6 +5,7 @@ import type { GetCardsResponse } from '@/generated/api';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetCardsCardsSuspenseQuery } from '@/generated/api';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { IntlText } from '@/utils/lib/intl';
 
 import { PaymentCards } from '../PaymentCards';
@@ -31,10 +32,10 @@ export const ProfileContent = () => {
     >
       {!!cards.length && (
         <TabsList className='self-start sm:self-end'>
-          <TabsTrigger value='orders'>
+          <TabsTrigger data-testid={TESTIDS.CLICKABLE.TAB.ORDERS} value='orders'>
             <IntlText path='page.profile.tabs.orders' />
           </TabsTrigger>
-          <TabsTrigger value='cards'>
+          <TabsTrigger data-testid={TESTIDS.CLICKABLE.TAB.CARDS} value='cards'>
             <IntlText path='page.profile.tabs.cards' />
           </TabsTrigger>
         </TabsList>

@@ -161,25 +161,6 @@ export const profileEditing: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. Информация профиля. Редактирование данных. Обновить данные. Лоадер',
-    status: statuses.actual,
-    preconditions: [
-      preconditions.authorizedUser,
-      profilePreconditions.pageOpened,
-      profileEditingPreconditions.opened
-    ],
-    steps: [
-      {
-        action:
-          'Замедлить ответ PATCH /users/profile, изменить данные формы на валидные и нажать кнопку "Обновить данные"',
-        expected: [
-          'Во время запроса поля и кнопки формы отображаются в состоянии disabled',
-          'В кнопке "Обновить данные" отображается индикатор загрузки'
-        ]
-      }
-    ]
-  },
-  {
     name: 'Профиль. Информация профиля. Редактирование данных. Обновить данные. Успех',
     status: statuses.actual,
     preconditions: [
@@ -193,6 +174,8 @@ export const profileEditing: TestCase[] = [
           'Изменить значения во всех доступных для редактирования полях на валидные и нажать кнопку "Обновить данные"',
         expected: [
           'Отправлен запрос PATCH /users/profile с значениями email из поля Email, lastname из поля Фамилия, firstname из поля Имя, middlename из поля Отчество',
+          'Во время запроса поля и кнопки формы отображаются в состоянии disabled',
+          'В кнопке "Обновить данные" отображается индикатор загрузки',
           'Отправлен запрос GET /users/profile',
           'Панель "Редактирование данных" закрылась',
           'В карточке пользователя отображаются данные ФИО и email из запроса GET /users/profile',
@@ -221,27 +204,10 @@ export const profileEditing: TestCase[] = [
     ]
   },
   {
-    name: 'Профиль. Информация профиля. Редактирование данных. Кнопка закрытия. Десктоп',
+    name: 'Профиль. Информация профиля. Редактирование данных. Отмена',
     status: statuses.actual,
     preconditions: [
       preconditions.authorizedUser,
-      preconditions.desktop,
-      profilePreconditions.pageOpened,
-      profileEditingPreconditions.opened
-    ],
-    steps: [
-      {
-        action: 'Нажать кнопку закрытия',
-        expected: ['Попап "Редактирование данных" закрылся']
-      }
-    ]
-  },
-  {
-    name: 'Профиль. Информация профиля. Редактирование данных. Отмена. Мобилка',
-    status: statuses.actual,
-    preconditions: [
-      preconditions.authorizedUser,
-      preconditions.mobile,
       profilePreconditions.pageOpened,
       profileEditingPreconditions.opened
     ],

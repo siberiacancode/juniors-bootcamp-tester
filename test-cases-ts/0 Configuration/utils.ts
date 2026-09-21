@@ -8,4 +8,4 @@ interface TestCaseParams {
   }[];
 }
 
-export const testCase = (params: TestCaseParams[]) => params;
+export const createTestCases = (params: TestCaseParams[]) => params;

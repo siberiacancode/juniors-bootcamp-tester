@@ -13,5 +13,6 @@ export const preconditions: Record<Precondition, string[]> = {
   loginPageOtpStep: [
     'Открыть страницу "Авторизация"',
     'Ввести валидный номер телефона и нажать "Продолжить"'
-  ]
+  ],
+  userWithAtLeastOnePurchase: ['Пользователь с минимум одной покупкой']
 } as const;

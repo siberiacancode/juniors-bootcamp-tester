@@ -3,6 +3,7 @@ import { Button, SavedPaymentCard, Typography } from '@siberiacancode/uikit';
 import type { Card } from '@/generated/api';
 
 import { appOverlaysStore } from '@/app/components/overlays';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { IntlText } from '@/utils/lib/intl';
 
 interface PaymentCardsProps {
@@ -10,7 +11,10 @@ interface PaymentCardsProps {
 }
 
 export const PaymentCards = ({ cards }: PaymentCardsProps) => (
-  <section className='flex w-full flex-col gap-4'>
+  <section
+    className='flex w-full flex-col gap-4'
+    data-testid={TESTIDS.STATIC.SECTION.PAYMENT_CARDS}
+  >
     <Typography as='h2' className='hidden md:block' variant='title-md'>
       <IntlText path='page.profile.cards.title' />
     </Typography>
@@ -21,10 +25,12 @@ export const PaymentCards = ({ cards }: PaymentCardsProps) => (
           <SavedPaymentCard
             aria-label={card.panMasked}
             className='w-full'
+            data-testid={`${TESTIDS.STATIC.CARD.PAYMENT}-${card._id}`}
             panSuffix={card.panMasked}
           />
           <Button
             className='h-9 w-full'
+            data-testid={`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${card._id}`}
             size='sm'
             type='button'
             variant='secondary'

@@ -17,6 +17,7 @@ import {
   OrderCardTitle
 } from '@/components/ui/order-card';
 import { useGetGamesOrdersSuspenseQuery } from '@/generated/api';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { HistoryEmptyState } from '@/routes/-components';
 import { getAsset } from '@/utils/helpers';
 import { IntlText } from '@/utils/lib/intl';
@@ -27,7 +28,10 @@ export const ProfileOrderHistory = () => {
   const orders = getGamesOrdersData.orders;
 
   return (
-    <section className='flex w-full flex-col gap-4'>
+    <section
+      className='flex w-full flex-col gap-4'
+      data-testid={TESTIDS.STATIC.SECTION.PROFILE_ORDER_HISTORY}
+    >
       {!orders.length && <HistoryEmptyState />}
       {!!orders.length && (
         <div className='grid w-full grid-cols-1 gap-6'>

@@ -1,7 +1,9 @@
-import { preconditions, statuses } from '../(utils)';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
-export const stepPhone: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.PHONE_DESIGN,
     name: 'Авторизация. Телефон. Дизайн. Десктоп',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage, preconditions.desktop],
     status: statuses.actual,
@@ -15,6 +17,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PHONE_DESIGN,
     name: 'Авторизация. Телефон. Дизайн. Мобилка',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage, preconditions.mobile],
     status: statuses.actual,
@@ -28,6 +31,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PHONE_VALIDATION,
     name: 'Авторизация. Телефон. Валидация',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,
@@ -56,6 +60,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PHONE_MASK,
     name: 'Авторизация. Телефон. Маска',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,
@@ -67,6 +72,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PHONE_MASK_PASTE_PREFIX,
     name: 'Авторизация. Телефон. Вставка номера',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,
@@ -82,6 +88,7 @@ export const stepPhone: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PHONE_SUBMIT_SUCCESS,
     name: 'Авторизация. Телефон. Продолжить. Успех',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,
@@ -96,21 +103,22 @@ export const stepPhone: TestCase[] = [
       }
     ]
   },
+  // {
+  //   name: 'Авторизация. Телефон. Продолжить. Ошибка (какая и как воспроизвести?)',
+  //   preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
+  //   status: statuses.needRework,
+  //   steps: [
+  //     {
+  //       action: 'Ввести (какой?) номер телефона в поле “Телефон” и нажать кнопку “Продолжить”',
+  //       expected: [
+  //         'Отправлен запрос /api/tester/otps/otp с параметром phone === указанному в поле “Телефон”',
+  //         'Полученная ошибка отображена с тосте'
+  //       ]
+  //     }
+  //   ]
+  // },
   {
-    name: 'Авторизация. Телефон. Продолжить. Ошибка (какая и как воспроизвести?)',
-    preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
-    status: statuses.needRework,
-    steps: [
-      {
-        action: 'Ввести (какой?) номер телефона в поле “Телефон” и нажать кнопку “Продолжить”',
-        expected: [
-          'Отправлен запрос /api/tester/otps/otp с параметром phone === указанному в поле “Телефон”',
-          'Полученная ошибка отображена с тосте'
-        ]
-      }
-    ]
-  },
-  {
+    id: CASE_IDS.PHONE_BACK,
     name: 'Авторизация. Телефон. Назад',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPage],
     status: statuses.actual,
@@ -121,4 +129,4 @@ export const stepPhone: TestCase[] = [
       }
     ]
   }
-];
+]);

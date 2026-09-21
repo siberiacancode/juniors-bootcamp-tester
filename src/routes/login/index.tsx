@@ -18,7 +18,7 @@ import type { GetProfileResponse } from '@/generated/api';
 
 import { LogoIcon } from '@/components/icons';
 import { getUsersProfileQueryKey } from '@/generated/api';
-import { TESTIDS } from '@/generated/tests/ids.gen';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { LINKS } from '@/utils/constants';
 import { queryClient } from '@/utils/lib';
 import { intl, IntlText } from '@/utils/lib/intl';

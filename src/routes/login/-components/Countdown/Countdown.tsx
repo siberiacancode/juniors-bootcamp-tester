@@ -2,7 +2,7 @@ import { useTimer } from '@siberiacancode/reactuse';
 import { Button } from '@siberiacancode/uikit';
 import { Loader2Icon } from 'lucide-react';
 
-import { TESTIDS } from '@/generated/tests/ids.gen';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { IntlText } from '@/utils/lib/intl';
 
 interface CountdownProps {

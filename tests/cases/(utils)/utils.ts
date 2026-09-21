@@ -1,4 +1,5 @@
 interface TestCaseParams {
+  id: string;
   name: string;
   preconditions?: string[][];
   status: string;
@@ -8,4 +9,6 @@ interface TestCaseParams {
   }[];
 }
 
-export const testCase = (params: TestCaseParams[]) => params;
+export const createTestCases = (params: TestCaseParams[]) => params;
+
+export const createPreconditions = <T extends Record<string, string[]>>(params: T): T => params;

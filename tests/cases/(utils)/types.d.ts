@@ -8,7 +8,8 @@ type Precondition =
   | 'loginPage'
   | 'loginPageOtpStep'
   | 'mobile'
-  | 'unauthorizedUser';
+  | 'unauthorizedUser'
+  | 'userWithAtLeastOnePurchase';
 
 interface TestCase {
   name: string;

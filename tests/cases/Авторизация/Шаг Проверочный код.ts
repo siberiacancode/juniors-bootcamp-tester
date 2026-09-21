@@ -1,7 +1,9 @@
-import { preconditions, statuses, testCase } from '../(utils)';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
-testCase([
+export default createTestCases([
   {
+    id: CASE_IDS.OTP_DESIGN,
     name: 'Авторизация. Проверочный код. Дизайн. Десктоп',
     preconditions: [
       preconditions.unauthorizedUser,
@@ -19,6 +21,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_DESIGN,
     name: 'Авторизация. Проверочный код. Дизайн. Мобилка',
     preconditions: [
       preconditions.unauthorizedUser,
@@ -36,6 +39,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_VALIDATION,
     name: 'Авторизация. Проверочный код. Валидация',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -64,6 +68,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_MASK,
     name: 'Авторизация. Проверочный код. Маска',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -78,6 +83,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_LEGAL,
     name: 'Авторизация. Проверочный код. Легал',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -92,6 +98,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_BACK_PHONE,
     name: 'Авторизация. Проверочный код. Назад (телефон)',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -105,7 +112,7 @@ testCase([
       }
     ]
   },
-  {
+  /* {
     name: 'Авторизация. Проверочный код. Назад',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -115,8 +122,9 @@ testCase([
         expected: ['Запросилась и открылась страница https://juniorsbootcamp.ru/tester/']
       }
     ]
-  },
+  }, */
   {
+    id: CASE_IDS.OTP_SIGN_IN_SUCCESS,
     name: 'Авторизация. Проверочный код. Войти. Успех',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -134,6 +142,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_SIGN_IN_INVALID_CODE,
     name: 'Авторизация. Проверочный код. Войти. Неправильный отп код',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -148,6 +157,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_TIMER,
     name: 'Авторизация. Проверочный код. Войти. Таймер',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -173,6 +183,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_RETRY,
     name: 'Авторизация. Проверочный код. Войти. Отправить код повторно',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -188,6 +199,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_REDIRECT,
     name: 'Авторизация. Проверочный код. Войти. Redirect в ссылке',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
@@ -200,6 +212,7 @@ testCase([
     ]
   },
   {
+    id: CASE_IDS.OTP_BACK_RESET,
     name: 'Авторизация. Проверочный код. Назад. Сброс OTP',
     preconditions: [preconditions.unauthorizedUser, preconditions.loginPageOtpStep],
     status: statuses.actual,
