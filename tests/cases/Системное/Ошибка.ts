@@ -1,4 +1,5 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
 const errorStatePreconditions = {
   opened: [
@@ -7,8 +8,9 @@ const errorStatePreconditions = {
   ]
 };
 
-export const errorState: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.ERROR_DESIGN,
     name: 'Системное. Ошибка. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.desktop, errorStatePreconditions.opened],
@@ -22,6 +24,7 @@ export const errorState: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.ERROR_DESIGN,
     name: 'Системное. Ошибка. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile, errorStatePreconditions.opened],
@@ -35,6 +38,7 @@ export const errorState: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.ERROR_HOME,
     name: 'Системное. Ошибка. Перейти на главную',
     status: statuses.actual,
     preconditions: [errorStatePreconditions.opened],
@@ -45,4 +49,4 @@ export const errorState: TestCase[] = [
       }
     ]
   }
-];
+]);

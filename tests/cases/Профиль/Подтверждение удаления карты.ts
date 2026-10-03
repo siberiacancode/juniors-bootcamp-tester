@@ -29,7 +29,8 @@ export default createTestCases([
       }
     ]
   },
-  /* {
+  {
+    id: CASE_IDS.DELETE_CARD_DESIGN,
     name: 'Профиль. Карты. Подтверждение удаления карты. Дизайн. Мобилка',
     status: statuses.needRework,
     preconditions: [
@@ -46,7 +47,7 @@ export default createTestCases([
         expected: ['Соответствует дизайну (сейчас нет дизайна для этого)']
       }
     ]
-  }, */
+  },
   {
     id: CASE_IDS.DELETE_CARD_CANCEL,
     name: 'Профиль. Карты. Подтверждение удаления карты. Отмена',
@@ -129,7 +130,8 @@ export default createTestCases([
       }
     ]
   },
-  /* {
+  {
+    id: CASE_IDS.DELETE_CARD_ERROR,
     name: 'Профиль. Карты. Подтверждение удаления карты. Удалить. Ошибка',
     status: statuses.needRework,
     preconditions: [
@@ -145,7 +147,7 @@ export default createTestCases([
         expected: ['Подтверждение выхода открыто', 'Отобразился тост с ошибкой из запроса']
       }
     ]
-  }, */
+  },
   {
     id: CASE_IDS.DELETE_CARD_LAST,
     name: 'Профиль. Карты. Подтверждение удаления карты. Удалить. Последняя карта',

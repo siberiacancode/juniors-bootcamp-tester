@@ -1,11 +1,13 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
 const logoutConfirmationPreconditions = {
   opened: ['Нажать кнопку "Выйти" в лэйауте']
 };
 
-export const logoutConfirmation: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.LOGOUT_DESIGN,
     name: 'Системное. Подтверждение выхода. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -23,6 +25,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_DESIGN,
     name: 'Системное. Подтверждение выхода. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [
@@ -40,6 +43,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_CANCEL,
     name: 'Системное. Подтверждение выхода. Отмена',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
@@ -51,6 +55,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_CLOSE,
     name: 'Системное. Подтверждение выхода. Кнопка закрытия. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -66,6 +71,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_LOADING,
     name: 'Системное. Подтверждение выхода. Выйти. Лоадер',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
@@ -80,6 +86,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_SUCCESS,
     name: 'Системное. Подтверждение выхода. Выйти. Успех',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
@@ -91,6 +98,7 @@ export const logoutConfirmation: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LOGOUT_ERROR,
     name: 'Системное. Подтверждение выхода. Выйти. Ошибка',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, logoutConfirmationPreconditions.opened],
@@ -102,4 +110,4 @@ export const logoutConfirmation: TestCase[] = [
       }
     ]
   }
-];
+]);

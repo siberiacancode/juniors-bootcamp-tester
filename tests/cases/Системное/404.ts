@@ -1,11 +1,13 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
 const notFoundPreconditions = {
   opened: ['Открыть несуществующий адрес внутри приложения, например "/non-existent-page"']
 };
 
-export const notFound: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.NOT_FOUND_DESIGN,
     name: 'Системное. 404. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.desktop, notFoundPreconditions.opened],
@@ -19,6 +21,7 @@ export const notFound: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.NOT_FOUND_DESIGN,
     name: 'Системное. 404. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile, notFoundPreconditions.opened],
@@ -32,6 +35,7 @@ export const notFound: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.NOT_FOUND_HOME,
     name: 'Системное. 404. Перейти на главную',
     status: statuses.actual,
     preconditions: [notFoundPreconditions.opened],
@@ -42,4 +46,4 @@ export const notFound: TestCase[] = [
       }
     ]
   }
-];
+]);

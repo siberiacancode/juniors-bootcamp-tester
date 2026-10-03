@@ -82,40 +82,4 @@ export default createTestCases([
       }
     ]
   }
-  /* {
-    name: 'Профиль. Карты. Лоадер. Дизайн. Десктоп',
-    status: statuses.needRework,
-    preconditions: [
-      preconditions.authorizedUser,
-      preconditions.desktop,
-      profilePreconditions.pageOpened,
-      profilePreconditions.userWithSavedCards,
-      profilePreconditions.cardsOpened,
-      cardsTabPreconditions.slowMode
-    ],
-    steps: [
-      {
-        action: 'Удалить любую карту и проверить соответствие блока дизайну',
-        expected: ['Соответствует дизайну ']
-      }
-    ]
-  }, */
-  /* {
-    name: 'Профиль. Карты. Лоадер. Дизайн. Мобилка',
-    status: statuses.needRework,
-    preconditions: [
-      preconditions.authorizedUser,
-      preconditions.mobile,
-      profilePreconditions.pageOpened,
-      profilePreconditions.userWithSavedCards,
-      profilePreconditions.cardsOpened,
-      cardsTabPreconditions.slowMode
-    ],
-    steps: [
-      {
-        action: 'Удалить любую карту и проверить соответствие блока дизайну',
-        expected: ['Соответствует дизайну ']
-      }
-    ]
-  } */
 ]);

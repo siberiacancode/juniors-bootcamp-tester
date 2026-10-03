@@ -1,4 +1,5 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
 const purchaseHistoryListPreconditions: Record<string, string[]> = {
   historyPage: ['Открыта страница "История покупок"'],
@@ -7,8 +8,9 @@ const purchaseHistoryListPreconditions: Record<string, string[]> = {
   slowMode: ['Замедлить ответ GET /games/orders']
 };
 
-export const purchaseHistoryList: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.LIST_DESIGN,
     name: 'История покупок. Список покупок. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -27,6 +29,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_DESIGN,
     name: 'История покупок. Список покупок. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [
@@ -45,6 +48,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_LOADING,
     name: 'История покупок. Список покупок. Лоадер. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -62,6 +66,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_LOADING,
     name: 'История покупок. Список покупок. Лоадер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [
@@ -79,6 +84,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_EMPTY_DESIGN,
     name: 'История покупок. Список покупок. Пустой список. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -97,6 +103,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_EMPTY_DESIGN,
     name: 'История покупок. Список покупок. Пустой список. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [
@@ -115,6 +122,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_EMPTY_CATALOG,
     name: 'История покупок. Список покупок. Пустой список. Вернуться в каталог игр',
     status: statuses.actual,
     preconditions: [
@@ -130,6 +138,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_DATA,
     name: 'История покупок. Список покупок. Данные',
     status: statuses.actual,
     preconditions: [
@@ -154,6 +163,7 @@ export const purchaseHistoryList: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.LIST_DETAILS,
     name: 'История покупок. Список покупок. Карточка покупки. Кнопка "Перейти на заказ"',
     status: statuses.actual,
     preconditions: [
@@ -168,4 +178,4 @@ export const purchaseHistoryList: TestCase[] = [
       }
     ]
   }
-];
+]);

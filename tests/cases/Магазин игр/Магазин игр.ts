@@ -1,8 +1,10 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 import { storePreconditions } from './preconditions';
 
-export const storePage: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.PAGE_DESIGN,
     name: 'Магазин игр. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.desktop, storePreconditions.pageOpened],
@@ -17,6 +19,7 @@ export const storePage: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.PAGE_DESIGN,
     name: 'Магазин игр. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile, storePreconditions.pageOpened],
@@ -31,6 +34,7 @@ export const storePage: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.BANNER_DESIGN,
     name: 'Магазин игр. Баннер распродажи. Дизайн',
     status: statuses.actual,
     preconditions: [storePreconditions.pageOpened],
@@ -44,4 +48,4 @@ export const storePage: TestCase[] = [
       }
     ]
   }
-];
+]);

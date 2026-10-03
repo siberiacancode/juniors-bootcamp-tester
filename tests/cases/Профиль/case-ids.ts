@@ -5,6 +5,7 @@ export const CASE_IDS = {
   DELETE_CARD_CANCEL: 'profile-card-delete-cancel',
   DELETE_CARD_CLOSE: 'profile-card-delete-close',
   DELETE_CARD_DESIGN: 'profile-card-delete-design',
+  DELETE_CARD_ERROR: 'profile-card-delete-error',
   DELETE_CARD_LAST: 'profile-card-delete-last',
   DELETE_CARD_LOADING: 'profile-card-delete-loading',
   DELETE_CARD_SUCCESS: 'profile-card-delete-success',
@@ -27,5 +28,7 @@ export const CASE_IDS = {
   PROFILE_INFO_EDIT: 'profile-info-edit',
   PROFILE_INFO_EMPTY_DESIGN: 'profile-info-empty-design',
   PROFILE_INFO_LOGOUT: 'profile-info-logout',
-  PROFILE_LOADING: 'profile-loading'
+  PROFILE_LOADING: 'profile-loading',
+  PROFILE_TABS_DEFAULT: 'profile-tabs-default',
+  PROFILE_TABS_NO_CARDS: 'profile-tabs-no-cards'
 } as const;

@@ -1,4 +1,5 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
 const purchaseHistoryDetailsPreconditions: Record<string, string[]> = {
   historyDetailsPage: ['Открыта страница "Подробности покупки"'],
@@ -6,8 +7,9 @@ const purchaseHistoryDetailsPreconditions: Record<string, string[]> = {
   purchaseWithoutGameKey: ['Покупка без gameKey']
 };
 
-export const purchaseHistoryDetails: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.DETAILS_DESIGN,
     name: 'История покупок. Подробности покупки. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [
@@ -25,6 +27,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_DESIGN,
     name: 'История покупок. Подробности покупки. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [
@@ -42,6 +45,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_LOADING,
     name: 'История покупок. Подробности покупки. Лоадер. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.desktop],
@@ -56,6 +60,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_LOADING,
     name: 'История покупок. Подробности покупки. Лоадер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.mobile],
@@ -70,6 +75,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_DATA_WITH_KEY,
     name: 'История покупок. Подробности покупки. Данные. С ключом активации',
     status: statuses.actual,
     preconditions: [
@@ -95,6 +101,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_DATA_WITHOUT_KEY,
     name: 'История покупок. Подробности покупки. Данные. Без ключа активации',
     status: statuses.actual,
     preconditions: [
@@ -121,6 +128,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_BACK,
     name: 'История покупок. Подробности покупки. Кнопка назад',
     status: statuses.actual,
     preconditions: [
@@ -135,6 +143,7 @@ export const purchaseHistoryDetails: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.DETAILS_NOT_FOUND,
     name: 'История покупок. Подробности покупки. Несуществующий заказ',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser],
@@ -145,4 +154,4 @@ export const purchaseHistoryDetails: TestCase[] = [
       }
     ]
   }
-];
+]);

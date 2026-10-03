@@ -1,7 +1,9 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
-export const header: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.HEADER_DESIGN_UNAUTHORIZED,
     name: 'Лэйаут. Хэдер. Дизайн. Неавторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser, preconditions.desktop],
@@ -15,6 +17,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_DESIGN_AUTHORIZED,
     name: 'Лэйаут. Хэдер. Дизайн. Авторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.authorizedUser, preconditions.desktop],
@@ -28,6 +31,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_DESIGN_MOBILE,
     name: 'Лэйаут. Хэдер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile],
@@ -41,6 +45,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_GAMES,
     name: 'Лэйаут. Хэдер. Games',
     status: statuses.actual,
     steps: [
@@ -51,6 +56,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_LOGIN,
     name: 'Лэйаут. Хэдер. Войти. Неавторизован. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser, preconditions.desktop],
@@ -62,6 +68,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_HISTORY_AUTHORIZED,
     name: 'Лэйаут. Хэдер. История. Авторизован',
     status: statuses.needRework,
     preconditions: [preconditions.authorizedUser],
@@ -73,6 +80,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_HISTORY_UNAUTHORIZED,
     name: 'Лэйаут. Хэдер. История. Неавторизован',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser],
@@ -86,6 +94,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_HISTORY_AUTHORIZED,
     name: 'Лэйаут. Хэдер. История. Авторизован',
     status: statuses.needRework,
     preconditions: [preconditions.authorizedUser],
@@ -97,6 +106,7 @@ export const header: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.HEADER_PROFILE_UNAUTHORIZED,
     name: 'Лэйаут. Хэдер. Профиль. Неавторизован',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser],
@@ -109,4 +119,4 @@ export const header: TestCase[] = [
       }
     ]
   }
-];
+]);

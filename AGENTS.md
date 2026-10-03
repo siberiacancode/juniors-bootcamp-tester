@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a Vite React TypeScript app. Application code lives in `src`, with routes in `src/routes`, shared UI in `src/components`, app bootstrap in `src/app`, and utilities in `src/utils`. Generated API clients, fakers, routes, and test ids live in `generated` and should not be edited manually. Runtime text is in `static/ru.json`; browser assets are in `public`. Mock API handlers and seed data are in `mock`. Tests are split between colocated unit tests, Playwright tests in `tests/autotests`, helpers in `tests/utils`, and manual case catalogs in `tests/cases` and `test-cases-ts`.
+This is a Vite React TypeScript app. Application code lives in `src`, with routes in `src/routes`, shared UI in `src/components`, app bootstrap in `src/app`, and utilities in `src/utils`. Generated API clients, fakers, routes, and test ids live in `generated` and should not be edited manually. Runtime text is in `static/ru.json`; browser assets are in `public`. Mock API handlers and seed data are in `mock`. Tests are split between colocated unit tests, Playwright tests in `tests/autotests`, helpers in `tests/utils`, and manual case catalogs in `tests/cases`.
 
 ## Build, Test, and Development Commands
 
@@ -21,7 +21,7 @@ Use TypeScript, React function components, and aliases `@/*` and `@/generated/*`
 
 ## Testing Guidelines
 
-Vitest covers colocated unit tests such as `src/utils/helpers/money.test.ts`; name tests with `.test.ts` or `.test.tsx`. Playwright integration and component tests live under `tests/autotests`, with mocks beside scenarios when needed. Reuse `tests/utils` helpers and ids from `generated/tests/ids.gen.ts`. Manual cases should follow the shared `TestCase` shape and Russian naming style in `tests/cases` or `test-cases-ts`.
+Vitest covers colocated unit tests such as `src/utils/helpers/money.test.ts`; name tests with `.test.ts` or `.test.tsx`. Playwright integration and component tests live under `tests/autotests`, with mocks beside scenarios when needed. Reuse `tests/utils` helpers and ids from `generated/tests/ids.gen.ts`. Manual cases should follow the shared `TestCase` shape and Russian naming style in `tests/cases`.
 
 ## Commit & Pull Request Guidelines
 

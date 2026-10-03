@@ -1,7 +1,9 @@
-import { preconditions, statuses } from '../0 Configuration';
+import { createTestCases, preconditions, statuses } from '../(utils)';
+import { CASE_IDS } from './case-ids';
 
-export const footer: TestCase[] = [
+export default createTestCases([
   {
+    id: CASE_IDS.FOOTER_DESIGN,
     name: 'Лэйаут. Футер. Дизайн. Десктоп',
     status: statuses.actual,
     preconditions: [preconditions.desktop],
@@ -15,6 +17,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_DESIGN,
     name: 'Лэйаут. Футер. Дизайн. Мобилка',
     status: statuses.actual,
     preconditions: [preconditions.mobile],
@@ -28,6 +31,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_LOGO,
     name: 'Лэйаут. Футер. Логотип',
     status: statuses.actual,
     preconditions: [],
@@ -39,6 +43,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_CATALOG,
     name: 'Лэйаут. Футер. Весь каталог',
     status: statuses.actual,
     preconditions: [],
@@ -50,6 +55,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_NEW,
     name: 'Лэйаут. Футер. Новинки',
     status: statuses.actual,
     preconditions: [],
@@ -64,6 +70,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_POPULAR,
     name: 'Лэйаут. Футер. Популярные',
     status: statuses.actual,
     preconditions: [],
@@ -78,6 +85,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_CONTACTS,
     name: 'Лэйаут. Футер. Контактные ссылки',
     status: statuses.actual,
     preconditions: [],
@@ -94,6 +102,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_CONTACTS_UNAUTHORIZED,
     name: 'Лэйаут. Футер. Контактные ссылки. Неавторизован',
     status: statuses.actual,
     preconditions: [preconditions.unauthorizedUser],
@@ -107,6 +116,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_GITHUB,
     name: 'Лэйаут. Футер. Ссылка на GitHub',
     status: statuses.actual,
     preconditions: [],
@@ -120,6 +130,7 @@ export const footer: TestCase[] = [
     ]
   },
   {
+    id: CASE_IDS.FOOTER_LEGAL,
     name: 'Лэйаут. Футер. Юридические ссылки',
     status: statuses.actual,
     preconditions: [],
@@ -134,4 +145,4 @@ export const footer: TestCase[] = [
       }
     ]
   }
-];
+]);

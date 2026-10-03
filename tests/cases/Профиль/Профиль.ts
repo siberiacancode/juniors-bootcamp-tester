@@ -83,8 +83,9 @@ export default createTestCases([
         ]
       }
     ]
-  }
-  /* {
+  },
+  {
+    id: CASE_IDS.PROFILE_TABS_NO_CARDS,
     name: 'Профиль. Вкладки. Нет сохранённых карт',
     status: statuses.needRework,
     preconditions: [
@@ -101,8 +102,9 @@ export default createTestCases([
         ]
       }
     ]
-  }, */
-  /* {
+  },
+  {
+    id: CASE_IDS.PROFILE_TABS_DEFAULT,
     name: 'Профиль. Вкладки. Дефолтная вкладка',
     status: statuses.needRework,
     preconditions: [
@@ -119,5 +121,5 @@ export default createTestCases([
         ]
       }
     ]
-  } */
+  }
 ]);
