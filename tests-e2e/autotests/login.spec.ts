@@ -35,7 +35,7 @@ test('Проверка логина', async ({ page }) => {
       waitResponse(page, {
         path: '/api/tester/otps/otp',
         method: 'POST',
-        status: 200
+        status: 201
       }),
       page.getByTestId(TESTIDS.CLICKABLE.BUTTON.SUBMIT).click()
     ]);
@@ -61,7 +61,7 @@ test('Проверка логина', async ({ page }) => {
       waitResponse(page, {
         path: '/api/tester/auth/sign-in',
         method: 'POST',
-        status: 200
+        status: 201
       }),
       waitResponse(page, {
         path: '/api/tester/users/profile',
@@ -74,7 +74,7 @@ test('Проверка логина', async ({ page }) => {
         status: 200
       }),
       waitResponse(page, {
-        path: '/api/tester/games/info',
+        path: '/api/tester/games/info?limit=12&page=1',
         method: 'GET',
         status: 200
       }),
@@ -140,6 +140,7 @@ test('Проверка логина', async ({ page }) => {
     await expect(page.getByTestId(TESTIDS.STATIC.TEXT.PROFILE_PHONE)).toHaveText(
       `+${profile.user.phone.slice(0, 1)} ${profile.user.phone.slice(1, 4)} ${profile.user.phone.slice(4, 7)} ${profile.user.phone.slice(7, 9)} ${profile.user.phone.slice(9, 11)}`
     );
+    await expect(page.getByTestId(TESTIDS.STATIC.SECTION.PROFILE_ORDER_HISTORY)).toBeVisible();
 
     await snapshot(page, 'profile');
   } finally {
