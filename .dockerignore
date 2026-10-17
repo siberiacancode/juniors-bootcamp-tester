@@ -1,0 +1,7 @@
+.git
+.next
+dist
+node_modules
+generated/tests/playwright-results
+server/.next
+tests/(wrapper)/ct-cache

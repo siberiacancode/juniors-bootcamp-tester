@@ -1,12 +1,12 @@
-import { createTestCases, preconditions, statuses } from '../(utils)';
+import { createPreconditions, createTestCases, preconditions, statuses } from '../(utils)';
 import { CASE_IDS } from './case-ids';
 
-const purchaseHistoryListPreconditions: Record<string, string[]> = {
+const purchaseHistoryListPreconditions = createPreconditions({
   historyPage: ['Открыта страница "История покупок"'],
   userWithSeveralPurchases: ['Пользователь с несколькими покупками'],
   userWithEmptyPurchaseHistory: ['Пользователь с пустой историей покупок'],
   slowMode: ['Замедлить ответ GET /games/orders']
-};
+});
 
 export default createTestCases([
   {

@@ -1,9 +1,9 @@
-import { createTestCases, preconditions, statuses } from '../(utils)';
+import { createPreconditions, createTestCases, preconditions, statuses } from '../(utils)';
 import { CASE_IDS } from './case-ids';
 
-const logoutConfirmationPreconditions = {
+const logoutConfirmationPreconditions = createPreconditions({
   opened: ['Нажать кнопку "Выйти" в лэйауте']
-};
+});
 
 export default createTestCases([
   {

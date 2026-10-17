@@ -1,4 +1,6 @@
-export const preconditions: Record<Precondition, string[]> = {
+import { createPreconditions } from './utils';
+
+export const preconditions = createPreconditions({
   authorizedUser: [
     'Открыть страницу "Авторизация"',
     'Ввести валидный номер телефона и нажать "Продолжить"',
@@ -15,4 +17,4 @@ export const preconditions: Record<Precondition, string[]> = {
     'Ввести валидный номер телефона и нажать "Продолжить"'
   ],
   userWithAtLeastOnePurchase: ['Пользователь с минимум одной покупкой']
-} as const;
+});

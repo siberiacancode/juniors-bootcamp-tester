@@ -44,35 +44,25 @@ const setupTest = async (page: Page, { caseId }: { caseId: string }) => {
   return cardsData;
 };
 
-const openDeleteConfirmation = async (page: Page, cardId: string) => {
-  await page.getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${cardId}`).click();
-  await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
-};
-
-const waitDeleteResponse = (page: Page, cardId: string) =>
-  waitResponse(page, {
-    path: `/api/tester/cards/cards/${cardId}`,
-    method: 'DELETE',
-    status: HTTP_CODES.OK,
-    body: {
-      success: true,
-      id: cardId
-    }
-  });
-
 test.describe('Профиль. Карты. Подтверждение удаления карты', () => {
   test('Дизайн', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name.includes('mobile'), 'В тест-кейсе нет мобильного дизайна');
 
     const cardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_DESIGN });
-    await openDeleteConfirmation(page, cardsResponse.cards[1]._id);
+    await page
+      .getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${cardsResponse.cards[1]._id}`)
+      .click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
     await snapshot(page, 'design');
   });
 
   test('Отмена', async ({ page }) => {
     const cardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_CANCEL });
-    await openDeleteConfirmation(page, cardsResponse.cards[1]._id);
+    await page
+      .getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${cardsResponse.cards[1]._id}`)
+      .click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
     await page.getByTestId(TESTIDS.CLICKABLE.BUTTON.CANCEL).click();
 
@@ -83,7 +73,10 @@ test.describe('Профиль. Карты. Подтверждение удале
     test.skip(testInfo.project.name.includes('mobile'), 'На мобильном дизайне нет кнопки закрытия');
 
     const cardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_CLOSE });
-    await openDeleteConfirmation(page, cardsResponse.cards[1]._id);
+    await page
+      .getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${cardsResponse.cards[1]._id}`)
+      .click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
     await page.getByRole('button', { name: 'Close' }).click();
 
@@ -93,10 +86,19 @@ test.describe('Профиль. Карты. Подтверждение удале
   test('Удалить. Лоадер', async ({ page }) => {
     const cardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_LOADING });
     const card = cardsResponse.cards[1];
-    await openDeleteConfirmation(page, card._id);
+    await page.getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${card._id}`).click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
     const deleteButton = page.getByTestId(TESTIDS.CLICKABLE.BUTTON.DELETE);
-    const deleteResponse = waitDeleteResponse(page, card._id);
+    const deleteResponse = waitResponse(page, {
+      path: `/api/tester/cards/cards/${card._id}`,
+      method: 'DELETE',
+      status: HTTP_CODES.OK,
+      body: {
+        success: true,
+        id: card._id
+      }
+    });
     const updatedCardsResponse = waitResponse(page, {
       path: '/api/tester/cards/cards',
       method: 'GET',
@@ -121,10 +123,19 @@ test.describe('Профиль. Карты. Подтверждение удале
   test('Удалить. Успех', async ({ page }) => {
     const cardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_SUCCESS });
     const card = cardsResponse.cards[1];
-    await openDeleteConfirmation(page, card._id);
+    await page.getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${card._id}`).click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
     const remainingCards = cardsResponse.cards.filter(({ _id }) => _id !== card._id);
-    const deleteResponse = waitDeleteResponse(page, card._id);
+    const deleteResponse = waitResponse(page, {
+      path: `/api/tester/cards/cards/${card._id}`,
+      method: 'DELETE',
+      status: HTTP_CODES.OK,
+      body: {
+        success: true,
+        id: card._id
+      }
+    });
     const updatedCardsResponse = waitResponse(page, {
       path: '/api/tester/cards/cards',
       method: 'GET',
@@ -160,9 +171,18 @@ test.describe('Профиль. Карты. Подтверждение удале
   test('Удалить. Последняя карта', async ({ page }) => {
     const initialCardsResponse = await setupTest(page, { caseId: CASE_IDS.DELETE_CARD_LAST });
     const card = initialCardsResponse.cards[0];
-    await openDeleteConfirmation(page, card._id);
+    await page.getByTestId(`${TESTIDS.CLICKABLE.BUTTON.DELETE_PAYMENT_CARD}-${card._id}`).click();
+    await expect(page.getByTestId(TESTIDS.STATIC.MODAL.DELETE_PAYMENT_CARD)).toBeVisible();
 
-    const deleteResponse = waitDeleteResponse(page, card._id);
+    const deleteResponse = waitResponse(page, {
+      path: `/api/tester/cards/cards/${card._id}`,
+      method: 'DELETE',
+      status: HTTP_CODES.OK,
+      body: {
+        success: true,
+        id: card._id
+      }
+    });
     const cardsResponse = waitResponse(page, {
       path: '/api/tester/cards/cards',
       method: 'GET',

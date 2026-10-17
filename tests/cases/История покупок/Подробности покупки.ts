@@ -1,11 +1,11 @@
-import { createTestCases, preconditions, statuses } from '../(utils)';
+import { createPreconditions, createTestCases, preconditions, statuses } from '../(utils)';
 import { CASE_IDS } from './case-ids';
 
-const purchaseHistoryDetailsPreconditions: Record<string, string[]> = {
+const purchaseHistoryDetailsPreconditions = createPreconditions({
   historyDetailsPage: ['Открыта страница "Подробности покупки"'],
   purchaseWithGameKey: ['Покупка с заполненным gameKey'],
   purchaseWithoutGameKey: ['Покупка без gameKey']
-};
+});
 
 export default createTestCases([
   {

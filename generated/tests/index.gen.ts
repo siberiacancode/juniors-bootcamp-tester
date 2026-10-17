@@ -11,6 +11,7 @@ export const TESTIDS = {
       "DELETE": "clickable-button-delete",
       "DELETE_PAYMENT_CARD": "clickable-button-delete_payment_card",
       "EDIT_PROFILE": "clickable-button-edit_profile",
+      "LOGOUT": "clickable-button-logout",
       "SUBMIT": "clickable-button-submit",
       "RETRY": "clickable-button-retry",
       "UPDATE_DATA": "clickable-button-update_data"
@@ -45,7 +46,8 @@ export const TESTIDS = {
       "UPDATE_DATA": "static-loader-update_data"
     },
     "MODAL": {
-      "DELETE_PAYMENT_CARD": "static-modal-delete_payment_card"
+      "DELETE_PAYMENT_CARD": "static-modal-delete_payment_card",
+      "LOGOUT": "static-modal-logout"
     },
     "PAGE": {
       "LOGIN": {
@@ -55,7 +57,8 @@ export const TESTIDS = {
     },
     "TEXT": {
       "PROFILE_EMAIL": "static-text-profile_email",
-      "PROFILE_NAME": "static-text-profile_name"
+      "PROFILE_NAME": "static-text-profile_name",
+      "PROFILE_PHONE": "static-text-profile_phone"
     },
     "SECTION": {
       "PAYMENT_CARDS": "static-section-payment_cards",

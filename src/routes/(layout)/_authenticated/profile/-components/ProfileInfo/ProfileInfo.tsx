@@ -47,7 +47,12 @@ export const ProfileInfo = () => {
             </Typography>
           )}
           {state.phone && (
-            <Typography as='p' className='w-full truncate' variant='caption'>
+            <Typography
+              as='p'
+              className='w-full truncate'
+              data-testid={TESTIDS.STATIC.TEXT.PROFILE_PHONE}
+              variant='caption'
+            >
               {state.phone}
             </Typography>
           )}
@@ -66,6 +71,7 @@ export const ProfileInfo = () => {
         </Button>
         <Button
           className='w-full'
+          data-testid={`${TESTIDS.CLICKABLE.BUTTON.LOGOUT}-profile`}
           size='lg'
           type='button'
           onClick={() => appOverlaysStore.get().open('logout')}

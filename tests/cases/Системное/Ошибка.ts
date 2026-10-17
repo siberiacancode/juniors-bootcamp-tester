@@ -1,12 +1,12 @@
-import { createTestCases, preconditions, statuses } from '../(utils)';
+import { createPreconditions, createTestCases, preconditions, statuses } from '../(utils)';
 import { CASE_IDS } from './case-ids';
 
-const errorStatePreconditions = {
+const errorStatePreconditions = createPreconditions({
   opened: [
     'Для существующей игры подменить ответ GET /games/info/{slug} на HTTP 500',
     'Открыть страницу "/games/{slug}"'
   ]
-};
+});
 
 export default createTestCases([
   {

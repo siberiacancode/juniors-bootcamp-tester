@@ -10,7 +10,7 @@ export default eslint(
         detectComponentClasses: true
       }
     },
-    ignores: ['generated']
+    ignores: ['generated', 'server']
   },
   {
     name: 'juniors-bootcamp-tester/tailwind',

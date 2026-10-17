@@ -2,6 +2,7 @@ import { Button, Typography } from '@siberiacancode/uikit';
 import { Link } from '@tanstack/react-router';
 
 import { MascotSadIcon } from '@/components/icons';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { IntlText } from '@/utils/lib/intl';
 
 export const ErrorState = () => (
@@ -18,7 +19,7 @@ export const ErrorState = () => (
     </div>
 
     <Button asChild className='w-full sm:max-w-88' size='lg'>
-      <Link to='/'>
+      <Link data-testid={TESTIDS.CLICKABLE.LINK.HOME} to='/'>
         <IntlText path='button.goToMain' />
       </Link>
     </Button>

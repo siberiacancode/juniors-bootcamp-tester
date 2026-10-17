@@ -1,0 +1,41 @@
+services:
+  database:
+    image: mongo:8.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: e2e
+      MONGO_INITDB_ROOT_PASSWORD: e2e-password
+    tmpfs:
+      - /data/db
+
+  backend:
+    image: ${BACKEND_IMAGE:-ghcr.io/siberiacancode/juniors-bootcamp-backend:latest}
+    environment:
+      DATABASE_URL: mongodb://e2e:e2e-password@database:27017/juniors-bootcamp?authSource=admin
+      PORT: 3010
+      SERVER_URL: http://backend:3010
+    depends_on:
+      - database
+
+  web:
+    image: ${FRONTEND_IMAGE:-ghcr.io/siberiacancode/juniors-bootcamp-tester:latest}
+    environment:
+      BACKEND_URL: http://backend:3010/api
+    depends_on:
+      - backend
+
+  e2e:
+    build:
+      context: ..
+      dockerfile: tests-e2e/Dockerfile.localtest
+    init: true
+    network_mode: service:web
+    shm_size: 1gb
+    environment:
+      CI: 'true'
+      E2E_BASE_URL: http://localhost:3014/tester/
+      E2E_DATABASE_URL: mongodb://e2e:e2e-password@database:27017/juniors-bootcamp?authSource=admin
+    depends_on:
+      - web
+    volumes:
+      - ./:/app/tests-e2e
+      - ../generated:/app/generated

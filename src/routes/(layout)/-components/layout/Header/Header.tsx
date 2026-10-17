@@ -8,6 +8,7 @@ import { appOverlaysStore } from '@/app/components/overlays';
 import { LogoIcon } from '@/components/icons';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useGetUsersProfileQuery } from '@/generated/api';
+import { TESTIDS } from '@/generated/tests/index.gen';
 import { IntlText } from '@/utils/lib/intl';
 
 export const Header = () => {
@@ -55,7 +56,10 @@ export const Header = () => {
             </Tooltip>
           </div>
           {user && (
-            <Button onClick={() => appOverlaysStore.get().open('logout')}>
+            <Button
+              data-testid={`${TESTIDS.CLICKABLE.BUTTON.LOGOUT}-header`}
+              onClick={() => appOverlaysStore.get().open('logout')}
+            >
               <IntlText path='button.logout' />
               <LogOutIcon />
             </Button>

@@ -6,7 +6,7 @@ import { createDeleteCardResponseFake } from '@/generated/api';
 
 import { deleteCard } from './getCardsCards';
 
-export const deleteCardsCardByIdSuccess = rest.delete<{
+export const deleteCardsCardById = rest.delete<{
   params: CardsControllerDeleteCardData['path'];
   response: DeleteCardResponse;
 }>('/cards/cards/:id', ({ getCookie, request }) => {

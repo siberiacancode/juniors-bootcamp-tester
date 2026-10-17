@@ -4,7 +4,7 @@ import type { CardsControllerDeleteCardData, DeleteCardResponse } from '@/genera
 
 import { createDeleteCardResponseFake } from '@/generated/api';
 
-export const deleteCardsCardByIdLoading = rest.delete<{
+export const deleteCardsCardById = rest.delete<{
   params: CardsControllerDeleteCardData['path'];
   response: DeleteCardResponse;
 }>(

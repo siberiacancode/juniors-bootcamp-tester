@@ -1,7 +1,7 @@
 import { getCardsCardsSuccess, getGamesOrdersSuccess, getUsersProfileSuccess } from '../(shared)';
 import { CASE_IDS } from '../../(helpers)';
 import { createTestCaseMock } from '../../../../../utils/helpers/createTestCaseMock';
-import { deleteCardsCardByIdLoading } from './deleteCardsCardById';
+import { deleteCardsCardById } from './deleteCardsCardById';
 
 export default createTestCaseMock({
   caseId: CASE_IDS.DELETE_CARD_LOADING,
@@ -9,6 +9,6 @@ export default createTestCaseMock({
     getUsersProfileSuccess,
     getCardsCardsSuccess,
     getGamesOrdersSuccess,
-    deleteCardsCardByIdLoading
+    deleteCardsCardById
   ]
 });
