@@ -19,7 +19,7 @@
     "e2e-test": "sh tests-e2e/run.sh",
     "generate-api": "pnpm apicraft",
     "mock": "mcs --config ./mock/mock-server.config.ts --watch",
-    "prepare": "lefthook install || true & pnpm playwright install"
+    "prepare": "lefthook install || true"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
