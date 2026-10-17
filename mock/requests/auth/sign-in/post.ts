@@ -29,7 +29,7 @@ export const postAuthSignIn = [
     },
     {
       match: {
-        body: fn<SignInDto>((data) => Boolean(db.getUser(data.phone)))
+        body: fn((data) => Boolean(db.getUser((data as SignInDto).phone)))
       }
     }
   ),
